@@ -3,8 +3,12 @@ import type { Dossier } from './types'
 import { isSupabaseConfigured } from './lib/supabase'
 import DossiersList from './components/DossiersList'
 import Workspace from './components/Workspace'
+import FournisseursAnnuaire from './components/FournisseursAnnuaire'
+
+type View = 'dossiers' | 'fournisseurs'
 
 export default function App() {
+  const [view, setView] = useState<View>('dossiers')
   const [openDossierId, setOpenDossierId] = useState<string | null>(null)
 
   return (
@@ -14,6 +18,22 @@ export default function App() {
         <p className="text-sm text-white/80 mt-1">
           Dossier de passation achat, de la phase soumission à la phase exécution
         </p>
+        {!openDossierId && (
+          <nav className="flex gap-4 mt-4">
+            <button
+              className={`text-sm font-medium pb-1 border-b-2 ${view === 'dossiers' ? 'border-white' : 'border-transparent text-white/70'}`}
+              onClick={() => setView('dossiers')}
+            >
+              Dossiers
+            </button>
+            <button
+              className={`text-sm font-medium pb-1 border-b-2 ${view === 'fournisseurs' ? 'border-white' : 'border-transparent text-white/70'}`}
+              onClick={() => setView('fournisseurs')}
+            >
+              Fournisseurs
+            </button>
+          </nav>
+        )}
       </header>
 
       {!isSupabaseConfigured ? (
@@ -30,6 +50,8 @@ export default function App() {
         </div>
       ) : openDossierId ? (
         <Workspace dossierId={openDossierId} onBack={() => setOpenDossierId(null)} />
+      ) : view === 'fournisseurs' ? (
+        <FournisseursAnnuaire />
       ) : (
         <DossiersList onOpen={setOpenDossierId} />
       )}

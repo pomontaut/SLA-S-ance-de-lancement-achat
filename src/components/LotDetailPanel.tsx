@@ -3,6 +3,12 @@ import type { Lot } from '../types'
 import { computeLot } from '../types'
 import { updateLot } from '../data/db'
 import { PRIORITE_OPTIONS, STATUT_LOT_OPTIONS, TYPE_ACHAT_OPTIONS, OUI_NON_OPTIONS, UNITE_OPTIONS } from '../data/lists'
+import type { Fournisseur } from '../data/fournisseurs'
+import SupplierPicker from './SupplierPicker'
+
+function supplierLabel(f: Fournisseur): string {
+  return [f.nom, [f.npa, f.lieu].filter(Boolean).join(' ')].filter(Boolean).join(' — ')
+}
 
 function TextField({
   label,
@@ -76,9 +82,19 @@ export default function LotDetailPanel({
 }) {
   const [form, setForm] = useState<Lot>(lot)
   const [saving, setSaving] = useState(false)
+  const [pickerFor, setPickerFor] = useState<'impose' | 'consulter' | null>(null)
 
   function set<K extends keyof Lot>(key: K, value: Lot[K]) {
     setForm((f) => ({ ...f, [key]: value }))
+  }
+
+  function handleSupplierSelected(f: Fournisseur) {
+    if (pickerFor === 'impose') {
+      set('fournisseurImpose', supplierLabel(f))
+    } else if (pickerFor === 'consulter') {
+      const line = supplierLabel(f)
+      set('fournisseursAConsulter', form.fournisseursAConsulter ? `${form.fournisseursAConsulter}\n${line}` : line)
+    }
   }
 
   const computed = computeLot(form)
@@ -133,14 +149,31 @@ export default function LotDetailPanel({
               onChange={(v) => set('miseEnConcurrence', v)}
               options={OUI_NON_OPTIONS}
             />
-            <TextField label="Fournisseur imposé" value={form.fournisseurImpose} onChange={(v) => set('fournisseurImpose', v)} />
+            <div>
+              <label className="label">Fournisseur imposé</label>
+              <div className="flex gap-2">
+                <input
+                  className="input"
+                  value={form.fournisseurImpose}
+                  onChange={(e) => set('fournisseurImpose', e.target.value)}
+                />
+                <button type="button" className="btn-secondary whitespace-nowrap" onClick={() => setPickerFor('impose')}>
+                  Rechercher
+                </button>
+              </div>
+            </div>
             <div className="sm:col-span-2">
               <label className="label">Fournisseurs à consulter</label>
-              <textarea
-                className="input min-h-[60px]"
-                value={form.fournisseursAConsulter}
-                onChange={(e) => set('fournisseursAConsulter', e.target.value)}
-              />
+              <div className="flex gap-2">
+                <textarea
+                  className="input min-h-[60px] flex-1"
+                  value={form.fournisseursAConsulter}
+                  onChange={(e) => set('fournisseursAConsulter', e.target.value)}
+                />
+                <button type="button" className="btn-secondary whitespace-nowrap h-fit" onClick={() => setPickerFor('consulter')}>
+                  + Ajouter
+                </button>
+              </div>
             </div>
           </div>
         </section>
@@ -257,6 +290,8 @@ export default function LotDetailPanel({
           </button>
         </div>
       </div>
+
+      {pickerFor && <SupplierPicker onSelect={handleSupplierSelected} onClose={() => setPickerFor(null)} />}
     </div>
   )
 }
