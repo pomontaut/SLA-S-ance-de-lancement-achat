@@ -4,8 +4,9 @@ import { isSupabaseConfigured } from './lib/supabase'
 import DossiersList from './components/DossiersList'
 import Workspace from './components/Workspace'
 import FournisseursAnnuaire from './components/FournisseursAnnuaire'
+import EvaluationDashboard from './components/EvaluationDashboard'
 
-type View = 'dossiers' | 'fournisseurs'
+type View = 'dossiers' | 'fournisseurs' | 'dashboard'
 
 export default function App() {
   const [view, setView] = useState<View>('dossiers')
@@ -32,6 +33,12 @@ export default function App() {
             >
               Fournisseurs
             </button>
+            <button
+              className={`text-sm font-medium pb-1 border-b-2 ${view === 'dashboard' ? 'border-white' : 'border-transparent text-white/70'}`}
+              onClick={() => setView('dashboard')}
+            >
+              Dashboard évaluations
+            </button>
           </nav>
         )}
       </header>
@@ -52,6 +59,8 @@ export default function App() {
         <Workspace dossierId={openDossierId} onBack={() => setOpenDossierId(null)} />
       ) : view === 'fournisseurs' ? (
         <FournisseursAnnuaire />
+      ) : view === 'dashboard' ? (
+        <EvaluationDashboard />
       ) : (
         <DossiersList onOpen={setOpenDossierId} />
       )}
