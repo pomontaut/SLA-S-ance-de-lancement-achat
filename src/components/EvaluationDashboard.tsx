@@ -1,6 +1,18 @@
 import { useEffect, useMemo, useState } from 'react'
-import type { EvalRecord, SecteurKpis } from '../data/evaluationsHistorique'
-import { SECTEURS, anneesDisponibles, computeKpis, loadEvaluationsHistorique, trendParAnnee } from '../data/evaluationsHistorique'
+import type { EvalRecord, SecteurKpis, SecteurStat } from '../data/evaluationsHistorique'
+import {
+  SECTEURS,
+  anneesDisponibles,
+  computeKpis,
+  critereMoyennes,
+  familleBreakdown,
+  findSecteurStat,
+  loadEvaluationsHistorique,
+  loadSecteurStats,
+  trendParAnnee,
+} from '../data/evaluationsHistorique'
+import BarChart from './BarChart'
+import SecteurComparison from './SecteurComparison'
 
 function formatCurrency(value: number | null): string {
   if (value == null) return 'Non disponible'
@@ -19,9 +31,10 @@ function StatTile({
   tone?: 'good' | 'warning' | 'critical'
 }) {
   const toneClass = tone === 'good' ? 'text-green-600' : tone === 'warning' ? 'text-amber-600' : tone === 'critical' ? 'text-red-600' : 'text-indigo-600'
+  const isFallback = value === 'Non disponible'
   return (
     <div className="card text-center py-4">
-      <div className={`text-2xl font-bold ${toneClass}`}>{value}</div>
+      <div className={isFallback ? 'text-sm font-medium text-slate-400' : `text-2xl font-bold ${toneClass}`}>{value}</div>
       <div className="text-xs text-slate-500 mt-1">{label}</div>
       {sub && <div className="text-[11px] text-slate-400 mt-0.5">{sub}</div>}
     </div>
@@ -91,11 +104,14 @@ function TrendChart({ data }: { data: { annee: number; moyenne: number }[] }) {
 
 export default function EvaluationDashboard() {
   const [all, setAll] = useState<EvalRecord[] | null>(null)
+  const [secteurStats, setSecteurStats] = useState<SecteurStat[]>([])
   const [secteur, setSecteur] = useState<string>('GC')
   const [annee, setAnnee] = useState<number | null>(null)
+  const [view, setView] = useState<'secteur' | 'comparaison'>('secteur')
 
   useEffect(() => {
     loadEvaluationsHistorique().then(setAll)
+    loadSecteurStats().then(setSecteurStats)
   }, [])
 
   const annees = useMemo(() => (all ? anneesDisponibles(all, secteur) : []), [all, secteur])
@@ -120,6 +136,10 @@ export default function EvaluationDashboard() {
       .sort((a, b) => (b.ca ?? -1) - (a.ca ?? -1) || (b.note ?? 0) - (a.note ?? 0))
   }, [all, secteur, annee])
 
+  const critereData = useMemo(() => critereMoyennes(currentRows), [currentRows])
+  const familleData = useMemo(() => familleBreakdown(currentRows), [currentRows])
+  const stat = useMemo(() => (annee != null ? findSecteurStat(secteurStats, secteur, annee) : null), [secteurStats, secteur, annee])
+
   if (!all) {
     return (
       <div className="max-w-5xl mx-auto px-4 py-8">
@@ -139,6 +159,19 @@ export default function EvaluationDashboard() {
         </p>
       </div>
 
+      <div className="flex gap-1">
+        <button className={view === 'secteur' ? 'btn-primary' : 'btn-secondary'} onClick={() => setView('secteur')}>
+          Vue par secteur
+        </button>
+        <button className={view === 'comparaison' ? 'btn-primary' : 'btn-secondary'} onClick={() => setView('comparaison')}>
+          Comparaison secteurs
+        </button>
+      </div>
+
+      {view === 'comparaison' ? (
+        annee != null && <SecteurComparison all={all} secteurStats={secteurStats} annee={annee} />
+      ) : (
+        <>
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex gap-1 flex-wrap">
           {SECTEURS.map((s) => (
@@ -195,14 +228,46 @@ export default function EvaluationDashboard() {
               }
             />
             <StatTile
-              label="Nb évaluateurs (moyenne / fournisseur)"
-              value={kpis.moyenneNbEvaluateurs != null ? String(kpis.moyenneNbEvaluateurs) : 'Non disponible'}
+              label="Nombre d'évaluateurs"
+              value={stat?.nbEvaluateurs != null ? String(stat.nbEvaluateurs) : 'Non disponible'}
+              sub={kpis.moyenneNbEvaluateurs != null ? `Moyenne ${kpis.moyenneNbEvaluateurs} / fournisseur` : undefined}
             />
           </div>
 
           <div className="card">
             <h3 className="font-semibold mb-3">Évolution de la moyenne — {secteur}</h3>
             <TrendChart data={trend} />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="card">
+              <h3 className="font-semibold mb-3">
+                Moyenne par critère — {secteur} {annee}
+              </h3>
+              {critereData.length > 0 ? (
+                <BarChart data={critereData.map((c) => ({ label: c.label, value: c.moyenne, sub: `${c.nbFournisseurs} fournisseurs` }))} max={5} />
+              ) : (
+                <p className="text-sm text-slate-500">
+                  Détail par critère non disponible pour ce secteur/année (seuls GC 2025 et BAT GE 2025 en disposent
+                  actuellement).
+                </p>
+              )}
+            </div>
+            <div className="card">
+              <h3 className="font-semibold mb-3">
+                Moyenne par famille / segment — {secteur} {annee}
+              </h3>
+              {familleData.length > 0 && familleData.some((f) => f.famille) ? (
+                <BarChart
+                  data={familleData
+                    .filter((f) => f.famille)
+                    .map((f) => ({ label: f.famille, value: f.moyenne, sub: `${f.count} fournisseurs` }))}
+                  max={5}
+                />
+              ) : (
+                <p className="text-sm text-slate-500">Pas de catégorisation par famille disponible pour ce secteur/année.</p>
+              )}
+            </div>
           </div>
 
           {kpis.top10.length > 0 && (
@@ -278,6 +343,8 @@ export default function EvaluationDashboard() {
               </table>
             </div>
           </div>
+        </>
+      )}
         </>
       )}
     </div>
