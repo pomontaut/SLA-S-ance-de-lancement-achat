@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { Lot } from '../types'
 import { computeLot } from '../types'
-import { updateLot } from '../data/db'
+import { ensureEvaluationForLot, updateLot } from '../data/db'
 import { PRIORITE_OPTIONS, STATUT_LOT_OPTIONS, TYPE_ACHAT_OPTIONS, OUI_NON_OPTIONS, UNITE_OPTIONS } from '../data/lists'
 import type { Fournisseur } from '../data/fournisseurs'
 import SupplierPicker from './SupplierPicker'
@@ -82,7 +82,7 @@ export default function LotDetailPanel({
 }) {
   const [form, setForm] = useState<Lot>(lot)
   const [saving, setSaving] = useState(false)
-  const [pickerFor, setPickerFor] = useState<'impose' | 'consulter' | null>(null)
+  const [pickerFor, setPickerFor] = useState<'impose' | 'consulter' | 'choisi' | null>(null)
 
   function set<K extends keyof Lot>(key: K, value: Lot[K]) {
     setForm((f) => ({ ...f, [key]: value }))
@@ -94,6 +94,8 @@ export default function LotDetailPanel({
     } else if (pickerFor === 'consulter') {
       const line = supplierLabel(f)
       set('fournisseursAConsulter', form.fournisseursAConsulter ? `${form.fournisseursAConsulter}\n${line}` : line)
+    } else if (pickerFor === 'choisi') {
+      set('fournisseurChoisi', f.nom)
     }
   }
 
@@ -103,6 +105,7 @@ export default function LotDetailPanel({
     setSaving(true)
     try {
       const saved = await updateLot(form)
+      await ensureEvaluationForLot(saved)
       onSaved(saved)
       onClose()
     } catch (e) {
@@ -174,6 +177,22 @@ export default function LotDetailPanel({
                   + Ajouter
                 </button>
               </div>
+            </div>
+            <div>
+              <label className="label">Fournisseur choisi</label>
+              <div className="flex gap-2">
+                <input
+                  className="input"
+                  value={form.fournisseurChoisi}
+                  onChange={(e) => set('fournisseurChoisi', e.target.value)}
+                />
+                <button type="button" className="btn-secondary whitespace-nowrap" onClick={() => setPickerFor('choisi')}>
+                  Rechercher
+                </button>
+              </div>
+              <p className="text-xs text-slate-400 mt-1">
+                Une fois renseigné, une évaluation fournisseur est automatiquement créée pour ce lot (onglet 4).
+              </p>
             </div>
           </div>
         </section>

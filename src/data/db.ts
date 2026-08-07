@@ -1,5 +1,5 @@
 import { supabase } from '../lib/supabase'
-import type { ChecklistItem, Dossier, Lot, NewChecklistItem, NewDossier, NewLot } from '../types'
+import type { ChecklistItem, Dossier, Evaluation, Lot, NewChecklistItem, NewDossier, NewEvaluation, NewLot } from '../types'
 import { CHECKLIST_TEMPLATE } from './lists'
 
 function requireClient() {
@@ -106,6 +106,7 @@ interface LotRow {
   mise_en_concurrence: string
   fournisseur_impose: string
   fournisseurs_a_consulter: string
+  fournisseur_choisi: string
   budget_ctx: number | null
   budget_achat_be: number | null
   deduction_pct: number | null
@@ -141,6 +142,7 @@ function lotFromRow(row: LotRow): Lot {
     miseEnConcurrence: row.mise_en_concurrence,
     fournisseurImpose: row.fournisseur_impose,
     fournisseursAConsulter: row.fournisseurs_a_consulter,
+    fournisseurChoisi: row.fournisseur_choisi,
     budgetCtx: row.budget_ctx,
     budgetAchatBe: row.budget_achat_be,
     deductionPct: row.deduction_pct,
@@ -180,6 +182,7 @@ function lotToRow(l: NewLot | Lot) {
     mise_en_concurrence: l.miseEnConcurrence,
     fournisseur_impose: l.fournisseurImpose,
     fournisseurs_a_consulter: l.fournisseursAConsulter,
+    fournisseur_choisi: l.fournisseurChoisi,
     budget_ctx: l.budgetCtx,
     budget_achat_be: l.budgetAchatBe,
     deduction_pct: l.deductionPct,
@@ -307,4 +310,142 @@ export async function updateChecklistItem(item: ChecklistItem): Promise<Checklis
 export async function deleteChecklistItem(id: string): Promise<void> {
   const { error } = await requireClient().from('checklist_items').delete().eq('id', id)
   if (error) throw error
+}
+
+interface EvaluationRow {
+  id: string
+  dossier_id: string
+  lot_id: string | null
+  fournisseur_nom: string
+  date_evaluation: string | null
+  evaluateur: string
+  critere_qualite: number | null
+  critere_delais: number | null
+  critere_budget: number | null
+  critere_communication: number | null
+  critere_documentation: number | null
+  critere_securite: number | null
+  critere_sav: number | null
+  recommandation: string
+  commentaire: string
+  statut: string
+}
+
+function evaluationFromRow(row: EvaluationRow): Evaluation {
+  return {
+    id: row.id,
+    dossierId: row.dossier_id,
+    lotId: row.lot_id,
+    fournisseurNom: row.fournisseur_nom,
+    dateEvaluation: row.date_evaluation ?? '',
+    evaluateur: row.evaluateur,
+    critereQualite: row.critere_qualite,
+    critereDelais: row.critere_delais,
+    critereBudget: row.critere_budget,
+    critereCommunication: row.critere_communication,
+    critereDocumentation: row.critere_documentation,
+    critereSecurite: row.critere_securite,
+    critereSav: row.critere_sav,
+    recommandation: row.recommandation,
+    commentaire: row.commentaire,
+    statut: row.statut,
+  }
+}
+
+function evaluationToRow(e: NewEvaluation | Evaluation) {
+  return {
+    dossier_id: e.dossierId,
+    lot_id: e.lotId,
+    fournisseur_nom: e.fournisseurNom,
+    date_evaluation: orNull(e.dateEvaluation),
+    evaluateur: e.evaluateur,
+    critere_qualite: e.critereQualite,
+    critere_delais: e.critereDelais,
+    critere_budget: e.critereBudget,
+    critere_communication: e.critereCommunication,
+    critere_documentation: e.critereDocumentation,
+    critere_securite: e.critereSecurite,
+    critere_sav: e.critereSav,
+    recommandation: e.recommandation,
+    commentaire: e.commentaire,
+    statut: e.statut,
+  }
+}
+
+export async function listEvaluations(dossierId: string): Promise<Evaluation[]> {
+  const { data, error } = await requireClient().from('evaluations').select('*').eq('dossier_id', dossierId)
+  if (error) throw error
+  return (data as EvaluationRow[]).map(evaluationFromRow)
+}
+
+export interface EvaluationHistoryEntry {
+  evaluation: Evaluation
+  dossier: { id: string; numeroChantier: string; adresse: string }
+}
+
+export async function listEvaluationsForSupplier(fournisseurNom: string, excludeDossierId?: string): Promise<EvaluationHistoryEntry[]> {
+  if (!fournisseurNom.trim()) return []
+  let query = requireClient()
+    .from('evaluations')
+    .select('*, dossiers ( id, numero_chantier, adresse )')
+    .ilike('fournisseur_nom', fournisseurNom.trim())
+    .eq('statut', 'Complété')
+  if (excludeDossierId) query = query.neq('dossier_id', excludeDossierId)
+  const { data, error } = await query
+  if (error) throw error
+  return (data as (EvaluationRow & { dossiers: { id: string; numero_chantier: string; adresse: string } | null })[]).map((row) => ({
+    evaluation: evaluationFromRow(row),
+    dossier: {
+      id: row.dossiers?.id ?? '',
+      numeroChantier: row.dossiers?.numero_chantier ?? '',
+      adresse: row.dossiers?.adresse ?? '',
+    },
+  }))
+}
+
+export async function createEvaluation(input: NewEvaluation): Promise<Evaluation> {
+  const { data, error } = await requireClient().from('evaluations').insert(evaluationToRow(input)).select().single()
+  if (error) throw error
+  return evaluationFromRow(data as EvaluationRow)
+}
+
+export async function updateEvaluation(evaluation: Evaluation): Promise<Evaluation> {
+  const { data, error } = await requireClient()
+    .from('evaluations')
+    .update(evaluationToRow(evaluation))
+    .eq('id', evaluation.id)
+    .select()
+    .single()
+  if (error) throw error
+  return evaluationFromRow(data as EvaluationRow)
+}
+
+export async function deleteEvaluation(id: string): Promise<void> {
+  const { error } = await requireClient().from('evaluations').delete().eq('id', id)
+  if (error) throw error
+}
+
+export async function ensureEvaluationForLot(lot: Lot): Promise<Evaluation | null> {
+  if (!lot.fournisseurChoisi.trim()) return null
+  const { data, error } = await requireClient().from('evaluations').select('*').eq('lot_id', lot.id)
+  if (error) throw error
+  const existing = (data as EvaluationRow[]).map(evaluationFromRow)
+  if (existing.length > 0) return existing[0]
+  return createEvaluation({
+    dossierId: lot.dossierId,
+    lotId: lot.id,
+    fournisseurNom: lot.fournisseurChoisi,
+    dateEvaluation: '',
+    evaluateur: '',
+    critereQualite: null,
+    critereDelais: null,
+    critereBudget: null,
+    critereCommunication: null,
+    critereDocumentation: null,
+    critereSecurite: null,
+    critereSav: null,
+    recommandation: '',
+    commentaire: '',
+    statut: 'Brouillon',
+  })
 }

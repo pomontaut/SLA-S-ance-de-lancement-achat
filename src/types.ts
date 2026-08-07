@@ -24,6 +24,7 @@ export interface Lot {
   miseEnConcurrence: string
   fournisseurImpose: string
   fournisseursAConsulter: string
+  fournisseurChoisi: string
   budgetCtx: number | null
   budgetAchatBe: number | null
   deductionPct: number | null
@@ -61,6 +62,49 @@ export interface ChecklistItem {
 }
 
 export type NewChecklistItem = Omit<ChecklistItem, 'id'>
+
+export const EVALUATION_CRITERES = [
+  { key: 'critereQualite', label: 'Qualité des produits / prestations' },
+  { key: 'critereDelais', label: 'Respect des délais de livraison' },
+  { key: 'critereBudget', label: 'Respect du budget / prix' },
+  { key: 'critereCommunication', label: 'Réactivité / communication' },
+  { key: 'critereDocumentation', label: 'Conformité documentation (fiches, certificats)' },
+  { key: 'critereSecurite', label: 'Sécurité / respect des consignes chantier' },
+  { key: 'critereSav', label: 'Service après-vente' },
+] as const
+
+export type EvaluationCritereKey = (typeof EVALUATION_CRITERES)[number]['key']
+
+export const RECOMMANDATION_OPTIONS = ['À recommander', 'Neutre', 'À éviter'] as const
+
+export const EVALUATION_STATUT_OPTIONS = ['Brouillon', 'Complété'] as const
+
+export interface Evaluation {
+  id: string
+  dossierId: string
+  lotId: string | null
+  fournisseurNom: string
+  dateEvaluation: string
+  evaluateur: string
+  critereQualite: number | null
+  critereDelais: number | null
+  critereBudget: number | null
+  critereCommunication: number | null
+  critereDocumentation: number | null
+  critereSecurite: number | null
+  critereSav: number | null
+  recommandation: string
+  commentaire: string
+  statut: string
+}
+
+export type NewEvaluation = Omit<Evaluation, 'id'>
+
+export function noteGlobale(evaluation: Evaluation): number | null {
+  const notes = EVALUATION_CRITERES.map((c) => evaluation[c.key]).filter((n): n is number => n != null)
+  if (notes.length === 0) return null
+  return Math.round((notes.reduce((a, b) => a + b, 0) / notes.length) * 10) / 10
+}
 
 export interface LotComputed {
   budgetNetCible: number | null

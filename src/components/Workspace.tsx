@@ -4,13 +4,15 @@ import { deleteDossier, getDossier } from '../data/db'
 import FicheChantierTab from './FicheChantierTab'
 import ChecklistTab from './ChecklistTab'
 import SuiviHaTab from './SuiviHaTab'
+import EvaluationTab from './EvaluationTab'
 
-type TabKey = 'fiche' | 'checklist' | 'suivi'
+type TabKey = 'fiche' | 'checklist' | 'suivi' | 'evaluation'
 
 const TABS: { key: TabKey; label: string }[] = [
   { key: 'fiche', label: '1. Fiche chantier' },
   { key: 'checklist', label: '2. Checklist documents' },
   { key: 'suivi', label: '3. Suivi HA' },
+  { key: 'evaluation', label: '4. Évaluation fournisseur' },
 ]
 
 export default function Workspace({ dossierId, onBack }: { dossierId: string; onBack: () => void }) {
@@ -26,7 +28,7 @@ export default function Workspace({ dossierId, onBack }: { dossierId: string; on
 
   async function handleDelete() {
     if (!dossier) return
-    if (!confirm('Supprimer définitivement ce dossier, sa checklist et sa grille d\'achats ?')) return
+    if (!confirm('Supprimer définitivement ce dossier, sa checklist, sa grille d\'achats et ses évaluations ?')) return
     await deleteDossier(dossier.id)
     onBack()
   }
@@ -78,6 +80,7 @@ export default function Workspace({ dossierId, onBack }: { dossierId: string; on
       {tab === 'fiche' && <FicheChantierTab dossier={dossier} onChange={setDossier} />}
       {tab === 'checklist' && <ChecklistTab dossier={dossier} />}
       {tab === 'suivi' && <SuiviHaTab dossier={dossier} />}
+      {tab === 'evaluation' && <EvaluationTab dossier={dossier} />}
     </div>
   )
 }

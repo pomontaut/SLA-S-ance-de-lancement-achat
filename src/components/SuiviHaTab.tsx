@@ -52,6 +52,7 @@ function emptyLot(dossierId: string, position: number): Omit<Lot, 'id'> {
     miseEnConcurrence: OUI_NON_OPTIONS[0],
     fournisseurImpose: '',
     fournisseursAConsulter: '',
+    fournisseurChoisi: '',
     budgetCtx: null,
     budgetAchatBe: null,
     deductionPct: null,

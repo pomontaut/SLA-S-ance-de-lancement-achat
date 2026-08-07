@@ -34,6 +34,7 @@ create table lots (
   mise_en_concurrence text not null default '',
   fournisseur_impose text not null default '',
   fournisseurs_a_consulter text not null default '',
+  fournisseur_choisi text not null default '',
   budget_ctx numeric,
   budget_achat_be numeric,
   deduction_pct numeric,
@@ -68,15 +69,38 @@ create table checklist_items (
   lien_remarque text not null default ''
 );
 
+create table evaluations (
+  id uuid primary key default gen_random_uuid(),
+  dossier_id uuid not null references dossiers(id) on delete cascade,
+  lot_id uuid references lots(id) on delete set null,
+  fournisseur_nom text not null default '',
+  date_evaluation date,
+  evaluateur text not null default '',
+  critere_qualite numeric,
+  critere_delais numeric,
+  critere_budget numeric,
+  critere_communication numeric,
+  critere_documentation numeric,
+  critere_securite numeric,
+  critere_sav numeric,
+  recommandation text not null default '',
+  commentaire text not null default '',
+  statut text not null default 'Brouillon'
+);
+
 create index lots_dossier_id_idx on lots(dossier_id);
 create index checklist_items_dossier_id_idx on checklist_items(dossier_id);
+create index evaluations_dossier_id_idx on evaluations(dossier_id);
+create index evaluations_fournisseur_nom_idx on evaluations(fournisseur_nom);
 
 -- Accès ouvert via la clé "anon" : outil interne, pas d'authentification.
 -- Si l'accès doit être restreint à l'avenir, remplacer ces policies par des règles liées à auth.uid().
 alter table dossiers enable row level security;
 alter table lots enable row level security;
 alter table checklist_items enable row level security;
+alter table evaluations enable row level security;
 
 create policy "dossiers_all" on dossiers for all using (true) with check (true);
 create policy "lots_all" on lots for all using (true) with check (true);
 create policy "checklist_items_all" on checklist_items for all using (true) with check (true);
+create policy "evaluations_all" on evaluations for all using (true) with check (true);
