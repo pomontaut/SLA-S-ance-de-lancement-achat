@@ -1,19 +1,21 @@
 import { useEffect, useState } from 'react'
 import type { Dossier } from '../types'
 import { deleteDossier, getDossier } from '../data/db'
-import ContexteTab from './ContexteTab'
-import AchatsTab from './AchatsTab'
+import FicheChantierTab from './FicheChantierTab'
+import ChecklistTab from './ChecklistTab'
+import SuiviHaTab from './SuiviHaTab'
 
-type TabKey = 'contexte' | 'achats'
+type TabKey = 'fiche' | 'checklist' | 'suivi'
 
 const TABS: { key: TabKey; label: string }[] = [
-  { key: 'contexte', label: '1. Contexte du chantier' },
-  { key: 'achats', label: '2. Grille des achats' },
+  { key: 'fiche', label: '1. Fiche chantier' },
+  { key: 'checklist', label: '2. Checklist documents' },
+  { key: 'suivi', label: '3. Suivi HA' },
 ]
 
 export default function Workspace({ dossierId, onBack }: { dossierId: string; onBack: () => void }) {
   const [dossier, setDossier] = useState<Dossier | null>(null)
-  const [tab, setTab] = useState<TabKey>('contexte')
+  const [tab, setTab] = useState<TabKey>('fiche')
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -24,7 +26,7 @@ export default function Workspace({ dossierId, onBack }: { dossierId: string; on
 
   async function handleDelete() {
     if (!dossier) return
-    if (!confirm('Supprimer définitivement ce dossier et toute sa grille d\'achats ?')) return
+    if (!confirm('Supprimer définitivement ce dossier, sa checklist et sa grille d\'achats ?')) return
     await deleteDossier(dossier.id)
     onBack()
   }
@@ -45,7 +47,7 @@ export default function Workspace({ dossierId, onBack }: { dossierId: string; on
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-6">
+    <div className="max-w-6xl mx-auto px-4 py-6">
       <div className="flex items-center justify-between mb-4">
         <button className="btn-secondary" onClick={onBack}>
           ← Tous les dossiers
@@ -73,8 +75,9 @@ export default function Workspace({ dossierId, onBack }: { dossierId: string; on
         ))}
       </div>
 
-      {tab === 'contexte' && <ContexteTab dossier={dossier} onChange={setDossier} />}
-      {tab === 'achats' && <AchatsTab dossier={dossier} />}
+      {tab === 'fiche' && <FicheChantierTab dossier={dossier} onChange={setDossier} />}
+      {tab === 'checklist' && <ChecklistTab dossier={dossier} />}
+      {tab === 'suivi' && <SuiviHaTab dossier={dossier} />}
     </div>
   )
 }

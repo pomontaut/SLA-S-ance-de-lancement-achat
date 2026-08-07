@@ -36,19 +36,7 @@ export default function DossiersList({ onOpen }: { onOpen: (id: string) => void 
         numeroChantier: form.numeroChantier,
         adresse: form.adresse,
         client: form.client,
-        architecte: '',
-        ingenieur: '',
-        conducteurTravaux: '',
-        contremaitre: '',
-        typologieTravaux: '',
-        planningDemarrage: '',
-        planningFin: '',
-        conditions: '',
-        garanties: '',
-        deductionsContractuelles: '',
-        documentsDisposition: [],
-        particularites: [],
-        acheteurs: [],
+        fiche: {},
       })
       setForm(EMPTY_NEW)
       setShowForm(false)
