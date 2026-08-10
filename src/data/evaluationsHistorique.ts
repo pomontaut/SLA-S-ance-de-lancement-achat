@@ -25,6 +25,8 @@ export interface SecteurStat {
   moyenneGlobale: number | null
 }
 
+export const ANNEE_MIN = 2017
+
 let cache: EvalRecord[] | null = null
 let pending: Promise<EvalRecord[]> | null = null
 
@@ -32,7 +34,7 @@ export function loadEvaluationsHistorique(): Promise<EvalRecord[]> {
   if (cache) return Promise.resolve(cache)
   if (!pending) {
     pending = import('./evaluationsHistorique.json').then((mod) => {
-      cache = mod.default as unknown as EvalRecord[]
+      cache = (mod.default as unknown as EvalRecord[]).filter((r) => r.annee >= ANNEE_MIN)
       return cache
     })
   }
@@ -245,4 +247,265 @@ export function trendParAnnee(all: EvalRecord[], secteur: string): { annee: numb
       return moyenne != null ? { annee, moyenne } : null
     })
     .filter((v): v is { annee: number; moyenne: number } => v != null)
+}
+
+// ============ Filtres globaux (Vue d'ensemble) ============
+
+export interface GlobalFilters {
+  secteurs: string[]
+  anneeMin: number
+  anneeMax: number
+  types: string[]
+  noteMin: number
+  noteMax: number
+  search: string
+}
+
+export function defaultFilters(all: EvalRecord[]): GlobalFilters {
+  const annees = all.map((r) => r.annee)
+  return {
+    secteurs: [],
+    anneeMin: annees.length ? Math.min(...annees) : ANNEE_MIN,
+    anneeMax: annees.length ? Math.max(...annees) : new Date().getFullYear(),
+    types: [],
+    noteMin: 0,
+    noteMax: 5,
+    search: '',
+  }
+}
+
+/** Les fichiers sources orthographient le type de façon incohérente (casse, pluriel, espaces) :
+ * on les regroupe sous un libellé canonique pour un filtre utilisable. */
+export function normalizeType(raw: string): string {
+  const t = raw.trim()
+  const lower = t.toLowerCase()
+  if (lower === 'fournisseur' || lower === 'fournisseurs') return 'Fournisseur'
+  if (lower === 'sous-traitant' || lower === 'sous-traitants') return 'Sous-traitant'
+  if (lower === 'mandataire' || lower === 'mandataires') return 'Mandataire'
+  if (lower === 'transporteur' || lower === 'transporteurs') return 'Transporteur'
+  if (lower === 'marchand' || lower === 'marchands') return 'Marchand'
+  if (lower === 'location') return 'Location'
+  if (lower === 'architecte' || lower === 'architectes') return 'Architecte'
+  return t
+}
+
+export function applyFilters(all: EvalRecord[], f: GlobalFilters): EvalRecord[] {
+  const q = f.search.trim().toLowerCase()
+  return all.filter((r) => {
+    if (r.note == null) return false
+    if (f.secteurs.length > 0 && !f.secteurs.includes(r.secteur)) return false
+    if (r.annee < f.anneeMin || r.annee > f.anneeMax) return false
+    if (f.types.length > 0 && !f.types.includes(normalizeType(r.type))) return false
+    if (r.note < f.noteMin || r.note > f.noteMax) return false
+    if (q && !r.nom.toLowerCase().includes(q)) return false
+    return true
+  })
+}
+
+export function distinctTypes(all: EvalRecord[]): string[] {
+  return Array.from(new Set(all.map((r) => r.type).filter(Boolean).map(normalizeType))).sort()
+}
+
+// ============ Vue d'ensemble : KPIs multi-secteurs ============
+
+export interface GlobalKpis {
+  fournisseursEvalues: number
+  evaluationsTotal: number
+  moyenneGlobale: number | null
+  perimetreEvalue: number | null
+  secteursCouverts: number
+  anneesCouvertes: number
+}
+
+export function globalKpis(records: EvalRecord[]): GlobalKpis {
+  const notes = records.filter((r) => r.note != null)
+  const withCa = notes.filter((r) => r.ca != null)
+  return {
+    fournisseursEvalues: new Set(notes.map((r) => r.nom)).size,
+    evaluationsTotal: notes.length,
+    moyenneGlobale: avg(notes.map((r) => r.note!)),
+    perimetreEvalue: withCa.length ? sum(withCa.map((r) => r.ca!)) : null,
+    secteursCouverts: new Set(notes.map((r) => r.secteur)).size,
+    anneesCouvertes: new Set(notes.map((r) => r.annee)).size,
+  }
+}
+
+export interface SecteurTrendSeries {
+  secteur: string
+  points: { annee: number; moyenne: number }[]
+}
+
+export function multiSecteurTrend(all: EvalRecord[], secteurs: string[]): SecteurTrendSeries[] {
+  return secteurs.map((secteur) => ({ secteur, points: trendParAnnee(all, secteur) }))
+}
+
+export function noteDistribution(records: EvalRecord[]): { bucket: string; count: number }[] {
+  const buckets = [
+    { bucket: '< 2', min: -Infinity, max: 2 },
+    { bucket: '2 – 2,5', min: 2, max: 2.5 },
+    { bucket: '2,5 – 3', min: 2.5, max: 3 },
+    { bucket: '3 – 3,5', min: 3, max: 3.5 },
+    { bucket: '3,5 – 4', min: 3.5, max: 4 },
+    { bucket: '≥ 4', min: 4, max: Infinity },
+  ]
+  const notes = records.filter((r) => r.note != null).map((r) => r.note!)
+  return buckets.map((b) => ({
+    bucket: b.bucket,
+    count: notes.filter((n) => n >= b.min && n < b.max).length,
+  }))
+}
+
+export interface RiskEntry {
+  nom: string
+  secteur: string
+  annee: number
+  note: number
+  ca: number | null
+  motif: string
+  gravite: 'critical' | 'warning'
+}
+
+/** Repère, pour la dernière année disponible de chaque secteur, les fournisseurs à surveiller. */
+export function riskWatchlist(all: EvalRecord[], limit = 40): RiskEntry[] {
+  const entries: RiskEntry[] = []
+  // "Général" est un bucket historique mixte (avant la scission par secteur), pas un secteur
+  // opérationnel actuel : l'exclure évite de noyer la watchlist sous des centaines de faux positifs.
+  const secteurs = Array.from(new Set(all.map((r) => r.secteur))).filter((s) => s !== 'Général')
+
+  for (const secteur of secteurs) {
+    const annees = anneesDisponibles(all, secteur)
+    if (annees.length === 0) continue
+    const dernier = annees[0]
+    const precedent = annees.includes(dernier - 1) ? dernier - 1 : null
+
+    const current = all.filter((r) => r.secteur === secteur && r.annee === dernier && r.note != null)
+    const previous = precedent != null ? all.filter((r) => r.secteur === secteur && r.annee === precedent && r.note != null) : []
+    const prevByNom = new Map(previous.map((r) => [r.nom, r.note!]))
+    const historiqueNoms = new Set(all.filter((r) => r.secteur === secteur && r.annee < dernier && r.note != null).map((r) => r.nom))
+
+    const cas = current.filter((r) => r.ca != null).map((r) => r.ca!)
+    const caThreshold = cas.length ? [...cas].sort((a, b) => b - a)[Math.max(0, Math.floor(cas.length * 0.2) - 1)] : null
+
+    for (const r of current) {
+      const noteVal = r.note!
+      if (noteVal < 2) {
+        entries.push({ nom: r.nom, secteur, annee: dernier, note: noteVal, ca: r.ca, motif: 'Note critique (< 2)', gravite: 'critical' })
+      }
+      const prev = prevByNom.get(r.nom)
+      if (prev != null && noteVal - prev <= -0.5) {
+        entries.push({
+          nom: r.nom,
+          secteur,
+          annee: dernier,
+          note: noteVal,
+          ca: r.ca,
+          motif: `Forte baisse (${prev} → ${noteVal})`,
+          gravite: 'warning',
+        })
+      }
+      if (caThreshold != null && r.ca != null && r.ca >= caThreshold && noteVal < 3) {
+        entries.push({
+          nom: r.nom,
+          secteur,
+          annee: dernier,
+          note: noteVal,
+          ca: r.ca,
+          motif: 'Fort volume d\'achat mais note < 3 (top 20% CA)',
+          gravite: 'critical',
+        })
+      }
+      if (!historiqueNoms.has(r.nom) && noteVal < 2.5) {
+        entries.push({
+          nom: r.nom,
+          secteur,
+          annee: dernier,
+          note: noteVal,
+          ca: r.ca,
+          motif: 'Nouveau fournisseur avec note faible dès la première évaluation',
+          gravite: 'warning',
+        })
+      }
+    }
+  }
+
+  const seen = new Set<string>()
+  const deduped = entries.filter((e) => {
+    const key = `${e.nom}|${e.secteur}|${e.motif}`
+    if (seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
+
+  return deduped
+    .sort((a, b) => {
+      if (a.gravite !== b.gravite) return a.gravite === 'critical' ? -1 : 1
+      return (b.ca ?? 0) - (a.ca ?? 0)
+    })
+    .slice(0, limit)
+}
+
+export interface Mover {
+  nom: string
+  secteur: string
+  anneeActuelle: number
+  noteActuelle: number
+  noteAnterieure: number
+  evolution: number
+}
+
+export function topMovers(all: EvalRecord[], secteur: string, limit = 10): { hausses: Mover[]; baisses: Mover[] } {
+  const annees = anneesDisponibles(all, secteur)
+  if (annees.length < 2) return { hausses: [], baisses: [] }
+  const dernier = annees[0]
+  const precedent = annees.includes(dernier - 1) ? dernier - 1 : annees[1]
+  const current = all.filter((r) => r.secteur === secteur && r.annee === dernier && r.note != null)
+  const previous = new Map(all.filter((r) => r.secteur === secteur && r.annee === precedent && r.note != null).map((r) => [r.nom, r.note!]))
+
+  const movers: Mover[] = []
+  for (const r of current) {
+    const prev = previous.get(r.nom)
+    if (prev != null) {
+      movers.push({ nom: r.nom, secteur, anneeActuelle: dernier, noteActuelle: r.note!, noteAnterieure: prev, evolution: Math.round((r.note! - prev) * 100) / 100 })
+    }
+  }
+  const hausses = [...movers].sort((a, b) => b.evolution - a.evolution).slice(0, limit).filter((m) => m.evolution > 0)
+  const baisses = [...movers].sort((a, b) => a.evolution - b.evolution).slice(0, limit).filter((m) => m.evolution < 0)
+  return { hausses, baisses }
+}
+
+// ============ Zoom fournisseur ============
+
+export interface SupplierSummary {
+  nom: string
+  secteurs: string[]
+  dernierNote: number | null
+  dernierAnnee: number | null
+  nbEvaluations: number
+}
+
+export function listSuppliers(all: EvalRecord[]): SupplierSummary[] {
+  const bucket = new Map<string, EvalRecord[]>()
+  for (const r of all) {
+    if (r.note == null) continue
+    if (!bucket.has(r.nom)) bucket.set(r.nom, [])
+    bucket.get(r.nom)!.push(r)
+  }
+  return Array.from(bucket.entries())
+    .map(([nom, recs]) => {
+      const sorted = [...recs].sort((a, b) => b.annee - a.annee)
+      return {
+        nom,
+        secteurs: Array.from(new Set(recs.map((r) => r.secteur))),
+        dernierNote: sorted[0]?.note ?? null,
+        dernierAnnee: sorted[0]?.annee ?? null,
+        nbEvaluations: recs.length,
+      }
+    })
+    .sort((a, b) => a.nom.localeCompare(b.nom))
+}
+
+export function supplierHistory(all: EvalRecord[], nom: string): EvalRecord[] {
+  return all
+    .filter((r) => r.nom === nom && r.note != null)
+    .sort((a, b) => b.annee - a.annee || a.secteur.localeCompare(b.secteur))
 }

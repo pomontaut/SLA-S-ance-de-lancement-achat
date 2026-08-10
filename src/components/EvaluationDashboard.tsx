@@ -1,18 +1,23 @@
 import { useEffect, useMemo, useState } from 'react'
-import type { EvalRecord, SecteurKpis, SecteurStat } from '../data/evaluationsHistorique'
+import type { EvalRecord, GlobalFilters, SecteurKpis, SecteurStat } from '../data/evaluationsHistorique'
 import {
   SECTEURS,
   anneesDisponibles,
   computeKpis,
   critereMoyennes,
+  defaultFilters,
   familleBreakdown,
   findSecteurStat,
   loadEvaluationsHistorique,
   loadSecteurStats,
   trendParAnnee,
 } from '../data/evaluationsHistorique'
+import { secteurColor, noteColor } from '../data/palette'
 import BarChart from './BarChart'
 import SecteurComparison from './SecteurComparison'
+import OverviewTab from './OverviewTab'
+import RiskTab from './RiskTab'
+import SupplierZoom from './SupplierZoom'
 
 function formatCurrency(value: number | null): string {
   if (value == null) return 'Non disponible'
@@ -102,35 +107,41 @@ function TrendChart({ data }: { data: { annee: number; moyenne: number }[] }) {
   )
 }
 
-export default function EvaluationDashboard() {
-  const [all, setAll] = useState<EvalRecord[] | null>(null)
-  const [secteurStats, setSecteurStats] = useState<SecteurStat[]>([])
-  const [secteur, setSecteur] = useState<string>('GC')
-  const [annee, setAnnee] = useState<number | null>(null)
-  const [view, setView] = useState<'secteur' | 'comparaison'>('secteur')
-
-  useEffect(() => {
-    loadEvaluationsHistorique().then(setAll)
-    loadSecteurStats().then(setSecteurStats)
-  }, [])
-
-  const annees = useMemo(() => (all ? anneesDisponibles(all, secteur) : []), [all, secteur])
+function SecteurTab({
+  all,
+  secteurStats,
+  secteur,
+  setSecteur,
+  annee,
+  setAnnee,
+  onZoom,
+}: {
+  all: EvalRecord[]
+  secteurStats: SecteurStat[]
+  secteur: string
+  setSecteur: (s: string) => void
+  annee: number | null
+  setAnnee: (a: number) => void
+  onZoom: (nom: string) => void
+}) {
+  const annees = useMemo(() => anneesDisponibles(all, secteur), [all, secteur])
 
   useEffect(() => {
     if (annees.length > 0 && (annee == null || !annees.includes(annee))) {
       setAnnee(annees[0])
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [annees, annee])
 
   const kpis: SecteurKpis | null = useMemo(() => {
-    if (!all || annee == null) return null
+    if (annee == null) return null
     return computeKpis(all, secteur, annee)
   }, [all, secteur, annee])
 
-  const trend = useMemo(() => (all ? trendParAnnee(all, secteur) : []), [all, secteur])
+  const trend = useMemo(() => trendParAnnee(all, secteur), [all, secteur])
 
   const currentRows = useMemo(() => {
-    if (!all || annee == null) return []
+    if (annee == null) return []
     return all
       .filter((r) => r.secteur === secteur && r.annee === annee && r.note != null)
       .sort((a, b) => (b.ca ?? -1) - (a.ca ?? -1) || (b.note ?? 0) - (a.note ?? 0))
@@ -140,44 +151,19 @@ export default function EvaluationDashboard() {
   const familleData = useMemo(() => familleBreakdown(currentRows), [currentRows])
   const stat = useMemo(() => (annee != null ? findSecteurStat(secteurStats, secteur, annee) : null), [secteurStats, secteur, annee])
 
-  if (!all) {
-    return (
-      <div className="max-w-5xl mx-auto px-4 py-8">
-        <p className="text-sm text-slate-500">Chargement des données d'évaluation…</p>
-      </div>
-    )
-  }
-
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8 space-y-6">
-      <div>
-        <h2 className="text-lg font-semibold">Dashboard évaluation fournisseurs</h2>
-        <p className="text-sm text-slate-500 mt-1">
-          Basé sur l'historique 2007-2025 fourni (import statique). La richesse des données (chiffre d'affaires,
-          nombre d'évaluateurs) varie selon les secteurs et les années : les indicateurs non calculables affichent
-          « Non disponible » plutôt qu'une estimation.
-        </p>
-      </div>
-
-      <div className="flex gap-1">
-        <button className={view === 'secteur' ? 'btn-primary' : 'btn-secondary'} onClick={() => setView('secteur')}>
-          Vue par secteur
-        </button>
-        <button className={view === 'comparaison' ? 'btn-primary' : 'btn-secondary'} onClick={() => setView('comparaison')}>
-          Comparaison secteurs
-        </button>
-      </div>
-
-      {view === 'comparaison' ? (
-        annee != null && <SecteurComparison all={all} secteurStats={secteurStats} annee={annee} />
-      ) : (
-        <>
+    <>
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex gap-1 flex-wrap">
           {SECTEURS.map((s) => (
             <button
               key={s}
-              className={s === secteur ? 'btn-primary' : 'btn-secondary'}
+              className="px-2.5 py-1.5 rounded-md text-sm font-medium border transition-colors"
+              style={
+                s === secteur
+                  ? { backgroundColor: secteurColor(s), borderColor: secteurColor(s), color: 'white' }
+                  : { backgroundColor: 'white', borderColor: '#e2e8f0', color: '#475569' }
+              }
               onClick={() => setSecteur(s)}
             >
               {s}
@@ -247,10 +233,7 @@ export default function EvaluationDashboard() {
               {critereData.length > 0 ? (
                 <BarChart data={critereData.map((c) => ({ label: c.label, value: c.moyenne, sub: `${c.nbFournisseurs} fournisseurs` }))} max={5} />
               ) : (
-                <p className="text-sm text-slate-500">
-                  Détail par critère non disponible pour ce secteur/année (seuls GC 2025 et BAT GE 2025 en disposent
-                  actuellement).
-                </p>
+                <p className="text-sm text-slate-500">Détail par critère non disponible pour ce secteur/année.</p>
               )}
             </div>
             <div className="card">
@@ -272,7 +255,9 @@ export default function EvaluationDashboard() {
 
           {kpis.top10.length > 0 && (
             <div className="card">
-              <h3 className="font-semibold mb-3">Top 10 fournisseurs par montant — {secteur} {annee}</h3>
+              <h3 className="font-semibold mb-3">
+                Top 10 fournisseurs par montant — {secteur} {annee}
+              </h3>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm border-collapse">
                   <thead>
@@ -285,9 +270,15 @@ export default function EvaluationDashboard() {
                   <tbody>
                     {kpis.top10.map((r) => (
                       <tr key={r.nom} className="border-b border-slate-100">
-                        <td className="py-1.5 pr-2 font-medium">{r.nom}</td>
+                        <td className="py-1.5 pr-2 font-medium">
+                          <button className="hover:underline" onClick={() => onZoom(r.nom)}>
+                            {r.nom}
+                          </button>
+                        </td>
                         <td className="py-1.5 pr-2">{formatCurrency(r.ca)}</td>
-                        <td className="py-1.5 pr-2">{r.note} / 5</td>
+                        <td className="py-1.5 pr-2" style={{ color: noteColor(r.note!) }}>
+                          {r.note} / 5
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -315,23 +306,15 @@ export default function EvaluationDashboard() {
                 <tbody>
                   {currentRows.map((r) => (
                     <tr key={r.nom} className="border-b border-slate-100 align-top">
-                      <td className="py-1.5 pr-2 font-medium">{r.nom}</td>
+                      <td className="py-1.5 pr-2 font-medium">
+                        <button className="hover:underline text-left" onClick={() => onZoom(r.nom)}>
+                          {r.nom}
+                        </button>
+                      </td>
                       <td className="py-1.5 pr-2 text-slate-500">{r.type}</td>
                       <td className="py-1.5 pr-2">{formatCurrency(r.ca)}</td>
-                      <td className="py-1.5 pr-2">
-                        <span
-                          className={
-                            r.note! >= 3.5
-                              ? 'text-green-600 font-medium'
-                              : r.note! < 2
-                                ? 'text-red-600 font-medium'
-                                : r.note! < 3
-                                  ? 'text-amber-600 font-medium'
-                                  : ''
-                          }
-                        >
-                          {r.note} / 5
-                        </span>
+                      <td className="py-1.5 pr-2 font-medium" style={{ color: noteColor(r.note!) }}>
+                        {r.note} / 5
                       </td>
                       <td className="py-1.5 pr-2">{r.nbEvaluateurs ?? '—'}</td>
                       <td className="py-1.5 pr-2 text-slate-500 max-w-xs truncate" title={r.remarques}>
@@ -345,8 +328,89 @@ export default function EvaluationDashboard() {
           </div>
         </>
       )}
-        </>
+    </>
+  )
+}
+
+type View = 'overview' | 'secteur' | 'comparaison' | 'risques'
+
+const VIEW_TABS: { key: View; label: string }[] = [
+  { key: 'overview', label: "Vue d'ensemble" },
+  { key: 'secteur', label: 'Par secteur' },
+  { key: 'comparaison', label: 'Comparaison secteurs' },
+  { key: 'risques', label: 'Risques & mouvements' },
+]
+
+export default function EvaluationDashboard() {
+  const [all, setAll] = useState<EvalRecord[] | null>(null)
+  const [secteurStats, setSecteurStats] = useState<SecteurStat[]>([])
+  const [secteur, setSecteur] = useState<string>('GC')
+  const [annee, setAnnee] = useState<number | null>(null)
+  const [view, setView] = useState<View>('overview')
+  const [filters, setFilters] = useState<GlobalFilters | null>(null)
+  const [zoomNom, setZoomNom] = useState<string | null>(null)
+
+  useEffect(() => {
+    loadEvaluationsHistorique().then((data) => {
+      setAll(data)
+      setFilters(defaultFilters(data))
+    })
+    loadSecteurStats().then(setSecteurStats)
+  }, [])
+
+  if (!all || !filters) {
+    return (
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        <p className="text-sm text-slate-500">Chargement des données d'évaluation…</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="max-w-6xl mx-auto px-4 py-8 space-y-6">
+      <div className="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <h2 className="text-lg font-semibold">Dashboard évaluation fournisseurs</h2>
+          <p className="text-sm text-slate-500 mt-1 max-w-2xl">
+            Historique 2017-2025 consolidé (import statique). La richesse des données (CA, critères, nombre
+            d'évaluateurs) varie selon secteurs/années : « Non disponible » plutôt qu'une estimation.
+          </p>
+        </div>
+        <button className="btn-primary whitespace-nowrap" onClick={() => setZoomNom('')}>
+          🔍 Zoom fournisseur
+        </button>
+      </div>
+
+      <div className="border-b border-slate-200 flex gap-1 flex-wrap">
+        {VIEW_TABS.map((t) => (
+          <button key={t.key} className={`tab-button ${view === t.key ? 'active' : ''}`} onClick={() => setView(t.key)}>
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {view === 'overview' && <OverviewTab all={all} filters={filters} onFiltersChange={setFilters} />}
+
+      {view === 'secteur' && (
+        <SecteurTab
+          all={all}
+          secteurStats={secteurStats}
+          secteur={secteur}
+          setSecteur={setSecteur}
+          annee={annee}
+          setAnnee={setAnnee}
+          onZoom={setZoomNom}
+        />
       )}
+
+      {view === 'comparaison' && annee != null && <SecteurComparison all={all} secteurStats={secteurStats} annee={annee} />}
+      {view === 'comparaison' && annee == null && (
+        <p className="text-sm text-slate-500">Choisissez d'abord une année dans l'onglet « Par secteur ».</p>
+      )}
+
+      {view === 'risques' && <RiskTab all={all} />}
+
+      {zoomNom !== null && <SupplierZoom all={all} initialNom={zoomNom || undefined} onClose={() => setZoomNom(null)} />}
     </div>
   )
 }

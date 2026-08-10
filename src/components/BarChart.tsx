@@ -54,6 +54,7 @@ export default function BarChart({ data, max, unit = '' }: { data: BarDatum[]; m
             {d.value}
             {unit}
           </div>
+          {d.sub && <div className="w-20 shrink-0 text-[11px] text-slate-400">{d.sub}</div>}
         </div>
       ))}
     </div>
