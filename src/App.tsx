@@ -15,10 +15,8 @@ export default function App() {
   return (
     <div className="min-h-screen">
       <header className="bg-gradient-to-r from-brand-from to-brand-to text-white px-6 py-5">
-        <h1 className="text-2xl font-bold">SLA — Séance de lancement achats</h1>
-        <p className="text-sm text-white/80 mt-1">
-          Dossier de passation achat, de la phase soumission à la phase exécution
-        </p>
+        {/* Titre temporairement renommé (bascule prévue plus tard vers "SLA — Séance de lancement achats") */}
+        <h1 className="text-2xl font-bold">Dashboard Évaluation Fournisseur</h1>
         {/* Dossiers et Fournisseurs temporairement masqués de la navigation (fonctionnalités en pause) */}
         {!openDossierId && (
           <nav className="flex gap-4 mt-4">
