@@ -212,12 +212,12 @@
  {
   "secteur": "EG GE/VD",
   "annee": 2020,
-  "nbEvaluateurs": null,
+  "nbEvaluateurs": 12,
   "moyenneMini": 0.0,
   "moyenneMaxi": 4.0,
-  "nbInferieur2": 40,
-  "nbSuperieur35": 32,
-  "moyenneGlobale": 2.7
+  "nbInferieur2": 27,
+  "nbSuperieur35": 24,
+  "moyenneGlobale": 2.72
  },
  {
   "secteur": "EG GE/VD",
