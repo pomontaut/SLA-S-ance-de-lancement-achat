@@ -38169,7 +38169,15 @@
     "caInduni": 2997544,
     "nbEvaluateurs": 1,
     "remarques": "Super service",
-    "famille": "FOURNISSEURS"
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Respect des délais de livraison convenus": 4,
+      "Rapport qualité/prix": 4,
+      "Respect de la qualité convenue": 4,
+      "Souplesse et façon de traiter nos réclamations": 4,
+      "Compétence/Assistance technique": 4,
+      "Respect des quantités prévues": 4
+    }
   },
   {
     "nom": "GRAVIERES D'EPEISSES SA",
@@ -38182,7 +38190,15 @@
     "caInduni": 1311414,
     "nbEvaluateurs": 4,
     "remarques": "Qualité des matières moins bonne que ses \nconcurrents",
-    "famille": "FOURNISSEURS"
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Respect des délais de livraison convenus": 3.5,
+      "Rapport qualité/prix": 3.5,
+      "Respect de la qualité convenue": 3,
+      "Souplesse et façon de traiter nos réclamations": 3.5,
+      "Compétence/Assistance technique": 3.5,
+      "Respect des quantités prévues": 3
+    }
   },
   {
     "nom": "ECOSOR SA",
@@ -38195,7 +38211,15 @@
     "caInduni": 994100,
     "nbEvaluateurs": 3,
     "remarques": "Plus cher que ses concurrents, techniquement \ntrès bon mais plus cher",
-    "famille": "FOURNISSEURS"
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Respect des délais de livraison convenus": 3.3333,
+      "Rapport qualité/prix": 2.5,
+      "Respect de la qualité convenue": 3.5,
+      "Souplesse et façon de traiter nos réclamations": 3.5,
+      "Compétence/Assistance technique": 3.5,
+      "Respect des quantités prévues": 3.5
+    }
   },
   {
     "nom": "SOREVAL SA",
@@ -38208,7 +38232,15 @@
     "caInduni": 1063762,
     "nbEvaluateurs": 4,
     "remarques": "",
-    "famille": "FOURNISSEURS"
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Respect des délais de livraison convenus": 3.25,
+      "Rapport qualité/prix": 3,
+      "Respect de la qualité convenue": 3.6667,
+      "Souplesse et façon de traiter nos réclamations": 3.3333,
+      "Compétence/Assistance technique": 3.3333,
+      "Respect des quantités prévues": 3.3333
+    }
   },
   {
     "nom": "PRO BETON SA",
@@ -38221,7 +38253,15 @@
     "caInduni": 1601954,
     "nbEvaluateurs": 4,
     "remarques": "A bien revu ses prix, bon suivi du \ncommercial",
-    "famille": "FOURNISSEURS"
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Respect des délais de livraison convenus": 3.5,
+      "Rapport qualité/prix": 3.3333,
+      "Respect de la qualité convenue": 3.6667,
+      "Souplesse et façon de traiter nos réclamations": 3.3333,
+      "Compétence/Assistance technique": 3.3333,
+      "Respect des quantités prévues": 3
+    }
   },
   {
     "nom": "POINTGE SA",
@@ -38234,7 +38274,15 @@
     "caInduni": 383886,
     "nbEvaluateurs": 3,
     "remarques": "",
-    "famille": "FOURNISSEURS"
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Respect des délais de livraison convenus": 3.3333,
+      "Rapport qualité/prix": 3,
+      "Respect de la qualité convenue": 3,
+      "Souplesse et façon de traiter nos réclamations": 3.3333,
+      "Compétence/Assistance technique": 3,
+      "Respect des quantités prévues": 3
+    }
   },
   {
     "nom": "FAVRE SA",
@@ -38247,7 +38295,15 @@
     "caInduni": 9658387,
     "nbEvaluateurs": 3,
     "remarques": "Bon service",
-    "famille": "FOURNISSEURS"
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Respect des délais de livraison convenus": 3.3333,
+      "Rapport qualité/prix": 3.3333,
+      "Respect de la qualité convenue": 3.3333,
+      "Souplesse et façon de traiter nos réclamations": 3,
+      "Compétence/Assistance technique": 3.3333,
+      "Respect des quantités prévues": 3.3333
+    }
   },
   {
     "nom": "CREABETON BAUSTOFF AG",
@@ -38260,7 +38316,15 @@
     "caInduni": 245443,
     "nbEvaluateurs": 2,
     "remarques": "Produits chers",
-    "famille": "FOURNISSEURS"
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Respect des délais de livraison convenus": 4,
+      "Rapport qualité/prix": 2.5,
+      "Respect de la qualité convenue": 3.5,
+      "Souplesse et façon de traiter nos réclamations": 3.5,
+      "Compétence/Assistance technique": 4,
+      "Respect des quantités prévues": 4
+    }
   },
   {
     "nom": "SYTEC SCHWEIZ",
@@ -38273,7 +38337,15 @@
     "caInduni": 113929,
     "nbEvaluateurs": 1,
     "remarques": "",
-    "famille": "FOURNISSEURS"
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Respect des délais de livraison convenus": 3,
+      "Rapport qualité/prix": 3,
+      "Respect de la qualité convenue": 3,
+      "Souplesse et façon de traiter nos réclamations": 3,
+      "Compétence/Assistance technique": 3,
+      "Respect des quantités prévues": 3
+    }
   },
   {
     "nom": "CANPLAST",
@@ -38286,7 +38358,15 @@
     "caInduni": null,
     "nbEvaluateurs": 2,
     "remarques": "",
-    "famille": "FOURNISSEURS"
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Respect des délais de livraison convenus": 3,
+      "Rapport qualité/prix": 3,
+      "Respect de la qualité convenue": 3,
+      "Souplesse et façon de traiter nos réclamations": 3,
+      "Compétence/Assistance technique": 3,
+      "Respect des quantités prévues": 3
+    }
   },
   {
     "nom": "PLASTITECH",
@@ -38299,7 +38379,15 @@
     "caInduni": null,
     "nbEvaluateurs": 4,
     "remarques": "Revoir le seuil pour livraison franco",
-    "famille": "FOURNISSEURS"
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Respect des délais de livraison convenus": 3,
+      "Rapport qualité/prix": 3.25,
+      "Respect de la qualité convenue": 3.5,
+      "Souplesse et façon de traiter nos réclamations": 3.75,
+      "Compétence/Assistance technique": 3.5,
+      "Respect des quantités prévues": 3.75
+    }
   },
   {
     "nom": "SYMALIT AG",
@@ -38312,7 +38400,15 @@
     "caInduni": null,
     "nbEvaluateurs": 1,
     "remarques": "A conseiller pour des projets conséquents",
-    "famille": "FOURNISSEURS"
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Respect des délais / Réactivité": 4,
+      "Qualité des prestations / Compétence": 4,
+      "Rapport qualité / prix": 4,
+      "Gestion des litiges (y.c. levée de réserves)": 4,
+      "Respect des règles de sécurité": 4,
+      "Tenue des chantiers, ordre, propreté": 4
+    }
   },
   {
     "nom": "PROMATERIAU SA",
@@ -38325,7 +38421,15 @@
     "caInduni": 210295,
     "nbEvaluateurs": 4,
     "remarques": "Bon service",
-    "famille": "FOURNISSEURS"
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Respect des délais de livraison convenus": 3.5,
+      "Rapport qualité/prix": 2.75,
+      "Respect de la qualité convenue": 3,
+      "Souplesse et façon de traiter nos réclamations": 3.5,
+      "Compétence / Assistance technique": 3.5,
+      "Respect des quantités prévues": 3.5
+    }
   },
   {
     "nom": "HG COMMERCIALE",
@@ -38338,7 +38442,15 @@
     "caInduni": 9130228,
     "nbEvaluateurs": 4,
     "remarques": "",
-    "famille": "FOURNISSEURS"
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Respect des délais de livraison convenus": 3.5,
+      "Rapport qualité/prix": 3.25,
+      "Respect de la qualité convenue": 3,
+      "Souplesse et façon de traiter nos réclamations": 3.75,
+      "Compétence / Assistance technique": 3,
+      "Respect des quantités prévues": 3.5
+    }
   },
   {
     "nom": "JEROME SA",
@@ -38351,7 +38463,15 @@
     "caInduni": 388152,
     "nbEvaluateurs": 1,
     "remarques": "Utile en cas de dépannage : \nproximité chantier",
-    "famille": "FOURNISSEURS"
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Respect des délais de livraison convenus": 2,
+      "Rapport qualité/prix": 3,
+      "Respect de la qualité convenue": 4,
+      "Souplesse et façon de traiter nos réclamations": 3,
+      "Compétence / Assistance technique": 4,
+      "Respect des quantités prévues": 3
+    }
   },
   {
     "nom": "ORLLATI (VD) SA",
@@ -38377,7 +38497,15 @@
     "caInduni": 1010284,
     "nbEvaluateurs": 3,
     "remarques": "Bien",
-    "famille": "SOUS-TRAITANTS"
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Respect des délais / Réactivité": 2.6667,
+      "Qualité des prestations / Compétence": 2.3333,
+      "Rapport qualité / prix": 2.6667,
+      "Gestion des litiges (y.c. levée de réserves)": 2.3333,
+      "Respect des règles de sécurité": 1.6667,
+      "Tenue des chantiers, ordre, propreté": 2.3333
+    }
   },
   {
     "nom": "ASFAL SA",
@@ -38390,7 +38518,15 @@
     "caInduni": 636880,
     "nbEvaluateurs": 3,
     "remarques": "Très souple en phase chantier",
-    "famille": "SOUS-TRAITANTS"
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Respect des délais / Réactivité": 3.6667,
+      "Qualité des prestations / Compétence": 3.6667,
+      "Rapport qualité / prix": 3.3333,
+      "Gestion des litiges (y.c. levée de réserves)": 3.6667,
+      "Respect des règles de sécurité": 3,
+      "Tenue des chantiers, ordre, propreté": 3.3333
+    }
   },
   {
     "nom": "PERRIN FRERES",
@@ -38403,7 +38539,15 @@
     "caInduni": 402699,
     "nbEvaluateurs": 2,
     "remarques": "Bon suivi",
-    "famille": "SOUS-TRAITANTS"
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Respect des délais / Réactivité": 3.5,
+      "Qualité des prestations / Compétence": 3,
+      "Rapport qualité / prix": 3,
+      "Gestion des litiges (y.c. levée de réserves)": 3.5,
+      "Respect des règles de sécurité": 3,
+      "Tenue des chantiers, ordre, propreté": 2.5
+    }
   },
   {
     "nom": "BERISHA SARL",
@@ -38442,7 +38586,15 @@
     "caInduni": 392190,
     "nbEvaluateurs": 2,
     "remarques": "",
-    "famille": "SOUS-TRAITANTS"
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Respect des délais / Réactivité": 3,
+      "Qualité des prestations / Compétence": 4,
+      "Rapport qualité / prix": 3,
+      "Gestion des litiges (y.c. levée de réserves)": 3.5,
+      "Respect des règles de sécurité": 3,
+      "Tenue des chantiers, ordre, propreté": 3.5
+    }
   },
   {
     "nom": "FRAMIX RABOTAGE SA",
@@ -38455,7 +38607,15 @@
     "caInduni": 125623,
     "nbEvaluateurs": 3,
     "remarques": "",
-    "famille": "SOUS-TRAITANTS"
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Respect des délais / Réactivité": 2.6667,
+      "Qualité des prestations / Compétence": 2.6667,
+      "Rapport qualité / prix": 1.6667,
+      "Gestion des litiges (y.c. levée de réserves)": 2.3333,
+      "Respect des règles de sécurité": 2.3333,
+      "Tenue des chantiers, ordre, propreté": 2.6667
+    }
   },
   {
     "nom": "RAMPINI & CIE SA",
@@ -38468,7 +38628,15 @@
     "caInduni": 57860,
     "nbEvaluateurs": 1,
     "remarques": "",
-    "famille": "SOUS-TRAITANTS"
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Respect des délais / Réactivité": 4,
+      "Qualité des prestations / Compétence": 3,
+      "Rapport qualité / prix": 3,
+      "Gestion des litiges (y.c. levée de réserves)": 3,
+      "Respect des règles de sécurité": 3,
+      "Tenue des chantiers, ordre, propreté": 3
+    }
   },
   {
     "nom": "BERT'EAU SA",
@@ -38494,7 +38662,15 @@
     "caInduni": 25659,
     "nbEvaluateurs": 1,
     "remarques": "Bien",
-    "famille": "SOUS-TRAITANTS"
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Respect des délais / Réactivité": 3,
+      "Qualité des prestations / Compétence": 3,
+      "Rapport qualité / prix": 2,
+      "Gestion des litiges (y.c. levée de réserves)": 3,
+      "Respect des règles de sécurité": 3,
+      "Tenue des chantiers, ordre, propreté": 3
+    }
   },
   {
     "nom": "SGT & T SARL",
@@ -38507,7 +38683,14 @@
     "caInduni": 450018,
     "nbEvaluateurs": 3,
     "remarques": "",
-    "famille": "SOUS-TRAITANTS"
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Ponctualité": 3,
+      "Rapport qualité/prix": 2.6667,
+      "Souplesse et façon de traiter nos réclamations": 3,
+      "Vérité des quantités annoncées": 2.6667,
+      "Qualité du matériel roulant": 3.3333
+    }
   },
   {
     "nom": "CHAVAZ ENTREPRISE SA",
@@ -38520,7 +38703,14 @@
     "caInduni": 413380,
     "nbEvaluateurs": 3,
     "remarques": "",
-    "famille": "SOUS-TRAITANTS"
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Ponctualité": 3,
+      "Rapport qualité/prix": 3.3333,
+      "Souplesse et façon de traiter nos réclamations": 2.6667,
+      "Vérité des quantités annoncées": 3,
+      "Qualité du matériel roulant": 3
+    }
   },
   {
     "nom": "SMT SA SYSTEM MODERN TRANSPORT SA",
@@ -38533,7 +38723,14 @@
     "caInduni": 160547,
     "nbEvaluateurs": 1,
     "remarques": "",
-    "famille": "SOUS-TRAITANTS"
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Ponctualité": 4,
+      "Rapport qualité/prix": 3,
+      "Souplesse et façon de traiter nos réclamations": 4,
+      "Vérité des quantités annoncées": 4,
+      "Qualité du matériel roulant": 3
+    }
   },
   {
     "nom": "TRANSPORTS SILVA SARL",
@@ -38546,7 +38743,14 @@
     "caInduni": 124609,
     "nbEvaluateurs": 3,
     "remarques": "",
-    "famille": "SOUS-TRAITANTS"
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Ponctualité": 3,
+      "Rapport qualité/prix": 3.6667,
+      "Souplesse et façon de traiter nos réclamations": 3.3333,
+      "Vérité des quantités annoncées": 3.3333,
+      "Qualité du matériel roulant": 2.6667
+    }
   },
   {
     "nom": "GASTER SA",
@@ -38559,7 +38763,14 @@
     "caInduni": 74605,
     "nbEvaluateurs": 3,
     "remarques": "",
-    "famille": "SOUS-TRAITANTS"
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Ponctualité": 3.3333,
+      "Rapport qualité/prix": 3.3333,
+      "Souplesse et façon de traiter nos réclamations": 3.3333,
+      "Vérité des quantités annoncées": 3,
+      "Qualité du matériel roulant": 3.6667
+    }
   },
   {
     "nom": "BBS TRANSPORTS SARL",
@@ -38585,7 +38796,14 @@
     "caInduni": 126143,
     "nbEvaluateurs": 4,
     "remarques": "Très réactif",
-    "famille": "SOUS-TRAITANTS"
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Respect des délais d'intervention": 4,
+      "Rapport qualité/prix": 3.75,
+      "Souplesse et façon de traiter os réclamations": 3.75,
+      "Compétence/Assistance technique": 3.75,
+      "Qualité des prestations": 3.75
+    }
   },
   {
     "nom": "EUROFINS SCITEC SA",
@@ -38611,7 +38829,14 @@
     "caInduni": 190631,
     "nbEvaluateurs": 3,
     "remarques": "Passage caméra bien, manque de suivi et de réactivité sur le chemisage",
-    "famille": "SOUS-TRAITANTS"
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Respect des délais d'intervention": 3.3333,
+      "Rapport qualité/prix": 2.6667,
+      "Souplesse et façon de traiter os réclamations": 3.6667,
+      "Compétence/Assistance technique": 3.3333,
+      "Qualité des prestations": 3.3333
+    }
   },
   {
     "nom": "WESSLING AG",
@@ -38624,7 +38849,14 @@
     "caInduni": 40346,
     "nbEvaluateurs": 1,
     "remarques": "",
-    "famille": "SOUS-TRAITANTS"
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Respect des délais d'intervention": 2,
+      "Rapport qualité/prix": 3,
+      "Souplesse et façon de traiter os réclamations": 3,
+      "Compétence/Assistance technique": 3,
+      "Qualité des prestations": 3
+    }
   },
   {
     "nom": "HOMINAL GEORGES",
@@ -38637,7 +38869,14 @@
     "caInduni": 28726,
     "nbEvaluateurs": 1,
     "remarques": "",
-    "famille": "SOUS-TRAITANTS"
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Respect des délais d'intervention": 3,
+      "Rapport qualité/prix": 3,
+      "Souplesse et façon de traiter os réclamations": 3,
+      "Compétence/Assistance technique": 3,
+      "Qualité des prestations": 3
+    }
   },
   {
     "nom": "CSP CHABLAIS SARL",
@@ -38650,7 +38889,14 @@
     "caInduni": 37608,
     "nbEvaluateurs": 2,
     "remarques": "",
-    "famille": "SOUS-TRAITANTS"
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Respect des délais d'intervention": 4,
+      "Rapport qualité/prix": 3,
+      "Souplesse et façon de traiter os réclamations": 3.5,
+      "Compétence/Assistance technique": 3.5,
+      "Qualité des prestations": 3.5
+    }
   },
   {
     "nom": "GRAVIERES D'EPEISSES SA",
