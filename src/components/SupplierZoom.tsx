@@ -13,39 +13,58 @@ function formatCurrency(v: number | null): string {
 }
 
 function MiniTrend({ history }: { history: EvalRecord[] }) {
-  const points = [...history].sort((a, b) => a.annee - b.annee)
+  const points = history.filter((h) => h.note != null)
   if (points.length < 2) return null
+  const annees = Array.from(new Set(points.map((p) => p.annee))).sort((a, b) => a - b)
+  const secteurs = Array.from(new Set(points.map((p) => p.secteur)))
   const width = 500
   const height = 120
   const pad = { top: 10, right: 10, bottom: 20, left: 24 }
   const innerW = width - pad.left - pad.right
   const innerH = height - pad.top - pad.bottom
-  const x = (i: number) => pad.left + (points.length === 1 ? innerW / 2 : (i / (points.length - 1)) * innerW)
+  const minA = annees[0]
+  const maxA = annees[annees.length - 1]
+  // Une courbe distincte par secteur, alignée sur une échelle d'années commune : deux
+  // secteurs pour un même fournisseur ne sont pas la même série et ne doivent pas être
+  // reliés par un seul trait zigzagant.
+  const x = (a: number) => pad.left + (maxA === minA ? innerW / 2 : ((a - minA) / (maxA - minA)) * innerW)
   const y = (v: number) => pad.top + innerH - (v / 5) * innerH
-  const d = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${x(i)} ${y(p.note!)}`).join(' ')
   return (
-    <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto">
-      {[0, 2.5, 5].map((v) => (
-        <line key={v} x1={pad.left} x2={width - pad.right} y1={y(v)} y2={y(v)} stroke="#e2e8f0" strokeWidth={1} />
-      ))}
-      <path d={d} fill="none" stroke="#4f46e5" strokeWidth={2} strokeLinecap="round" />
-      {points.map((p, i) => {
-        // Plusieurs points peuvent partager la même année (un fournisseur évalué dans
-        // plusieurs secteurs la même année) : n'afficher l'étiquette qu'une fois par
-        // année, sinon les libellés se chevauchent et deviennent illisibles.
-        const showLabel = i === 0 || points[i - 1].annee !== p.annee
-        return (
-          <g key={`${p.secteur}-${p.annee}-${i}`}>
-            <circle cx={x(i)} cy={y(p.note!)} r={4} fill={secteurColor(p.secteur)} stroke="white" strokeWidth={1} />
-            {showLabel && (
-              <text x={x(i)} y={height - 4} textAnchor="middle" fontSize={11} fontWeight={500} fill="#334155">
-                {p.annee}
-              </text>
-            )}
-          </g>
-        )
-      })}
-    </svg>
+    <div>
+      <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto">
+        {[0, 2.5, 5].map((v) => (
+          <line key={v} x1={pad.left} x2={width - pad.right} y1={y(v)} y2={y(v)} stroke="#e2e8f0" strokeWidth={1} />
+        ))}
+        {secteurs.map((sec) => {
+          const pts = points.filter((p) => p.secteur === sec).sort((a, b) => a.annee - b.annee)
+          const color = secteurColor(sec)
+          const d = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${x(p.annee)} ${y(p.note!)}`).join(' ')
+          return (
+            <g key={sec}>
+              <path d={d} fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" />
+              {pts.map((p) => (
+                <circle key={p.annee} cx={x(p.annee)} cy={y(p.note!)} r={4} fill={color} stroke="white" strokeWidth={1} />
+              ))}
+            </g>
+          )
+        })}
+        {annees.map((a) => (
+          <text key={a} x={x(a)} y={height - 4} textAnchor="middle" fontSize={11} fontWeight={500} fill="#334155">
+            {a}
+          </text>
+        ))}
+      </svg>
+      {secteurs.length > 1 && (
+        <div className="flex flex-wrap gap-x-3 gap-y-1 mt-1">
+          {secteurs.map((sec) => (
+            <div key={sec} className="flex items-center gap-1.5 text-xs text-slate-600">
+              <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ backgroundColor: secteurColor(sec) }} />
+              {sec}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -93,7 +112,16 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
       ),
     [history, anneeMin, anneeMax, filterSecteurs],
   )
-  const latestWithCriteres = filteredHistory.find((h) => h.criteres)
+  // Le plus récent enregistrement avec critères, par secteur : deux secteurs peuvent
+  // utiliser des libellés de critères identiques (ex. "Rapport Qualité/Prix" pour
+  // fournisseurs GC et BAT VD) et se comparent alors utilement côte à côte.
+  const critereRecordsBySecteur = useMemo(() => {
+    const bySecteur = new Map<string, EvalRecord>()
+    for (const h of [...filteredHistory].sort((a, b) => b.annee - a.annee)) {
+      if (h.criteres && !bySecteur.has(h.secteur)) bySecteur.set(h.secteur, h)
+    }
+    return Array.from(bySecteur.values())
+  }, [filteredHistory])
 
   const anneesPourComparaison = useMemo(() => Array.from(new Set(history.map((h) => h.annee))).sort((a, b) => b - a), [history])
   const [compareOn, setCompareOn] = useState(false)
@@ -316,15 +344,19 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
                 )}
               </div>
 
-              {latestWithCriteres?.criteres && (
-                <div>
-                  <h4 className="text-xs uppercase text-slate-500 mb-2">
-                    Détail par critère ({latestWithCriteres.secteur} {latestWithCriteres.annee})
-                  </h4>
-                  <BarChart
-                    data={Object.entries(latestWithCriteres.criteres).map(([label, value]) => ({ label, value }))}
-                    max={5}
-                  />
+              {critereRecordsBySecteur.length > 0 && (
+                <div className={critereRecordsBySecteur.length > 1 ? 'grid grid-cols-1 sm:grid-cols-2 gap-4' : ''}>
+                  {critereRecordsBySecteur.map((rec) => (
+                    <div key={rec.secteur}>
+                      <h4 className="text-xs uppercase text-slate-500 mb-2">
+                        Détail par critère ({rec.secteur} {rec.annee})
+                      </h4>
+                      <BarChart
+                        data={Object.entries(rec.criteres!).map(([label, value]) => ({ label, value }))}
+                        max={5}
+                      />
+                    </div>
+                  ))}
                 </div>
               )}
 
