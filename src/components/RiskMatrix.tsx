@@ -1,6 +1,13 @@
 import { useMemo, useState } from 'react'
 import type { EvalRecord } from '../data/evaluationsHistorique'
-import { noteColor } from '../data/palette'
+import { noteColor, STATUS } from '../data/palette'
+
+const LEGEND = [
+  { color: STATUS.good, label: '≥ 3,5 — excellent' },
+  { color: '#94a3b8', label: '3 – 3,5 — correct' },
+  { color: STATUS.warning, label: '2 – 3 — à surveiller' },
+  { color: STATUS.critical, label: '< 2 — critique' },
+]
 
 export default function RiskMatrix({ records, onSelect }: { records: EvalRecord[]; onSelect: (nom: string) => void }) {
   const points = useMemo(() => records.filter((r) => r.ca != null && r.note != null && r.ca! > 0), [records])
@@ -29,6 +36,14 @@ export default function RiskMatrix({ records, onSelect }: { records: EvalRecord[
 
   return (
     <div className="relative">
+      <div className="flex flex-wrap gap-x-4 gap-y-1 mb-2">
+        {LEGEND.map((item) => (
+          <div key={item.label} className="flex items-center gap-1.5 text-xs text-slate-600">
+            <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }} />
+            {item.label}
+          </div>
+        ))}
+      </div>
       <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto" role="img" aria-label="Matrice risque : montant vs note">
         {[0, 1, 2, 3, 4, 5].map((v) => (
           <g key={v}>
