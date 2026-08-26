@@ -1,6 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { EvalRecord, SecteurStat } from '../data/evaluationsHistorique'
-import { SECTEURS, anneesDisponibles, compareCells, findSecteurStat } from '../data/evaluationsHistorique'
+import { SECTEURS, anneesDisponibles, compareCells, computeKpis, findSecteurStat } from '../data/evaluationsHistorique'
+
+// Les 5 vraies entités du groupe — "Général" est une moyenne transversale calculée,
+// pas une entité à comparer au même titre que les autres.
+const ENTITES = SECTEURS.filter((s) => s !== 'Général')
 
 function fmtCurrency(v: number | null): string {
   return v == null ? 'Non disponible' : v.toLocaleString('fr-CH', { maximumFractionDigits: 0 }) + ' CHF'
@@ -21,10 +25,16 @@ function Row({ label, a, b }: { label: string; a: string; b: string }) {
 }
 
 export default function SecteurComparison({ all, secteurStats, annee }: { all: EvalRecord[]; secteurStats: SecteurStat[]; annee: number }) {
-  const [mode, setMode] = useState<'secteurs' | 'annees'>('secteurs')
+  const [mode, setMode] = useState<'secteurs' | 'annees' | 'toutes'>('secteurs')
 
   const [secteurA, setSecteurA] = useState('GC')
   const [secteurB, setSecteurB] = useState('BAT GE')
+
+  const anneesToutes = useMemo(
+    () => Array.from(new Set(ENTITES.flatMap((s) => anneesDisponibles(all, s)))).sort((a, b) => b - a),
+    [all],
+  )
+  const [anneeToutes, setAnneeToutes] = useState(annee)
 
   const [secteurUnique, setSecteurUnique] = useState('GC')
   const anneesSecteurUnique = useMemo(() => anneesDisponibles(all, secteurUnique), [all, secteurUnique])
@@ -52,6 +62,15 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
   const panelTotalA = new Set(all.filter((r) => r.secteur === cellA.secteur).map((r) => r.nom)).size
   const panelTotalB = new Set(all.filter((r) => r.secteur === cellB.secteur).map((r) => r.nom)).size
 
+  const kpisToutes = useMemo(
+    () => ENTITES.map((s) => ({ secteur: s, kpis: computeKpis(all, s, anneeToutes) })),
+    [all, anneeToutes],
+  )
+  const panelToutes = useMemo(
+    () => ENTITES.map((s) => new Set(all.filter((r) => r.secteur === s).map((r) => r.nom)).size),
+    [all],
+  )
+
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-2">
@@ -66,6 +85,12 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
           onClick={() => setMode('annees')}
         >
           Même secteur, 2 années
+        </button>
+        <button
+          className={mode === 'toutes' ? 'btn-primary text-xs py-1' : 'btn-secondary text-xs py-1'}
+          onClick={() => setMode('toutes')}
+        >
+          Les 5 entités
         </button>
       </div>
 
@@ -119,6 +144,174 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
         </div>
       )}
 
+      {mode === 'toutes' && (
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="text-sm text-slate-500">Année</span>
+          <select className="input w-28" value={anneeToutes} onChange={(e) => setAnneeToutes(Number(e.target.value))}>
+            {anneesToutes.map((a) => (
+              <option key={a} value={a}>
+                {a}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
+      {mode === 'toutes' ? (
+        <div className="card overflow-x-auto">
+          <table className="w-full text-sm border-collapse">
+            <thead>
+              <tr className="text-left text-xs uppercase text-slate-500 border-b border-slate-200">
+                <th className="py-2 pr-3">Indicateur</th>
+                {ENTITES.map((s) => (
+                  <th key={s} className="py-2 pr-3">
+                    {s}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="bg-slate-50">
+                <td colSpan={ENTITES.length + 1} className="py-1 px-2 font-semibold text-xs uppercase text-slate-500">
+                  Périmètre
+                </td>
+              </tr>
+              <tr className="border-b border-slate-100">
+                <td className="py-1.5 pr-3 text-slate-600">Périmètre évalué</td>
+                {kpisToutes.map(({ secteur, kpis }) => (
+                  <td key={secteur} className="py-1.5 pr-3 font-medium">
+                    {fmtCurrency(kpis.perimetreEvalue)}
+                  </td>
+                ))}
+              </tr>
+              <tr className="border-b border-slate-100">
+                <td className="py-1.5 pr-3 text-slate-600">Top 10 (montant)</td>
+                {kpisToutes.map(({ secteur, kpis }) => (
+                  <td key={secteur} className="py-1.5 pr-3 font-medium">
+                    {fmtCurrency(kpis.top10Montant)}
+                  </td>
+                ))}
+              </tr>
+              <tr className="border-b border-slate-100">
+                <td className="py-1.5 pr-3 text-slate-600">Top 10 (% du périmètre)</td>
+                {kpisToutes.map(({ secteur, kpis }) => (
+                  <td key={secteur} className="py-1.5 pr-3 font-medium">
+                    {fmtPct(kpis.top10PctPerimetre)}
+                  </td>
+                ))}
+              </tr>
+              <tr className="border-b border-slate-100">
+                <td className="py-1.5 pr-3 text-slate-600">Fournisseurs évalués</td>
+                {kpisToutes.map(({ secteur, kpis }) => (
+                  <td key={secteur} className="py-1.5 pr-3 font-medium">
+                    {kpis.fournisseursEvalues}
+                  </td>
+                ))}
+              </tr>
+              <tr className="border-b border-slate-100">
+                <td className="py-1.5 pr-3 text-slate-600">% du panel fournisseur (secteur)</td>
+                {kpisToutes.map(({ kpis }, i) => (
+                  <td key={ENTITES[i]} className="py-1.5 pr-3 font-medium">
+                    {panelToutes[i] ? `${Math.round((kpis.fournisseursEvalues / panelToutes[i]) * 100)}%` : 'Non disponible'}
+                  </td>
+                ))}
+              </tr>
+              <tr className="border-b border-slate-100">
+                <td className="py-1.5 pr-3 text-slate-600">Nombre d'évaluateurs</td>
+                {ENTITES.map((s) => {
+                  const stat = findSecteurStat(secteurStats, s, anneeToutes)
+                  return (
+                    <td key={s} className="py-1.5 pr-3 font-medium">
+                      {stat?.nbEvaluateurs != null ? String(stat.nbEvaluateurs) : 'Non disponible'}
+                    </td>
+                  )
+                })}
+              </tr>
+
+              <tr className="bg-slate-50">
+                <td colSpan={ENTITES.length + 1} className="py-1 px-2 font-semibold text-xs uppercase text-slate-500">
+                  Évaluation
+                </td>
+              </tr>
+              <tr className="border-b border-slate-100">
+                <td className="py-1.5 pr-3 text-slate-600">Moyenne globale</td>
+                {kpisToutes.map(({ secteur, kpis }) => (
+                  <td key={secteur} className="py-1.5 pr-3 font-medium">
+                    {kpis.moyenneGlobale != null ? `${kpis.moyenneGlobale} / 5` : '—'}
+                  </td>
+                ))}
+              </tr>
+              <tr className="border-b border-slate-100">
+                <td className="py-1.5 pr-3 text-slate-600">Évolution vs année-1</td>
+                {kpisToutes.map(({ secteur, kpis }) => (
+                  <td key={secteur} className="py-1.5 pr-3 font-medium">
+                    {kpis.evolution != null ? `${kpis.evolution >= 0 ? '+' : ''}${kpis.evolution} pt` : 'Non disponible'}
+                  </td>
+                ))}
+              </tr>
+              <tr className="border-b border-slate-100">
+                <td className="py-1.5 pr-3 text-slate-600">Fournisseurs ≥ 3,5</td>
+                {kpisToutes.map(({ secteur, kpis }) => (
+                  <td key={secteur} className="py-1.5 pr-3 font-medium">
+                    {kpis.excellents}
+                  </td>
+                ))}
+              </tr>
+              <tr className="border-b border-slate-100">
+                <td className="py-1.5 pr-3 text-slate-600">Fournisseurs &lt; 3</td>
+                {kpisToutes.map(({ secteur, kpis }) => (
+                  <td key={secteur} className="py-1.5 pr-3 font-medium">
+                    {kpis.faibles}
+                  </td>
+                ))}
+              </tr>
+              <tr className="border-b border-slate-100">
+                <td className="py-1.5 pr-3 text-slate-600">dont &lt; 2</td>
+                {kpisToutes.map(({ secteur, kpis }) => (
+                  <td key={secteur} className="py-1.5 pr-3 font-medium">
+                    {kpis.tresFaibles}
+                  </td>
+                ))}
+              </tr>
+
+              <tr className="bg-slate-50">
+                <td colSpan={ENTITES.length + 1} className="py-1 px-2 font-semibold text-xs uppercase text-slate-500">
+                  Analyse détaillée
+                </td>
+              </tr>
+              <tr className="border-b border-slate-100">
+                <td className="py-1.5 pr-3 text-slate-600">À une seule évaluation</td>
+                {kpisToutes.map(({ secteur, kpis }) => (
+                  <td key={secteur} className="py-1.5 pr-3 font-medium">
+                    {kpis.uneEvaluation}
+                  </td>
+                ))}
+              </tr>
+              <tr className="border-b border-slate-100">
+                <td className="py-1.5 pr-3 text-slate-600">Non évalués l'année précédente</td>
+                {kpisToutes.map(({ secteur, kpis }) => (
+                  <td key={secteur} className="py-1.5 pr-3 font-medium">
+                    {kpis.nonEvaluesAnneePrecedente}
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                <td className="py-1.5 pr-3 text-slate-600">Jamais évalués avant</td>
+                {kpisToutes.map(({ secteur, kpis }) => (
+                  <td key={secteur} className="py-1.5 pr-3 font-medium">
+                    {kpis.jamaisEvaluesAvant}
+                  </td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+          <p className="text-xs text-slate-400 mt-3">
+            Vue synthétique des 5 entités pour l'année {anneeToutes}. Pour le détail des fournisseurs communs et des
+            plus grands écarts de notation entre deux entités précises, utilise le mode « 2 secteurs, même année ».
+          </p>
+        </div>
+      ) : (
+      <>
       <div className="card overflow-x-auto">
         <table className="w-full text-sm border-collapse">
           <thead>
@@ -243,6 +436,8 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
           </>
         )}
       </div>
+      </>
+      )}
     </div>
   )
 }
