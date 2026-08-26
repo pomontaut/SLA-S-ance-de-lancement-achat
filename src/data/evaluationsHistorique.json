@@ -69861,7 +69861,7 @@
     "categorie": "",
     "secteur": "GC",
     "annee": 2025,
-    "note": 3.4333,
+    "note": 3.4334,
     "ca": 667622.95,
     "caInduni": 1357870.25,
     "pctCa": 0.02513543763660484,
@@ -69869,12 +69869,12 @@
     "remarques": "[DallaPalma] Correct dans la globalité; [Chabut] Ne pas prendre de transports par Soreval car grosse usine à gaz et surcouts de transport importants en plus d'être presque inverifiables. Ne pas mettre de brique sur le haut des bennes. On a eu le sujet où la balance est trop zélée et nous envoie en type A au lieux du revalorisable.\nSinon système de bons par email informatique donc pratique.\nNe prends pas le grave quand il pleut même si c'est du tout venant drainant... Fait payer le frasa d'enrobés... ",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Respect de la qualité convenue": 3.3333,
       "Respect des délais de livraison convenus": 3.6667,
-      "Respect des quantités prévues": 3.6,
+      "Rapport Qualité/Prix": 3.1667,
+      "Respect de la qualité convenue": 3.3333,
       "Souplesse et façon de traiter nos réclamations": 3.1667,
-      "Compétence / assistance technique": 3.6667,
-      "Rapport Qualité/Prix": 3.1667
+      "Respect des quantités prévues": 3.6,
+      "Compétence / assistance technique": 3.6667
     }
   },
   {
@@ -69891,12 +69891,12 @@
     "remarques": "[DallaPalma] Correct dans la globalité; [Chabut] Probéton a été assez flexible l'été denie pour les coulages sur le tram de Carouge. Possibilité d'anticiper les horaires de coulage à 6h et de modifier au dernier moment. Attention a ne pas commander le vendredi car gros volume de coulage sur Genève et retards systématiques ; [Carraz] Béton qualitatif / plus cher mais joue le jeu pour s'adapter; [Bazot] Pas toujours de bon conseil et réactif",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Respect de la qualité convenue": 3.5714,
       "Respect des délais de livraison convenus": 3.5714,
-      "Respect des quantités prévues": 3.3333,
+      "Rapport Qualité/Prix": 3.2857,
+      "Respect de la qualité convenue": 3.5714,
       "Souplesse et façon de traiter nos réclamations": 3.5714,
-      "Compétence / assistance technique": 3.7143,
-      "Rapport Qualité/Prix": 3.2857
+      "Respect des quantités prévues": 3.3333,
+      "Compétence / assistance technique": 3.7143
     }
   },
   {
@@ -69913,12 +69913,12 @@
     "remarques": "[Mollat] Peu de flexibilié sur les rotations et modifications en cours de journée",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Respect de la qualité convenue": 3.6667,
       "Respect des délais de livraison convenus": 3.6667,
-      "Respect des quantités prévues": 3.3333,
+      "Rapport Qualité/Prix": 3.6667,
+      "Respect de la qualité convenue": 3.6667,
       "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Compétence / assistance technique": 3.6667,
-      "Rapport Qualité/Prix": 3.6667
+      "Respect des quantités prévues": 3.3333,
+      "Compétence / assistance technique": 3.6667
     }
   },
   {
@@ -69935,12 +69935,12 @@
     "remarques": "[DallaPalma] Correct dans la globalité; [Mollat] Attention qualité des matériaux et bons de décharge; [Chabut] Uniquement de la mise en décharge ponctuelle de l'ordre de 4 bennes par mois. Dommage qu'il n'y ait pas de balance…; [Bazot] Bonne relation avec M-Paulme / bon partenariat",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Respect de la qualité convenue": 3.1429,
       "Respect des délais de livraison convenus": 3.5714,
-      "Respect des quantités prévues": 3.5,
+      "Rapport Qualité/Prix": 3.1429,
+      "Respect de la qualité convenue": 3.1429,
       "Souplesse et façon de traiter nos réclamations": 3.5714,
-      "Compétence / assistance technique": 3.5714,
-      "Rapport Qualité/Prix": 3.1429
+      "Respect des quantités prévues": 3.5,
+      "Compétence / assistance technique": 3.5714
     }
   },
   {
@@ -69951,18 +69951,18 @@
     "annee": 2025,
     "note": 2.8889,
     "ca": null,
-    "caInduni": "chiffre indisponible",
+    "caInduni": null,
     "pctCa": null,
     "nbEvaluateurs": 3,
     "remarques": "[Granzotto] Prix très élevé; [Mollat] Aucun effort commercial, pas agréables, prix +++++; [Carraz] ACO - Meilleur qualité de fourniture mais de la difficulté pour les reprises et livraisons",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Respect de la qualité convenue": 4.0,
       "Respect des délais de livraison convenus": 2.6667,
-      "Respect des quantités prévues": 3.6667,
+      "Rapport Qualité/Prix": 2.0,
+      "Respect de la qualité convenue": 4.0,
       "Souplesse et façon de traiter nos réclamations": 2.0,
-      "Compétence / assistance technique": 3.0,
-      "Rapport Qualité/Prix": 2.0
+      "Respect des quantités prévues": 3.6667,
+      "Compétence / assistance technique": 3.0
     }
   },
   {
@@ -69973,18 +69973,18 @@
     "annee": 2025,
     "note": 3.425,
     "ca": null,
-    "caInduni": "chiffre indisponible",
+    "caInduni": null,
     "pctCa": null,
     "nbEvaluateurs": 5,
     "remarques": "[Mollat] Commercial 0; [Chabut] Très réactif. On a fait presque que du CAN PLAST a Carouge. Avant les hausse et le monopole, effeorts sur les prix",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Respect de la qualité convenue": 3.8,
       "Respect des délais de livraison convenus": 3.2,
-      "Respect des quantités prévues": 3.75,
+      "Rapport Qualité/Prix": 3.2,
+      "Respect de la qualité convenue": 3.8,
       "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Compétence / assistance technique": 3.6,
-      "Rapport Qualité/Prix": 3.2
+      "Respect des quantités prévues": 3.75,
+      "Compétence / assistance technique": 3.6
     }
   },
   {
@@ -69995,23 +69995,23 @@
     "annee": 2025,
     "note": 3.4833,
     "ca": null,
-    "caInduni": "chiffre indisponible",
+    "caInduni": null,
     "pctCa": null,
     "nbEvaluateurs": 6,
     "remarques": "[DallaPalma] Quelques soucies en terme de compétence; [Chabut] Utilisation pour les selles de piquage à Carouge. Pas trop bossé avec eux.",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Respect de la qualité convenue": 3.8333,
       "Respect des délais de livraison convenus": 3.3333,
-      "Respect des quantités prévues": 3.4,
+      "Rapport Qualité/Prix": 3.1667,
+      "Respect de la qualité convenue": 3.8333,
       "Souplesse et façon de traiter nos réclamations": 3.6667,
-      "Compétence / assistance technique": 3.5,
-      "Rapport Qualité/Prix": 3.1667
+      "Respect des quantités prévues": 3.4,
+      "Compétence / assistance technique": 3.5
     }
   },
   {
     "nom": "HG COMMERCIALE",
-    "type": "Fournisseur",
+    "type": "Marchand",
     "categorie": "",
     "secteur": "GC",
     "annee": 2025,
@@ -70021,19 +70021,19 @@
     "pctCa": 0.02526694047566844,
     "nbEvaluateurs": 7,
     "remarques": "[DallaPalma] Correct - quelques manques de réactivité/compétence selon certaines demandes ainsi que de stock; [Mollat] Mauvais techniquement; [Chabut] Intérêt de la livraison moins cher le mardi et jeudi. Interet du shop pour avoir les tendances de prix. Assez grand stock et bonne proximité géographique pour Carouge. Pas forcément intéressant sur les fontes. Tendance à appliqer parfois des prix plus élevés que ceux du shop ou alors des prix différents... Bonne relation commerciale avec Evann, Anthony; [Bazot] PRO ET HGC même combat pour moi",
-    "famille": "FOURNISSEURS",
+    "famille": "MARCHANDS",
     "criteres": {
-      "Respect de la qualité convenue": 3.2857,
       "Respect des délais de livraison convenus": 3.2857,
-      "Respect des quantités prévues": 3.3333,
+      "Rapport Qualité/Prix": 3.2857,
+      "Respect de la qualité convenue": 3.2857,
       "Souplesse et façon de traiter nos réclamations": 3.2857,
-      "Compétence / assistance technique": 3.1429,
-      "Rapport Qualité/Prix": 3.2857
+      "Respect des quantités prévues": 3.3333,
+      "Compétence / assistance technique": 3.1429
     }
   },
   {
     "nom": "JEROME SA",
-    "type": "Fournisseur",
+    "type": "Marchand",
     "categorie": "",
     "secteur": "GC",
     "annee": 2025,
@@ -70043,14 +70043,14 @@
     "pctCa": 0.015708850596171924,
     "nbEvaluateurs": 4,
     "remarques": "[Chabut] pas sollicité depuis mon arrivé en juin dernier",
-    "famille": "FOURNISSEURS",
+    "famille": "MARCHANDS",
     "criteres": {
-      "Respect de la qualité convenue": 3.5,
       "Respect des délais de livraison convenus": 3.25,
-      "Respect des quantités prévues": 3.6667,
+      "Rapport Qualité/Prix": 3.0,
+      "Respect de la qualité convenue": 3.5,
       "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Compétence / assistance technique": 3.5,
-      "Rapport Qualité/Prix": 3.0
+      "Respect des quantités prévues": 3.6667,
+      "Compétence / assistance technique": 3.5
     }
   },
   {
@@ -70067,17 +70067,17 @@
     "remarques": "[DallaPalma] Sous-traitant pieux sécant - correct dans l'ensemble",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Respect de la qualité convenue": 3.0,
-      "Respect des délais de livraison convenus": 3.5,
-      "Respect des quantités prévues": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Compétence / assistance technique": 3.5,
-      "Rapport Qualité/Prix": 3.5
+      "Rapport qualité / Prix": 3.0,
+      "Gestion des litiges (y.c. levée de réserves)": 3.0,
+      "Tenue des chantiers, ordre, propreté": 3.5,
+      "Respect des règles de sécurité": 3.5,
+      "Qualité des prestations / Compétence": 3.5,
+      "Respect des délais / Réactivité": 3.5
     }
   },
   {
     "nom": "TRANSPORTS SILVA",
-    "type": "Sous-traitant",
+    "type": "Transporteur",
     "categorie": "",
     "secteur": "GC",
     "annee": 2025,
@@ -70087,18 +70087,18 @@
     "pctCa": 0.007526223525412632,
     "nbEvaluateurs": 3,
     "remarques": "[DallaPalma] Transporteur en régie - Prix très correct",
-    "famille": "SOUS-TRAITANTS",
+    "famille": "TRANSPORTEURS",
     "criteres": {
-      "Respect de la qualité convenue": 3.6667,
-      "Respect des délais de livraison convenus": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 3.6667,
-      "Compétence / assistance technique": 3.3333,
-      "Rapport Qualité/Prix": 4.0
+      "Rapport qualité / Prix": 4.0,
+      "Vérité des quantités annoncées": 3.6667,
+      "Ponctualité": 4.0,
+      "Qualité du matériel roulant": 3.3333,
+      "Souplesse et façon de traiter nos réclamations": 3.6667
     }
   },
   {
     "nom": "GH SA",
-    "type": "Sous-traitant",
+    "type": "Location",
     "categorie": "",
     "secteur": "GC",
     "annee": 2025,
@@ -70108,19 +70108,19 @@
     "pctCa": 0.0020596815472642906,
     "nbEvaluateurs": 1,
     "remarques": "",
-    "famille": "SOUS-TRAITANTS",
+    "famille": "LEVAGE / MACHINES /LOCATION",
     "criteres": {
-      "Respect de la qualité convenue": 4.0,
       "Respect des délais de livraison convenus": 4.0,
-      "Respect des quantités prévues": 4.0,
+      "Rapport qualité / Prix": 4.0,
+      "Qualité du SAV": 4.0,
+      "Qualité des machines": 4.0,
       "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Compétence / assistance technique": 4.0,
-      "Rapport Qualité/Prix": 4.0
+      "Compétence / assistance technique": 4.0
     }
   },
   {
     "nom": "PLACE TO WORK SA",
-    "type": "Sous-traitant",
+    "type": "Intérimaire",
     "categorie": "",
     "secteur": "GC",
     "annee": 2025,
@@ -70130,17 +70130,17 @@
     "pctCa": 0.019943870001868008,
     "nbEvaluateurs": 3,
     "remarques": "",
-    "famille": "SOUS-TRAITANTS",
+    "famille": "INTERIMAIRES",
     "criteres": {
-      "Respect des délais de livraison convenus": 2.6667,
-      "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Respect de la qualité convenue": 3.0,
-      "Rapport Qualité/Prix": 3.3333
+      "Equipement du personnel": 3.0,
+      "Rapport qualité / prix": 3.0,
+      "Qualité du personnel": 2.6667,
+      "Réactivité commerciale": 3.3333
     }
   },
   {
     "nom": "NEO PRO CONSEILS",
-    "type": "Sous-traitant",
+    "type": "Intérimaire",
     "categorie": "",
     "secteur": "GC",
     "annee": 2025,
@@ -70150,12 +70150,12 @@
     "pctCa": 0.005961462665035681,
     "nbEvaluateurs": 3,
     "remarques": "[Granzotto] certains personnels non qualifiés ou motivés",
-    "famille": "SOUS-TRAITANTS",
+    "famille": "INTERIMAIRES",
     "criteres": {
-      "Respect des délais de livraison convenus": 2.0,
-      "Souplesse et façon de traiter nos réclamations": 2.6667,
-      "Respect de la qualité convenue": 2.6667,
-      "Rapport Qualité/Prix": 3.3333
+      "Equipement du personnel": 2.6667,
+      "Rapport qualité / prix": 2.6667,
+      "Qualité du personnel": 2.0,
+      "Réactivité commerciale": 3.3333
     }
   },
   {
@@ -70172,9 +70172,9 @@
     "remarques": "[DallaPalma] Uniquement de la décharge en type B Pfas - aucun soucie lors de l'amené de camion à la décharge",
     "famille": "FOURNISSEURS",
     "criteres": {
+      "Rapport Qualité/Prix": 3.0,
       "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Compétence / assistance technique": 4.0,
-      "Rapport Qualité/Prix": 3.0
+      "Compétence / assistance technique": 4.0
     }
   },
   {
@@ -70191,12 +70191,12 @@
     "remarques": "[DallaPalma] Fournisseur de pierre en Grès - prix un peu élevé mais correct dans l'ensemble",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Respect de la qualité convenue": 4.0,
       "Respect des délais de livraison convenus": 3.0,
-      "Respect des quantités prévues": 4.0,
+      "Rapport Qualité/Prix": 3.0,
+      "Respect de la qualité convenue": 4.0,
       "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Compétence / assistance technique": 4.0,
-      "Rapport Qualité/Prix": 3.0
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0
     }
   },
   {
@@ -70213,12 +70213,12 @@
     "remarques": "[DallaPalma] Sous-traitant pour la pose de pierre en pierre sèche - compliqué en terme de respect des délais, phasage et coût supplémentaires; [Chabut] Probéton a été assez flexible l'été denie pour les coulages sur le tram de Carouge. Possibilité d'anticiper les horaires de coulage à 6h et de modifier au dernier moment. Attention a ne pas commander le vendredi car gros volume de coulage sur Genève et retards systématiques ",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Respect de la qualité convenue": 2.5,
       "Respect des délais de livraison convenus": 3.0,
-      "Respect des quantités prévues": 3.0,
+      "Rapport Qualité/Prix": 2.5,
+      "Respect de la qualité convenue": 2.5,
       "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Compétence / assistance technique": 3.5,
-      "Rapport Qualité/Prix": 2.5
+      "Respect des quantités prévues": 3.0,
+      "Compétence / assistance technique": 3.5
     }
   },
   {
@@ -70235,12 +70235,12 @@
     "remarques": "[DallaPalma] Fournisseur de tuyau",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Respect de la qualité convenue": 4.0,
       "Respect des délais de livraison convenus": 3.0,
-      "Respect des quantités prévues": 4.0,
+      "Rapport Qualité/Prix": 3.0,
+      "Respect de la qualité convenue": 4.0,
       "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Compétence / assistance technique": 4.0,
-      "Rapport Qualité/Prix": 3.0
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0
     }
   },
   {
@@ -70257,12 +70257,12 @@
     "remarques": "[DallaPalma] Fournisseur d'éléments béton - très bien en terme de livraison, fabrication, qualité/prix et en relation client; [Chabut] Ne pas prendre de transports par Soreval car grosse usine à gaz et surcouts de transport importants en plus d'être presque inverifiables. Ne pas mettre de brique sur le haut des bennes. On a eu le sujet où la balance est trop zélée et nous envoie en type A au lieux du revalorisable.\nSinon système de bons par email informatique donc pratique.\nNe prends pas le grave quand il pleut même si c'est du tout venant drainant... Fait payer le frasa d'enrobés... ",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Respect de la qualité convenue": 3.0,
       "Respect des délais de livraison convenus": 3.5,
-      "Respect des quantités prévues": 4.0,
+      "Rapport Qualité/Prix": 2.5,
+      "Respect de la qualité convenue": 3.0,
       "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Compétence / assistance technique": 3.5,
-      "Rapport Qualité/Prix": 2.5
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 3.5
     }
   },
   {
@@ -70279,9 +70279,9 @@
     "remarques": "[DallaPalma] Uniquement de la décharge type E et S Pfas - correct",
     "famille": "FOURNISSEURS",
     "criteres": {
+      "Rapport Qualité/Prix": 3.0,
       "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Compétence / assistance technique": 4.0,
-      "Rapport Qualité/Prix": 3.0
+      "Compétence / assistance technique": 4.0
     }
   },
   {
@@ -70298,12 +70298,12 @@
     "remarques": "[DallaPalma] Fournisseur de pierre en calcaire de Turquie - très compliqué en terme de délais (dépassement de plusieurs semaines/mois)",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Respect de la qualité convenue": 3.0,
       "Respect des délais de livraison convenus": 2.0,
-      "Respect des quantités prévues": 3.0,
+      "Rapport Qualité/Prix": 3.0,
+      "Respect de la qualité convenue": 3.0,
       "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Compétence / assistance technique": 3.0,
-      "Rapport Qualité/Prix": 3.0
+      "Respect des quantités prévues": 3.0,
+      "Compétence / assistance technique": 3.0
     }
   },
   {
@@ -70320,12 +70320,12 @@
     "remarques": "[DallaPalma] Agents de circulation / marquage - rapport qualité/prix correct; [Chabut] Prix exhorbitant mais pas de mise en concurrence jusqu'à présent su Carouge et service assez reactif pour les correction de barrierages et signalisation; [Bazot] Super partenaire Marquage Installation et Circulation ",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Respect de la qualité convenue": 3.0,
       "Respect des délais de livraison convenus": 4.0,
-      "Respect des quantités prévues": 3.5,
+      "Rapport Qualité/Prix": 3.0,
+      "Respect de la qualité convenue": 3.0,
       "Souplesse et façon de traiter nos réclamations": 3.8,
-      "Compétence / assistance technique": 3.2,
-      "Rapport Qualité/Prix": 3.0
+      "Respect des quantités prévues": 3.5,
+      "Compétence / assistance technique": 3.2
     }
   },
   {
@@ -70342,12 +70342,12 @@
     "remarques": "[DallaPalma] Fournisseur de dalle gazon",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Respect de la qualité convenue": 3.0,
       "Respect des délais de livraison convenus": 4.0,
-      "Respect des quantités prévues": 4.0,
+      "Rapport Qualité/Prix": 4.0,
+      "Respect de la qualité convenue": 3.0,
       "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Compétence / assistance technique": 3.0,
-      "Rapport Qualité/Prix": 4.0
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 3.0
     }
   },
   {
@@ -70356,7 +70356,7 @@
     "categorie": "",
     "secteur": "GC",
     "annee": 2025,
-    "note": 3.4445,
+    "note": 3.4444,
     "ca": 93283.45,
     "caInduni": 93705.05,
     "pctCa": 0.0035120427480845972,
@@ -70364,12 +70364,12 @@
     "remarques": "[DallaPalma] Correct dans la globalité - idem gravières d'épeisses; [Mollat] Idem GESA",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Respect de la qualité convenue": 2.6667,
       "Respect des délais de livraison convenus": 3.6667,
-      "Respect des quantités prévues": 3.3333,
+      "Rapport Qualité/Prix": 3.3333,
+      "Respect de la qualité convenue": 2.6667,
       "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Compétence / assistance technique": 3.6667,
-      "Rapport Qualité/Prix": 3.3333
+      "Respect des quantités prévues": 3.3333,
+      "Compétence / assistance technique": 3.6667
     }
   },
   {
@@ -70386,12 +70386,12 @@
     "remarques": "[DallaPalma] Correct dans la globalité",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Respect de la qualité convenue": 3.0,
       "Respect des délais de livraison convenus": 3.0,
-      "Respect des quantités prévues": 3.0,
+      "Rapport Qualité/Prix": 3.0,
+      "Respect de la qualité convenue": 3.0,
       "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Compétence / assistance technique": 3.0,
-      "Rapport Qualité/Prix": 3.0
+      "Respect des quantités prévues": 3.0,
+      "Compétence / assistance technique": 3.0
     }
   },
   {
@@ -70408,17 +70408,17 @@
     "remarques": "[DallaPalma] Correct pour la prestation curage et inspection caméra; [Mollat] Planning compliqué, prix +++, victime de son monopole; [Chabut] Très réactif et autonome.; [Bazot] un peu plus cher que les autres mais très pro et réactif",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Respect de la qualité convenue": 3.4,
       "Respect des délais de livraison convenus": 3.2,
-      "Respect des quantités prévues": 3.25,
+      "Rapport Qualité/Prix": 2.8,
+      "Respect de la qualité convenue": 3.4,
       "Souplesse et façon de traiter nos réclamations": 3.4,
-      "Compétence / assistance technique": 3.8,
-      "Rapport Qualité/Prix": 2.8
+      "Respect des quantités prévues": 3.25,
+      "Compétence / assistance technique": 3.8
     }
   },
   {
     "nom": "PROMATERIAU SA",
-    "type": "Fournisseur",
+    "type": "Marchand",
     "categorie": "",
     "secteur": "GC",
     "annee": 2025,
@@ -70428,14 +70428,14 @@
     "pctCa": 0.005091599725028819,
     "nbEvaluateurs": 5,
     "remarques": "[DallaPalma] Très bien - Bonne compétence/arrangent et avec du stock; [Mollat] Délais de réponse +++, fonctionne parfois à la tete du client; [Chabut] Très bonne relation de conseille avec Karl. Bonne reactivité; [Carraz] Super contact avec Pro matériau / difficulté au niveau des prix ",
-    "famille": "FOURNISSEURS",
+    "famille": "MARCHANDS",
     "criteres": {
-      "Respect de la qualité convenue": 3.4,
       "Respect des délais de livraison convenus": 3.6,
-      "Respect des quantités prévues": 3.5,
+      "Rapport Qualité/Prix": 3.0,
+      "Respect de la qualité convenue": 3.4,
       "Souplesse et façon de traiter nos réclamations": 3.2,
-      "Compétence / assistance technique": 3.6,
-      "Rapport Qualité/Prix": 3.0
+      "Respect des quantités prévues": 3.5,
+      "Compétence / assistance technique": 3.6
     }
   },
   {
@@ -70444,7 +70444,7 @@
     "categorie": "",
     "secteur": "GC",
     "annee": 2025,
-    "note": 2.7417,
+    "note": 2.6667,
     "ca": 1370680.25,
     "caInduni": 1640787.75,
     "pctCa": 0.051604948487167686,
@@ -70452,12 +70452,12 @@
     "remarques": "[DallaPalma] Sous-traitant marquage et enrobé - enrobé de mauvaise finition dû à leur matériel vieillissant; [Chabut] Vraimenet mauvais en enrobés. Zero organisation, que des interimaires et finition equivalante à la Mediterrannée",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Respect de la qualité convenue": 2.6,
-      "Respect des délais de livraison convenus": 2.8,
-      "Respect des quantités prévues": 3.25,
-      "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Compétence / assistance technique": 2.6,
-      "Rapport Qualité/Prix": 2.2
+      "Rapport qualité / Prix": 2.6,
+      "Gestion des litiges (y.c. levée de réserves)": 3.0,
+      "Tenue des chantiers, ordre, propreté": 2.8,
+      "Respect des règles de sécurité": 2.6,
+      "Qualité des prestations / Compétence": 2.2,
+      "Respect des délais / Réactivité": 2.8
     }
   },
   {
@@ -70474,12 +70474,12 @@
     "remarques": "[DallaPalma] Sous-traitant enrobé - bon poseur d'enrobé - manquement sur la sécurité; [Bazot] Super partenaire réactif competitif vraie collaboration",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Respect de la qualité convenue": 3.3333,
-      "Respect des délais de livraison convenus": 3.6667,
-      "Respect des quantités prévues": 3.3333,
-      "Souplesse et façon de traiter nos réclamations": 3.6667,
-      "Compétence / assistance technique": 2.6667,
-      "Rapport Qualité/Prix": 3.6667
+      "Rapport qualité / Prix": 3.3333,
+      "Gestion des litiges (y.c. levée de réserves)": 3.6667,
+      "Tenue des chantiers, ordre, propreté": 3.3333,
+      "Respect des règles de sécurité": 2.6667,
+      "Qualité des prestations / Compétence": 3.6667,
+      "Respect des délais / Réactivité": 3.6667
     }
   },
   {
@@ -70496,17 +70496,17 @@
     "remarques": "[DallaPalma] Sous-traitant béton désactivé - correct dans l'ensemble",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Respect de la qualité convenue": 3.0,
-      "Respect des délais de livraison convenus": 3.0,
-      "Respect des quantités prévues": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Compétence / assistance technique": 3.0,
-      "Rapport Qualité/Prix": 3.0
+      "Rapport qualité / Prix": 3.0,
+      "Gestion des litiges (y.c. levée de réserves)": 3.0,
+      "Tenue des chantiers, ordre, propreté": 3.0,
+      "Respect des règles de sécurité": 3.0,
+      "Qualité des prestations / Compétence": 3.0,
+      "Respect des délais / Réactivité": 3.0
     }
   },
   {
     "nom": "DUCRET M. S.A.",
-    "type": "Sous-traitant",
+    "type": "Transporteur",
     "categorie": "",
     "secteur": "GC",
     "annee": 2025,
@@ -70516,13 +70516,13 @@
     "pctCa": 0.007124011991810476,
     "nbEvaluateurs": 1,
     "remarques": "[DallaPalma] Transporteur des déblais pollués - Prix correct et disponibilité",
-    "famille": "SOUS-TRAITANTS",
+    "famille": "TRANSPORTEURS",
     "criteres": {
-      "Respect de la qualité convenue": 4.0,
-      "Respect des délais de livraison convenus": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Compétence / assistance technique": 3.0,
-      "Rapport Qualité/Prix": 3.0
+      "Rapport qualité / Prix": 3.0,
+      "Vérité des quantités annoncées": 3.0,
+      "Ponctualité": 4.0,
+      "Qualité du matériel roulant": 3.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
@@ -70539,12 +70539,12 @@
     "remarques": "[Chabut] Uniquement de la mise en décharge ponctuelle de l'ordre de 4 bennes par mois. Dommage qu'il n'y ait pas de balance…",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Respect de la qualité convenue": 3.75,
       "Respect des délais de livraison convenus": 3.75,
-      "Respect des quantités prévues": 3.6667,
+      "Rapport Qualité/Prix": 3.0,
+      "Respect de la qualité convenue": 3.75,
       "Souplesse et façon de traiter nos réclamations": 3.75,
-      "Compétence / assistance technique": 3.75,
-      "Rapport Qualité/Prix": 3.0
+      "Respect des quantités prévues": 3.6667,
+      "Compétence / assistance technique": 3.75
     }
   },
   {
@@ -70553,7 +70553,7 @@
     "categorie": "",
     "secteur": "GC",
     "annee": 2025,
-    "note": 3.2917,
+    "note": 3.3333,
     "ca": 293984.4,
     "caInduni": 293984.4,
     "pctCa": 0.011068263235011158,
@@ -70561,17 +70561,17 @@
     "remarques": "[Chabut] Souplesse suivant leur planning à eux et  zero en securité; [Carraz] On n epeux pas mieux faire au niveau de l'organisation; [Bazot] Franck au top avec expérience réactivité et qualité au rdv",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Respect de la qualité convenue": 3.75,
-      "Respect des délais de livraison convenus": 3.25,
-      "Respect des quantités prévues": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 3.25,
-      "Compétence / assistance technique": 3.25,
-      "Rapport Qualité/Prix": 3.25
+      "Rapport qualité / Prix": 3.75,
+      "Gestion des litiges (y.c. levée de réserves)": 3.25,
+      "Tenue des chantiers, ordre, propreté": 3.25,
+      "Respect des règles de sécurité": 3.25,
+      "Qualité des prestations / Compétence": 3.25,
+      "Respect des délais / Réactivité": 3.25
     }
   },
   {
     "nom": "SGT & T SARL",
-    "type": "Sous-traitant",
+    "type": "Transporteur",
     "categorie": "",
     "secteur": "GC",
     "annee": 2025,
@@ -70581,13 +70581,13 @@
     "pctCa": 0.029356208720889006,
     "nbEvaluateurs": 4,
     "remarques": "[Bazot] un peu long à recevoir les factures mais pas de sujet particuliers",
-    "famille": "SOUS-TRAITANTS",
+    "famille": "TRANSPORTEURS",
     "criteres": {
-      "Respect de la qualité convenue": 3.0,
-      "Respect des délais de livraison convenus": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Compétence / assistance technique": 3.5,
-      "Rapport Qualité/Prix": 3.5
+      "Rapport qualité / Prix": 3.5,
+      "Vérité des quantités annoncées": 3.5,
+      "Ponctualité": 3.5,
+      "Qualité du matériel roulant": 3.5,
+      "Souplesse et façon de traiter nos réclamations": 3.0
     }
   },
   {
@@ -70604,12 +70604,12 @@
     "remarques": "[Chabut] Presque toujours disponible car hors de prix. Problème récurent de paiement qui bloque la livraison….; [Carraz] De gros soucis avec Maulini vis-à-vis des paiments de factures / si facture non payées pas de livraison ; [Bazot] Compliqué la facturation et souvent des litiges dommage",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Respect de la qualité convenue": 3.0,
       "Respect des délais de livraison convenus": 2.6667,
-      "Respect des quantités prévues": 3.0,
+      "Rapport Qualité/Prix": 2.0,
+      "Respect de la qualité convenue": 3.0,
       "Souplesse et façon de traiter nos réclamations": 1.3333,
-      "Compétence / assistance technique": 3.0,
-      "Rapport Qualité/Prix": 2.0
+      "Respect des quantités prévues": 3.0,
+      "Compétence / assistance technique": 3.0
     }
   },
   {
@@ -70618,7 +70618,7 @@
     "categorie": "",
     "secteur": "GC",
     "annee": 2025,
-    "note": 2.0,
+    "note": 1.8333,
     "ca": 1007632.85,
     "caInduni": 1007632.85,
     "pctCa": 0.03793652189723166,
@@ -70626,12 +70626,12 @@
     "remarques": "[Chabut] Catastrophique lors de leur intervention de septembre dernier sur le tram de Carouge. Génération de 1 semaine de retard en raison de leur manque d'organisation et d'efficience dans le travail. Gros ecarts d'aligenement des pieux qui a nécessité des reprise ultérieures du serrurier pour pouvoir mettre les liernes.; [Carraz] Très bon contact / Faire attention au plus value - GREUTER joue le même jeu que nous - onéreux sur les travaux sup",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Respect de la qualité convenue": 2.0,
-      "Respect des délais de livraison convenus": 1.5,
-      "Respect des quantités prévues": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 2.0,
-      "Compétence / assistance technique": 1.5,
-      "Rapport Qualité/Prix": 2.0
+      "Rapport qualité / Prix": 2.0,
+      "Gestion des litiges (y.c. levée de réserves)": 2.0,
+      "Tenue des chantiers, ordre, propreté": 2.0,
+      "Respect des règles de sécurité": 1.5,
+      "Qualité des prestations / Compétence": 2.0,
+      "Respect des délais / Réactivité": 1.5
     }
   },
   {
@@ -70640,7 +70640,7 @@
     "categorie": "",
     "secteur": "GC",
     "annee": 2025,
-    "note": 2.7222,
+    "note": 2.8055,
     "ca": 292418.5,
     "caInduni": 1191307.2,
     "pctCa": 0.011009308428566652,
@@ -70648,12 +70648,12 @@
     "remarques": "[Chabut] Souplesse suivant leur planning à eux et  zero en securité; [Bazot] Peu mieux faire difficile d'être précis et réactif toujours des petites suprises",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Respect de la qualité convenue": 3.3333,
-      "Respect des délais de livraison convenus": 2.3333,
-      "Respect des quantités prévues": 2.5,
-      "Souplesse et façon de traiter nos réclamations": 2.3333,
-      "Compétence / assistance technique": 2.8333,
-      "Rapport Qualité/Prix": 3.0
+      "Rapport qualité / Prix": 3.3333,
+      "Gestion des litiges (y.c. levée de réserves)": 2.3333,
+      "Tenue des chantiers, ordre, propreté": 3.0,
+      "Respect des règles de sécurité": 2.8333,
+      "Qualité des prestations / Compétence": 3.0,
+      "Respect des délais / Réactivité": 2.3333
     }
   },
   {
@@ -70662,7 +70662,7 @@
     "categorie": "",
     "secteur": "GC",
     "annee": 2025,
-    "note": 1.4,
+    "note": 1.3333,
     "ca": 63848,
     "caInduni": 63848,
     "pctCa": 0.0024038230294838514,
@@ -70670,11 +70670,12 @@
     "remarques": "[Chabut] Vraimenet mauvais en enrobés. Zero organisation, que des interimaires et finition equivalante à la Mediterrannée",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Respect de la qualité convenue": 1.0,
-      "Respect des délais de livraison convenus": 2.0,
-      "Souplesse et façon de traiter nos réclamations": 2.0,
-      "Compétence / assistance technique": 1.0,
-      "Rapport Qualité/Prix": 1.0
+      "Rapport qualité / Prix": 1.0,
+      "Gestion des litiges (y.c. levée de réserves)": 2.0,
+      "Tenue des chantiers, ordre, propreté": 1.0,
+      "Respect des règles de sécurité": 1.0,
+      "Qualité des prestations / Compétence": 1.0,
+      "Respect des délais / Réactivité": 2.0
     }
   },
   {
@@ -70691,12 +70692,12 @@
     "remarques": "[Carraz] Descombes - Petit plus sur l'assurance prise en charge ",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Respect de la qualité convenue": 3.0,
       "Respect des délais de livraison convenus": 4.0,
-      "Respect des quantités prévues": 3.0,
+      "Rapport Qualité/Prix": 3.0,
+      "Respect de la qualité convenue": 3.0,
       "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Compétence / assistance technique": 4.0,
-      "Rapport Qualité/Prix": 3.0
+      "Respect des quantités prévues": 3.0,
+      "Compétence / assistance technique": 4.0
     }
   },
   {
@@ -70713,17 +70714,17 @@
     "remarques": "[Bazot] Très médiocre pas de répondant et pas de réactivité on court après les infos et les réponses",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Respect de la qualité convenue": 2.5,
-      "Respect des délais de livraison convenus": 2.0,
-      "Respect des quantités prévues": 2.0,
-      "Souplesse et façon de traiter nos réclamations": 2.0,
-      "Compétence / assistance technique": 2.5,
-      "Rapport Qualité/Prix": 2.5
+      "Rapport qualité / Prix": 2.5,
+      "Gestion des litiges (y.c. levée de réserves)": 2.0,
+      "Tenue des chantiers, ordre, propreté": 2.0,
+      "Respect des règles de sécurité": 2.5,
+      "Qualité des prestations / Compétence": 2.5,
+      "Respect des délais / Réactivité": 2.0
     }
   },
   {
     "nom": "CHAVAZ",
-    "type": "Sous-traitant",
+    "type": "Transporteur",
     "categorie": "",
     "secteur": "GC",
     "annee": 2025,
@@ -70733,18 +70734,18 @@
     "pctCa": 0.03266639177791233,
     "nbEvaluateurs": 2,
     "remarques": "[Bazot] bonne relation avec les frès Chavaz réactif ",
-    "famille": "SOUS-TRAITANTS",
+    "famille": "TRANSPORTEURS",
     "criteres": {
-      "Respect de la qualité convenue": 3.0,
-      "Respect des délais de livraison convenus": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Compétence / assistance technique": 3.5,
-      "Rapport Qualité/Prix": 3.0
+      "Rapport qualité / Prix": 3.0,
+      "Vérité des quantités annoncées": 3.5,
+      "Ponctualité": 3.0,
+      "Qualité du matériel roulant": 3.5,
+      "Souplesse et façon de traiter nos réclamations": 3.0
     }
   },
   {
     "nom": "MAURY SA",
-    "type": "Sous-traitant",
+    "type": "Transporteur",
     "categorie": "",
     "secteur": "GC",
     "annee": 2025,
@@ -70754,18 +70755,18 @@
     "pctCa": 0.005441622004723717,
     "nbEvaluateurs": 1,
     "remarques": "",
-    "famille": "SOUS-TRAITANTS",
+    "famille": "TRANSPORTEURS",
     "criteres": {
-      "Respect de la qualité convenue": 4.0,
-      "Respect des délais de livraison convenus": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Compétence / assistance technique": 4.0,
-      "Rapport Qualité/Prix": 3.0
+      "Rapport qualité / Prix": 3.0,
+      "Vérité des quantités annoncées": 4.0,
+      "Ponctualité": 3.0,
+      "Qualité du matériel roulant": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
     "nom": "GROUPE MORGAN SE",
-    "type": "Sous-traitant",
+    "type": "Intérimaire",
     "categorie": "",
     "secteur": "GC",
     "annee": 2025,
@@ -70775,12 +70776,12 @@
     "pctCa": 0.020204921689028692,
     "nbEvaluateurs": 2,
     "remarques": "[Bazot] voir avec les RH nous n'avons pas la main sur les tarifs horaires, nous visons des factures en vérifiant les quantités trop souvent aucun suivi sur les profils et les gars sans documents sans équipements",
-    "famille": "SOUS-TRAITANTS",
+    "famille": "INTERIMAIRES",
     "criteres": {
-      "Respect des délais de livraison convenus": 2.0,
-      "Souplesse et façon de traiter nos réclamations": 2.5,
-      "Respect de la qualité convenue": 2.5,
-      "Rapport Qualité/Prix": 3.0
+      "Equipement du personnel": 2.5,
+      "Rapport qualité / prix": 2.5,
+      "Qualité du personnel": 2.0,
+      "Réactivité commerciale": 3.0
     }
   },
   {
@@ -70797,12 +70798,12 @@
     "remarques": "[Bazot] Travaux spéciaux donc difficile mais Allan est un super partenaire attention prix parfois",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Respect de la qualité convenue": 2.0,
-      "Respect des délais de livraison convenus": 4.0,
-      "Respect des quantités prévues": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Compétence / assistance technique": 3.0,
-      "Rapport Qualité/Prix": 3.0
+      "Rapport qualité / Prix": 2.0,
+      "Gestion des litiges (y.c. levée de réserves)": 3.0,
+      "Tenue des chantiers, ordre, propreté": 3.0,
+      "Respect des règles de sécurité": 3.0,
+      "Qualité des prestations / Compétence": 3.0,
+      "Respect des délais / Réactivité": 4.0
     }
   },
   {
@@ -70819,11 +70820,11 @@
     "remarques": "[Crespo] délai de réponse tardive, à relancer",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.25,
+      "Respect des délais de livraison convenus": 3.5,
       "Respect de la qualité convenue": 3.25,
       "Compétence / assistance technique": 3.5,
       "Respect des quantités prévues": 3.75,
-      "Respect des délais de livraison convenus": 3.5,
+      "Rapport Qualité/Prix": 3.25,
       "Souplesse et façon de traiter nos réclamations": 3.5
     }
   },
@@ -70841,11 +70842,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.5,
+      "Respect des délais de livraison convenus": 3.0,
       "Respect de la qualité convenue": 3.0,
       "Compétence / assistance technique": 4.0,
       "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 3.0,
+      "Rapport Qualité/Prix": 3.5,
       "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
@@ -70863,11 +70864,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.4,
+      "Respect des délais de livraison convenus": 4.0,
       "Respect de la qualité convenue": 3.8,
       "Compétence / assistance technique": 3.6,
       "Respect des quantités prévues": 3.8,
-      "Respect des délais de livraison convenus": 4.0,
+      "Rapport Qualité/Prix": 3.4,
       "Souplesse et façon de traiter nos réclamations": 3.6
     }
   },
@@ -70885,11 +70886,11 @@
     "remarques": "[Fassier] Alush : très bien! Certain de ces employés : plus compliqué",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.4,
+      "Respect des délais de livraison convenus": 4.0,
       "Respect de la qualité convenue": 3.8,
       "Compétence / assistance technique": 3.4,
       "Respect des quantités prévues": 3.8,
-      "Respect des délais de livraison convenus": 4.0,
+      "Rapport Qualité/Prix": 3.4,
       "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
@@ -70907,11 +70908,11 @@
     "remarques": "[Crespo] pour les bennes",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 4.0,
+      "Respect des délais de livraison convenus": 4.0,
       "Respect de la qualité convenue": 4.0,
       "Compétence / assistance technique": 3.5,
       "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 4.0,
+      "Rapport Qualité/Prix": 4.0,
       "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
@@ -70929,11 +70930,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.6667,
+      "Respect des délais de livraison convenus": 3.6667,
       "Respect de la qualité convenue": 3.8333,
       "Compétence / assistance technique": 3.5,
       "Respect des quantités prévues": 3.3333,
-      "Respect des délais de livraison convenus": 3.6667,
+      "Rapport Qualité/Prix": 3.6667,
       "Souplesse et façon de traiter nos réclamations": 3.3333
     }
   },
@@ -70951,11 +70952,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 1.5,
+      "Respect des délais de livraison convenus": 3.5,
       "Respect de la qualité convenue": 3.0,
       "Compétence / assistance technique": 3.5,
       "Respect des quantités prévues": 3.5,
-      "Respect des délais de livraison convenus": 3.5,
+      "Rapport Qualité/Prix": 1.5,
       "Souplesse et façon de traiter nos réclamations": 3.0
     }
   },
@@ -70973,11 +70974,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.25,
+      "Respect des délais de livraison convenus": 3.75,
       "Respect de la qualité convenue": 3.5,
       "Compétence / assistance technique": 2.75,
       "Respect des quantités prévues": 3.75,
-      "Respect des délais de livraison convenus": 3.75,
+      "Rapport Qualité/Prix": 3.25,
       "Souplesse et façon de traiter nos réclamations": 3.75
     }
   },
@@ -70995,11 +70996,11 @@
     "remarques": "[Crespo] à relancer plusieurs fois selon les personnes . Edwige la classe!",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 4.0,
+      "Respect des délais de livraison convenus": 3.5,
       "Respect de la qualité convenue": 3.0,
       "Compétence / assistance technique": 3.5,
       "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 3.5,
+      "Rapport Qualité/Prix": 4.0,
       "Souplesse et façon de traiter nos réclamations": 3.0
     }
   },
@@ -71017,11 +71018,11 @@
     "remarques": "[Ermini] C'EST SURTOUT LE CONTREMAITRE QUI A CONCTE AVEC",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.75,
+      "Respect des délais de livraison convenus": 3.75,
       "Respect de la qualité convenue": 3.75,
       "Compétence / assistance technique": 3.75,
       "Respect des quantités prévues": 3.75,
-      "Respect des délais de livraison convenus": 3.75,
+      "Rapport Qualité/Prix": 3.75,
       "Souplesse et façon de traiter nos réclamations": 3.75
     }
   },
@@ -71039,11 +71040,11 @@
     "remarques": "[Crespo] problèmes de plannification",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 4.0,
+      "Respect des délais de livraison convenus": 2.0,
       "Respect de la qualité convenue": 4.0,
       "Compétence / assistance technique": 4.0,
       "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 2.0,
+      "Rapport Qualité/Prix": 4.0,
       "Souplesse et façon de traiter nos réclamations": 3.0
     }
   },
@@ -71061,11 +71062,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.0,
+      "Respect des délais de livraison convenus": 3.75,
       "Respect de la qualité convenue": 3.75,
       "Compétence / assistance technique": 3.75,
       "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 3.75,
+      "Rapport Qualité/Prix": 3.0,
       "Souplesse et façon de traiter nos réclamations": 3.5
     }
   },
@@ -71083,11 +71084,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.0,
+      "Respect des délais de livraison convenus": 4.0,
       "Respect de la qualité convenue": 4.0,
       "Compétence / assistance technique": 4.0,
       "Respect des quantités prévues": 3.6667,
-      "Respect des délais de livraison convenus": 4.0,
+      "Rapport Qualité/Prix": 3.0,
       "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
@@ -71105,11 +71106,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.0,
+      "Respect des délais de livraison convenus": 4.0,
       "Respect de la qualité convenue": 4.0,
       "Compétence / assistance technique": 4.0,
       "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 4.0,
+      "Rapport Qualité/Prix": 3.0,
       "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
@@ -71127,11 +71128,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 4.0,
+      "Respect des délais de livraison convenus": 4.0,
       "Respect de la qualité convenue": 4.0,
       "Compétence / assistance technique": 4.0,
       "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 4.0,
+      "Rapport Qualité/Prix": 4.0,
       "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
@@ -71149,11 +71150,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 4.0,
+      "Respect des délais de livraison convenus": 4.0,
       "Respect de la qualité convenue": 4.0,
       "Compétence / assistance technique": 4.0,
       "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 4.0,
+      "Rapport Qualité/Prix": 4.0,
       "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
@@ -71171,17 +71172,17 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 4.0,
+      "Respect des délais de livraison convenus": 4.0,
       "Respect de la qualité convenue": 4.0,
       "Compétence / assistance technique": 4.0,
       "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 4.0,
+      "Rapport Qualité/Prix": 4.0,
       "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
     "nom": "HG COMMERCIALE",
-    "type": "Fournisseur",
+    "type": "Marchand",
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
@@ -71191,13 +71192,13 @@
     "pctCa": null,
     "nbEvaluateurs": 6,
     "remarques": "",
-    "famille": "FOURNISSEURS",
+    "famille": "MARCHANDS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.3333,
+      "Respect des délais de livraison convenus": 3.3333,
       "Respect de la qualité convenue": 3.6667,
       "Compétence / assistance technique": 3.5,
       "Respect des quantités prévues": 3.3333,
-      "Respect des délais de livraison convenus": 3.3333,
+      "Rapport Qualité/Prix": 3.3333,
       "Souplesse et façon de traiter nos réclamations": 3.5
     }
   },
@@ -71215,12 +71216,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.3333,
-      "Respect de la qualité convenue": 3.0,
-      "Compétence / assistance technique": 2.5,
-      "Respect des quantités prévues": 2.5,
-      "Respect des délais de livraison convenus": 3.6667,
-      "Souplesse et façon de traiter nos réclamations": 3.1667
+      "Rapport qualité / Prix": 3.0,
+      "Gestion des litiges (y.c. levée de réserves)": 3.1667,
+      "Respect des délais / Réactivité": 3.6667,
+      "Qualité des prestations / Compétence": 3.3333,
+      "Respect des règles de sécurité": 2.5,
+      "Tenue des chantiers, ordre, propreté": 2.5
     }
   },
   {
@@ -71237,12 +71238,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 4.0,
-      "Respect de la qualité convenue": 4.0,
-      "Compétence / assistance technique": 4.0,
-      "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 2.0
+      "Rapport qualité / Prix": 4.0,
+      "Gestion des litiges (y.c. levée de réserves)": 2.0,
+      "Respect des délais / Réactivité": 4.0,
+      "Qualité des prestations / Compétence": 4.0,
+      "Respect des règles de sécurité": 4.0,
+      "Tenue des chantiers, ordre, propreté": 4.0
     }
   },
   {
@@ -71259,12 +71260,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.6667,
-      "Respect de la qualité convenue": 3.3333,
-      "Compétence / assistance technique": 3.0,
-      "Respect des quantités prévues": 3.0,
-      "Respect des délais de livraison convenus": 3.3333,
-      "Souplesse et façon de traiter nos réclamations": 3.0
+      "Rapport qualité / Prix": 3.3333,
+      "Gestion des litiges (y.c. levée de réserves)": 3.0,
+      "Respect des délais / Réactivité": 3.3333,
+      "Qualité des prestations / Compétence": 3.6667,
+      "Respect des règles de sécurité": 3.0,
+      "Tenue des chantiers, ordre, propreté": 3.0
     }
   },
   {
@@ -71281,12 +71282,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 4.0,
-      "Respect de la qualité convenue": 4.0,
-      "Compétence / assistance technique": 4.0,
-      "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0
+      "Rapport qualité / Prix": 4.0,
+      "Gestion des litiges (y.c. levée de réserves)": 4.0,
+      "Respect des délais / Réactivité": 3.0,
+      "Qualité des prestations / Compétence": 4.0,
+      "Respect des règles de sécurité": 4.0,
+      "Tenue des chantiers, ordre, propreté": 4.0
     }
   },
   {
@@ -71303,12 +71304,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 4.0,
-      "Respect de la qualité convenue": 3.5,
-      "Compétence / assistance technique": 3.0,
-      "Respect des quantités prévues": 3.5,
-      "Respect des délais de livraison convenus": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 3.5
+      "Rapport qualité / Prix": 3.5,
+      "Gestion des litiges (y.c. levée de réserves)": 3.5,
+      "Respect des délais / Réactivité": 3.5,
+      "Qualité des prestations / Compétence": 4.0,
+      "Respect des règles de sécurité": 3.0,
+      "Tenue des chantiers, ordre, propreté": 3.5
     }
   },
   {
@@ -71325,12 +71326,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.25,
-      "Respect de la qualité convenue": 3.75,
-      "Compétence / assistance technique": 2.5,
-      "Respect des quantités prévues": 2.25,
-      "Respect des délais de livraison convenus": 2.5,
-      "Souplesse et façon de traiter nos réclamations": 3.0
+      "Rapport qualité / Prix": 3.75,
+      "Gestion des litiges (y.c. levée de réserves)": 3.0,
+      "Respect des délais / Réactivité": 2.5,
+      "Qualité des prestations / Compétence": 3.25,
+      "Respect des règles de sécurité": 2.5,
+      "Tenue des chantiers, ordre, propreté": 2.25
     }
   },
   {
@@ -71347,12 +71348,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.6667,
-      "Respect de la qualité convenue": 3.0,
-      "Compétence / assistance technique": 3.3333,
-      "Respect des quantités prévues": 3.0,
-      "Respect des délais de livraison convenus": 3.6667,
-      "Souplesse et façon de traiter nos réclamations": 3.6667
+      "Rapport qualité / Prix": 3.0,
+      "Gestion des litiges (y.c. levée de réserves)": 3.6667,
+      "Respect des délais / Réactivité": 3.6667,
+      "Qualité des prestations / Compétence": 3.6667,
+      "Respect des règles de sécurité": 3.3333,
+      "Tenue des chantiers, ordre, propreté": 3.0
     }
   },
   {
@@ -71369,12 +71370,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.0,
-      "Respect de la qualité convenue": 3.0,
-      "Compétence / assistance technique": 4.0,
-      "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0
+      "Rapport qualité / Prix": 3.0,
+      "Gestion des litiges (y.c. levée de réserves)": 4.0,
+      "Respect des délais / Réactivité": 4.0,
+      "Qualité des prestations / Compétence": 3.0,
+      "Respect des règles de sécurité": 4.0,
+      "Tenue des chantiers, ordre, propreté": 4.0
     }
   },
   {
@@ -71391,12 +71392,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.75,
-      "Respect de la qualité convenue": 3.25,
-      "Compétence / assistance technique": 3.5,
-      "Respect des quantités prévues": 3.5,
-      "Respect des délais de livraison convenus": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 3.75
+      "Rapport qualité / Prix": 3.25,
+      "Gestion des litiges (y.c. levée de réserves)": 3.75,
+      "Respect des délais / Réactivité": 4.0,
+      "Qualité des prestations / Compétence": 3.75,
+      "Respect des règles de sécurité": 3.5,
+      "Tenue des chantiers, ordre, propreté": 3.5
     }
   },
   {
@@ -71413,12 +71414,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 4.0,
-      "Respect de la qualité convenue": 4.0,
-      "Compétence / assistance technique": 4.0,
-      "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0
+      "Rapport qualité / Prix": 4.0,
+      "Gestion des litiges (y.c. levée de réserves)": 4.0,
+      "Respect des délais / Réactivité": 4.0,
+      "Qualité des prestations / Compétence": 4.0,
+      "Respect des règles de sécurité": 4.0,
+      "Tenue des chantiers, ordre, propreté": 4.0
     }
   },
   {
@@ -71435,12 +71436,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 4.0,
-      "Respect de la qualité convenue": 4.0,
-      "Compétence / assistance technique": 4.0,
-      "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0
+      "Rapport qualité / Prix": 4.0,
+      "Gestion des litiges (y.c. levée de réserves)": 4.0,
+      "Respect des délais / Réactivité": 4.0,
+      "Qualité des prestations / Compétence": 4.0,
+      "Respect des règles de sécurité": 4.0,
+      "Tenue des chantiers, ordre, propreté": 4.0
     }
   },
   {
@@ -71457,12 +71458,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 4.0,
-      "Respect de la qualité convenue": 3.4,
-      "Compétence / assistance technique": 4.0,
-      "Respect des quantités prévues": 3.8,
-      "Respect des délais de livraison convenus": 3.8,
-      "Souplesse et façon de traiter nos réclamations": 3.8
+      "Rapport qualité / Prix": 3.4,
+      "Gestion des litiges (y.c. levée de réserves)": 3.8,
+      "Respect des délais / Réactivité": 3.8,
+      "Qualité des prestations / Compétence": 4.0,
+      "Respect des règles de sécurité": 4.0,
+      "Tenue des chantiers, ordre, propreté": 3.8
     }
   },
   {
@@ -71479,12 +71480,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 4.0,
-      "Respect de la qualité convenue": 4.0,
-      "Compétence / assistance technique": 4.0,
-      "Respect des quantités prévues": 3.5,
-      "Respect des délais de livraison convenus": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0
+      "Rapport qualité / Prix": 4.0,
+      "Gestion des litiges (y.c. levée de réserves)": 4.0,
+      "Respect des délais / Réactivité": 4.0,
+      "Qualité des prestations / Compétence": 4.0,
+      "Respect des règles de sécurité": 4.0,
+      "Tenue des chantiers, ordre, propreté": 3.5
     }
   },
   {
@@ -71501,12 +71502,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 4.0,
-      "Respect de la qualité convenue": 3.3333,
-      "Compétence / assistance technique": 3.6667,
-      "Respect des quantités prévues": 3.6667,
-      "Respect des délais de livraison convenus": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0
+      "Rapport qualité / Prix": 3.3333,
+      "Gestion des litiges (y.c. levée de réserves)": 4.0,
+      "Respect des délais / Réactivité": 4.0,
+      "Qualité des prestations / Compétence": 4.0,
+      "Respect des règles de sécurité": 3.6667,
+      "Tenue des chantiers, ordre, propreté": 3.6667
     }
   },
   {
@@ -71515,7 +71516,7 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.2778,
+    "note": 3.2777,
     "ca": 65807.15,
     "caInduni": 559967.65,
     "pctCa": null,
@@ -71523,12 +71524,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.3333,
-      "Respect de la qualité convenue": 3.3333,
-      "Compétence / assistance technique": 3.3333,
-      "Respect des quantités prévues": 3.0,
-      "Respect des délais de livraison convenus": 3.3333,
-      "Souplesse et façon de traiter nos réclamations": 3.3333
+      "Rapport qualité / Prix": 3.3333,
+      "Gestion des litiges (y.c. levée de réserves)": 3.3333,
+      "Respect des délais / Réactivité": 3.3333,
+      "Qualité des prestations / Compétence": 3.3333,
+      "Respect des règles de sécurité": 3.3333,
+      "Tenue des chantiers, ordre, propreté": 3.0
     }
   },
   {
@@ -71545,12 +71546,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 4.0,
-      "Respect de la qualité convenue": 3.5,
-      "Compétence / assistance technique": 4.0,
-      "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0
+      "Rapport qualité / Prix": 3.5,
+      "Gestion des litiges (y.c. levée de réserves)": 4.0,
+      "Respect des délais / Réactivité": 4.0,
+      "Qualité des prestations / Compétence": 4.0,
+      "Respect des règles de sécurité": 4.0,
+      "Tenue des chantiers, ordre, propreté": 4.0
     }
   },
   {
@@ -71567,12 +71568,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 4.0,
-      "Respect de la qualité convenue": 3.6667,
-      "Compétence / assistance technique": 4.0,
-      "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0
+      "Rapport qualité / Prix": 3.6667,
+      "Gestion des litiges (y.c. levée de réserves)": 4.0,
+      "Respect des délais / Réactivité": 4.0,
+      "Qualité des prestations / Compétence": 4.0,
+      "Respect des règles de sécurité": 4.0,
+      "Tenue des chantiers, ordre, propreté": 4.0
     }
   },
   {
@@ -71589,17 +71590,17 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.75,
-      "Respect de la qualité convenue": 2.75,
-      "Compétence / assistance technique": 3.75,
-      "Respect des quantités prévues": 3.75,
-      "Respect des délais de livraison convenus": 3.75,
-      "Souplesse et façon de traiter nos réclamations": 3.75
+      "Rapport qualité / Prix": 2.75,
+      "Gestion des litiges (y.c. levée de réserves)": 3.75,
+      "Respect des délais / Réactivité": 3.75,
+      "Qualité des prestations / Compétence": 3.75,
+      "Respect des règles de sécurité": 3.75,
+      "Tenue des chantiers, ordre, propreté": 3.75
     }
   },
   {
     "nom": "JL TRANSPORTS SA",
-    "type": "Sous-traitant",
+    "type": "Transporteur",
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
@@ -71609,18 +71610,18 @@
     "pctCa": null,
     "nbEvaluateurs": 6,
     "remarques": "",
-    "famille": "SOUS-TRAITANTS",
+    "famille": "TRANSPORTEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.5,
-      "Respect de la qualité convenue": 3.8333,
-      "Compétence / assistance technique": 3.2,
-      "Respect des délais de livraison convenus": 3.8333,
-      "Souplesse et façon de traiter nos réclamations": 3.8333
+      "Souplesse et façon de traiter nos réclamations": 3.8333,
+      "Rapport qualité / Prix": 3.5,
+      "Vérité des quantités annoncées": 3.8333,
+      "Ponctualité": 3.8333,
+      "Qualité du matériel roulant": 3.2
     }
   },
   {
     "nom": "HENRY TRANSPORTS SA",
-    "type": "Sous-traitant",
+    "type": "Transporteur",
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
@@ -71630,18 +71631,18 @@
     "pctCa": null,
     "nbEvaluateurs": 5,
     "remarques": "",
-    "famille": "SOUS-TRAITANTS",
+    "famille": "TRANSPORTEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.4,
-      "Respect de la qualité convenue": 3.4,
-      "Compétence / assistance technique": 3.5,
-      "Respect des délais de livraison convenus": 3.6,
-      "Souplesse et façon de traiter nos réclamations": 3.6
+      "Souplesse et façon de traiter nos réclamations": 3.4,
+      "Rapport qualité / Prix": 3.4,
+      "Vérité des quantités annoncées": 3.6,
+      "Ponctualité": 3.6,
+      "Qualité du matériel roulant": 3.5
     }
   },
   {
     "nom": "CARRY-BOX SA",
-    "type": "Sous-traitant",
+    "type": "Transporteur",
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
@@ -71651,18 +71652,18 @@
     "pctCa": null,
     "nbEvaluateurs": 4,
     "remarques": "",
-    "famille": "SOUS-TRAITANTS",
+    "famille": "TRANSPORTEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.25,
-      "Respect de la qualité convenue": 3.5,
-      "Compétence / assistance technique": 3.3333,
-      "Respect des délais de livraison convenus": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 3.5
+      "Souplesse et façon de traiter nos réclamations": 3.5,
+      "Rapport qualité / Prix": 3.25,
+      "Vérité des quantités annoncées": 3.5,
+      "Ponctualité": 3.5,
+      "Qualité du matériel roulant": 3.3333
     }
   },
   {
     "nom": "WOLFFKRAN SCHWEIZ AG",
-    "type": "Sous-traitant",
+    "type": "Location",
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
@@ -71672,19 +71673,19 @@
     "pctCa": null,
     "nbEvaluateurs": 6,
     "remarques": "[Crespo] MAJ des prix de montage à réaliser",
-    "famille": "SOUS-TRAITANTS",
+    "famille": "LEVAGE / MACHINES /LOCATION",
     "criteres": {
-      "Rapport Qualité/Prix": 3.3333,
-      "Respect de la qualité convenue": 3.5,
-      "Compétence / assistance technique": 3.6667,
-      "Respect des quantités prévues": 3.5,
       "Respect des délais de livraison convenus": 3.8333,
-      "Souplesse et façon de traiter nos réclamations": 3.5
+      "Compétence / assistance technique": 3.6667,
+      "Qualité du SAV": 3.5,
+      "Souplesse et façon de traiter nos réclamations": 3.5,
+      "Qualité des machines": 3.5,
+      "Rapport qualité / Prix": 3.3333
     }
   },
   {
     "nom": "GYGER LEVAGES SA",
-    "type": "Sous-traitant",
+    "type": "Location",
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
@@ -71694,19 +71695,19 @@
     "pctCa": null,
     "nbEvaluateurs": 6,
     "remarques": "",
-    "famille": "SOUS-TRAITANTS",
+    "famille": "LEVAGE / MACHINES /LOCATION",
     "criteres": {
-      "Rapport Qualité/Prix": 3.1667,
-      "Respect de la qualité convenue": 4.0,
-      "Compétence / assistance technique": 3.6667,
-      "Respect des quantités prévues": 3.8,
       "Respect des délais de livraison convenus": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 3.6667
+      "Compétence / assistance technique": 3.6667,
+      "Qualité du SAV": 3.8,
+      "Souplesse et façon de traiter nos réclamations": 3.6667,
+      "Qualité des machines": 4.0,
+      "Rapport qualité / Prix": 3.1667
     }
   },
   {
     "nom": "AVESCO RENT SA",
-    "type": "Sous-traitant",
+    "type": "Location",
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
@@ -71716,19 +71717,19 @@
     "pctCa": null,
     "nbEvaluateurs": 3,
     "remarques": "",
-    "famille": "SOUS-TRAITANTS",
+    "famille": "LEVAGE / MACHINES /LOCATION",
     "criteres": {
-      "Rapport Qualité/Prix": 3.6667,
-      "Respect de la qualité convenue": 3.6667,
-      "Compétence / assistance technique": 3.6667,
-      "Respect des quantités prévues": 3.6667,
       "Respect des délais de livraison convenus": 3.6667,
-      "Souplesse et façon de traiter nos réclamations": 3.3333
+      "Compétence / assistance technique": 3.6667,
+      "Qualité du SAV": 3.6667,
+      "Souplesse et façon de traiter nos réclamations": 3.3333,
+      "Qualité des machines": 3.6667,
+      "Rapport qualité / Prix": 3.6667
     }
   },
   {
     "nom": "GH SA",
-    "type": "Sous-traitant",
+    "type": "Location",
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
@@ -71738,19 +71739,19 @@
     "pctCa": null,
     "nbEvaluateurs": 6,
     "remarques": "",
-    "famille": "SOUS-TRAITANTS",
+    "famille": "LEVAGE / MACHINES /LOCATION",
     "criteres": {
-      "Rapport Qualité/Prix": 2.8333,
-      "Respect de la qualité convenue": 3.0,
-      "Compétence / assistance technique": 3.5,
-      "Respect des quantités prévues": 3.3333,
       "Respect des délais de livraison convenus": 3.6667,
-      "Souplesse et façon de traiter nos réclamations": 3.3333
+      "Compétence / assistance technique": 3.5,
+      "Qualité du SAV": 3.3333,
+      "Souplesse et façon de traiter nos réclamations": 3.3333,
+      "Qualité des machines": 3.0,
+      "Rapport qualité / Prix": 2.8333
     }
   },
   {
     "nom": "CONTAINEX",
-    "type": "Sous-traitant",
+    "type": "Location",
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
@@ -71760,19 +71761,19 @@
     "pctCa": null,
     "nbEvaluateurs": 2,
     "remarques": "",
-    "famille": "SOUS-TRAITANTS",
+    "famille": "LEVAGE / MACHINES /LOCATION",
     "criteres": {
-      "Rapport Qualité/Prix": 3.0,
-      "Respect de la qualité convenue": 3.5,
-      "Compétence / assistance technique": 4.0,
-      "Respect des quantités prévues": 4.0,
       "Respect des délais de livraison convenus": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 3.0
+      "Compétence / assistance technique": 4.0,
+      "Qualité du SAV": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 3.0,
+      "Qualité des machines": 3.5,
+      "Rapport qualité / Prix": 3.0
     }
   },
   {
     "nom": "NEW WORK HUMAN RESSOURCES SA",
-    "type": "Sous-traitant",
+    "type": "Intérimaire",
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
@@ -71782,17 +71783,17 @@
     "pctCa": null,
     "nbEvaluateurs": 6,
     "remarques": "[Fassier] Manque lunette",
-    "famille": "SOUS-TRAITANTS",
+    "famille": "INTERIMAIRES",
     "criteres": {
-      "Respect de la qualité convenue": 3.3333,
-      "Rapport Qualité/Prix": 3.6667,
-      "Respect des délais de livraison convenus": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 2.5
+      "Rapport qualité / prix": 3.3333,
+      "Qualité du personnel": 3.0,
+      "Equipement du personnel": 2.5,
+      "Réactivité commerciale": 3.6667
     }
   },
   {
     "nom": "PLANET INTERIM SERVICES SA",
-    "type": "Sous-traitant",
+    "type": "Intérimaire",
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
@@ -71802,17 +71803,17 @@
     "pctCa": null,
     "nbEvaluateurs": 5,
     "remarques": "",
-    "famille": "SOUS-TRAITANTS",
+    "famille": "INTERIMAIRES",
     "criteres": {
-      "Respect de la qualité convenue": 3.4,
-      "Rapport Qualité/Prix": 3.6,
-      "Respect des délais de livraison convenus": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 2.6
+      "Rapport qualité / prix": 3.4,
+      "Qualité du personnel": 3.0,
+      "Equipement du personnel": 2.6,
+      "Réactivité commerciale": 3.6
     }
   },
   {
     "nom": "AVATAR JOBS SARL",
-    "type": "Sous-traitant",
+    "type": "Intérimaire",
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
@@ -71822,17 +71823,17 @@
     "pctCa": null,
     "nbEvaluateurs": 6,
     "remarques": "[Mouaz] Top Grutiers; [Fassier] Manque lunette",
-    "famille": "SOUS-TRAITANTS",
+    "famille": "INTERIMAIRES",
     "criteres": {
-      "Respect de la qualité convenue": 3.1667,
-      "Rapport Qualité/Prix": 3.8333,
-      "Respect des délais de livraison convenus": 3.3333,
-      "Souplesse et façon de traiter nos réclamations": 2.3333
+      "Rapport qualité / prix": 3.1667,
+      "Qualité du personnel": 3.3333,
+      "Equipement du personnel": 2.3333,
+      "Réactivité commerciale": 3.8333
     }
   },
   {
     "nom": "INTERXPERT SA",
-    "type": "Sous-traitant",
+    "type": "Intérimaire",
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
@@ -71842,12 +71843,12 @@
     "pctCa": null,
     "nbEvaluateurs": 2,
     "remarques": "[Fassier] Lunette OK, changement de responsable…. Dommage",
-    "famille": "SOUS-TRAITANTS",
+    "famille": "INTERIMAIRES",
     "criteres": {
-      "Respect de la qualité convenue": 3.0,
-      "Rapport Qualité/Prix": 3.0,
-      "Respect des délais de livraison convenus": 2.5,
-      "Souplesse et façon de traiter nos réclamations": 3.0
+      "Rapport qualité / prix": 3.0,
+      "Qualité du personnel": 2.5,
+      "Equipement du personnel": 3.0,
+      "Réactivité commerciale": 3.0
     }
   },
   {
@@ -71864,11 +71865,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.0,
+      "Respect des délais de livraison convenus": 3.2,
       "Respect de la qualité convenue": 3.6,
       "Compétence / assistance technique": 3.4,
       "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 3.2,
+      "Rapport Qualité/Prix": 3.0,
       "Souplesse et façon de traiter nos réclamations": 3.2
     }
   },
@@ -71886,11 +71887,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.6667,
+      "Respect des délais de livraison convenus": 3.6667,
       "Respect de la qualité convenue": 3.0,
       "Compétence / assistance technique": 2.6667,
       "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 3.6667,
+      "Rapport Qualité/Prix": 3.6667,
       "Souplesse et façon de traiter nos réclamations": 3.3333
     }
   },
@@ -71908,11 +71909,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.25,
+      "Respect des délais de livraison convenus": 2.5,
       "Respect de la qualité convenue": 3.5,
       "Compétence / assistance technique": 3.25,
       "Respect des quantités prévues": 3.75,
-      "Respect des délais de livraison convenus": 2.5,
+      "Rapport Qualité/Prix": 3.25,
       "Souplesse et façon de traiter nos réclamations": 2.5
     }
   },
@@ -71930,11 +71931,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.0,
+      "Respect des délais de livraison convenus": 4.0,
       "Respect de la qualité convenue": 4.0,
       "Compétence / assistance technique": 4.0,
       "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 4.0,
+      "Rapport Qualité/Prix": 3.0,
       "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
@@ -71952,11 +71953,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.0,
+      "Respect des délais de livraison convenus": 4.0,
       "Respect de la qualité convenue": 4.0,
       "Compétence / assistance technique": 4.0,
       "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 4.0,
+      "Rapport Qualité/Prix": 3.0,
       "Souplesse et façon de traiter nos réclamations": 3.5
     }
   },
@@ -71974,11 +71975,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.0,
+      "Respect des délais de livraison convenus": 1.5,
       "Respect de la qualité convenue": 3.0,
       "Compétence / assistance technique": 3.0,
       "Respect des quantités prévues": 3.0,
-      "Respect des délais de livraison convenus": 1.5,
+      "Rapport Qualité/Prix": 3.0,
       "Souplesse et façon de traiter nos réclamations": 1.0
     }
   },
@@ -71996,11 +71997,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 2.6667,
+      "Respect des délais de livraison convenus": 2.0,
       "Respect de la qualité convenue": 3.6667,
       "Compétence / assistance technique": 3.3333,
       "Respect des quantités prévues": 3.6667,
-      "Respect des délais de livraison convenus": 2.0,
+      "Rapport Qualité/Prix": 2.6667,
       "Souplesse et façon de traiter nos réclamations": 2.6667
     }
   },
@@ -72018,11 +72019,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.6667,
+      "Respect des délais de livraison convenus": 3.3333,
       "Respect de la qualité convenue": 3.6667,
       "Compétence / assistance technique": 3.6667,
       "Respect des quantités prévues": 3.3333,
-      "Respect des délais de livraison convenus": 3.3333,
+      "Rapport Qualité/Prix": 3.6667,
       "Souplesse et façon de traiter nos réclamations": 3.3333
     }
   },
@@ -72040,11 +72041,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.0,
+      "Respect des délais de livraison convenus": 4.0,
       "Respect de la qualité convenue": 3.5,
       "Compétence / assistance technique": 4.0,
       "Respect des quantités prévues": 3.5,
-      "Respect des délais de livraison convenus": 4.0,
+      "Rapport Qualité/Prix": 3.0,
       "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
@@ -72062,11 +72063,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.0,
+      "Respect des délais de livraison convenus": 3.0,
       "Respect de la qualité convenue": 3.5,
       "Compétence / assistance technique": 4.0,
       "Respect des quantités prévues": 3.5,
-      "Respect des délais de livraison convenus": 3.0,
+      "Rapport Qualité/Prix": 3.0,
       "Souplesse et façon de traiter nos réclamations": 3.5
     }
   },
@@ -72084,11 +72085,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.0,
+      "Respect des délais de livraison convenus": 4.0,
       "Respect de la qualité convenue": 4.0,
       "Compétence / assistance technique": 4.0,
       "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 4.0,
+      "Rapport Qualité/Prix": 3.0,
       "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
@@ -72106,11 +72107,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.25,
+      "Respect des délais de livraison convenus": 3.75,
       "Respect de la qualité convenue": 3.75,
       "Compétence / assistance technique": 3.5,
       "Respect des quantités prévues": 3.75,
-      "Respect des délais de livraison convenus": 3.75,
+      "Rapport Qualité/Prix": 3.25,
       "Souplesse et façon de traiter nos réclamations": 3.25
     }
   },
@@ -72128,11 +72129,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.0,
+      "Respect des délais de livraison convenus": 4.0,
       "Respect de la qualité convenue": 4.0,
       "Compétence / assistance technique": 3.5,
       "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 4.0,
+      "Rapport Qualité/Prix": 3.0,
       "Souplesse et façon de traiter nos réclamations": 3.5
     }
   },
@@ -72150,17 +72151,17 @@
     "remarques": "[Fassier] Mortier spéciaux",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.25,
+      "Respect des délais de livraison convenus": 3.75,
       "Respect de la qualité convenue": 3.75,
       "Compétence / assistance technique": 3.5,
       "Respect des quantités prévues": 3.5,
-      "Respect des délais de livraison convenus": 3.75,
+      "Rapport Qualité/Prix": 3.25,
       "Souplesse et façon de traiter nos réclamations": 3.75
     }
   },
   {
     "nom": "CHALLANDE & FILS SA",
-    "type": "Fournisseur",
+    "type": "Marchand",
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
@@ -72170,19 +72171,19 @@
     "pctCa": null,
     "nbEvaluateurs": 4,
     "remarques": "",
-    "famille": "FOURNISSEURS",
+    "famille": "MARCHANDS",
     "criteres": {
-      "Rapport Qualité/Prix": 2.5,
+      "Respect des délais de livraison convenus": 3.75,
       "Respect de la qualité convenue": 3.5,
       "Compétence / assistance technique": 3.75,
       "Respect des quantités prévues": 3.75,
-      "Respect des délais de livraison convenus": 3.75,
+      "Rapport Qualité/Prix": 2.5,
       "Souplesse et façon de traiter nos réclamations": 3.0
     }
   },
   {
     "nom": "GETAZ-MIAUTON SA",
-    "type": "Fournisseur",
+    "type": "Marchand",
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
@@ -72192,13 +72193,13 @@
     "pctCa": null,
     "nbEvaluateurs": 3,
     "remarques": "",
-    "famille": "FOURNISSEURS",
+    "famille": "MARCHANDS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.0,
+      "Respect des délais de livraison convenus": 3.6667,
       "Respect de la qualité convenue": 3.6667,
       "Compétence / assistance technique": 3.6667,
       "Respect des quantités prévues": 3.6667,
-      "Respect des délais de livraison convenus": 3.6667,
+      "Rapport Qualité/Prix": 3.0,
       "Souplesse et façon de traiter nos réclamations": 3.6667
     }
   },
@@ -72216,12 +72217,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 4.0,
-      "Respect de la qualité convenue": 3.0,
-      "Compétence / assistance technique": 2.3333,
-      "Respect des quantités prévues": 3.0,
-      "Respect des délais de livraison convenus": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 3.3333
+      "Rapport qualité / Prix": 3.0,
+      "Gestion des litiges (y.c. levée de réserves)": 3.3333,
+      "Respect des délais / Réactivité": 4.0,
+      "Qualité des prestations / Compétence": 4.0,
+      "Respect des règles de sécurité": 2.3333,
+      "Tenue des chantiers, ordre, propreté": 3.0
     }
   },
   {
@@ -72238,12 +72239,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 4.0,
-      "Respect de la qualité convenue": 3.0,
-      "Compétence / assistance technique": 2.5,
-      "Respect des quantités prévues": 3.0,
-      "Respect des délais de livraison convenus": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 3.5
+      "Rapport qualité / Prix": 3.0,
+      "Gestion des litiges (y.c. levée de réserves)": 3.5,
+      "Respect des délais / Réactivité": 4.0,
+      "Qualité des prestations / Compétence": 4.0,
+      "Respect des règles de sécurité": 2.5,
+      "Tenue des chantiers, ordre, propreté": 3.0
     }
   },
   {
@@ -72260,12 +72261,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 4.0,
-      "Respect de la qualité convenue": 3.0,
-      "Compétence / assistance technique": 4.0,
-      "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0
+      "Rapport qualité / Prix": 3.0,
+      "Gestion des litiges (y.c. levée de réserves)": 4.0,
+      "Respect des délais / Réactivité": 4.0,
+      "Qualité des prestations / Compétence": 4.0,
+      "Respect des règles de sécurité": 4.0,
+      "Tenue des chantiers, ordre, propreté": 4.0
     }
   },
   {
@@ -72282,11 +72283,11 @@
     "remarques": "[Fassier] Adjuvant",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 2.6667,
+      "Respect des délais de livraison convenus": 3.0,
       "Respect de la qualité convenue": 3.0,
       "Compétence / assistance technique": 3.0,
       "Respect des quantités prévues": 3.0,
-      "Respect des délais de livraison convenus": 3.0,
+      "Rapport Qualité/Prix": 2.6667,
       "Souplesse et façon de traiter nos réclamations": 2.3333
     }
   },
@@ -72304,11 +72305,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.5,
+      "Respect des délais de livraison convenus": 2.0,
       "Respect de la qualité convenue": 3.0,
       "Compétence / assistance technique": 2.5,
       "Respect des quantités prévues": 3.0,
-      "Respect des délais de livraison convenus": 2.0,
+      "Rapport Qualité/Prix": 3.5,
       "Souplesse et façon de traiter nos réclamations": 2.5
     }
   },
@@ -72326,11 +72327,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.5,
+      "Respect des délais de livraison convenus": 2.5,
       "Respect de la qualité convenue": 3.0,
       "Compétence / assistance technique": 4.0,
       "Respect des quantités prévues": 2.0,
-      "Respect des délais de livraison convenus": 2.5,
+      "Rapport Qualité/Prix": 3.5,
       "Souplesse et façon de traiter nos réclamations": 3.0
     }
   },
@@ -72348,12 +72349,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.5,
-      "Respect de la qualité convenue": 2.5,
-      "Compétence / assistance technique": 3.0,
-      "Respect des quantités prévues": 3.0,
-      "Respect des délais de livraison convenus": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 3.5
+      "Rapport qualité / Prix": 2.5,
+      "Gestion des litiges (y.c. levée de réserves)": 3.5,
+      "Respect des délais / Réactivité": 3.5,
+      "Qualité des prestations / Compétence": 3.5,
+      "Respect des règles de sécurité": 3.0,
+      "Tenue des chantiers, ordre, propreté": 3.0
     }
   },
   {
@@ -72370,12 +72371,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 4.0,
-      "Respect de la qualité convenue": 3.0,
-      "Compétence / assistance technique": 4.0,
-      "Respect des quantités prévues": 3.0,
-      "Respect des délais de livraison convenus": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 3.0
+      "Rapport qualité / Prix": 3.0,
+      "Gestion des litiges (y.c. levée de réserves)": 3.0,
+      "Respect des délais / Réactivité": 3.0,
+      "Qualité des prestations / Compétence": 4.0,
+      "Respect des règles de sécurité": 4.0,
+      "Tenue des chantiers, ordre, propreté": 3.0
     }
   },
   {
@@ -72392,12 +72393,12 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.5,
-      "Respect de la qualité convenue": 2.0,
-      "Compétence / assistance technique": 3.0,
-      "Respect des quantités prévues": 2.5,
-      "Respect des délais de livraison convenus": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 3.5
+      "Rapport qualité / Prix": 2.0,
+      "Gestion des litiges (y.c. levée de réserves)": 3.5,
+      "Respect des délais / Réactivité": 4.0,
+      "Qualité des prestations / Compétence": 3.5,
+      "Respect des règles de sécurité": 3.0,
+      "Tenue des chantiers, ordre, propreté": 2.5
     }
   },
   {
@@ -72414,11 +72415,11 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.0,
+      "Respect des délais de livraison convenus": 4.0,
       "Respect de la qualité convenue": 4.0,
       "Compétence / assistance technique": 3.0,
       "Respect des quantités prévues": 4.0,
-      "Respect des délais de livraison convenus": 4.0,
+      "Rapport Qualité/Prix": 3.0,
       "Souplesse et façon de traiter nos réclamations": 3.0
     }
   }
