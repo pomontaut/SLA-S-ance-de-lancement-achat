@@ -40004,741 +40004,6 @@
   "type": "Fournisseur",
   "categorie": "",
   "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.17,
-  "ca": 7479559.0,
-  "caInduni": 9624644.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "MUELLER STEINAG",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.95,
-  "ca": 2360579.0,
-  "caInduni": 2663349.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "FERROFLEX",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.94,
-  "ca": 1542258.0,
-  "caInduni": 1620076.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "FAMY SAS",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.0,
-  "ca": 1375742.0,
-  "caInduni": 1459742.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "PRO BETON SA",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.67,
-  "ca": 132833.0,
-  "caInduni": 1683540.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "SACAC AG",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.97,
-  "ca": 1173101.0,
-  "caInduni": 1582433.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "ANCOTECH AG",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.11,
-  "ca": 1074121.0,
-  "caInduni": 1439332.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "ALPHI SUISSE SARL",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.26,
-  "ca": 973530.0,
-  "caInduni": 995021.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "SOREVAL SA",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 4.0,
-  "ca": 930834.0,
-  "caInduni": 1448115.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "JURA LEMAN BETON",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.12,
-  "ca": 924149.0,
-  "caInduni": 979834.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "GRAVIERES D'EPEISSES",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.0,
-  "ca": 540354.0,
-  "caInduni": 545542.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "GRAVIEX SA",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.0,
-  "ca": 502668.0,
-  "caInduni": 669363.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "S.N.P.P.N.",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.83,
-  "ca": 367497.0,
-  "caInduni": 353612.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "BETON DU SALEVE",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.96,
-  "ca": 351984.0,
-  "caInduni": 351984.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "H.K. SERVICES",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.57,
-  "ca": 293983.0,
-  "caInduni": 333842.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "POINT P",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.88,
-  "ca": 252743.0,
-  "caInduni": 352576.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "LEVA CORBIERES SA",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.88,
-  "ca": 225555.0,
-  "caInduni": 747160.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "SAINT-GOBAIN WEBER MAXIT",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.67,
-  "ca": 215360.0,
-  "caInduni": 283539.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "SCHOECK BAUTEILE",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.12,
-  "ca": 191865.0,
-  "caInduni": 853252.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "PFEFFERLE & CIE",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.33,
-  "ca": 185864.0,
-  "caInduni": 384886.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "BAUSTAHL GEWEBE",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.5,
-  "ca": 184202.0,
-  "caInduni": 184202.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "LEUBA HIAG",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.22,
-  "ca": 152648.0,
-  "caInduni": 364144.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "MBT SA",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.95,
-  "ca": 139193.0,
-  "caInduni": 194766.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "EFCO SA",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.1,
-  "ca": 131144.0,
-  "caInduni": 355953.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "VEUTHEY & CIE MARTIGNY SA",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.08,
-  "ca": 127117.0,
-  "caInduni": 2205724.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "HILTY SCHWEIZ AG",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.57,
-  "ca": 106083.0,
-  "caInduni": 341464.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "DUCRET M. SA",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.0,
-  "ca": 100626.0,
-  "caInduni": 203995.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "LANG BAUBEDARF",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.96,
-  "ca": 100290.0,
-  "caInduni": 100290.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "HG COMMERCIALE",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.33,
-  "ca": 6096316.0,
-  "caInduni": 9782574.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "JEROME SA",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.27,
-  "ca": 376939.0,
-  "caInduni": 675518.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "NORRAC SARL",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.33,
-  "ca": 3791554.0,
-  "caInduni": 4044479.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "COFFRAGE JM",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.4,
-  "ca": 1902904.0,
-  "caInduni": 2315214.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "ORLLATI SA",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.93,
-  "ca": 1729635.0,
-  "caInduni": 3294478.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "ELI ENTREPRISE GENERALE",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.88,
-  "ca": 980846.0,
-  "caInduni": 1263111.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "EKA SARL",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.08,
-  "ca": 692454.0,
-  "caInduni": 692454.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "BERISHA SARL",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.43,
-  "ca": 540175.0,
-  "caInduni": 540175.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "ETICO SA",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.08,
-  "ca": 517441.0,
-  "caInduni": 527973.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "RIMEBAT SA",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.47,
-  "ca": 286228.0,
-  "caInduni": 302482.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "NOVALLA SARL",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.0,
-  "ca": 273889.0,
-  "caInduni": 306199.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "VACCA RESINES",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.22,
-  "ca": 237920.0,
-  "caInduni": 246859.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "IMPLENIA SUISSE",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.17,
-  "ca": 222402.0,
-  "caInduni": 241858.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "TOPNET SA",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.59,
-  "ca": 133619.0,
-  "caInduni": 167716.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "CAP ETANCHEITE SA",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.83,
-  "ca": 124424.0,
-  "caInduni": 225497.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "NEW LOOK ECHAFAUDAGES",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.28,
-  "ca": 107290.0,
-  "caInduni": 107290.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "WOLFKRAN SCHWEIZ",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.05,
-  "ca": 947800.0,
-  "caInduni": 1664263.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "GYGER LEVAGE SARL",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 3.44,
-  "ca": 448020.0,
-  "caInduni": 726769.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "LIEBHERR-BAUMASCHINEN",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.94,
-  "ca": 337718.0,
-  "caInduni": 675498.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "AVESCO RENT SA",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.9,
-  "ca": 256800.0,
-  "caInduni": 652208.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "GH SA",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
-  "annee": 2021,
-  "note": 2.87,
-  "ca": 108017.0,
-  "caInduni": 512106.0,
-  "pctCa": null,
-  "nbEvaluateurs": null,
-  "remarques": "",
-  "famille": "",
-  "criteres": null
- },
- {
-  "nom": "FAVRE SA",
-  "type": "Fournisseur",
-  "categorie": "",
-  "secteur": "BAT GE",
   "annee": 2020,
   "note": 3.67,
   "ca": 6134335.35,
@@ -78451,6 +77716,2251 @@
    {
     "label": "Compétence / Assistance technique",
     "moyenne": 3
+   }
+  ]
+ },
+ {
+  "nom": "FAVRE SA",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3.17,
+  "ca": 7479558.8,
+  "caInduni": 9624644.399999999,
+  "pctCa": null,
+  "nbEvaluateurs": 9,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3.33
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3.22
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3.33
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 2.56
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3.22
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3.33
+   }
+  ]
+ },
+ {
+  "nom": "MUELLER STEINAG",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.95,
+  "ca": 2360578.75,
+  "caInduni": 2663348.7,
+  "pctCa": null,
+  "nbEvaluateurs": 7,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3.14
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 2.86
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 2.71
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3
+   }
+  ]
+ },
+ {
+  "nom": "FERROFLEX",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.94,
+  "ca": 1542257.75,
+  "caInduni": 1620076.6,
+  "pctCa": null,
+  "nbEvaluateurs": 6,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 2.83
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 2.83
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 2.83
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3.17
+   }
+  ]
+ },
+ {
+  "nom": "FAMY SAS",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3,
+  "ca": 1375741.55,
+  "caInduni": 1459096.75,
+  "pctCa": null,
+  "nbEvaluateurs": 3,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 3
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3
+   }
+  ]
+ },
+ {
+  "nom": "PRO BETON SA",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.67,
+  "ca": 1325833.3,
+  "caInduni": 1683540.6,
+  "pctCa": null,
+  "nbEvaluateurs": 6,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 2.17
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 2.17
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 2.67
+   }
+  ]
+ },
+ {
+  "nom": "SACAC AG",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.97,
+  "ca": 1173100.95,
+  "caInduni": 1582433.5499999998,
+  "pctCa": null,
+  "nbEvaluateurs": 5,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3.2
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 2.8
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 2.6
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3.2
+   }
+  ]
+ },
+ {
+  "nom": "ANCOTECH AG",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3.11,
+  "ca": 1074121.35,
+  "caInduni": 1439332.6500000001,
+  "pctCa": null,
+  "nbEvaluateurs": 9,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3.11
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3.11
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3.33
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 2.75
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3.25
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3.11
+   }
+  ]
+ },
+ {
+  "nom": "ALPHI SUISSE SARL",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3.26,
+  "ca": 973530,
+  "caInduni": 995021,
+  "pctCa": null,
+  "nbEvaluateurs": 9,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3.22
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3.22
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3.22
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 3.11
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3.44
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3.33
+   }
+  ]
+ },
+ {
+  "nom": "SOREVAL SA",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 4,
+  "ca": 930834.05,
+  "caInduni": 1448115.75,
+  "pctCa": null,
+  "nbEvaluateurs": 2,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 4
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 4
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 4
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 4
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 4
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 4
+   }
+  ]
+ },
+ {
+  "nom": "JURA LEMAN BETON",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3.12,
+  "ca": 924148.75,
+  "caInduni": 979834.95,
+  "pctCa": null,
+  "nbEvaluateurs": 4,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3.25
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 3.25
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3.5
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 2.75
+   }
+  ]
+ },
+ {
+  "nom": "GRAVIERES D'EPEISSES",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3,
+  "ca": 540354.53,
+  "caInduni": 545542.4800000001,
+  "pctCa": null,
+  "nbEvaluateurs": 2,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 3
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3
+   }
+  ]
+ },
+ {
+  "nom": "GRAVIEX SA",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3,
+  "ca": 502667.95,
+  "caInduni": 669363.9,
+  "pctCa": null,
+  "nbEvaluateurs": 1,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 3
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3
+   }
+  ]
+ },
+ {
+  "nom": "S.N.P.P.N.",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.83,
+  "ca": 367497.25,
+  "caInduni": 353612.95,
+  "pctCa": null,
+  "nbEvaluateurs": 2,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 2.5
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 2.5
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 3
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3
+   }
+  ]
+ },
+ {
+  "nom": "BETON DU SALEVE",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.96,
+  "ca": 351984.25,
+  "caInduni": 351984.25,
+  "pctCa": null,
+  "nbEvaluateurs": 4,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 2.75
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 3
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3
+   }
+  ]
+ },
+ {
+  "nom": "H.K. SERVICES",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.57,
+  "ca": 293983,
+  "caInduni": 333842.9,
+  "pctCa": null,
+  "nbEvaluateurs": 7,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 2.71
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 2.29
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 2.71
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 2.29
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 2.71
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 2.71
+   }
+  ]
+ },
+ {
+  "nom": "POINT P",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.88,
+  "ca": 252743.05,
+  "caInduni": 352576.9,
+  "pctCa": null,
+  "nbEvaluateurs": 8,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 2.88
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 2.88
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 2.75
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 2.75
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3
+   }
+  ]
+ },
+ {
+  "nom": "LEVA CORBIERES SA",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.88,
+  "ca": 225555.3,
+  "caInduni": 747160.45,
+  "pctCa": null,
+  "nbEvaluateurs": 4,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 2.75
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 2.75
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 2.75
+   }
+  ]
+ },
+ {
+  "nom": "SAINT-GOBAIN WEBER MAXIT",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3.67,
+  "ca": 215360.05,
+  "caInduni": 283539.4,
+  "pctCa": null,
+  "nbEvaluateurs": 4,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3.75
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3.5
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3.75
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 3.5
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3.75
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3.75
+   }
+  ]
+ },
+ {
+  "nom": "SCHOECK BAUTEILE",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3.12,
+  "ca": 191865.3,
+  "caInduni": 853252.36,
+  "pctCa": null,
+  "nbEvaluateurs": 4,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3.25
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3.25
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 3
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3.25
+   }
+  ]
+ },
+ {
+  "nom": "PFEFFERLE & CIE",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3.33,
+  "ca": 185864.1,
+  "caInduni": 384886.55000000005,
+  "pctCa": null,
+  "nbEvaluateurs": 5,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3.2
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3.6
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3.2
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 3.4
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3.4
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3.2
+   }
+  ]
+ },
+ {
+  "nom": "BAUSTAHL GEWEBE",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3.5,
+  "ca": 184202.45,
+  "caInduni": 184202.45,
+  "pctCa": null,
+  "nbEvaluateurs": 2,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3.5
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3.5
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3.5
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 3.5
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3.5
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3.5
+   }
+  ]
+ },
+ {
+  "nom": "LEUBA HIAG",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3.22,
+  "ca": 152648.4,
+  "caInduni": 364144.25,
+  "pctCa": null,
+  "nbEvaluateurs": 7,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3.43
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3.29
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 3.33
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3.29
+   }
+  ]
+ },
+ {
+  "nom": "MBT SA",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.95,
+  "ca": 139193.1,
+  "caInduni": 194766.65,
+  "pctCa": null,
+  "nbEvaluateurs": 7,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 2.86
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 2.86
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3
+   }
+  ]
+ },
+ {
+  "nom": "EFCO SA",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3.1,
+  "ca": 131144.15,
+  "caInduni": 355953.4,
+  "pctCa": null,
+  "nbEvaluateurs": 7,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3.29
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 2.86
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3.14
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 3
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3.14
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3.14
+   }
+  ]
+ },
+ {
+  "nom": "VEUTHEY & CIE MARTIGNY SA",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.08,
+  "ca": 127117.55,
+  "caInduni": 2205724.6,
+  "pctCa": null,
+  "nbEvaluateurs": 2,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 2.5
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 2
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 2
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 2
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 2
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 2
+   }
+  ]
+ },
+ {
+  "nom": "HILTY SCHWEIZ AG",
+  "type": "Fournisseur",
+  "categorie": "",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.57,
+  "ca": 106083.0,
+  "caInduni": 341464.0,
+  "pctCa": null,
+  "nbEvaluateurs": 5,
+  "remarques": "",
+  "famille": "",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 2.6
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 2.6
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 2.6
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 2.4
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 2.6
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 2.6
+   }
+  ]
+ },
+ {
+  "nom": "DUCRET M. SA",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3,
+  "ca": 100626.55,
+  "caInduni": 203995.7,
+  "pctCa": null,
+  "nbEvaluateurs": 3,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 3
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3
+   }
+  ]
+ },
+ {
+  "nom": "LANG BAUBEDARF",
+  "type": "Fournisseur",
+  "categorie": "FOURNISSEURS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.96,
+  "ca": 100290.25,
+  "caInduni": 100290.25,
+  "pctCa": null,
+  "nbEvaluateurs": 4,
+  "remarques": "",
+  "famille": "FOURNISSEURS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 2.75
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3
+   }
+  ]
+ },
+ {
+  "nom": "SWISSPOR (sans facturation directe)",
+  "type": "Fournisseur",
+  "categorie": "",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.88,
+  "ca": null,
+  "caInduni": null,
+  "pctCa": null,
+  "nbEvaluateurs": 5,
+  "remarques": "",
+  "famille": "",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 2.8
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 2.75
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 2.75
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3
+   }
+  ]
+ },
+ {
+  "nom": "ACO  (sans facturation directe)",
+  "type": "Fournisseur",
+  "categorie": "",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.96,
+  "ca": null,
+  "caInduni": null,
+  "pctCa": null,
+  "nbEvaluateurs": 5,
+  "remarques": "",
+  "famille": "",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3.2
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 2.8
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 2.75
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 2.8
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3.2
+   }
+  ]
+ },
+ {
+  "nom": "VIGIER CIMENT  (sans facturation directe)",
+  "type": "Fournisseur",
+  "categorie": "",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3.39,
+  "ca": null,
+  "caInduni": null,
+  "pctCa": null,
+  "nbEvaluateurs": 6,
+  "remarques": "",
+  "famille": "",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3.5
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3.17
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3.33
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 3.33
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3.5
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3.5
+   }
+  ]
+ },
+ {
+  "nom": "KNAUF  (sans facturation directe)",
+  "type": "Fournisseur",
+  "categorie": "",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3.02,
+  "ca": null,
+  "caInduni": null,
+  "pctCa": null,
+  "nbEvaluateurs": 6,
+  "remarques": "",
+  "famille": "",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3.33
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 2.83
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3.17
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 2.6
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3.17
+   }
+  ]
+ },
+ {
+  "nom": "KNAUF INSULATION  (sans facturation directe)",
+  "type": "Fournisseur",
+  "categorie": "",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.93,
+  "ca": null,
+  "caInduni": null,
+  "pctCa": null,
+  "nbEvaluateurs": 6,
+  "remarques": "",
+  "famille": "",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3.33
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 2.83
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 2.6
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 2.83
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3
+   }
+  ]
+ },
+ {
+  "nom": "FIXIT  (sans facturation directe)",
+  "type": "Fournisseur",
+  "categorie": "",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.92,
+  "ca": null,
+  "caInduni": null,
+  "pctCa": null,
+  "nbEvaluateurs": 2,
+  "remarques": "",
+  "famille": "",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 2.5
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3
+   }
+  ]
+ },
+ {
+  "nom": "HG COMMERCIALE",
+  "type": "Fournisseur",
+  "categorie": "MARCHANDS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3.33,
+  "ca": 6096316.85,
+  "caInduni": 9782574.799999999,
+  "pctCa": null,
+  "nbEvaluateurs": 9,
+  "remarques": "",
+  "famille": "MARCHANDS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3.56
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3.11
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3.33
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 3.44
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3.22
+   },
+   {
+    "label": "Respect des quantités prévues",
+    "moyenne": 3.33
+   }
+  ]
+ },
+ {
+  "nom": "JEROME SA",
+  "type": "Fournisseur",
+  "categorie": "MARCHANDS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3.27,
+  "ca": 376939.7,
+  "caInduni": 675518.25,
+  "pctCa": null,
+  "nbEvaluateurs": 8,
+  "remarques": "",
+  "famille": "MARCHANDS",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3.38
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3.12
+   },
+   {
+    "label": "Respect de la qualité convenue",
+    "moyenne": 3.25
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 3.14
+   },
+   {
+    "label": "Compétence/Assistance technique",
+    "moyenne": 3.38
+   },
+   {
+    "label": "Respect des quantités convenues",
+    "moyenne": 3.38
+   }
+  ]
+ },
+ {
+  "nom": "NORRAC SARL",
+  "type": "Sous-traitant",
+  "categorie": "SOUS-TRAITANTS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3.33,
+  "ca": 3791554,
+  "caInduni": 4044478.8,
+  "pctCa": null,
+  "nbEvaluateurs": 5,
+  "remarques": "",
+  "famille": "SOUS-TRAITANTS",
+  "criteres": [
+   {
+    "label": "Respect des délais / Réactivité",
+    "moyenne": 3.6
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3.2
+   },
+   {
+    "label": "Qualité des prestations / Compétence",
+    "moyenne": 3.6
+   },
+   {
+    "label": "Gestion des litiges (y.c. levée de réserves)",
+    "moyenne": 3.4
+   },
+   {
+    "label": "Respect des règles de sécurité",
+    "moyenne": 3.2
+   },
+   {
+    "label": "Tenue des chantiers, ordre, propreté",
+    "moyenne": 3
+   }
+  ]
+ },
+ {
+  "nom": "COFFRAGE JM",
+  "type": "Sous-traitant",
+  "categorie": "SOUS-TRAITANTS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3.4,
+  "ca": 1902903.84,
+  "caInduni": 2315214.89,
+  "pctCa": null,
+  "nbEvaluateurs": 5,
+  "remarques": "",
+  "famille": "SOUS-TRAITANTS",
+  "criteres": [
+   {
+    "label": "Respect des délais / Réactivité",
+    "moyenne": 3.2
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3.6
+   },
+   {
+    "label": "Qualité des prestations / Compétence",
+    "moyenne": 3.6
+   },
+   {
+    "label": "Gestion des litiges (y.c. levée de réserves)",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect des règles de sécurité",
+    "moyenne": 3.4
+   },
+   {
+    "label": "Tenue des chantiers, ordre, propreté",
+    "moyenne": 3.6
+   }
+  ]
+ },
+ {
+  "nom": "ORLLATI SA",
+  "type": "Sous-traitant",
+  "categorie": "SOUS-TRAITANTS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.93,
+  "ca": 1729635.45,
+  "caInduni": 3294478.3999999994,
+  "pctCa": null,
+  "nbEvaluateurs": 5,
+  "remarques": "",
+  "famille": "SOUS-TRAITANTS",
+  "criteres": [
+   {
+    "label": "Respect des délais / Réactivité",
+    "moyenne": 3
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3
+   },
+   {
+    "label": "Qualité des prestations / Compétence",
+    "moyenne": 3.2
+   },
+   {
+    "label": "Gestion des litiges (y.c. levée de réserves)",
+    "moyenne": 3.2
+   },
+   {
+    "label": "Respect des règles de sécurité",
+    "moyenne": 2.6
+   },
+   {
+    "label": "Tenue des chantiers, ordre, propreté",
+    "moyenne": 2.6
+   }
+  ]
+ },
+ {
+  "nom": "ELI ENTREPRISE GENERALE",
+  "type": "Sous-traitant",
+  "categorie": "SOUS-TRAITANTS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.88,
+  "ca": 980846.0199999999,
+  "caInduni": 1263111.42,
+  "pctCa": null,
+  "nbEvaluateurs": 4,
+  "remarques": "",
+  "famille": "SOUS-TRAITANTS",
+  "criteres": [
+   {
+    "label": "Respect des délais / Réactivité",
+    "moyenne": 3
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3
+   },
+   {
+    "label": "Qualité des prestations / Compétence",
+    "moyenne": 3
+   },
+   {
+    "label": "Gestion des litiges (y.c. levée de réserves)",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect des règles de sécurité",
+    "moyenne": 2.5
+   },
+   {
+    "label": "Tenue des chantiers, ordre, propreté",
+    "moyenne": 2.75
+   }
+  ]
+ },
+ {
+  "nom": "EKA SARL",
+  "type": "Sous-traitant",
+  "categorie": "SOUS-TRAITANTS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3.08,
+  "ca": 692454.35,
+  "caInduni": 692454.35,
+  "pctCa": null,
+  "nbEvaluateurs": 2,
+  "remarques": "",
+  "famille": "SOUS-TRAITANTS",
+  "criteres": [
+   {
+    "label": "Respect des délais / Réactivité",
+    "moyenne": 3
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3.5
+   },
+   {
+    "label": "Qualité des prestations / Compétence",
+    "moyenne": 3
+   },
+   {
+    "label": "Gestion des litiges (y.c. levée de réserves)",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect des règles de sécurité",
+    "moyenne": 3
+   },
+   {
+    "label": "Tenue des chantiers, ordre, propreté",
+    "moyenne": 3
+   }
+  ]
+ },
+ {
+  "nom": "BERISHA SARL",
+  "type": "Sous-traitant",
+  "categorie": "SOUS-TRAITANTS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3.43,
+  "ca": 540175.15,
+  "caInduni": 540175.15,
+  "pctCa": null,
+  "nbEvaluateurs": 5,
+  "remarques": "",
+  "famille": "SOUS-TRAITANTS",
+  "criteres": [
+   {
+    "label": "Respect des délais / Réactivité",
+    "moyenne": 3.6
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3.2
+   },
+   {
+    "label": "Qualité des prestations / Compétence",
+    "moyenne": 3.6
+   },
+   {
+    "label": "Gestion des litiges (y.c. levée de réserves)",
+    "moyenne": 3.4
+   },
+   {
+    "label": "Respect des règles de sécurité",
+    "moyenne": 3.4
+   },
+   {
+    "label": "Tenue des chantiers, ordre, propreté",
+    "moyenne": 3.4
+   }
+  ]
+ },
+ {
+  "nom": "ETICO SA",
+  "type": "Sous-traitant",
+  "categorie": "SOUS-TRAITANTS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.08,
+  "ca": 517441.45,
+  "caInduni": 527973.6,
+  "pctCa": null,
+  "nbEvaluateurs": 2,
+  "remarques": "",
+  "famille": "SOUS-TRAITANTS",
+  "criteres": [
+   {
+    "label": "Respect des délais / Réactivité",
+    "moyenne": 1.5
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 2.5
+   },
+   {
+    "label": "Qualité des prestations / Compétence",
+    "moyenne": 2
+   },
+   {
+    "label": "Gestion des litiges (y.c. levée de réserves)",
+    "moyenne": 2.5
+   },
+   {
+    "label": "Respect des règles de sécurité",
+    "moyenne": 2.5
+   },
+   {
+    "label": "Tenue des chantiers, ordre, propreté",
+    "moyenne": 1.5
+   }
+  ]
+ },
+ {
+  "nom": "SCRASA",
+  "type": "Sous-traitant",
+  "categorie": "SOUS-TRAITANTS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": null,
+  "ca": 343217.2,
+  "caInduni": 641427.2000000001,
+  "pctCa": null,
+  "nbEvaluateurs": null,
+  "remarques": "",
+  "famille": "SOUS-TRAITANTS",
+  "criteres": null
+ },
+ {
+  "nom": "RIMEBAT SA",
+  "type": "Sous-traitant",
+  "categorie": "SOUS-TRAITANTS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3.47,
+  "ca": 286228.8,
+  "caInduni": 302482.64999999997,
+  "pctCa": null,
+  "nbEvaluateurs": 5,
+  "remarques": "",
+  "famille": "SOUS-TRAITANTS",
+  "criteres": [
+   {
+    "label": "Respect des délais / Réactivité",
+    "moyenne": 3.6
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3.2
+   },
+   {
+    "label": "Qualité des prestations / Compétence",
+    "moyenne": 3.6
+   },
+   {
+    "label": "Gestion des litiges (y.c. levée de réserves)",
+    "moyenne": 3.6
+   },
+   {
+    "label": "Respect des règles de sécurité",
+    "moyenne": 3.4
+   },
+   {
+    "label": "Tenue des chantiers, ordre, propreté",
+    "moyenne": 3.4
+   }
+  ]
+ },
+ {
+  "nom": "NOVALLA SARL",
+  "type": "Sous-traitant",
+  "categorie": "SOUS-TRAITANTS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3,
+  "ca": 273889.2,
+  "caInduni": 306199.2,
+  "pctCa": null,
+  "nbEvaluateurs": 2,
+  "remarques": "",
+  "famille": "SOUS-TRAITANTS",
+  "criteres": [
+   {
+    "label": "Respect des délais / Réactivité",
+    "moyenne": 3
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3
+   },
+   {
+    "label": "Qualité des prestations / Compétence",
+    "moyenne": 3
+   },
+   {
+    "label": "Gestion des litiges (y.c. levée de réserves)",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect des règles de sécurité",
+    "moyenne": 3
+   },
+   {
+    "label": "Tenue des chantiers, ordre, propreté",
+    "moyenne": 3
+   }
+  ]
+ },
+ {
+  "nom": "VACCA RESINES",
+  "type": "Sous-traitant",
+  "categorie": "SOUS-TRAITANTS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3.22,
+  "ca": 237920.3,
+  "caInduni": 246859.4,
+  "pctCa": null,
+  "nbEvaluateurs": 3,
+  "remarques": "",
+  "famille": "SOUS-TRAITANTS",
+  "criteres": [
+   {
+    "label": "Respect des délais / Réactivité",
+    "moyenne": 3.67
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3
+   },
+   {
+    "label": "Qualité des prestations / Compétence",
+    "moyenne": 3.67
+   },
+   {
+    "label": "Gestion des litiges (y.c. levée de réserves)",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect des règles de sécurité",
+    "moyenne": 3
+   },
+   {
+    "label": "Tenue des chantiers, ordre, propreté",
+    "moyenne": 3
+   }
+  ]
+ },
+ {
+  "nom": "IMPLENIA SUISSE",
+  "type": "Sous-traitant",
+  "categorie": "SOUS-TRAITANTS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.17,
+  "ca": 222401.55,
+  "caInduni": 241858.09999999998,
+  "pctCa": null,
+  "nbEvaluateurs": 1,
+  "remarques": "",
+  "famille": "SOUS-TRAITANTS",
+  "criteres": [
+   {
+    "label": "Respect des délais / Réactivité",
+    "moyenne": 3
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 2
+   },
+   {
+    "label": "Qualité des prestations / Compétence",
+    "moyenne": 1
+   },
+   {
+    "label": "Gestion des litiges (y.c. levée de réserves)",
+    "moyenne": 1
+   },
+   {
+    "label": "Respect des règles de sécurité",
+    "moyenne": 3
+   },
+   {
+    "label": "Tenue des chantiers, ordre, propreté",
+    "moyenne": 3
+   }
+  ]
+ },
+ {
+  "nom": "MIRACO ECHAFAUDAGES",
+  "type": "Sous-traitant",
+  "categorie": "SOUS-TRAITANTS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": null,
+  "ca": 154323.2,
+  "caInduni": 154323.2,
+  "pctCa": null,
+  "nbEvaluateurs": null,
+  "remarques": "",
+  "famille": "SOUS-TRAITANTS",
+  "criteres": null
+ },
+ {
+  "nom": "TOPNET SA",
+  "type": "Sous-traitant",
+  "categorie": "SOUS-TRAITANTS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.59,
+  "ca": 133619.2,
+  "caInduni": 167716.25000000003,
+  "pctCa": null,
+  "nbEvaluateurs": 6,
+  "remarques": "",
+  "famille": "SOUS-TRAITANTS",
+  "criteres": [
+   {
+    "label": "Respect des délais / Réactivité",
+    "moyenne": 2.67
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 2.33
+   },
+   {
+    "label": "Qualité des prestations / Compétence",
+    "moyenne": 2.5
+   },
+   {
+    "label": "Gestion des litiges (y.c. levée de réserves)",
+    "moyenne": 2.6
+   },
+   {
+    "label": "Respect des règles de sécurité",
+    "moyenne": 2.8
+   },
+   {
+    "label": "Tenue des chantiers, ordre, propreté",
+    "moyenne": 2.67
+   }
+  ]
+ },
+ {
+  "nom": "CONSTRUCTION METALLIQUE MAURON SA",
+  "type": "Sous-traitant",
+  "categorie": "SOUS-TRAITANTS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": null,
+  "ca": 132444.75,
+  "caInduni": 137551.5,
+  "pctCa": null,
+  "nbEvaluateurs": null,
+  "remarques": "",
+  "famille": "SOUS-TRAITANTS",
+  "criteres": null
+ },
+ {
+  "nom": "CAP ETANCHEITE SA",
+  "type": "Sous-traitant",
+  "categorie": "SOUS-TRAITANTS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.83,
+  "ca": 124424.65,
+  "caInduni": 225497.19999999998,
+  "pctCa": null,
+  "nbEvaluateurs": 5,
+  "remarques": "",
+  "famille": "SOUS-TRAITANTS",
+  "criteres": [
+   {
+    "label": "Respect des délais / Réactivité",
+    "moyenne": 3
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 2.8
+   },
+   {
+    "label": "Qualité des prestations / Compétence",
+    "moyenne": 2.6
+   },
+   {
+    "label": "Gestion des litiges (y.c. levée de réserves)",
+    "moyenne": 3
+   },
+   {
+    "label": "Respect des règles de sécurité",
+    "moyenne": 2.8
+   },
+   {
+    "label": "Tenue des chantiers, ordre, propreté",
+    "moyenne": 2.8
+   }
+  ]
+ },
+ {
+  "nom": "NEW LOOK ECHAFAUDAGES",
+  "type": "Sous-traitant",
+  "categorie": "SOUS-TRAITANTS",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.28,
+  "ca": 107290.8,
+  "caInduni": 107290.8,
+  "pctCa": null,
+  "nbEvaluateurs": 3,
+  "remarques": "",
+  "famille": "SOUS-TRAITANTS",
+  "criteres": [
+   {
+    "label": "Respect des délais / Réactivité",
+    "moyenne": 2.33
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 2.33
+   },
+   {
+    "label": "Qualité des prestations / Compétence",
+    "moyenne": 2
+   },
+   {
+    "label": "Gestion des litiges (y.c. levée de réserves)",
+    "moyenne": 2.33
+   },
+   {
+    "label": "Respect des règles de sécurité",
+    "moyenne": 2.33
+   },
+   {
+    "label": "Tenue des chantiers, ordre, propreté",
+    "moyenne": 2.33
+   }
+  ]
+ },
+ {
+  "nom": "WOLFKRAN SCHWEIZ",
+  "type": "Fournisseur",
+  "categorie": "",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3.05,
+  "ca": 947800.0,
+  "caInduni": 1664263.0,
+  "pctCa": null,
+  "nbEvaluateurs": 7,
+  "remarques": "",
+  "famille": "",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3.43
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 2.86
+   },
+   {
+    "label": "Qualité des machines",
+    "moyenne": 3
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 2.86
+   },
+   {
+    "label": "Compétence / Assistance technique",
+    "moyenne": 3
+   },
+   {
+    "label": "Qualité du SAV",
+    "moyenne": 3.14
+   }
+  ]
+ },
+ {
+  "nom": "GYGER LEVAGE SARL",
+  "type": "Fournisseur",
+  "categorie": "LEVAGE / MACHINES /LOCATION",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 3.44,
+  "ca": 448020.8,
+  "caInduni": 726769.9500000001,
+  "pctCa": null,
+  "nbEvaluateurs": 8,
+  "remarques": "",
+  "famille": "LEVAGE / MACHINES /LOCATION",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3.62
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 3.12
+   },
+   {
+    "label": "Qualité des machines",
+    "moyenne": 3.62
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 3.38
+   },
+   {
+    "label": "Compétence / Assistance technique",
+    "moyenne": 3.5
+   },
+   {
+    "label": "Qualité du SAV",
+    "moyenne": 3.38
+   }
+  ]
+ },
+ {
+  "nom": "LIEBHERR-BAUMASCHINEN",
+  "type": "Fournisseur",
+  "categorie": "LEVAGE / MACHINES /LOCATION",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.94,
+  "ca": 337718.9,
+  "caInduni": 675498.2000000001,
+  "pctCa": null,
+  "nbEvaluateurs": 6,
+  "remarques": "",
+  "famille": "LEVAGE / MACHINES /LOCATION",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 2.83
+   },
+   {
+    "label": "Qualité des machines",
+    "moyenne": 3
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 2.83
+   },
+   {
+    "label": "Compétence / Assistance technique",
+    "moyenne": 3
+   },
+   {
+    "label": "Qualité du SAV",
+    "moyenne": 3
+   }
+  ]
+ },
+ {
+  "nom": "AVESCO RENT SA",
+  "type": "Fournisseur",
+  "categorie": "LEVAGE / MACHINES /LOCATION",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.9,
+  "ca": 256800.35,
+  "caInduni": 652208.05,
+  "pctCa": null,
+  "nbEvaluateurs": 5,
+  "remarques": "",
+  "famille": "LEVAGE / MACHINES /LOCATION",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 2.8
+   },
+   {
+    "label": "Qualité des machines",
+    "moyenne": 3
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 3
+   },
+   {
+    "label": "Compétence / Assistance technique",
+    "moyenne": 2.8
+   },
+   {
+    "label": "Qualité du SAV",
+    "moyenne": 2.8
+   }
+  ]
+ },
+ {
+  "nom": "GH SA",
+  "type": "Fournisseur",
+  "categorie": "LEVAGE / MACHINES /LOCATION",
+  "secteur": "BAT GE",
+  "annee": 2021,
+  "note": 2.87,
+  "ca": 108017.35,
+  "caInduni": 512106.85,
+  "pctCa": null,
+  "nbEvaluateurs": 5,
+  "remarques": "",
+  "famille": "LEVAGE / MACHINES /LOCATION",
+  "criteres": [
+   {
+    "label": "Respect des délais de livraison convenus",
+    "moyenne": 3
+   },
+   {
+    "label": "Rapport qualité/prix",
+    "moyenne": 2.8
+   },
+   {
+    "label": "Qualité des machines",
+    "moyenne": 3
+   },
+   {
+    "label": "Souplesse et façon de traiter nos réclamations",
+    "moyenne": 2.8
+   },
+   {
+    "label": "Compétence / Assistance technique",
+    "moyenne": 2.8
+   },
+   {
+    "label": "Qualité du SAV",
+    "moyenne": 2.8
    }
   ]
  }
