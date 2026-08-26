@@ -1,10 +1,14 @@
 export default function Histogram({ data }: { data: { bucket: string; count: number }[] }) {
   const max = Math.max(1, ...data.map((d) => d.count))
+  const total = data.reduce((sum, d) => sum + d.count, 0)
   return (
     <div className="flex items-end gap-2 h-40">
       {data.map((d) => (
         <div key={d.bucket} className="flex-1 flex flex-col items-center justify-end h-full">
-          <div className="text-xs text-slate-600 mb-1">{d.count}</div>
+          <div className="text-xs text-slate-600 mb-1 text-center">
+            {d.count}
+            <div className="text-[10px] text-slate-400">{total > 0 ? `${Math.round((d.count / total) * 100)}%` : '0%'}</div>
+          </div>
           <div
             className="w-full rounded-t bg-indigo-500"
             style={{ height: `${(d.count / max) * 100}%`, minHeight: d.count > 0 ? 3 : 0 }}
