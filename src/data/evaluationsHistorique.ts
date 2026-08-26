@@ -224,11 +224,21 @@ export interface SecteurComparison {
 }
 
 export function compareSecteurs(all: EvalRecord[], secteurA: string, secteurB: string, annee: number): SecteurComparison {
-  const kpisA = computeKpis(all, secteurA, annee)
-  const kpisB = computeKpis(all, secteurB, annee)
+  return compareCells(all, { secteur: secteurA, annee }, { secteur: secteurB, annee })
+}
 
-  const currentA = all.filter((r) => r.secteur === secteurA && r.annee === annee && r.note != null)
-  const currentB = all.filter((r) => r.secteur === secteurB && r.annee === annee && r.note != null)
+/** Généralisation de compareSecteurs : compare deux couples (secteur, année) quelconques —
+ * deux secteurs la même année, ou le même secteur sur deux années différentes. */
+export function compareCells(
+  all: EvalRecord[],
+  cellA: { secteur: string; annee: number },
+  cellB: { secteur: string; annee: number },
+): SecteurComparison {
+  const kpisA = computeKpis(all, cellA.secteur, cellA.annee)
+  const kpisB = computeKpis(all, cellB.secteur, cellB.annee)
+
+  const currentA = all.filter((r) => r.secteur === cellA.secteur && r.annee === cellA.annee && r.note != null)
+  const currentB = all.filter((r) => r.secteur === cellB.secteur && r.annee === cellB.annee && r.note != null)
   const notesA = new Map(currentA.map((r) => [r.nom, r.note!]))
   const notesB = new Map(currentB.map((r) => [r.nom, r.note!]))
   const communs = [...notesA.keys()].filter((n) => notesB.has(n))

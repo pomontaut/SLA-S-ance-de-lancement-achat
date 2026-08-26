@@ -95,6 +95,26 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
   )
   const latestWithCriteres = filteredHistory.find((h) => h.criteres)
 
+  const anneesPourComparaison = useMemo(() => Array.from(new Set(history.map((h) => h.annee))).sort((a, b) => b - a), [history])
+  const [compareOn, setCompareOn] = useState(false)
+  const [compareA, setCompareA] = useState<number | null>(null)
+  const [compareB, setCompareB] = useState<number | null>(null)
+
+  useEffect(() => {
+    setCompareOn(false)
+    setCompareA(anneesPourComparaison[0] ?? null)
+    setCompareB(anneesPourComparaison[1] ?? null)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected])
+
+  const recordForYear = (y: number | null) => {
+    if (y == null) return undefined
+    return history.find((h) => h.annee === y && h.criteres) ?? history.find((h) => h.annee === y)
+  }
+  const recA = recordForYear(compareA)
+  const recB = recordForYear(compareB)
+  const critereLabels = Array.from(new Set([...Object.keys(recA?.criteres ?? {}), ...Object.keys(recB?.criteres ?? {})]))
+
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={onClose}>
       <div className="bg-white rounded-xl max-w-3xl w-full max-h-[85vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
@@ -219,6 +239,81 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
               <div>
                 <h4 className="text-xs uppercase text-slate-500 mb-2">Évolution de la note</h4>
                 <MiniTrend history={filteredHistory} />
+              </div>
+
+              <div>
+                <button className="btn-secondary text-xs" onClick={() => setCompareOn((v) => !v)}>
+                  {compareOn ? 'Masquer le comparatif' : 'Comparer deux années'}
+                </button>
+                {compareOn && anneesPourComparaison.length >= 2 && (
+                  <div className="mt-3 space-y-3">
+                    <div className="flex items-center gap-2">
+                      <select
+                        className="input w-28 py-1"
+                        value={compareA ?? ''}
+                        onChange={(e) => setCompareA(Number(e.target.value))}
+                      >
+                        {anneesPourComparaison.map((a) => (
+                          <option key={a} value={a}>
+                            {a}
+                          </option>
+                        ))}
+                      </select>
+                      <span className="text-slate-400">vs</span>
+                      <select
+                        className="input w-28 py-1"
+                        value={compareB ?? ''}
+                        onChange={(e) => setCompareB(Number(e.target.value))}
+                      >
+                        {anneesPourComparaison.map((a) => (
+                          <option key={a} value={a}>
+                            {a}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <table className="w-full text-sm border-collapse">
+                      <thead>
+                        <tr className="text-left text-xs uppercase text-slate-500 border-b border-slate-200">
+                          <th className="py-1.5 pr-3">Indicateur</th>
+                          <th className="py-1.5 pr-3">{compareA ?? '—'}</th>
+                          <th className="py-1.5">{compareB ?? '—'}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-b border-slate-100">
+                          <td className="py-1.5 pr-3 text-slate-600">Secteur</td>
+                          <td className="py-1.5 pr-3">{recA?.secteur ?? '—'}</td>
+                          <td className="py-1.5">{recB?.secteur ?? '—'}</td>
+                        </tr>
+                        <tr className="border-b border-slate-100">
+                          <td className="py-1.5 pr-3 text-slate-600">Note globale</td>
+                          <td className="py-1.5 pr-3 font-medium" style={{ color: recA?.note != null ? noteColor(recA.note) : undefined }}>
+                            {recA?.note != null ? `${recA.note} / 5` : '—'}
+                          </td>
+                          <td className="py-1.5 font-medium" style={{ color: recB?.note != null ? noteColor(recB.note) : undefined }}>
+                            {recB?.note != null ? `${recB.note} / 5` : '—'}
+                          </td>
+                        </tr>
+                        <tr className="border-b border-slate-100">
+                          <td className="py-1.5 pr-3 text-slate-600">Montant</td>
+                          <td className="py-1.5 pr-3">{formatCurrency(recA?.ca ?? null)}</td>
+                          <td className="py-1.5">{formatCurrency(recB?.ca ?? null)}</td>
+                        </tr>
+                        {critereLabels.map((label) => (
+                          <tr key={label} className="border-b border-slate-100">
+                            <td className="py-1.5 pr-3 text-slate-600">{label}</td>
+                            <td className="py-1.5 pr-3">{recA?.criteres?.[label] ?? '—'}</td>
+                            <td className="py-1.5">{recB?.criteres?.[label] ?? '—'}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+                {compareOn && anneesPourComparaison.length < 2 && (
+                  <p className="text-sm text-slate-500 mt-2">Pas assez d'années disponibles pour ce fournisseur.</p>
+                )}
               </div>
 
               {latestWithCriteres?.criteres && (

@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { EvalRecord, SecteurStat } from '../data/evaluationsHistorique'
-import { SECTEURS, compareSecteurs, findSecteurStat } from '../data/evaluationsHistorique'
+import { SECTEURS, anneesDisponibles, compareCells, findSecteurStat } from '../data/evaluationsHistorique'
 
 function fmtCurrency(v: number | null): string {
   return v == null ? 'Non disponible' : v.toLocaleString('fr-CH', { maximumFractionDigits: 0 }) + ' CHF'
@@ -21,46 +21,111 @@ function Row({ label, a, b }: { label: string; a: string; b: string }) {
 }
 
 export default function SecteurComparison({ all, secteurStats, annee }: { all: EvalRecord[]; secteurStats: SecteurStat[]; annee: number }) {
+  const [mode, setMode] = useState<'secteurs' | 'annees'>('secteurs')
+
   const [secteurA, setSecteurA] = useState('GC')
   const [secteurB, setSecteurB] = useState('BAT GE')
 
-  const cmp = useMemo(() => compareSecteurs(all, secteurA, secteurB, annee), [all, secteurA, secteurB, annee])
-  const statA = findSecteurStat(secteurStats, secteurA, annee)
-  const statB = findSecteurStat(secteurStats, secteurB, annee)
+  const [secteurUnique, setSecteurUnique] = useState('GC')
+  const anneesSecteurUnique = useMemo(() => anneesDisponibles(all, secteurUnique), [all, secteurUnique])
+  const [anneeA, setAnneeA] = useState(annee)
+  const [anneeB, setAnneeB] = useState(annee - 1)
 
-  const panelTotalA = all.filter((r) => r.secteur === secteurA).length
-    ? new Set(all.filter((r) => r.secteur === secteurA).map((r) => r.nom)).size
-    : 0
-  const panelTotalB = new Set(all.filter((r) => r.secteur === secteurB).map((r) => r.nom)).size
+  // Quand on change de secteur en mode "2 années", recale les deux années sélectionnées
+  // sur les deux plus récentes réellement disponibles pour ce secteur.
+  useEffect(() => {
+    if (anneesSecteurUnique.length === 0) return
+    setAnneeA(anneesSecteurUnique[0])
+    setAnneeB(anneesSecteurUnique[1] ?? anneesSecteurUnique[0])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [secteurUnique])
+
+  const cellA = mode === 'secteurs' ? { secteur: secteurA, annee } : { secteur: secteurUnique, annee: anneeA }
+  const cellB = mode === 'secteurs' ? { secteur: secteurB, annee } : { secteur: secteurUnique, annee: anneeB }
+  const labelA = mode === 'secteurs' ? secteurA : `${secteurUnique} ${anneeA}`
+  const labelB = mode === 'secteurs' ? secteurB : `${secteurUnique} ${anneeB}`
+
+  const cmp = useMemo(() => compareCells(all, cellA, cellB), [all, cellA.secteur, cellA.annee, cellB.secteur, cellB.annee])
+  const statA = findSecteurStat(secteurStats, cellA.secteur, cellA.annee)
+  const statB = findSecteurStat(secteurStats, cellB.secteur, cellB.annee)
+
+  const panelTotalA = new Set(all.filter((r) => r.secteur === cellA.secteur).map((r) => r.nom)).size
+  const panelTotalB = new Set(all.filter((r) => r.secteur === cellB.secteur).map((r) => r.nom)).size
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap items-center gap-3">
-        <select className="input w-40" value={secteurA} onChange={(e) => setSecteurA(e.target.value)}>
-          {SECTEURS.map((s) => (
-            <option key={s} value={s}>
-              {s}
-            </option>
-          ))}
-        </select>
-        <span className="text-slate-400">vs</span>
-        <select className="input w-40" value={secteurB} onChange={(e) => setSecteurB(e.target.value)}>
-          {SECTEURS.map((s) => (
-            <option key={s} value={s}>
-              {s}
-            </option>
-          ))}
-        </select>
-        <span className="text-sm text-slate-500">Année {annee}</span>
+      <div className="flex flex-wrap items-center gap-2">
+        <button
+          className={mode === 'secteurs' ? 'btn-primary text-xs py-1' : 'btn-secondary text-xs py-1'}
+          onClick={() => setMode('secteurs')}
+        >
+          2 secteurs, même année
+        </button>
+        <button
+          className={mode === 'annees' ? 'btn-primary text-xs py-1' : 'btn-secondary text-xs py-1'}
+          onClick={() => setMode('annees')}
+        >
+          Même secteur, 2 années
+        </button>
       </div>
+
+      {mode === 'secteurs' ? (
+        <div className="flex flex-wrap items-center gap-3">
+          <select className="input w-40" value={secteurA} onChange={(e) => setSecteurA(e.target.value)}>
+            {SECTEURS.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+          <span className="text-slate-400">vs</span>
+          <select className="input w-40" value={secteurB} onChange={(e) => setSecteurB(e.target.value)}>
+            {SECTEURS.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+          <span className="text-sm text-slate-500">Année {annee}</span>
+        </div>
+      ) : (
+        <div className="flex flex-wrap items-center gap-3">
+          <select
+            className="input w-40"
+            value={secteurUnique}
+            onChange={(e) => setSecteurUnique(e.target.value)}
+          >
+            {SECTEURS.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+          <select className="input w-28" value={anneeA} onChange={(e) => setAnneeA(Number(e.target.value))}>
+            {anneesSecteurUnique.map((a) => (
+              <option key={a} value={a}>
+                {a}
+              </option>
+            ))}
+          </select>
+          <span className="text-slate-400">vs</span>
+          <select className="input w-28" value={anneeB} onChange={(e) => setAnneeB(Number(e.target.value))}>
+            {anneesSecteurUnique.map((a) => (
+              <option key={a} value={a}>
+                {a}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
       <div className="card overflow-x-auto">
         <table className="w-full text-sm border-collapse">
           <thead>
             <tr className="text-left text-xs uppercase text-slate-500 border-b border-slate-200">
               <th className="py-2 pr-3">Indicateur</th>
-              <th className="py-2 pr-3">{secteurA}</th>
-              <th className="py-2">{secteurB}</th>
+              <th className="py-2 pr-3">{labelA}</th>
+              <th className="py-2">{labelB}</th>
             </tr>
           </thead>
           <tbody>
@@ -98,12 +163,12 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
               </td>
             </tr>
             <Row
-              label={`Moyenne globale ${annee}`}
-              a={cmp.a.moyenneGlobale != null ? `${cmp.a.moyenneGlobale} / 5` : '—'}
-              b={cmp.b.moyenneGlobale != null ? `${cmp.b.moyenneGlobale} / 5` : '—'}
+              label="Moyenne globale"
+              a={cmp.a.moyenneGlobale != null ? `${cmp.a.moyenneGlobale} / 5 (${cellA.annee})` : '—'}
+              b={cmp.b.moyenneGlobale != null ? `${cmp.b.moyenneGlobale} / 5 (${cellB.annee})` : '—'}
             />
             <Row
-              label={`Évolution vs ${annee - 1}`}
+              label="Évolution vs année-1"
               a={cmp.a.evolution != null ? `${cmp.a.evolution >= 0 ? '+' : ''}${cmp.a.evolution} pt` : 'Non disponible'}
               b={cmp.b.evolution != null ? `${cmp.b.evolution >= 0 ? '+' : ''}${cmp.b.evolution} pt` : 'Non disponible'}
             />
@@ -132,7 +197,7 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
               </td>
             </tr>
             <Row label="À une seule évaluation" a={String(cmp.a.uneEvaluation)} b={String(cmp.b.uneEvaluation)} />
-            <Row label={`Non évalués en ${annee - 1}`} a={String(cmp.a.nonEvaluesAnneePrecedente)} b={String(cmp.b.nonEvaluesAnneePrecedente)} />
+            <Row label="Non évalués l'année précédente" a={String(cmp.a.nonEvaluesAnneePrecedente)} b={String(cmp.b.nonEvaluesAnneePrecedente)} />
             <Row label="Jamais évalués avant" a={String(cmp.a.jamaisEvaluesAvant)} b={String(cmp.b.jamaisEvaluesAvant)} />
           </tbody>
         </table>
@@ -145,22 +210,22 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
 
       <div className="card">
         <h3 className="font-semibold mb-3">
-          Fournisseurs communs à {secteurA} et {secteurB} en {annee} ({cmp.fournisseursCommuns.length})
+          Fournisseurs communs à {labelA} et {labelB} ({cmp.fournisseursCommuns.length})
         </h3>
         {cmp.fournisseursCommuns.length === 0 ? (
-          <p className="text-sm text-slate-500">Aucun fournisseur commun cette année-là.</p>
+          <p className="text-sm text-slate-500">Aucun fournisseur commun.</p>
         ) : (
           <>
             <p className="text-sm text-slate-600 mb-3">
-              Moyenne {secteurA} : {cmp.moyenneCommuneA ?? '—'} / 5 · Moyenne {secteurB} : {cmp.moyenneCommuneB ?? '—'} / 5
+              Moyenne {labelA} : {cmp.moyenneCommuneA ?? '—'} / 5 · Moyenne {labelB} : {cmp.moyenneCommuneB ?? '—'} / 5
             </p>
             <h4 className="text-xs uppercase text-slate-500 mb-2">Plus grands écarts de notation</h4>
             <table className="w-full text-sm border-collapse">
               <thead>
                 <tr className="text-left text-xs uppercase text-slate-500 border-b border-slate-200">
                   <th className="py-1.5 pr-3">Fournisseur</th>
-                  <th className="py-1.5 pr-3">{secteurA}</th>
-                  <th className="py-1.5 pr-3">{secteurB}</th>
+                  <th className="py-1.5 pr-3">{labelA}</th>
+                  <th className="py-1.5 pr-3">{labelB}</th>
                   <th className="py-1.5">Écart</th>
                 </tr>
               </thead>
