@@ -12,10 +12,11 @@ function formatCurrency(v: number | null): string {
   return v == null ? '—' : v.toLocaleString('fr-CH', { maximumFractionDigits: 0 }) + ' CHF'
 }
 
-function MiniTrend({ history }: { history: EvalRecord[] }) {
+function MiniTrend({ history, generalSeries }: { history: EvalRecord[]; generalSeries?: { annee: number; note: number }[] }) {
   const points = history.filter((h) => h.note != null)
-  if (points.length < 2) return null
-  const annees = Array.from(new Set(points.map((p) => p.annee))).sort((a, b) => a - b)
+  const general = generalSeries ?? []
+  if (points.length < 2 && general.length < 2) return null
+  const annees = Array.from(new Set([...points.map((p) => p.annee), ...general.map((g) => g.annee)])).sort((a, b) => a - b)
   const secteurs = Array.from(new Set(points.map((p) => p.secteur)))
   const width = 500
   const height = 120
@@ -48,13 +49,40 @@ function MiniTrend({ history }: { history: EvalRecord[] }) {
             </g>
           )
         })}
+        {general.length > 0 && (
+          <g>
+            <path
+              d={general
+                .slice()
+                .sort((a, b) => a.annee - b.annee)
+                .map((p, i) => `${i === 0 ? 'M' : 'L'} ${x(p.annee)} ${y(p.note)}`)
+                .join(' ')}
+              fill="none"
+              stroke={secteurColor('Général')}
+              strokeWidth={2}
+              strokeDasharray="5 3"
+              strokeLinecap="round"
+            />
+            {general.map((p) => (
+              <circle
+                key={p.annee}
+                cx={x(p.annee)}
+                cy={y(p.note)}
+                r={4}
+                fill={secteurColor('Général')}
+                stroke="white"
+                strokeWidth={1}
+              />
+            ))}
+          </g>
+        )}
         {annees.map((a) => (
           <text key={a} x={x(a)} y={height - 4} textAnchor="middle" fontSize={11} fontWeight={500} fill="#334155">
             {a}
           </text>
         ))}
       </svg>
-      {secteurs.length > 1 && (
+      {(secteurs.length > 1 || general.length > 0) && (
         <div className="flex flex-wrap gap-x-3 gap-y-1 mt-1">
           {secteurs.map((sec) => (
             <div key={sec} className="flex items-center gap-1.5 text-xs text-slate-600">
@@ -62,8 +90,54 @@ function MiniTrend({ history }: { history: EvalRecord[] }) {
               {sec}
             </div>
           ))}
+          {general.length > 0 && (
+            <div className="flex items-center gap-1.5 text-xs text-slate-600">
+              <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ backgroundColor: secteurColor('Général') }} />
+              Général (moyenne tous secteurs)
+            </div>
+          )}
         </div>
       )}
+    </div>
+  )
+}
+
+/** Pour un même critère, empile les barres de chaque secteur directement l'une sous
+ * l'autre (plutôt que deux graphiques côte à côte non alignés) pour comparer d'un
+ * coup d'œil les secteurs qui partagent le même libellé de critère. */
+function PairedCriteriaChart({ series }: { series: { label: string; color: string; criteres: Record<string, number> }[] }) {
+  const labels = Array.from(new Set(series.flatMap((s) => Object.keys(s.criteres))))
+  return (
+    <div className="space-y-3">
+      {labels.map((label) => (
+        <div key={label}>
+          <div className="text-xs text-slate-500 mb-1 truncate" title={label}>
+            {label}
+          </div>
+          <div className="space-y-1">
+            {series.map((s) => {
+              const value = s.criteres[label]
+              if (value == null) return null
+              return (
+                <div key={s.label} className="flex items-center gap-2 text-xs">
+                  <span
+                    className="inline-block w-2 h-2 rounded-full shrink-0"
+                    style={{ backgroundColor: s.color }}
+                    title={s.label}
+                  />
+                  <div className="flex-1 bg-slate-100 rounded-full h-3 relative overflow-hidden">
+                    <div
+                      className="h-full rounded-full"
+                      style={{ width: `${Math.max(2, (value / 5) * 100)}%`, backgroundColor: s.color }}
+                    />
+                  </div>
+                  <div className="w-10 shrink-0 text-right text-slate-700 font-medium">{value}</div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      ))}
     </div>
   )
 }
@@ -80,7 +154,12 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
   }, [suppliers, query])
 
   const history = useMemo(() => (selected ? supplierHistory(all, selected) : []), [all, selected])
-  const secteursDisponibles = useMemo(() => Array.from(new Set(history.map((h) => h.secteur))).sort(), [history])
+  // "Général" est toujours proposé, même sans historique pré-2017 : sélectionné, il n'affiche
+  // pas un secteur réel mais la moyenne agrégée tous secteurs confondus (cf. generalSeries).
+  const secteursDisponibles = useMemo(() => {
+    const reels = Array.from(new Set(history.map((h) => h.secteur))).filter((s) => s !== 'Général').sort()
+    return history.length > 0 ? [...reels, 'Général'] : []
+  }, [history])
   const anneeBounds = useMemo((): [number, number] => {
     if (history.length === 0) return [0, 0]
     const annees = history.map((h) => h.annee)
@@ -122,6 +201,40 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
     }
     return Array.from(bySecteur.values())
   }, [filteredHistory])
+
+  const showGeneral = filterSecteurs.includes('Général')
+
+  // "Général" = moyenne tous secteurs confondus, année par année (et non le secteur
+  // historique "Général" à part) : ce que demande la personne qui utilise l'outil.
+  const generalSeries = useMemo(() => {
+    if (!showGeneral) return []
+    const byAnnee = new Map<number, number[]>()
+    for (const h of history) {
+      if (h.note == null || h.annee < anneeMin || h.annee > anneeMax) continue
+      if (!byAnnee.has(h.annee)) byAnnee.set(h.annee, [])
+      byAnnee.get(h.annee)!.push(h.note)
+    }
+    return Array.from(byAnnee.entries())
+      .map(([annee, notes]) => ({ annee, note: Math.round((notes.reduce((a, b) => a + b, 0) / notes.length) * 100) / 100 }))
+      .sort((a, b) => a.annee - b.annee)
+  }, [history, anneeMin, anneeMax, showGeneral])
+
+  const generalCriteres = useMemo(() => {
+    if (!showGeneral) return null
+    const bucket = new Map<string, number[]>()
+    for (const rec of critereRecordsBySecteur) {
+      for (const [label, value] of Object.entries(rec.criteres ?? {})) {
+        if (!bucket.has(label)) bucket.set(label, [])
+        bucket.get(label)!.push(value)
+      }
+    }
+    if (bucket.size === 0) return null
+    const criteres: Record<string, number> = {}
+    for (const [label, vals] of bucket.entries()) {
+      criteres[label] = Math.round((vals.reduce((a, b) => a + b, 0) / vals.length) * 100) / 100
+    }
+    return criteres
+  }, [critereRecordsBySecteur, showGeneral])
 
   const anneesPourComparaison = useMemo(() => Array.from(new Set(history.map((h) => h.annee))).sort((a, b) => b - a), [history])
   const [compareOn, setCompareOn] = useState(false)
@@ -266,7 +379,7 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
 
               <div>
                 <h4 className="text-xs uppercase text-slate-500 mb-2">Évolution de la note</h4>
-                <MiniTrend history={filteredHistory} />
+                <MiniTrend history={filteredHistory} generalSeries={generalSeries} />
               </div>
 
               <div>
@@ -344,19 +457,55 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
                 )}
               </div>
 
-              {critereRecordsBySecteur.length > 0 && (
-                <div className={critereRecordsBySecteur.length > 1 ? 'grid grid-cols-1 sm:grid-cols-2 gap-4' : ''}>
-                  {critereRecordsBySecteur.map((rec) => (
-                    <div key={rec.secteur}>
-                      <h4 className="text-xs uppercase text-slate-500 mb-2">
-                        Détail par critère ({rec.secteur} {rec.annee})
-                      </h4>
-                      <BarChart
-                        data={Object.entries(rec.criteres!).map(([label, value]) => ({ label, value }))}
-                        max={5}
+              {(critereRecordsBySecteur.length > 0 || generalCriteres) && (
+                <div>
+                  <h4 className="text-xs uppercase text-slate-500 mb-2">
+                    Détail par critère
+                    {critereRecordsBySecteur.length === 1 && !generalCriteres
+                      ? ` (${critereRecordsBySecteur[0].secteur} ${critereRecordsBySecteur[0].annee})`
+                      : ''}
+                  </h4>
+                  {critereRecordsBySecteur.length + (generalCriteres ? 1 : 0) > 1 ? (
+                    <>
+                      <div className="flex flex-wrap gap-x-3 gap-y-1 mb-2">
+                        {critereRecordsBySecteur.map((rec) => (
+                          <div key={rec.secteur} className="flex items-center gap-1.5 text-xs text-slate-600">
+                            <span
+                              className="inline-block w-2.5 h-2.5 rounded-full"
+                              style={{ backgroundColor: secteurColor(rec.secteur) }}
+                            />
+                            {rec.secteur} {rec.annee}
+                          </div>
+                        ))}
+                        {generalCriteres && (
+                          <div className="flex items-center gap-1.5 text-xs text-slate-600">
+                            <span
+                              className="inline-block w-2.5 h-2.5 rounded-full"
+                              style={{ backgroundColor: secteurColor('Général') }}
+                            />
+                            Général (moyenne tous secteurs)
+                          </div>
+                        )}
+                      </div>
+                      <PairedCriteriaChart
+                        series={[
+                          ...critereRecordsBySecteur.map((rec) => ({
+                            label: `${rec.secteur} ${rec.annee}`,
+                            color: secteurColor(rec.secteur),
+                            criteres: rec.criteres!,
+                          })),
+                          ...(generalCriteres
+                            ? [{ label: 'Général', color: secteurColor('Général'), criteres: generalCriteres }]
+                            : []),
+                        ]}
                       />
-                    </div>
-                  ))}
+                    </>
+                  ) : (
+                    <BarChart
+                      data={Object.entries(critereRecordsBySecteur[0].criteres!).map(([label, value]) => ({ label, value }))}
+                      max={5}
+                    />
+                  )}
                 </div>
               )}
 
