@@ -12,12 +12,14 @@ export default function FilterBar({
   types,
   anneeBounds,
   supplierNames = [],
+  cfcList = [],
 }: {
   filters: GlobalFilters
   onChange: (f: GlobalFilters) => void
   types: string[]
   anneeBounds: [number, number]
   supplierNames?: string[]
+  cfcList?: string[]
 }) {
   return (
     <div className="card space-y-3">
@@ -126,6 +128,28 @@ export default function FilterBar({
             <option key={nom} value={nom} />
           ))}
         </datalist>
+
+        {cfcList.length > 0 && (
+          <>
+            <input
+              className="input flex-1 min-w-[200px] py-1"
+              placeholder="Rechercher un CFC…"
+              value={filters.cfc}
+              onChange={(e) => onChange({ ...filters, cfc: e.target.value })}
+              list="cfc-datalist"
+            />
+            <datalist id="cfc-datalist">
+              {cfcList.map((cfc) => (
+                <option key={cfc} value={cfc} />
+              ))}
+            </datalist>
+            {filters.cfc && (
+              <button className="text-xs text-slate-400 underline" onClick={() => onChange({ ...filters, cfc: '' })}>
+                Réinitialiser CFC
+              </button>
+            )}
+          </>
+        )}
       </div>
     </div>
   )

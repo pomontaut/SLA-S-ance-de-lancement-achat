@@ -3,6 +3,7 @@ import type { EvalRecord, GlobalFilters, SecteurStat } from '../data/evaluations
 import {
   SECTEURS,
   applyFilters,
+  distinctCfc,
   distinctTypes,
   globalKpis,
   multiSecteurTrend,
@@ -54,6 +55,7 @@ export default function OverviewTab({
   const famille = useMemo(() => familleBreakdown(filtered).slice(0, 12), [filtered])
   const criteres = useMemo(() => critereMoyennes(filtered), [filtered])
   const supplierNames = useMemo(() => Array.from(new Set(all.map((r) => r.nom))).sort((a, b) => a.localeCompare(b)), [all])
+  const cfcList = useMemo(() => distinctCfc(all), [all])
 
   return (
     <div className="space-y-4">
@@ -63,6 +65,7 @@ export default function OverviewTab({
         types={types}
         anneeBounds={anneeBounds}
         supplierNames={supplierNames}
+        cfcList={cfcList}
       />
 
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">

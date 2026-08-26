@@ -311,6 +311,7 @@ export interface GlobalFilters {
   noteMin: number
   noteMax: number
   search: string
+  cfc: string
 }
 
 export function defaultFilters(all: EvalRecord[]): GlobalFilters {
@@ -323,7 +324,14 @@ export function defaultFilters(all: EvalRecord[]): GlobalFilters {
     noteMin: 0,
     noteMax: 5,
     search: '',
+    cfc: '',
   }
+}
+
+/** Liste des CFC disponibles (uniquement les imports EG GE/VD / EG VS qui les capturent —
+ * ex. "CFC 27 – AMENAGEMENTS INTERIEURS 1" ; les autres secteurs n'en ont pas). */
+export function distinctCfc(all: EvalRecord[]): string[] {
+  return Array.from(new Set(all.map((r) => r.famille).filter((f) => f && f.toUpperCase().startsWith('CFC')))).sort()
 }
 
 /** Les fichiers sources orthographient le type de façon incohérente (casse, pluriel, espaces) :
@@ -346,6 +354,7 @@ export function normalizeType(raw: string): string {
 
 export function applyFilters(all: EvalRecord[], f: GlobalFilters): EvalRecord[] {
   const q = f.search.trim().toLowerCase()
+  const cfc = f.cfc.trim().toLowerCase()
   return all.filter((r) => {
     if (r.note == null) return false
     if (f.secteurs.length > 0 && !f.secteurs.includes(r.secteur)) return false
@@ -353,6 +362,7 @@ export function applyFilters(all: EvalRecord[], f: GlobalFilters): EvalRecord[] 
     if (f.types.length > 0 && !f.types.includes(normalizeType(r.type))) return false
     if (r.note < f.noteMin || r.note > f.noteMax) return false
     if (q && !r.nom.toLowerCase().includes(q)) return false
+    if (cfc && !(r.famille ?? '').toLowerCase().includes(cfc)) return false
     return true
   })
 }
