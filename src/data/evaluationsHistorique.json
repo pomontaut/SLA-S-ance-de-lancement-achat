@@ -517,28 +517,6 @@
     "famille": ""
   },
   {
-    "nom": "ADMIBAT GMBH",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.94,
-    "ca": 43045.45,
-    "caInduni": 88208.65,
-    "pctCa": null,
-    "nbEvaluateurs": 3,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 4,
-      "Respect de la qualité convenue": 3.6666666666666665,
-      "Souplesse et façon de traiter nos réclamations": 4,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 4
-    }
-  },
-  {
     "nom": "ADMINBAT GMBH",
     "type": "Fourn.main d'œuvre",
     "categorie": "",
@@ -980,28 +958,6 @@
       "Réclamations": 2.5,
       "Compétence": 3,
       "Quantités": 3
-    }
-  },
-  {
-    "nom": "ALPHABETON AG",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.5,
-    "ca": 106440.35,
-    "caInduni": 652938.85,
-    "pctCa": null,
-    "nbEvaluateurs": 2,
-    "remarques": "à relancer plusieurs fois selon les personnes . Edwige la classe!",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.5,
-      "Rapport Qualité/Prix": 4,
-      "Respect de la qualité convenue": 3,
-      "Souplesse et façon de traiter nos réclamations": 3,
-      "Compétence / assistance technique": 3.5,
-      "Respect des quantités prévues": 4
     }
   },
   {
@@ -1886,28 +1842,6 @@
       "Réclamations": 3.3,
       "Compétence": 3.5,
       "Quantités": 3.4
-    }
-  },
-  {
-    "nom": "ANCOTECH AG",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.56,
-    "ca": 414781.5,
-    "caInduni": 1169686.9,
-    "pctCa": null,
-    "nbEvaluateurs": 6,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.6666666666666665,
-      "Rapport Qualité/Prix": 3.6666666666666665,
-      "Respect de la qualité convenue": 3.8333333333333335,
-      "Souplesse et façon de traiter nos réclamations": 3.3333333333333335,
-      "Compétence / assistance technique": 3.5,
-      "Respect des quantités prévues": 3.3333333333333335
     }
   },
   {
@@ -2917,26 +2851,6 @@
     "famille": ""
   },
   {
-    "nom": "AVATAR JOBS SARL",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.17,
-    "ca": 357175,
-    "caInduni": 357175,
-    "pctCa": null,
-    "nbEvaluateurs": 6,
-    "remarques": "Top Grutiers , manque lunette",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.3333333333333335,
-      "Rapport Qualité/Prix": 3.8333333333333335,
-      "Respect de la qualité convenue": 3.1666666666666665,
-      "Souplesse et façon de traiter nos réclamations": 2.3333333333333335
-    }
-  },
-  {
     "nom": "AVESCO RENT SA",
     "type": "Fournisseur de mat.",
     "categorie": "Machines",
@@ -3112,28 +3026,6 @@
       "Réclamations": 2.5,
       "Compétence": 2.5,
       "Quantités": 2.75
-    }
-  },
-  {
-    "nom": "AVESCO RENT SA",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.61,
-    "ca": 192325.95,
-    "caInduni": 502857.45,
-    "pctCa": null,
-    "nbEvaluateurs": 3,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.6666666666666665,
-      "Rapport Qualité/Prix": 3.6666666666666665,
-      "Respect de la qualité convenue": 3.6666666666666665,
-      "Souplesse et façon de traiter nos réclamations": 3.3333333333333335,
-      "Compétence / assistance technique": 3.6666666666666665,
-      "Respect des quantités prévues": 3.6666666666666665
     }
   },
   {
@@ -3661,28 +3553,6 @@
     "nbEvaluateurs": null,
     "remarques": "",
     "famille": ""
-  },
-  {
-    "nom": "BATISOLS ROMANDIE SA",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 4.0,
-    "ca": 110096.7,
-    "caInduni": 110096.7,
-    "pctCa": null,
-    "nbEvaluateurs": 1,
-    "remarques": "A consulter pour curages, talochages, ",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 4,
-      "Respect de la qualité convenue": 4,
-      "Souplesse et façon de traiter nos réclamations": 4,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 4
-    }
   },
   {
     "nom": "BAUD SA ELECTRICITE",
@@ -4574,28 +4444,6 @@
     }
   },
   {
-    "nom": "BEWETEC AG",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.4,
-    "ca": 2923755.25,
-    "caInduni": 4491730.8,
-    "pctCa": null,
-    "nbEvaluateurs": 5,
-    "remarques": "délai de réponse tardive, à relancer",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.2,
-      "Rapport Qualité/Prix": 3,
-      "Respect de la qualité convenue": 3.6,
-      "Souplesse et façon de traiter nos réclamations": 3.2,
-      "Compétence / assistance technique": 3.4,
-      "Respect des quantités prévues": 4
-    }
-  },
-  {
     "nom": "BFG BETONFRAIS GRANDSON SA",
     "type": "Fournisseur",
     "categorie": "Béton",
@@ -4750,28 +4598,6 @@
     "nbEvaluateurs": null,
     "remarques": "",
     "famille": ""
-  },
-  {
-    "nom": "BGO SA",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.0,
-    "ca": 364065.55,
-    "caInduni": 364065.55,
-    "pctCa": null,
-    "nbEvaluateurs": 2,
-    "remarques": "Meilleur béton du marché - attention niveau de prix",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.5,
-      "Rapport Qualité/Prix": 1.5,
-      "Respect de la qualité convenue": 3,
-      "Souplesse et façon de traiter nos réclamations": 3,
-      "Compétence / assistance technique": 3.5,
-      "Respect des quantités prévues": 3.5
-    }
   },
   {
     "nom": "BIANCO",
@@ -6733,28 +6559,6 @@
     "famille": ""
   },
   {
-    "nom": "CHALLANDE & FILS SA",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.38,
-    "ca": 125480.4,
-    "caInduni": 266560.3,
-    "pctCa": null,
-    "nbEvaluateurs": 4,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.75,
-      "Rapport Qualité/Prix": 2.5,
-      "Respect de la qualité convenue": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 3,
-      "Compétence / assistance technique": 3.75,
-      "Respect des quantités prévues": 3.75
-    }
-  },
-  {
     "nom": "CHAUFFAGE-ASSISTANCE SA",
     "type": "Sous-traitant",
     "categorie": "Chauffage ventilation",
@@ -8567,28 +8371,6 @@
     "famille": ""
   },
   {
-    "nom": "CONTAINEX",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.58,
-    "ca": 83921.7,
-    "caInduni": 184101.7,
-    "pctCa": null,
-    "nbEvaluateurs": 2,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 3,
-      "Respect de la qualité convenue": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 3,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 4
-    }
-  },
-  {
     "nom": "CORABOIS SA",
     "type": "Fournisseur de mat.",
     "categorie": "Matériel de coffrage bois",
@@ -10196,28 +9978,6 @@
     "famille": ""
   },
   {
-    "nom": "DIETRICH ISOL",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 4.0,
-    "ca": null,
-    "caInduni": null,
-    "pctCa": null,
-    "nbEvaluateurs": 1,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 4,
-      "Respect de la qualité convenue": 4,
-      "Souplesse et façon de traiter nos réclamations": 4,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 4
-    }
-  },
-  {
     "nom": "DIGITALPARKING SA",
     "type": "Sous-traitant",
     "categorie": "Systèmes automatique de parcage",
@@ -11192,28 +10952,6 @@
     "nbEvaluateurs": null,
     "remarques": "",
     "famille": ""
-  },
-  {
-    "nom": "E PREFABRIQUE SA",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.46,
-    "ca": 361704.25,
-    "caInduni": 393810.95,
-    "pctCa": null,
-    "nbEvaluateurs": 4,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.75,
-      "Rapport Qualité/Prix": 3.25,
-      "Respect de la qualité convenue": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 3.75,
-      "Compétence / assistance technique": 2.75,
-      "Respect des quantités prévues": 3.75
-    }
   },
   {
     "nom": "EARA SA",
@@ -13888,28 +13626,6 @@
     }
   },
   {
-    "nom": "FAVRE SA",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.7,
-    "ca": 538691.1,
-    "caInduni": 5725211.550000001,
-    "pctCa": null,
-    "nbEvaluateurs": 5,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 3.4,
-      "Respect de la qualité convenue": 3.8,
-      "Souplesse et façon de traiter nos réclamations": 3.6,
-      "Compétence / assistance technique": 3.6,
-      "Respect des quantités prévues": 3.8
-    }
-  },
-  {
     "nom": "FBA FERRAILLAGE",
     "type": "Sous-traitant",
     "categorie": "Armatures",
@@ -14170,28 +13886,6 @@
     "famille": ""
   },
   {
-    "nom": "FEHR SA",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.5,
-    "ca": 71684.6,
-    "caInduni": 81822.40000000001,
-    "pctCa": null,
-    "nbEvaluateurs": 1,
-    "remarques": "problèmes de plannification",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 2,
-      "Rapport Qualité/Prix": 4,
-      "Respect de la qualité convenue": 4,
-      "Souplesse et façon de traiter nos réclamations": 3,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 4
-    }
-  },
-  {
     "nom": "FELIX CONSTRUCTION",
     "type": "Sous-traitant",
     "categorie": "Façades",
@@ -14333,28 +14027,6 @@
     "nbEvaluateurs": null,
     "remarques": "",
     "famille": ""
-  },
-  {
-    "nom": "FISCHER RISTA AG",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 2.42,
-    "ca": 117775,
-    "caInduni": 120950.4,
-    "pctCa": null,
-    "nbEvaluateurs": 2,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 1.5,
-      "Rapport Qualité/Prix": 3,
-      "Respect de la qualité convenue": 3,
-      "Souplesse et façon de traiter nos réclamations": 1,
-      "Compétence / assistance technique": 3,
-      "Respect des quantités prévues": 3
-    }
   },
   {
     "nom": "FIXIT",
@@ -14839,28 +14511,6 @@
     "nbEvaluateurs": null,
     "remarques": "",
     "famille": ""
-  },
-  {
-    "nom": "FREYSSINET SA",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.33,
-    "ca": 166621.65,
-    "caInduni": 200278.59999999998,
-    "pctCa": null,
-    "nbEvaluateurs": 1,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3,
-      "Rapport Qualité/Prix": 4,
-      "Respect de la qualité convenue": 3,
-      "Souplesse et façon de traiter nos réclamations": 3,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 3
-    }
   },
   {
     "nom": "FRIDERICI SPECIAL SA",
@@ -15830,28 +15480,6 @@
     "famille": ""
   },
   {
-    "nom": "GENTILE SA",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.03,
-    "ca": 4463866.45,
-    "caInduni": 4463866.45,
-    "pctCa": null,
-    "nbEvaluateurs": 6,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.6666666666666665,
-      "Rapport Qualité/Prix": 3.3333333333333335,
-      "Respect de la qualité convenue": 3,
-      "Souplesse et façon de traiter nos réclamations": 3.1666666666666665,
-      "Compétence / assistance technique": 2.5,
-      "Respect des quantités prévues": 2.5
-    }
-  },
-  {
     "nom": "GEOPLAST",
     "type": "Fournisseur de mat.",
     "categorie": "",
@@ -16374,28 +16002,6 @@
       "Réclamations": 2.75,
       "Compétence": 3.4,
       "Quantités": 3
-    }
-  },
-  {
-    "nom": "GH SA",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.28,
-    "ca": 165053,
-    "caInduni": 809382.15,
-    "pctCa": null,
-    "nbEvaluateurs": 6,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.6666666666666665,
-      "Rapport Qualité/Prix": 2.8333333333333335,
-      "Respect de la qualité convenue": 3,
-      "Souplesse et façon de traiter nos réclamations": 3.3333333333333335,
-      "Compétence / assistance technique": 3.5,
-      "Respect des quantités prévues": 3.3333333333333335
     }
   },
   {
@@ -16979,28 +16585,6 @@
     "famille": ""
   },
   {
-    "nom": "GRAFANOVA SARL",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.5,
-    "ca": 308722.8,
-    "caInduni": 308722.8,
-    "pctCa": null,
-    "nbEvaluateurs": 2,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.5,
-      "Rapport Qualité/Prix": 4,
-      "Respect de la qualité convenue": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Compétence / assistance technique": 3,
-      "Respect des quantités prévues": 3.5
-    }
-  },
-  {
     "nom": "GRANIMARBRE SA",
     "type": "Sous-traitant",
     "categorie": "Pierre naturelle, carrelage",
@@ -17064,21 +16648,6 @@
     "nbEvaluateurs": null,
     "remarques": "",
     "famille": ""
-  },
-  {
-    "nom": "GRAVIERE DE LA CLAIE AUX MOINES",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.8,
-    "ca": 282269.85,
-    "caInduni": 282269.85,
-    "pctCa": null,
-    "nbEvaluateurs": null,
-    "remarques": "Non évalué - évalué en séance ",
-    "famille": "FOURNISSEURS",
-    "criteres": null
   },
   {
     "nom": "GRAVIERES DE L'I.",
@@ -17736,28 +17305,6 @@
   },
   {
     "nom": "GRUYERE METAL SA",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.17,
-    "ca": 260110.25,
-    "caInduni": 1185128.15,
-    "pctCa": null,
-    "nbEvaluateurs": 2,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.5,
-      "Rapport Qualité/Prix": 3.5,
-      "Respect de la qualité convenue": 2.5,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Compétence / assistance technique": 3,
-      "Respect des quantités prévues": 3
-    }
-  },
-  {
-    "nom": "GRUYERE METAL SA",
     "type": "Fournisseur",
     "categorie": "Charpente métallique",
     "secteur": "EG GE/VD",
@@ -18166,27 +17713,6 @@
     "famille": ""
   },
   {
-    "nom": "HENRY TRANSPORTS SA",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.5,
-    "ca": 113137.7,
-    "caInduni": 113137.7,
-    "pctCa": null,
-    "nbEvaluateurs": 5,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.6,
-      "Rapport Qualité/Prix": 3.4,
-      "Respect de la qualité convenue": 3.4,
-      "Souplesse et façon de traiter nos réclamations": 3.6,
-      "Compétence / assistance technique": 3.5
-    }
-  },
-  {
     "nom": "HEPTA GROUPE SA",
     "type": "Sous-traitant",
     "categorie": "Revêtements de sols carrelages",
@@ -18491,28 +18017,6 @@
     }
   },
   {
-    "nom": "HG COMMERCIALE",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.44,
-    "ca": 3372851.2,
-    "caInduni": 9504223.499999998,
-    "pctCa": null,
-    "nbEvaluateurs": 6,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.3333333333333335,
-      "Rapport Qualité/Prix": 3.3333333333333335,
-      "Respect de la qualité convenue": 3.6666666666666665,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Compétence / assistance technique": 3.5,
-      "Respect des quantités prévues": 3.3333333333333335
-    }
-  },
-  {
     "nom": "HILTI SCHWEIZ AG",
     "type": "Fournisseur de mat.",
     "categorie": "Fixations, electroportatif",
@@ -18602,28 +18106,6 @@
     "nbEvaluateurs": null,
     "remarques": "",
     "famille": ""
-  },
-  {
-    "nom": "HILTI SCHWEIZ AG",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.67,
-    "ca": 72372.55,
-    "caInduni": 455111.85,
-    "pctCa": null,
-    "nbEvaluateurs": 2,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 3,
-      "Respect de la qualité convenue": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 4,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 3.5
-    }
   },
   {
     "nom": "HK SERVICES ET TECHNIQUES SA",
@@ -19709,26 +19191,6 @@
     "nbEvaluateurs": null,
     "remarques": "",
     "famille": ""
-  },
-  {
-    "nom": "INTERXPERT SA",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 2.88,
-    "ca": 45234.2,
-    "caInduni": 689997.5,
-    "pctCa": null,
-    "nbEvaluateurs": 2,
-    "remarques": "Lunette OK, changement de responsable…. Dommage",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 2.5,
-      "Rapport Qualité/Prix": 3,
-      "Respect de la qualité convenue": 3,
-      "Souplesse et façon de traiter nos réclamations": 3
-    }
   },
   {
     "nom": "ISC SECURITY",
@@ -21656,28 +21118,6 @@
     "famille": ""
   },
   {
-    "nom": "KB IGNIFUGE SA",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.92,
-    "ca": 77744.85,
-    "caInduni": 110944.65000000001,
-    "pctCa": null,
-    "nbEvaluateurs": 2,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 4,
-      "Respect de la qualité convenue": 4,
-      "Souplesse et façon de traiter nos réclamations": 4,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 3.5
-    }
-  },
-  {
     "nom": "KELLER-MTS SA",
     "type": "Sous-traitant",
     "categorie": "Travaux spéciaux / préparatoires / GC",
@@ -21938,28 +21378,6 @@
     "nbEvaluateurs": null,
     "remarques": "",
     "famille": ""
-  },
-  {
-    "nom": "KNAUF AG",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 4.0,
-    "ca": null,
-    "caInduni": null,
-    "pctCa": null,
-    "nbEvaluateurs": 1,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 4,
-      "Respect de la qualité convenue": 4,
-      "Souplesse et façon de traiter nos réclamations": 4,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 4
-    }
   },
   {
     "nom": "KNAUF INSULATION",
@@ -22837,28 +22255,6 @@
     "famille": ""
   },
   {
-    "nom": "LCBE",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.8,
-    "ca": 101572.35,
-    "caInduni": 98455.35,
-    "pctCa": null,
-    "nbEvaluateurs": 5,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.8,
-      "Rapport Qualité/Prix": 4,
-      "Respect de la qualité convenue": 3.4,
-      "Souplesse et façon de traiter nos réclamations": 3.8,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 3.8
-    }
-  },
-  {
     "nom": "LE COULTRE SA",
     "type": "",
     "categorie": "",
@@ -22909,21 +22305,6 @@
     "nbEvaluateurs": null,
     "remarques": "",
     "famille": ""
-  },
-  {
-    "nom": "LE COULTRE SA",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 4.0,
-    "ca": 486651.6,
-    "caInduni": 574667.9,
-    "pctCa": null,
-    "nbEvaluateurs": null,
-    "remarques": "Non évalué - évalué en séance ",
-    "famille": "FOURNISSEURS",
-    "criteres": null
   },
   {
     "nom": "LE TREFLE NETTOYAGE SARL",
@@ -23507,28 +22888,6 @@
     }
   },
   {
-    "nom": "LEUBA HIAG SA",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.75,
-    "ca": 96847.55,
-    "caInduni": 428806.89999999997,
-    "pctCa": null,
-    "nbEvaluateurs": 4,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.75,
-      "Rapport Qualité/Prix": 3.75,
-      "Respect de la qualité convenue": 3.75,
-      "Souplesse et façon de traiter nos réclamations": 3.75,
-      "Compétence / assistance technique": 3.75,
-      "Respect des quantités prévues": 3.75
-    }
-  },
-  {
     "nom": "LEUTENEGGER HANS",
     "type": "Fourn.main d'œuvre",
     "categorie": "",
@@ -23709,28 +23068,6 @@
     "nbEvaluateurs": null,
     "remarques": "",
     "famille": ""
-  },
-  {
-    "nom": "LEVIAT AG",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.0,
-    "ca": 115132.05,
-    "caInduni": 168097.47,
-    "pctCa": null,
-    "nbEvaluateurs": 3,
-    "remarques": "Attention problèmes logistique - dates de livraison non annoncés ",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 2,
-      "Rapport Qualité/Prix": 2.6666666666666665,
-      "Respect de la qualité convenue": 3.6666666666666665,
-      "Souplesse et façon de traiter nos réclamations": 2.6666666666666665,
-      "Compétence / assistance technique": 3.3333333333333335,
-      "Respect des quantités prévues": 3.6666666666666665
-    }
   },
   {
     "nom": "LIAUDET PIAL",
@@ -25055,28 +24392,6 @@
     "famille": ""
   },
   {
-    "nom": "MAPEI SUISSE SA",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.58,
-    "ca": null,
-    "caInduni": null,
-    "pctCa": null,
-    "nbEvaluateurs": 4,
-    "remarques": "Mortier spéciaux",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.75,
-      "Rapport Qualité/Prix": 3.25,
-      "Respect de la qualité convenue": 3.75,
-      "Souplesse et façon de traiter nos réclamations": 3.75,
-      "Compétence / assistance technique": 3.5,
-      "Respect des quantités prévues": 3.5
-    }
-  },
-  {
     "nom": "MARDECO SA",
     "type": "Sous-traitant",
     "categorie": "Marbre, granit",
@@ -26236,28 +25551,6 @@
     "nbEvaluateurs": null,
     "remarques": "",
     "famille": ""
-  },
-  {
-    "nom": "MGC MACONNERIE ET GENIE CIVIL SA",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.92,
-    "ca": 48068.2,
-    "caInduni": 48068.2,
-    "pctCa": null,
-    "nbEvaluateurs": 2,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 4,
-      "Respect de la qualité convenue": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 4,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 4
-    }
   },
   {
     "nom": "MICHEL DEMOLITION SA",
@@ -27629,26 +26922,6 @@
     "famille": ""
   },
   {
-    "nom": "NEW WORK HUMAN RESSOURCES SA",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.12,
-    "ca": 1598383.25,
-    "caInduni": 1598383.25,
-    "pctCa": null,
-    "nbEvaluateurs": 6,
-    "remarques": "Manque lunette",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3,
-      "Rapport Qualité/Prix": 3.6666666666666665,
-      "Respect de la qualité convenue": 3.3333333333333335,
-      "Souplesse et façon de traiter nos réclamations": 2.5
-    }
-  },
-  {
     "nom": "NIVELTEC SARL",
     "type": "Fournisseur de mat.",
     "categorie": "Nivellement",
@@ -28023,28 +27296,6 @@
     "nbEvaluateurs": null,
     "remarques": "",
     "famille": ""
-  },
-  {
-    "nom": "NOVALLA SARL",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.67,
-    "ca": 159988,
-    "caInduni": 321651.55,
-    "pctCa": null,
-    "nbEvaluateurs": 1,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 3,
-      "Respect de la qualité convenue": 3,
-      "Souplesse et façon de traiter nos réclamations": 4,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 4
-    }
   },
   {
     "nom": "NOVOPORTES SA",
@@ -28428,28 +27679,6 @@
     "nbEvaluateurs": null,
     "remarques": "",
     "famille": ""
-  },
-  {
-    "nom": "ORLLATI GRANULATS & BETON SA",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.39,
-    "ca": 796361.2,
-    "caInduni": 796361.2,
-    "pctCa": null,
-    "nbEvaluateurs": 3,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.6666666666666665,
-      "Rapport Qualité/Prix": 3.6666666666666665,
-      "Respect de la qualité convenue": 3,
-      "Souplesse et façon de traiter nos réclamations": 3.3333333333333335,
-      "Compétence / assistance technique": 2.6666666666666665,
-      "Respect des quantités prévues": 4
-    }
   },
   {
     "nom": "ORLLATI VD",
@@ -31091,21 +30320,6 @@
     "famille": ""
   },
   {
-    "nom": "R TECHNOLOGIES",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 2.6,
-    "ca": 47157.9,
-    "caInduni": 395743.25,
-    "pctCa": null,
-    "nbEvaluateurs": null,
-    "remarques": "Non évalué - évalué en séance ",
-    "famille": "FOURNISSEURS",
-    "criteres": null
-  },
-  {
     "nom": "R&S 24 SARL",
     "type": "Sous-traitant",
     "categorie": "Sanitaire ",
@@ -31221,28 +30435,6 @@
     "nbEvaluateurs": null,
     "remarques": "",
     "famille": ""
-  },
-  {
-    "nom": "RAMELET FILS SA",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.73,
-    "ca": 505247.75,
-    "caInduni": 512382.35,
-    "pctCa": null,
-    "nbEvaluateurs": 5,
-    "remarques": "Alush : très bien! Certain de ces employés : plus compliqué",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 3.4,
-      "Respect de la qualité convenue": 3.8,
-      "Souplesse et façon de traiter nos réclamations": 4,
-      "Compétence / assistance technique": 3.4,
-      "Respect des quantités prévues": 3.8
-    }
   },
   {
     "nom": "RAMELET SA",
@@ -32774,28 +31966,6 @@
     "famille": ""
   },
   {
-    "nom": "RONCHI SA",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.92,
-    "ca": 493757.3,
-    "caInduni": 498197.05,
-    "pctCa": null,
-    "nbEvaluateurs": 2,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 4,
-      "Respect de la qualité convenue": 4,
-      "Souplesse et façon de traiter nos réclamations": 4,
-      "Compétence / assistance technique": 3.5,
-      "Respect des quantités prévues": 4
-    }
-  },
-  {
     "nom": "ROSCONI SYSTEMS",
     "type": "Sous-traitant",
     "categorie": "Cloisons",
@@ -33692,21 +32862,6 @@
     "nbEvaluateurs": null,
     "remarques": "",
     "famille": ""
-  },
-  {
-    "nom": "SAGRAVE SA",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.8,
-    "ca": 192200.05,
-    "caInduni": 192200.05,
-    "pctCa": null,
-    "nbEvaluateurs": null,
-    "remarques": "Non évalué - évalué en séance ",
-    "famille": "FOURNISSEURS",
-    "criteres": null
   },
   {
     "nom": "SAINT GOBAIN WEBER",
@@ -34742,28 +33897,6 @@
     "nbEvaluateurs": null,
     "remarques": "",
     "famille": ""
-  },
-  {
-    "nom": "SCHOECK BAUTEILE AG",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.5,
-    "ca": 112480.1,
-    "caInduni": 343120.95,
-    "pctCa": null,
-    "nbEvaluateurs": 3,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.3333333333333335,
-      "Rapport Qualité/Prix": 3.6666666666666665,
-      "Respect de la qualité convenue": 3.6666666666666665,
-      "Souplesse et façon de traiter nos réclamations": 3.3333333333333335,
-      "Compétence / assistance technique": 3.6666666666666665,
-      "Respect des quantités prévues": 3.3333333333333335
-    }
   },
   {
     "nom": "SCHOLL - METAL",
@@ -37059,28 +36192,6 @@
     "famille": ""
   },
   {
-    "nom": "STM SARL",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.58,
-    "ca": 39412.9,
-    "caInduni": 39412.9,
-    "pctCa": null,
-    "nbEvaluateurs": 4,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.75,
-      "Rapport Qualité/Prix": 3.75,
-      "Respect de la qualité convenue": 2.75,
-      "Souplesse et façon de traiter nos réclamations": 3.75,
-      "Compétence / assistance technique": 3.75,
-      "Respect des quantités prévues": 3.75
-    }
-  },
-  {
     "nom": "STORES CHABLAIS SA",
     "type": "Sous-traitant",
     "categorie": "Stores, volets roulants",
@@ -37447,28 +36558,6 @@
     "nbEvaluateurs": null,
     "remarques": "",
     "famille": ""
-  },
-  {
-    "nom": "TECHNIDALLE SARL",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.28,
-    "ca": 65807.15,
-    "caInduni": 559967.65,
-    "pctCa": null,
-    "nbEvaluateurs": 3,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.3333333333333335,
-      "Rapport Qualité/Prix": 3.3333333333333335,
-      "Respect de la qualité convenue": 3.3333333333333335,
-      "Souplesse et façon de traiter nos réclamations": 3.3333333333333335,
-      "Compétence / assistance technique": 3.3333333333333335,
-      "Respect des quantités prévues": 3
-    }
   },
   {
     "nom": "TECHNIFACE SARL",
@@ -38200,28 +37289,6 @@
     "nbEvaluateurs": null,
     "remarques": "",
     "famille": ""
-  },
-  {
-    "nom": "TRAVO SA",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.08,
-    "ca": 122104.25,
-    "caInduni": 123552.8,
-    "pctCa": null,
-    "nbEvaluateurs": 2,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 3.5,
-      "Respect de la qualité convenue": 2,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Compétence / assistance technique": 3,
-      "Respect des quantités prévues": 2.5
-    }
   },
   {
     "nom": "TRISAX SA",
@@ -39589,28 +38656,6 @@
     "famille": ""
   },
   {
-    "nom": "VIGIER BETON",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.75,
-    "ca": 226609.1,
-    "caInduni": 226609.1,
-    "pctCa": null,
-    "nbEvaluateurs": 2,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 3,
-      "Respect de la qualité convenue": 4,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 4
-    }
-  },
-  {
     "nom": "VIGIER CIMENT",
     "type": "Fournisseur de mat.",
     "categorie": "Ciment",
@@ -40748,28 +39793,6 @@
     }
   },
   {
-    "nom": "WOLFFKRAN SCHWEIZ AG",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.56,
-    "ca": 479360.65,
-    "caInduni": 1791257.5500000003,
-    "pctCa": null,
-    "nbEvaluateurs": 6,
-    "remarques": "MAJ des prix de montage à réaliser",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.8333333333333335,
-      "Rapport Qualité/Prix": 3.3333333333333335,
-      "Respect de la qualité convenue": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Compétence / assistance technique": 3.6666666666666665,
-      "Respect des quantités prévues": 3.5
-    }
-  },
-  {
     "nom": "WOODART SA",
     "type": "",
     "categorie": "",
@@ -40963,28 +39986,6 @@
     "nbEvaluateurs": null,
     "remarques": "",
     "famille": ""
-  },
-  {
-    "nom": "XL BETONNAGE SARL",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.62,
-    "ca": 142283.2,
-    "caInduni": 142283.2,
-    "pctCa": null,
-    "nbEvaluateurs": 4,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 3.75,
-      "Respect de la qualité convenue": 3.25,
-      "Souplesse et façon de traiter nos réclamations": 3.75,
-      "Compétence / assistance technique": 3.5,
-      "Respect des quantités prévues": 3.5
-    }
   },
   {
     "nom": "ZA ELECTRICITE",
@@ -51333,50 +50334,6 @@
     "criteres": null
   },
   {
-    "nom": "VEUTHEY & CIE MARTIGNY SA",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 2.75,
-    "ca": 1598835.5,
-    "caInduni": 1650781.55,
-    "pctCa": null,
-    "nbEvaluateurs": 2,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 2,
-      "Rapport Qualité/Prix": 3.5,
-      "Respect de la qualité convenue": 3,
-      "Souplesse et façon de traiter nos réclamations": 2.5,
-      "Compétence / assistance technique": 2.5,
-      "Respect des quantités prévues": 3
-    }
-  },
-  {
-    "nom": "MFP PREFABRICATION SA",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.46,
-    "ca": 941872.75,
-    "caInduni": 1929394.25,
-    "pctCa": null,
-    "nbEvaluateurs": 4,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.5,
-      "Rapport Qualité/Prix": 3.25,
-      "Respect de la qualité convenue": 3.25,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Compétence / assistance technique": 3.5,
-      "Respect des quantités prévues": 3.75
-    }
-  },
-  {
     "nom": "MFP PREFABRICATION SA",
     "type": "Fournisseur",
     "categorie": "",
@@ -51411,28 +50368,6 @@
     "type": "Fournisseur",
     "categorie": "",
     "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.12,
-    "ca": 707401.2,
-    "caInduni": 707401.2,
-    "pctCa": null,
-    "nbEvaluateurs": 4,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 2.5,
-      "Rapport Qualité/Prix": 3.25,
-      "Respect de la qualité convenue": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 2.5,
-      "Compétence / assistance technique": 3.25,
-      "Respect des quantités prévues": 3.75
-    }
-  },
-  {
-    "nom": "MUELLER-STEINAG ELEMENT AG",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
     "annee": 2024,
     "note": 2.67,
     "ca": 96754,
@@ -51442,28 +50377,6 @@
     "remarques": "Problèmes de qualité, de délais ",
     "famille": "FOURNISSEURS",
     "criteres": null
-  },
-  {
-    "nom": "REYMOND FRERES SA (& RISSE-BETON SA)",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.58,
-    "ca": 591469.8,
-    "caInduni": 622119.75,
-    "pctCa": null,
-    "nbEvaluateurs": 2,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3,
-      "Rapport Qualité/Prix": 3.5,
-      "Respect de la qualité convenue": 3,
-      "Souplesse et façon de traiter nos réclamations": 4,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 4
-    }
   },
   {
     "nom": "REYMOND FRERES SA (& RISSE-BETON SA)",
@@ -51545,28 +50458,6 @@
     "type": "Fournisseur",
     "categorie": "",
     "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.0,
-    "ca": 401152.25,
-    "caInduni": 483454.05,
-    "pctCa": null,
-    "nbEvaluateurs": 2,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 2.5,
-      "Rapport Qualité/Prix": 3.5,
-      "Respect de la qualité convenue": 3,
-      "Souplesse et façon de traiter nos réclamations": 3,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 2
-    }
-  },
-  {
-    "nom": "SACAC AG",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
     "annee": 2024,
     "note": 2.43,
     "ca": 314517,
@@ -51612,28 +50503,6 @@
     "type": "Fournisseur",
     "categorie": "",
     "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.83,
-    "ca": 340458.6,
-    "caInduni": 340458.6,
-    "pctCa": null,
-    "nbEvaluateurs": 1,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 3,
-      "Respect de la qualité convenue": 4,
-      "Souplesse et façon de traiter nos réclamations": 4,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 4
-    }
-  },
-  {
-    "nom": "ROCHAT GRAVIERE (& ROCHAT OLIVIER & ROCHAT ET FILS)",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
     "annee": 2024,
     "note": 4.0,
     "ca": null,
@@ -51673,28 +50542,6 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": null
-  },
-  {
-    "nom": "HOLCIM GRANULATS ET BETONS SA",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.5,
-    "ca": 180181.5,
-    "caInduni": 240878.9,
-    "pctCa": null,
-    "nbEvaluateurs": 1,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 3,
-      "Respect de la qualité convenue": 4,
-      "Souplesse et façon de traiter nos réclamations": 3,
-      "Compétence / assistance technique": 3,
-      "Respect des quantités prévues": 4
-    }
   },
   {
     "nom": "HOLCIM GRANULATS ET BETONS SA",
@@ -51757,72 +50604,6 @@
     "criteres": null
   },
   {
-    "nom": "H.K. SERVICES ET TECHNIQUES SA",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.42,
-    "ca": 50941.1,
-    "caInduni": 548239.25,
-    "pctCa": null,
-    "nbEvaluateurs": 2,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3,
-      "Rapport Qualité/Prix": 3,
-      "Respect de la qualité convenue": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 3.5
-    }
-  },
-  {
-    "nom": "BAUME BOIS BETON SA",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.83,
-    "ca": 46699.2,
-    "caInduni": 46699.2,
-    "pctCa": null,
-    "nbEvaluateurs": 1,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 3,
-      "Respect de la qualité convenue": 4,
-      "Souplesse et façon de traiter nos réclamations": 4,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 4
-    }
-  },
-  {
-    "nom": "CREABETON BAUSTOFF AG",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.62,
-    "ca": 39760.6,
-    "caInduni": 181424.05000000002,
-    "pctCa": null,
-    "nbEvaluateurs": 4,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.75,
-      "Rapport Qualité/Prix": 3,
-      "Respect de la qualité convenue": 3.75,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Compétence / assistance technique": 3.75,
-      "Respect des quantités prévues": 4
-    }
-  },
-  {
     "nom": "CREABETON BAUSTOFF AG",
     "type": "Fournisseur",
     "categorie": "",
@@ -51836,28 +50617,6 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": null
-  },
-  {
-    "nom": "CANPLAST SA",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.78,
-    "ca": null,
-    "caInduni": null,
-    "pctCa": null,
-    "nbEvaluateurs": 3,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 3,
-      "Respect de la qualité convenue": 4,
-      "Souplesse et façon de traiter nos réclamations": 4,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 3.6666666666666665
-    }
   },
   {
     "nom": "CANPLAST SA",
@@ -51879,28 +50638,6 @@
     "type": "Fournisseur",
     "categorie": "",
     "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.83,
-    "ca": null,
-    "caInduni": null,
-    "pctCa": null,
-    "nbEvaluateurs": 2,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 3,
-      "Respect de la qualité convenue": 4,
-      "Souplesse et façon de traiter nos réclamations": 4,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 4
-    }
-  },
-  {
-    "nom": "PLASTITECH SARL",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
     "annee": 2024,
     "note": 2.75,
     "ca": null,
@@ -51916,28 +50653,6 @@
     "type": "Fournisseur",
     "categorie": "",
     "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.54,
-    "ca": null,
-    "caInduni": null,
-    "pctCa": null,
-    "nbEvaluateurs": 4,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.75,
-      "Rapport Qualité/Prix": 3.25,
-      "Respect de la qualité convenue": 3.75,
-      "Souplesse et façon de traiter nos réclamations": 3.25,
-      "Compétence / assistance technique": 3.5,
-      "Respect des quantités prévues": 3.75
-    }
-  },
-  {
-    "nom": "CIMENTS VIGIER SA",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
     "annee": 2024,
     "note": 3.54,
     "ca": null,
@@ -51947,28 +50662,6 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": null
-  },
-  {
-    "nom": "FIXIT AG",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 4.0,
-    "ca": null,
-    "caInduni": null,
-    "pctCa": null,
-    "nbEvaluateurs": 1,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 4,
-      "Respect de la qualité convenue": 4,
-      "Souplesse et façon de traiter nos réclamations": 4,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 4
-    }
   },
   {
     "nom": "FIXIT AG",
@@ -51999,50 +50692,6 @@
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": null
-  },
-  {
-    "nom": "JURACIME SA",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.67,
-    "ca": null,
-    "caInduni": null,
-    "pctCa": null,
-    "nbEvaluateurs": 2,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 3,
-      "Respect de la qualité convenue": 4,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Compétence / assistance technique": 3.5,
-      "Respect des quantités prévues": 4
-    }
-  },
-  {
-    "nom": "SIKA SCHWEIZ AG",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 2.83,
-    "ca": null,
-    "caInduni": null,
-    "pctCa": null,
-    "nbEvaluateurs": 3,
-    "remarques": "Adjuvant",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3,
-      "Rapport Qualité/Prix": 2.6666666666666665,
-      "Respect de la qualité convenue": 3,
-      "Souplesse et façon de traiter nos réclamations": 2.3333333333333335,
-      "Compétence / assistance technique": 3,
-      "Respect des quantités prévues": 3
-    }
   },
   {
     "nom": "SIKA SCHWEIZ AG",
@@ -52094,28 +50743,6 @@
     "type": "Fournisseur",
     "categorie": "",
     "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.56,
-    "ca": 87207.2,
-    "caInduni": 1176776.55,
-    "pctCa": null,
-    "nbEvaluateurs": 3,
-    "remarques": "",
-    "famille": "FOURNISSEURS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.6666666666666665,
-      "Rapport Qualité/Prix": 3,
-      "Respect de la qualité convenue": 3.6666666666666665,
-      "Souplesse et façon de traiter nos réclamations": 3.6666666666666665,
-      "Compétence / assistance technique": 3.6666666666666665,
-      "Respect des quantités prévues": 3.6666666666666665
-    }
-  },
-  {
-    "nom": "GETAZ-MIAUTON SA",
-    "type": "Fournisseur",
-    "categorie": "",
-    "secteur": "BAT VD",
     "annee": 2024,
     "note": 3.67,
     "ca": null,
@@ -52146,28 +50773,6 @@
     "type": "Sous-traitant",
     "categorie": "",
     "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.28,
-    "ca": 835645.55,
-    "caInduni": 835645.55,
-    "pctCa": null,
-    "nbEvaluateurs": 3,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 4,
-      "Respect de la qualité convenue": 3,
-      "Souplesse et façon de traiter nos réclamations": 3.3333333333333335,
-      "Compétence / assistance technique": 2.3333333333333335,
-      "Respect des quantités prévues": 3
-    }
-  },
-  {
-    "nom": "L&A FERRAILLAGE (& MORINA N. GMBH)",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
     "annee": 2024,
     "note": 3.5,
     "ca": null,
@@ -52179,50 +50784,6 @@
     "criteres": null
   },
   {
-    "nom": "JPF-DUCRET SA",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.67,
-    "ca": 667445.9,
-    "caInduni": 667445.9,
-    "pctCa": null,
-    "nbEvaluateurs": 1,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 4,
-      "Respect de la qualité convenue": 4,
-      "Souplesse et façon de traiter nos réclamations": 2,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 4
-    }
-  },
-  {
-    "nom": "FBA CONSTRUCTION SARL",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.33,
-    "ca": 408816.6,
-    "caInduni": 408816.6,
-    "pctCa": null,
-    "nbEvaluateurs": 2,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 4,
-      "Respect de la qualité convenue": 3,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Compétence / assistance technique": 2.5,
-      "Respect des quantités prévues": 3
-    }
-  },
-  {
     "nom": "FBA CONSTRUCTION SARL",
     "type": "Sous-traitant",
     "categorie": "",
@@ -52236,28 +50797,6 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": null
-  },
-  {
-    "nom": "PRO ARMATURE SA",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.22,
-    "ca": 363719.65,
-    "caInduni": 363719.65,
-    "pctCa": null,
-    "nbEvaluateurs": 3,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.3333333333333335,
-      "Rapport Qualité/Prix": 3.6666666666666665,
-      "Respect de la qualité convenue": 3.3333333333333335,
-      "Souplesse et façon de traiter nos réclamations": 3,
-      "Compétence / assistance technique": 3,
-      "Respect des quantités prévues": 3
-    }
   },
   {
     "nom": "PRO ARMATURE SA",
@@ -52273,28 +50812,6 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": null
-  },
-  {
-    "nom": "GIRARDI S.A.",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.83,
-    "ca": 326507.45,
-    "caInduni": 326507.45,
-    "pctCa": null,
-    "nbEvaluateurs": 1,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3,
-      "Rapport Qualité/Prix": 4,
-      "Respect de la qualité convenue": 4,
-      "Souplesse et façon de traiter nos réclamations": 4,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 4
-    }
   },
   {
     "nom": "GRUYERE METAL SA",
@@ -52316,28 +50833,6 @@
     "type": "Sous-traitant",
     "categorie": "",
     "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 2.88,
-    "ca": 220529.9,
-    "caInduni": 336446.6,
-    "pctCa": null,
-    "nbEvaluateurs": 4,
-    "remarques": "Trop peu d'effectif - pas assez réactifs ",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 2.5,
-      "Rapport Qualité/Prix": 3.25,
-      "Respect de la qualité convenue": 3.75,
-      "Souplesse et façon de traiter nos réclamations": 3,
-      "Compétence / assistance technique": 2.5,
-      "Respect des quantités prévues": 2.25
-    }
-  },
-  {
-    "nom": "CAP ETANCHEITE SARL",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
     "annee": 2024,
     "note": 4.0,
     "ca": 80057,
@@ -52347,28 +50842,6 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": null
-  },
-  {
-    "nom": "WAPROTEC AG",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.39,
-    "ca": 189145.3,
-    "caInduni": 197370.4,
-    "pctCa": null,
-    "nbEvaluateurs": 3,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.6666666666666665,
-      "Rapport Qualité/Prix": 3.6666666666666665,
-      "Respect de la qualité convenue": 3,
-      "Souplesse et façon de traiter nos réclamations": 3.6666666666666665,
-      "Compétence / assistance technique": 3.3333333333333335,
-      "Respect des quantités prévues": 3
-    }
   },
   {
     "nom": "WAPROTEC AG",
@@ -52435,28 +50908,6 @@
     "type": "Sous-traitant",
     "categorie": "",
     "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 4.0,
-    "ca": 111833.7,
-    "caInduni": 644272,
-    "pctCa": null,
-    "nbEvaluateurs": 1,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 4,
-      "Respect de la qualité convenue": 4,
-      "Souplesse et façon de traiter nos réclamations": 4,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 4
-    }
-  },
-  {
-    "nom": "DANI COFFRAGE",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
     "annee": 2024,
     "note": 4.0,
     "ca": null,
@@ -52487,28 +50938,6 @@
     "type": "Sous-traitant",
     "categorie": "",
     "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 2.6,
-    "ca": 94957.8,
-    "caInduni": 94957.8,
-    "pctCa": null,
-    "nbEvaluateurs": 1,
-    "remarques": "Moyenne modifiée: prix trop élevés, quantités erronnées,: concurrent à trouver!",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 4,
-      "Respect de la qualité convenue": 3,
-      "Souplesse et façon de traiter nos réclamations": 4,
-      "Compétence / assistance technique": 4,
-      "Respect des quantités prévues": 4
-    }
-  },
-  {
-    "nom": "LIAUDET PIAL SA",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
     "annee": 2024,
     "note": 2.79,
     "ca": 94065,
@@ -52533,28 +50962,6 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": null
-  },
-  {
-    "nom": "ORLLATI (VD) S.A",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.78,
-    "ca": 70104.85,
-    "caInduni": 1306637.35,
-    "pctCa": null,
-    "nbEvaluateurs": 3,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 4,
-      "Respect de la qualité convenue": 3.3333333333333335,
-      "Souplesse et façon de traiter nos réclamations": 4,
-      "Compétence / assistance technique": 3.6666666666666665,
-      "Respect des quantités prévues": 3.6666666666666665
-    }
   },
   {
     "nom": "ORLLATI (VD) S.A",
@@ -52621,27 +51028,6 @@
     "type": "Sous-traitant",
     "categorie": "",
     "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.64,
-    "ca": 123909.8,
-    "caInduni": 123909.8,
-    "pctCa": null,
-    "nbEvaluateurs": 6,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.8333333333333335,
-      "Rapport Qualité/Prix": 3.5,
-      "Respect de la qualité convenue": 3.8333333333333335,
-      "Souplesse et façon de traiter nos réclamations": 3.8333333333333335,
-      "Compétence / assistance technique": 3.2
-    }
-  },
-  {
-    "nom": "JL TRANSPORTS SA",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
     "annee": 2024,
     "note": 3.9,
     "ca": 51595,
@@ -52651,27 +51037,6 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": null
-  },
-  {
-    "nom": "CARRY-BOX SA",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.42,
-    "ca": 57947.15,
-    "caInduni": 221032.55,
-    "pctCa": null,
-    "nbEvaluateurs": 4,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3.5,
-      "Rapport Qualité/Prix": 3.25,
-      "Respect de la qualité convenue": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Compétence / assistance technique": 3.3333333333333335
-    }
   },
   {
     "nom": "WOLFFKRAN SCHWEIZ AG",
@@ -52687,28 +51052,6 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": null
-  },
-  {
-    "nom": "GYGER LEVAGES SA",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.72,
-    "ca": 347559.05,
-    "caInduni": 911010.85,
-    "pctCa": null,
-    "nbEvaluateurs": 6,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 4,
-      "Rapport Qualité/Prix": 3.1666666666666665,
-      "Respect de la qualité convenue": 4,
-      "Souplesse et façon de traiter nos réclamations": 3.6666666666666665,
-      "Compétence / assistance technique": 3.6666666666666665,
-      "Respect des quantités prévues": 3.8
-    }
   },
   {
     "nom": "GYGER LEVAGES SA",
@@ -52784,26 +51127,6 @@
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": null
-  },
-  {
-    "nom": "PLANET INTERIM SERVICES SA",
-    "type": "Sous-traitant",
-    "categorie": "",
-    "secteur": "BAT VD",
-    "annee": 2025,
-    "note": 3.15,
-    "ca": 911995.25,
-    "caInduni": 911995.25,
-    "pctCa": null,
-    "nbEvaluateurs": 5,
-    "remarques": "",
-    "famille": "SOUS-TRAITANTS",
-    "criteres": {
-      "Respect des délais de livraison convenus": 3,
-      "Rapport Qualité/Prix": 3.6,
-      "Respect de la qualité convenue": 3.4,
-      "Souplesse et façon de traiter nos réclamations": 2.6
-    }
   },
   {
     "nom": "PLANET INTERIM SERVICES SA",
@@ -74703,6 +73026,1601 @@
       "Souplesse et façon de traiter nos réclamations": 3.0,
       "Compétence / assistance technique": 3.0,
       "Rapport Qualité/Prix": 3.0
+    }
+  },
+  {
+    "nom": "MFP PREFABRICATION SA",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.4583,
+    "ca": 941872.75,
+    "caInduni": 1929394.25,
+    "pctCa": null,
+    "nbEvaluateurs": 4,
+    "remarques": "[Crespo] délai de réponse tardive, à relancer",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.25,
+      "Respect des quantités prévues": 3.75,
+      "Compétence / assistance technique": 3.5,
+      "Respect de la qualité convenue": 3.25,
+      "Souplesse et façon de traiter nos réclamations": 3.5,
+      "Respect des délais de livraison convenus": 3.5
+    }
+  },
+  {
+    "nom": "REYMOND FRERES SA (& RISSE-BETON SA)",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.5833,
+    "ca": 591469.8,
+    "caInduni": 622119.75,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.5,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 3.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 3.0
+    }
+  },
+  {
+    "nom": "FAVRE SA",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.75,
+    "ca": 538691.1,
+    "caInduni": 5725211.550000001,
+    "pctCa": null,
+    "nbEvaluateurs": 4,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.5,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 3.5,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 3.5,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "RAMELET FILS SA",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.7083,
+    "ca": 505247.75,
+    "caInduni": 512382.35,
+    "pctCa": null,
+    "nbEvaluateurs": 4,
+    "remarques": "[Fassier] Alush : très bien! Certain de ces employés : plus compliqué",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.5,
+      "Respect des quantités prévues": 3.75,
+      "Compétence / assistance technique": 3.25,
+      "Respect de la qualité convenue": 3.75,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "RONCHI SA",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.9167,
+    "ca": 493757.3,
+    "caInduni": 498197.05,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "[Crespo] pour les bennes",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 3.5,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "ANCOTECH AG",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.5667,
+    "ca": 414781.5,
+    "caInduni": 1169686.9,
+    "pctCa": null,
+    "nbEvaluateurs": 5,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.6,
+      "Respect des quantités prévues": 3.4,
+      "Compétence / assistance technique": 3.6,
+      "Respect de la qualité convenue": 3.8,
+      "Souplesse et façon de traiter nos réclamations": 3.4,
+      "Respect des délais de livraison convenus": 3.6
+    }
+  },
+  {
+    "nom": "BGO SA",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.0,
+    "ca": 364065.55,
+    "caInduni": 364065.55,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 1.5,
+      "Respect des quantités prévues": 3.5,
+      "Compétence / assistance technique": 3.5,
+      "Respect de la qualité convenue": 3.0,
+      "Souplesse et façon de traiter nos réclamations": 3.0,
+      "Respect des délais de livraison convenus": 3.5
+    }
+  },
+  {
+    "nom": "E PREFABRIQUE SA",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.4583,
+    "ca": 361704.25,
+    "caInduni": 393810.95,
+    "pctCa": null,
+    "nbEvaluateurs": 4,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.25,
+      "Respect des quantités prévues": 3.75,
+      "Compétence / assistance technique": 2.75,
+      "Respect de la qualité convenue": 3.5,
+      "Souplesse et façon de traiter nos réclamations": 3.75,
+      "Respect des délais de livraison convenus": 3.75
+    }
+  },
+  {
+    "nom": "ALPHABETON AG",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.8333,
+    "ca": 106440.35,
+    "caInduni": 652938.85,
+    "pctCa": null,
+    "nbEvaluateurs": 1,
+    "remarques": "[Crespo] à relancer plusieurs fois selon les personnes . Edwige la classe!",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 3.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "LEUBA HIAG SA",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.75,
+    "ca": 96847.55,
+    "caInduni": 428806.89999999997,
+    "pctCa": null,
+    "nbEvaluateurs": 4,
+    "remarques": "[Ermini] C'EST SURTOUT LE CONTREMAITRE QUI A CONCTE AVEC",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.75,
+      "Respect des quantités prévues": 3.75,
+      "Compétence / assistance technique": 3.75,
+      "Respect de la qualité convenue": 3.75,
+      "Souplesse et façon de traiter nos réclamations": 3.75,
+      "Respect des délais de livraison convenus": 3.75
+    }
+  },
+  {
+    "nom": "FEHR SA",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.5,
+    "ca": 71684.6,
+    "caInduni": 81822.40000000001,
+    "pctCa": null,
+    "nbEvaluateurs": 1,
+    "remarques": "[Crespo] problèmes de plannification",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 3.0,
+      "Respect des délais de livraison convenus": 2.0
+    }
+  },
+  {
+    "nom": "CREABETON BAUSTOFF AG",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.7778,
+    "ca": 39760.6,
+    "caInduni": 181424.05000000002,
+    "pctCa": null,
+    "nbEvaluateurs": 3,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 3.6667,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "CANPLAST SA",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.7778,
+    "ca": null,
+    "caInduni": null,
+    "pctCa": null,
+    "nbEvaluateurs": 3,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.0,
+      "Respect des quantités prévues": 3.6667,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "PLASTITECH SARL",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.8333,
+    "ca": null,
+    "caInduni": null,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "FIXIT AG",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 4.0,
+    "ca": null,
+    "caInduni": null,
+    "pctCa": null,
+    "nbEvaluateurs": 1,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "KNAUF AG",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 4.0,
+    "ca": null,
+    "caInduni": null,
+    "pctCa": null,
+    "nbEvaluateurs": 1,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "DIETRICH ISOL",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 4.0,
+    "ca": null,
+    "caInduni": null,
+    "pctCa": null,
+    "nbEvaluateurs": 1,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "HG COMMERCIALE",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.5,
+    "ca": 3372851.2,
+    "caInduni": 9504223.499999998,
+    "pctCa": null,
+    "nbEvaluateurs": 5,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.4,
+      "Respect des quantités prévues": 3.4,
+      "Compétence / assistance technique": 3.6,
+      "Respect de la qualité convenue": 3.6,
+      "Souplesse et façon de traiter nos réclamations": 3.6,
+      "Respect des délais de livraison convenus": 3.4
+    }
+  },
+  {
+    "nom": "GENTILE SA",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.0,
+    "ca": 4463866.45,
+    "caInduni": 4463866.45,
+    "pctCa": null,
+    "nbEvaluateurs": 5,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.4,
+      "Respect des quantités prévues": 2.4,
+      "Compétence / assistance technique": 2.4,
+      "Respect de la qualité convenue": 3.0,
+      "Souplesse et façon de traiter nos réclamations": 3.2,
+      "Respect des délais de livraison convenus": 3.6
+    }
+  },
+  {
+    "nom": "JPF-DUCRET SA",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.6667,
+    "ca": 667445.9,
+    "caInduni": 667445.9,
+    "pctCa": null,
+    "nbEvaluateurs": 1,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 2.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "PRO ARMATURE SA",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.2222,
+    "ca": 363719.65,
+    "caInduni": 363719.65,
+    "pctCa": null,
+    "nbEvaluateurs": 3,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.6667,
+      "Respect des quantités prévues": 3.0,
+      "Compétence / assistance technique": 3.0,
+      "Respect de la qualité convenue": 3.3333,
+      "Souplesse et façon de traiter nos réclamations": 3.0,
+      "Respect des délais de livraison convenus": 3.3333
+    }
+  },
+  {
+    "nom": "GIRARDI S.A.",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.8333,
+    "ca": 326507.45,
+    "caInduni": 326507.45,
+    "pctCa": null,
+    "nbEvaluateurs": 1,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 3.0
+    }
+  },
+  {
+    "nom": "GRAFANOVA SARL",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.5,
+    "ca": 308722.8,
+    "caInduni": 308722.8,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 4.0,
+      "Respect des quantités prévues": 3.5,
+      "Compétence / assistance technique": 3.0,
+      "Respect de la qualité convenue": 3.5,
+      "Souplesse et façon de traiter nos réclamations": 3.5,
+      "Respect des délais de livraison convenus": 3.5
+    }
+  },
+  {
+    "nom": "CAP ETANCHEITE SARL",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 2.875,
+    "ca": 220529.9,
+    "caInduni": 336446.6,
+    "pctCa": null,
+    "nbEvaluateurs": 4,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.25,
+      "Respect des quantités prévues": 2.25,
+      "Compétence / assistance technique": 2.5,
+      "Respect de la qualité convenue": 3.75,
+      "Souplesse et façon de traiter nos réclamations": 3.0,
+      "Respect des délais de livraison convenus": 2.5
+    }
+  },
+  {
+    "nom": "WAPROTEC AG",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.3889,
+    "ca": 189145.3,
+    "caInduni": 197370.4,
+    "pctCa": null,
+    "nbEvaluateurs": 3,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.6667,
+      "Respect des quantités prévues": 3.0,
+      "Compétence / assistance technique": 3.3333,
+      "Respect de la qualité convenue": 3.0,
+      "Souplesse et façon de traiter nos réclamations": 3.6667,
+      "Respect des délais de livraison convenus": 3.6667
+    }
+  },
+  {
+    "nom": "NOVALLA SARL",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.6667,
+    "ca": 159988,
+    "caInduni": 321651.55,
+    "pctCa": null,
+    "nbEvaluateurs": 1,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 3.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "XL BETONNAGE SARL",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.625,
+    "ca": 142283.2,
+    "caInduni": 142283.2,
+    "pctCa": null,
+    "nbEvaluateurs": 4,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.75,
+      "Respect des quantités prévues": 3.5,
+      "Compétence / assistance technique": 3.5,
+      "Respect de la qualité convenue": 3.25,
+      "Souplesse et façon de traiter nos réclamations": 3.75,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "DANI COFFRAGE",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 4.0,
+    "ca": 111833.7,
+    "caInduni": 644272,
+    "pctCa": null,
+    "nbEvaluateurs": 1,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "BATISOLS ROMANDIE SA",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 4.0,
+    "ca": 110096.7,
+    "caInduni": 110096.7,
+    "pctCa": null,
+    "nbEvaluateurs": 1,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "LCBE",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.8,
+    "ca": 101572.35,
+    "caInduni": 98455.35,
+    "pctCa": null,
+    "nbEvaluateurs": 5,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 4.0,
+      "Respect des quantités prévues": 3.8,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 3.4,
+      "Souplesse et façon de traiter nos réclamations": 3.8,
+      "Respect des délais de livraison convenus": 3.8
+    }
+  },
+  {
+    "nom": "KB IGNIFUGE SA",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.9167,
+    "ca": 77744.85,
+    "caInduni": 110944.65000000001,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 4.0,
+      "Respect des quantités prévues": 3.5,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "ORLLATI (VD) S.A",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.7778,
+    "ca": 70104.85,
+    "caInduni": 1306637.35,
+    "pctCa": null,
+    "nbEvaluateurs": 3,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 4.0,
+      "Respect des quantités prévues": 3.6667,
+      "Compétence / assistance technique": 3.6667,
+      "Respect de la qualité convenue": 3.3333,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "TECHNIDALLE SARL",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.3333,
+    "ca": 65807.15,
+    "caInduni": 559967.65,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.5,
+      "Respect des quantités prévues": 3.0,
+      "Compétence / assistance technique": 3.0,
+      "Respect de la qualité convenue": 3.5,
+      "Souplesse et façon de traiter nos réclamations": 3.5,
+      "Respect des délais de livraison convenus": 3.5
+    }
+  },
+  {
+    "nom": "MGC MACONNERIE ET GENIE CIVIL SA",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.9167,
+    "ca": 48068.2,
+    "caInduni": 48068.2,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 3.5,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "ADMIBAT GMBH",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.9444,
+    "ca": 43045.45,
+    "caInduni": 88208.65,
+    "pctCa": null,
+    "nbEvaluateurs": 3,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 3.6667,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "STM SARL",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.5833,
+    "ca": 39412.9,
+    "caInduni": 39412.9,
+    "pctCa": null,
+    "nbEvaluateurs": 4,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.75,
+      "Respect des quantités prévues": 3.75,
+      "Compétence / assistance technique": 3.75,
+      "Respect de la qualité convenue": 2.75,
+      "Souplesse et façon de traiter nos réclamations": 3.75,
+      "Respect des délais de livraison convenus": 3.75
+    }
+  },
+  {
+    "nom": "JL TRANSPORTS SA",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.64,
+    "ca": 123909.8,
+    "caInduni": 123909.8,
+    "pctCa": null,
+    "nbEvaluateurs": 5,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.6,
+      "Compétence / assistance technique": 3.2,
+      "Respect de la qualité convenue": 3.8,
+      "Souplesse et façon de traiter nos réclamations": 3.8,
+      "Respect des délais de livraison convenus": 3.8
+    }
+  },
+  {
+    "nom": "HENRY TRANSPORTS SA",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.6,
+    "ca": 113137.7,
+    "caInduni": 113137.7,
+    "pctCa": null,
+    "nbEvaluateurs": 4,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.5,
+      "Compétence / assistance technique": 3.5,
+      "Respect de la qualité convenue": 3.5,
+      "Souplesse et façon de traiter nos réclamations": 3.75,
+      "Respect des délais de livraison convenus": 3.75
+    }
+  },
+  {
+    "nom": "CARRY-BOX SA",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.5333,
+    "ca": 57947.15,
+    "caInduni": 221032.55,
+    "pctCa": null,
+    "nbEvaluateurs": 3,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.3333,
+      "Compétence / assistance technique": 3.3333,
+      "Respect de la qualité convenue": 3.6667,
+      "Souplesse et façon de traiter nos réclamations": 3.6667,
+      "Respect des délais de livraison convenus": 3.6667
+    }
+  },
+  {
+    "nom": "WOLFFKRAN SCHWEIZ AG",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.5667,
+    "ca": 479360.65,
+    "caInduni": 1791257.5500000003,
+    "pctCa": null,
+    "nbEvaluateurs": 5,
+    "remarques": "[Crespo] MAJ des prix de montage à réaliser",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.4,
+      "Respect des quantités prévues": 3.6,
+      "Compétence / assistance technique": 3.6,
+      "Respect de la qualité convenue": 3.6,
+      "Souplesse et façon de traiter nos réclamations": 3.4,
+      "Respect des délais de livraison convenus": 3.8
+    }
+  },
+  {
+    "nom": "GYGER LEVAGES SA",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.7667,
+    "ca": 347559.05,
+    "caInduni": 911010.85,
+    "pctCa": null,
+    "nbEvaluateurs": 5,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.2,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 3.8,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 3.6,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "AVESCO RENT SA",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.6111,
+    "ca": 192325.95,
+    "caInduni": 502857.45,
+    "pctCa": null,
+    "nbEvaluateurs": 3,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.6667,
+      "Respect des quantités prévues": 3.6667,
+      "Compétence / assistance technique": 3.6667,
+      "Respect de la qualité convenue": 3.6667,
+      "Souplesse et façon de traiter nos réclamations": 3.3333,
+      "Respect des délais de livraison convenus": 3.6667
+    }
+  },
+  {
+    "nom": "GH SA",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.2667,
+    "ca": 165053,
+    "caInduni": 809382.15,
+    "pctCa": null,
+    "nbEvaluateurs": 5,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 2.8,
+      "Respect des quantités prévues": 3.4,
+      "Compétence / assistance technique": 3.6,
+      "Respect de la qualité convenue": 3.0,
+      "Souplesse et façon de traiter nos réclamations": 3.2,
+      "Respect des délais de livraison convenus": 3.6
+    }
+  },
+  {
+    "nom": "CONTAINEX",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.5833,
+    "ca": 83921.7,
+    "caInduni": 184101.7,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 3.5,
+      "Souplesse et façon de traiter nos réclamations": 3.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "NEW WORK HUMAN RESSOURCES SA",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.15,
+    "ca": 1598383.25,
+    "caInduni": 1598383.25,
+    "pctCa": null,
+    "nbEvaluateurs": 5,
+    "remarques": "[Fassier] Manque lunette",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Respect des délais de livraison convenus": 3.0,
+      "Respect de la qualité convenue": 3.4,
+      "Souplesse et façon de traiter nos réclamations": 2.4,
+      "Rapport Qualité/Prix": 3.8
+    }
+  },
+  {
+    "nom": "PLANET INTERIM SERVICES SA",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.1875,
+    "ca": 911995.25,
+    "caInduni": 911995.25,
+    "pctCa": null,
+    "nbEvaluateurs": 4,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Respect des délais de livraison convenus": 3.0,
+      "Respect de la qualité convenue": 3.5,
+      "Souplesse et façon de traiter nos réclamations": 2.5,
+      "Rapport Qualité/Prix": 3.75
+    }
+  },
+  {
+    "nom": "AVATAR JOBS SARL",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.2,
+    "ca": 357175,
+    "caInduni": 357175,
+    "pctCa": null,
+    "nbEvaluateurs": 5,
+    "remarques": "[Mouaz] Top Grutiers; [Fassier] Manque lunette",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Respect des délais de livraison convenus": 3.4,
+      "Respect de la qualité convenue": 3.2,
+      "Souplesse et façon de traiter nos réclamations": 2.4,
+      "Rapport Qualité/Prix": 3.8
+    }
+  },
+  {
+    "nom": "INTERXPERT SA",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 2.875,
+    "ca": 45234.2,
+    "caInduni": 689997.5,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "[Fassier] Lunette OK, changement de responsable…. Dommage",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Respect des délais de livraison convenus": 2.5,
+      "Respect de la qualité convenue": 3.0,
+      "Souplesse et façon de traiter nos réclamations": 3.0,
+      "Rapport Qualité/Prix": 3.0
+    }
+  },
+  {
+    "nom": "BEWETEC AG",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.375,
+    "ca": 2923755.25,
+    "caInduni": 4491730.8,
+    "pctCa": null,
+    "nbEvaluateurs": 4,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 3.25,
+      "Respect de la qualité convenue": 3.75,
+      "Souplesse et façon de traiter nos réclamations": 3.0,
+      "Respect des délais de livraison convenus": 3.25
+    }
+  },
+  {
+    "nom": "ORLLATI GRANULATS & BETON SA",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.4167,
+    "ca": 796361.2,
+    "caInduni": 796361.2,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.5,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 3.0,
+      "Respect de la qualité convenue": 3.0,
+      "Souplesse et façon de traiter nos réclamations": 3.5,
+      "Respect des délais de livraison convenus": 3.5
+    }
+  },
+  {
+    "nom": "MUELLER-STEINAG ELEMENT AG",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.0556,
+    "ca": 707401.2,
+    "caInduni": 707401.2,
+    "pctCa": null,
+    "nbEvaluateurs": 3,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.3333,
+      "Respect des quantités prévues": 3.6667,
+      "Compétence / assistance technique": 3.3333,
+      "Respect de la qualité convenue": 3.6667,
+      "Souplesse et façon de traiter nos réclamations": 2.3333,
+      "Respect des délais de livraison convenus": 2.0
+    }
+  },
+  {
+    "nom": "ROCHAT GRAVIERE (& ROCHAT OLIVIER & ROCHAT ET FILS)",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.8333,
+    "ca": 340458.6,
+    "caInduni": 340458.6,
+    "pctCa": null,
+    "nbEvaluateurs": 1,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "VIGIER BETON",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.75,
+    "ca": 226609.1,
+    "caInduni": 226609.1,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 3.5,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "FISCHER RISTA AG",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 2.4167,
+    "ca": 117775,
+    "caInduni": 120950.4,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.0,
+      "Respect des quantités prévues": 3.0,
+      "Compétence / assistance technique": 3.0,
+      "Respect de la qualité convenue": 3.0,
+      "Souplesse et façon de traiter nos réclamations": 1.0,
+      "Respect des délais de livraison convenus": 1.5
+    }
+  },
+  {
+    "nom": "LEVIAT AG",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.0,
+    "ca": 115132.05,
+    "caInduni": 168097.47,
+    "pctCa": null,
+    "nbEvaluateurs": 3,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 2.6667,
+      "Respect des quantités prévues": 3.6667,
+      "Compétence / assistance technique": 3.3333,
+      "Respect de la qualité convenue": 3.6667,
+      "Souplesse et façon de traiter nos réclamations": 2.6667,
+      "Respect des délais de livraison convenus": 2.0
+    }
+  },
+  {
+    "nom": "SCHOECK BAUTEILE AG",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.6667,
+    "ca": 112480.1,
+    "caInduni": 343120.95,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.5,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 3.5,
+      "Respect des délais de livraison convenus": 3.0
+    }
+  },
+  {
+    "nom": "HILTI SCHWEIZ AG",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.6667,
+    "ca": 72372.55,
+    "caInduni": 455111.85,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.0,
+      "Respect des quantités prévues": 3.5,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 3.5,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "H.K. SERVICES ET TECHNIQUES SA",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.4167,
+    "ca": 50941.1,
+    "caInduni": 548239.25,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.0,
+      "Respect des quantités prévues": 3.5,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 3.5,
+      "Souplesse et façon de traiter nos réclamations": 3.5,
+      "Respect des délais de livraison convenus": 3.0
+    }
+  },
+  {
+    "nom": "BAUME BOIS BETON SA",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.8333,
+    "ca": 46699.2,
+    "caInduni": 46699.2,
+    "pctCa": null,
+    "nbEvaluateurs": 1,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "CIMENTS VIGIER SA",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.5556,
+    "ca": null,
+    "caInduni": null,
+    "pctCa": null,
+    "nbEvaluateurs": 3,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.3333,
+      "Respect des quantités prévues": 3.6667,
+      "Compétence / assistance technique": 3.6667,
+      "Respect de la qualité convenue": 3.6667,
+      "Souplesse et façon de traiter nos réclamations": 3.3333,
+      "Respect des délais de livraison convenus": 3.6667
+    }
+  },
+  {
+    "nom": "JURACIME SA",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.8333,
+    "ca": null,
+    "caInduni": null,
+    "pctCa": null,
+    "nbEvaluateurs": 1,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "MAPEI SUISSE SA",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.7778,
+    "ca": null,
+    "caInduni": null,
+    "pctCa": null,
+    "nbEvaluateurs": 3,
+    "remarques": "[Fassier] Mortier spéciaux",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.3333,
+      "Respect des quantités prévues": 3.6667,
+      "Compétence / assistance technique": 3.6667,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "CHALLANDE & FILS SA",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.375,
+    "ca": 125480.4,
+    "caInduni": 266560.3,
+    "pctCa": null,
+    "nbEvaluateurs": 4,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 2.5,
+      "Respect des quantités prévues": 3.75,
+      "Compétence / assistance technique": 3.75,
+      "Respect de la qualité convenue": 3.5,
+      "Souplesse et façon de traiter nos réclamations": 3.0,
+      "Respect des délais de livraison convenus": 3.75
+    }
+  },
+  {
+    "nom": "GETAZ-MIAUTON SA",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.8333,
+    "ca": 87207.2,
+    "caInduni": 1176776.55,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "L&A FERRAILLAGE (& MORINA N. GMBH)",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.3333,
+    "ca": 835645.55,
+    "caInduni": 835645.55,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 4.0,
+      "Respect des quantités prévues": 3.0,
+      "Compétence / assistance technique": 2.5,
+      "Respect de la qualité convenue": 3.0,
+      "Souplesse et façon de traiter nos réclamations": 3.5,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "FBA CONSTRUCTION SARL",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.3333,
+    "ca": 408816.6,
+    "caInduni": 408816.6,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 4.0,
+      "Respect des quantités prévues": 3.0,
+      "Compétence / assistance technique": 2.5,
+      "Respect de la qualité convenue": 3.0,
+      "Souplesse et façon de traiter nos réclamations": 3.5,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "LIAUDET PIAL SA",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.8333,
+    "ca": 94957.8,
+    "caInduni": 94957.8,
+    "pctCa": null,
+    "nbEvaluateurs": 1,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 3.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0,
+      "Respect des délais de livraison convenus": 4.0
+    }
+  },
+  {
+    "nom": "SIKA SCHWEIZ AG",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 2.75,
+    "ca": null,
+    "caInduni": null,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "[Fassier] Adjuvant",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 2.5,
+      "Respect des quantités prévues": 3.0,
+      "Compétence / assistance technique": 3.0,
+      "Respect de la qualité convenue": 3.0,
+      "Souplesse et façon de traiter nos réclamations": 2.0,
+      "Respect des délais de livraison convenus": 3.0
+    }
+  },
+  {
+    "nom": "VEUTHEY & CIE MARTIGNY SA",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 2.75,
+    "ca": 1598835.5,
+    "caInduni": 1650781.55,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.5,
+      "Respect des quantités prévues": 3.0,
+      "Compétence / assistance technique": 2.5,
+      "Respect de la qualité convenue": 3.0,
+      "Souplesse et façon de traiter nos réclamations": 2.5,
+      "Respect des délais de livraison convenus": 2.0
+    }
+  },
+  {
+    "nom": "SACAC AG",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.0,
+    "ca": 401152.25,
+    "caInduni": 483454.05,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.5,
+      "Respect des quantités prévues": 2.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 3.0,
+      "Souplesse et façon de traiter nos réclamations": 3.0,
+      "Respect des délais de livraison convenus": 2.5
+    }
+  },
+  {
+    "nom": "GRUYERE METAL SA",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.1667,
+    "ca": 260110.25,
+    "caInduni": 1185128.15,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.5,
+      "Respect des quantités prévues": 3.0,
+      "Compétence / assistance technique": 3.0,
+      "Respect de la qualité convenue": 2.5,
+      "Souplesse et façon de traiter nos réclamations": 3.5,
+      "Respect des délais de livraison convenus": 3.5
+    }
+  },
+  {
+    "nom": "FREYSSINET SA",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.3333,
+    "ca": 166621.65,
+    "caInduni": 200278.59999999998,
+    "pctCa": null,
+    "nbEvaluateurs": 1,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 4.0,
+      "Respect des quantités prévues": 3.0,
+      "Compétence / assistance technique": 4.0,
+      "Respect de la qualité convenue": 3.0,
+      "Souplesse et façon de traiter nos réclamations": 3.0,
+      "Respect des délais de livraison convenus": 3.0
+    }
+  },
+  {
+    "nom": "TRAVO SA",
+    "type": "Sous-traitant",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.0833,
+    "ca": 122104.25,
+    "caInduni": 123552.8,
+    "pctCa": null,
+    "nbEvaluateurs": 2,
+    "remarques": "",
+    "famille": "SOUS-TRAITANTS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.5,
+      "Respect des quantités prévues": 2.5,
+      "Compétence / assistance technique": 3.0,
+      "Respect de la qualité convenue": 2.0,
+      "Souplesse et façon de traiter nos réclamations": 3.5,
+      "Respect des délais de livraison convenus": 4.0
     }
   }
 ]
