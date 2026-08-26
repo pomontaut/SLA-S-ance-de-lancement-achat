@@ -1,8 +1,12 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { EvalRecord } from '../data/evaluationsHistorique'
 import { listSuppliers, supplierHistory } from '../data/evaluationsHistorique'
 import { secteurColor, noteColor } from '../data/palette'
 import BarChart from './BarChart'
+
+function toggle<T>(list: T[], value: T): T[] {
+  return list.includes(value) ? list.filter((v) => v !== value) : [...list, value]
+}
 
 function formatCurrency(v: number | null): string {
   return v == null ? '—' : v.toLocaleString('fr-CH', { maximumFractionDigits: 0 }) + ' CHF'
@@ -25,14 +29,22 @@ function MiniTrend({ history }: { history: EvalRecord[] }) {
         <line key={v} x1={pad.left} x2={width - pad.right} y1={y(v)} y2={y(v)} stroke="#e2e8f0" strokeWidth={1} />
       ))}
       <path d={d} fill="none" stroke="#4f46e5" strokeWidth={2} strokeLinecap="round" />
-      {points.map((p, i) => (
-        <g key={`${p.secteur}-${p.annee}`}>
-          <circle cx={x(i)} cy={y(p.note!)} r={4} fill={secteurColor(p.secteur)} stroke="white" strokeWidth={1} />
-          <text x={x(i)} y={height - 4} textAnchor="middle" fontSize={9} fill="#64748b">
-            {p.annee}
-          </text>
-        </g>
-      ))}
+      {points.map((p, i) => {
+        // Plusieurs points peuvent partager la même année (un fournisseur évalué dans
+        // plusieurs secteurs la même année) : n'afficher l'étiquette qu'une fois par
+        // année, sinon les libellés se chevauchent et deviennent illisibles.
+        const showLabel = i === 0 || points[i - 1].annee !== p.annee
+        return (
+          <g key={`${p.secteur}-${p.annee}-${i}`}>
+            <circle cx={x(i)} cy={y(p.note!)} r={4} fill={secteurColor(p.secteur)} stroke="white" strokeWidth={1} />
+            {showLabel && (
+              <text x={x(i)} y={height - 4} textAnchor="middle" fontSize={11} fontWeight={500} fill="#334155">
+                {p.annee}
+              </text>
+            )}
+          </g>
+        )
+      })}
     </svg>
   )
 }
@@ -49,7 +61,36 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
   }, [suppliers, query])
 
   const history = useMemo(() => (selected ? supplierHistory(all, selected) : []), [all, selected])
-  const latestWithCriteres = history.find((h) => h.criteres)
+  const secteursDisponibles = useMemo(() => Array.from(new Set(history.map((h) => h.secteur))).sort(), [history])
+  const anneeBounds = useMemo((): [number, number] => {
+    if (history.length === 0) return [0, 0]
+    const annees = history.map((h) => h.annee)
+    return [Math.min(...annees), Math.max(...annees)]
+  }, [history])
+
+  const [filterSecteurs, setFilterSecteurs] = useState<string[]>([])
+  const [filterAnneeMin, setFilterAnneeMin] = useState<number | null>(null)
+  const [filterAnneeMax, setFilterAnneeMax] = useState<number | null>(null)
+
+  // Réinitialise les filtres à chaque changement de fournisseur sélectionné.
+  useEffect(() => {
+    setFilterSecteurs([])
+    setFilterAnneeMin(null)
+    setFilterAnneeMax(null)
+  }, [selected])
+
+  const anneeMin = filterAnneeMin ?? anneeBounds[0]
+  const anneeMax = filterAnneeMax ?? anneeBounds[1]
+
+  const filteredHistory = useMemo(
+    () =>
+      history.filter(
+        (h) =>
+          h.annee >= anneeMin && h.annee <= anneeMax && (filterSecteurs.length === 0 || filterSecteurs.includes(h.secteur)),
+      ),
+    [history, anneeMin, anneeMax, filterSecteurs],
+  )
+  const latestWithCriteres = filteredHistory.find((h) => h.criteres)
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={onClose}>
@@ -109,9 +150,72 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
                 </button>
               </div>
 
+              {secteursDisponibles.length > 0 && (
+                <div className="flex flex-wrap items-center gap-3 bg-slate-50 rounded-lg p-3">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="text-xs uppercase text-slate-500 mr-1">Secteurs</span>
+                    {secteursDisponibles.map((s) => {
+                      const active = filterSecteurs.includes(s)
+                      return (
+                        <button
+                          key={s}
+                          className="px-2 py-0.5 rounded-full text-xs font-medium border transition-colors"
+                          style={
+                            active
+                              ? { backgroundColor: secteurColor(s), borderColor: secteurColor(s), color: 'white' }
+                              : { backgroundColor: 'white', borderColor: '#e2e8f0', color: '#475569' }
+                          }
+                          onClick={() => setFilterSecteurs(toggle(filterSecteurs, s))}
+                        >
+                          {s}
+                        </button>
+                      )
+                    })}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs uppercase text-slate-500">Années</span>
+                    <select
+                      className="input w-24 py-1"
+                      value={anneeMin}
+                      onChange={(e) => setFilterAnneeMin(Number(e.target.value))}
+                    >
+                      {Array.from({ length: anneeBounds[1] - anneeBounds[0] + 1 }, (_, i) => anneeBounds[0] + i).map((a) => (
+                        <option key={a} value={a}>
+                          {a}
+                        </option>
+                      ))}
+                    </select>
+                    <span className="text-slate-400">→</span>
+                    <select
+                      className="input w-24 py-1"
+                      value={anneeMax}
+                      onChange={(e) => setFilterAnneeMax(Number(e.target.value))}
+                    >
+                      {Array.from({ length: anneeBounds[1] - anneeBounds[0] + 1 }, (_, i) => anneeBounds[0] + i).map((a) => (
+                        <option key={a} value={a}>
+                          {a}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {(filterSecteurs.length > 0 || filterAnneeMin != null || filterAnneeMax != null) && (
+                    <button
+                      className="text-xs text-slate-400 underline"
+                      onClick={() => {
+                        setFilterSecteurs([])
+                        setFilterAnneeMin(null)
+                        setFilterAnneeMax(null)
+                      }}
+                    >
+                      Réinitialiser
+                    </button>
+                  )}
+                </div>
+              )}
+
               <div>
                 <h4 className="text-xs uppercase text-slate-500 mb-2">Évolution de la note</h4>
-                <MiniTrend history={history} />
+                <MiniTrend history={filteredHistory} />
               </div>
 
               {latestWithCriteres?.criteres && (
@@ -127,7 +231,9 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
               )}
 
               <div>
-                <h4 className="text-xs uppercase text-slate-500 mb-2">Historique complet ({history.length})</h4>
+                <h4 className="text-xs uppercase text-slate-500 mb-2">
+                  Historique {filteredHistory.length !== history.length ? `filtré (${filteredHistory.length} / ${history.length})` : `complet (${history.length})`}
+                </h4>
                 <table className="w-full text-sm border-collapse">
                   <thead>
                     <tr className="text-left text-xs uppercase text-slate-500 border-b border-slate-200">
@@ -140,7 +246,7 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
                     </tr>
                   </thead>
                   <tbody>
-                    {history.map((h) => (
+                    {filteredHistory.map((h) => (
                       <tr key={`${h.secteur}-${h.annee}`} className="border-b border-slate-100 align-top">
                         <td className="py-1.5 pr-2">
                           <span

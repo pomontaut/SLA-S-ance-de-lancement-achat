@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import type { EvalRecord, GlobalFilters, SecteurStat } from '../data/evaluationsHistorique'
 import {
   SECTEURS,
@@ -13,8 +13,7 @@ import MultiLineChart from './MultiLineChart'
 import Histogram from './Histogram'
 import RiskMatrix from './RiskMatrix'
 import BarChart from './BarChart'
-import SupplierZoom from './SupplierZoom'
-import { familleBreakdown } from '../data/evaluationsHistorique'
+import { familleBreakdown, critereMoyennes } from '../data/evaluationsHistorique'
 
 function formatCurrency(v: number | null): string {
   return v == null ? 'Non disponible' : v.toLocaleString('fr-CH', { maximumFractionDigits: 0 }) + ' CHF'
@@ -34,12 +33,13 @@ export default function OverviewTab({
   all,
   filters,
   onFiltersChange,
+  onZoom,
 }: {
   all: EvalRecord[]
   filters: GlobalFilters
   onFiltersChange: (f: GlobalFilters) => void
+  onZoom: (nom: string) => void
 }) {
-  const [zoomNom, setZoomNom] = useState<string | null>(null)
   const types = useMemo(() => distinctTypes(all), [all])
   const anneeBounds = useMemo((): [number, number] => {
     const annees = all.map((r) => r.annee)
@@ -52,10 +52,18 @@ export default function OverviewTab({
   const trend = useMemo(() => multiSecteurTrend(all, secteursForTrend), [all, secteursForTrend])
   const distribution = useMemo(() => noteDistribution(filtered), [filtered])
   const famille = useMemo(() => familleBreakdown(filtered).slice(0, 12), [filtered])
+  const criteres = useMemo(() => critereMoyennes(filtered), [filtered])
+  const supplierNames = useMemo(() => Array.from(new Set(all.map((r) => r.nom))).sort((a, b) => a.localeCompare(b)), [all])
 
   return (
     <div className="space-y-4">
-      <FilterBar filters={filters} onChange={onFiltersChange} types={types} anneeBounds={anneeBounds} />
+      <FilterBar
+        filters={filters}
+        onChange={onFiltersChange}
+        types={types}
+        anneeBounds={anneeBounds}
+        supplierNames={supplierNames}
+      />
 
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
         <StatTile label="Fournisseurs évalués" value={String(kpis.fournisseursEvalues)} />
@@ -86,15 +94,25 @@ export default function OverviewTab({
       </div>
 
       <div className="card">
+        <h3 className="font-semibold mb-3">Moyenne par critère</h3>
+        {criteres.length > 0 ? (
+          <BarChart
+            data={criteres.map((c) => ({ label: c.label, value: c.moyenne, sub: `${c.nbFournisseurs} note(s)` }))}
+            max={5}
+          />
+        ) : (
+          <p className="text-sm text-slate-500">Aucun détail par critère disponible pour ces filtres.</p>
+        )}
+      </div>
+
+      <div className="card">
         <h3 className="font-semibold mb-1">Matrice risque — montant vs performance</h3>
         <p className="text-xs text-slate-500 mb-3">
           Chaque point est une évaluation (fournisseur × année). En haut à droite : gros volumes bien notés (partenaires
           stratégiques). En bas à droite : gros volumes mal notés (risque prioritaire).
         </p>
-        <RiskMatrix records={filtered} onSelect={setZoomNom} />
+        <RiskMatrix records={filtered} onSelect={onZoom} />
       </div>
-
-      {zoomNom && <SupplierZoom all={all} initialNom={zoomNom} onClose={() => setZoomNom(null)} />}
     </div>
   )
 }

@@ -2,14 +2,12 @@ import { useMemo, useState } from 'react'
 import type { EvalRecord } from '../data/evaluationsHistorique'
 import { SECTEURS, riskWatchlist, topMovers } from '../data/evaluationsHistorique'
 import { secteurColor } from '../data/palette'
-import SupplierZoom from './SupplierZoom'
 
 function formatCurrency(v: number | null): string {
   return v == null ? '—' : v.toLocaleString('fr-CH', { maximumFractionDigits: 0 }) + ' CHF'
 }
 
-export default function RiskTab({ all }: { all: EvalRecord[] }) {
-  const [zoomNom, setZoomNom] = useState<string | null>(null)
+export default function RiskTab({ all, onZoom }: { all: EvalRecord[]; onZoom: (nom: string) => void }) {
   const [secteurMovers, setSecteurMovers] = useState('GC')
 
   const watchlist = useMemo(() => riskWatchlist(all), [all])
@@ -62,7 +60,7 @@ export default function RiskTab({ all }: { all: EvalRecord[] }) {
                       <span className={w.gravite === 'critical' ? 'text-red-600' : 'text-amber-600'}>{w.motif}</span>
                     </td>
                     <td className="py-1.5">
-                      <button className="btn-secondary text-xs" onClick={() => setZoomNom(w.nom)}>
+                      <button className="btn-secondary text-xs" onClick={() => onZoom(w.nom)}>
                         Zoom
                       </button>
                     </td>
@@ -94,7 +92,7 @@ export default function RiskTab({ all }: { all: EvalRecord[] }) {
               <ul className="space-y-1.5 text-sm">
                 {movers.hausses.map((m) => (
                   <li key={m.nom} className="flex justify-between">
-                    <button className="text-left hover:underline" onClick={() => setZoomNom(m.nom)}>
+                    <button className="text-left hover:underline" onClick={() => onZoom(m.nom)}>
                       {m.nom}
                     </button>
                     <span className="text-green-600 font-medium">
@@ -114,7 +112,7 @@ export default function RiskTab({ all }: { all: EvalRecord[] }) {
               <ul className="space-y-1.5 text-sm">
                 {movers.baisses.map((m) => (
                   <li key={m.nom} className="flex justify-between">
-                    <button className="text-left hover:underline" onClick={() => setZoomNom(m.nom)}>
+                    <button className="text-left hover:underline" onClick={() => onZoom(m.nom)}>
                       {m.nom}
                     </button>
                     <span className="text-red-600 font-medium">
@@ -128,7 +126,6 @@ export default function RiskTab({ all }: { all: EvalRecord[] }) {
         </div>
       </div>
 
-      {zoomNom && <SupplierZoom all={all} initialNom={zoomNom} onClose={() => setZoomNom(null)} />}
     </div>
   )
 }

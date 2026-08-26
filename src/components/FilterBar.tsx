@@ -11,11 +11,13 @@ export default function FilterBar({
   onChange,
   types,
   anneeBounds,
+  supplierNames = [],
 }: {
   filters: GlobalFilters
   onChange: (f: GlobalFilters) => void
   types: string[]
   anneeBounds: [number, number]
+  supplierNames?: string[]
 }) {
   return (
     <div className="card space-y-3">
@@ -117,7 +119,13 @@ export default function FilterBar({
           placeholder="Rechercher un fournisseur…"
           value={filters.search}
           onChange={(e) => onChange({ ...filters, search: e.target.value })}
+          list="fournisseurs-datalist"
         />
+        <datalist id="fournisseurs-datalist">
+          {supplierNames.map((nom) => (
+            <option key={nom} value={nom} />
+          ))}
+        </datalist>
       </div>
     </div>
   )

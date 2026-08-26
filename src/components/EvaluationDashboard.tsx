@@ -9,6 +9,7 @@ import {
   familleBreakdown,
   findSecteurStat,
   loadEvaluationsHistorique,
+  loadEvaluationsHistoriqueFull,
   loadSecteurStats,
   trendParAnnee,
 } from '../data/evaluationsHistorique'
@@ -343,6 +344,7 @@ const VIEW_TABS: { key: View; label: string }[] = [
 
 export default function EvaluationDashboard() {
   const [all, setAll] = useState<EvalRecord[] | null>(null)
+  const [allFull, setAllFull] = useState<EvalRecord[] | null>(null)
   const [secteurStats, setSecteurStats] = useState<SecteurStat[]>([])
   const [secteur, setSecteur] = useState<string>('GC')
   const [annee, setAnnee] = useState<number | null>(null)
@@ -355,6 +357,7 @@ export default function EvaluationDashboard() {
       setAll(data)
       setFilters(defaultFilters(data))
     })
+    loadEvaluationsHistoriqueFull().then(setAllFull)
     loadSecteurStats().then(setSecteurStats)
   }, [])
 
@@ -389,7 +392,7 @@ export default function EvaluationDashboard() {
         ))}
       </div>
 
-      {view === 'overview' && <OverviewTab all={all} filters={filters} onFiltersChange={setFilters} />}
+      {view === 'overview' && <OverviewTab all={all} filters={filters} onFiltersChange={setFilters} onZoom={setZoomNom} />}
 
       {view === 'secteur' && (
         <SecteurTab
@@ -408,9 +411,11 @@ export default function EvaluationDashboard() {
         <p className="text-sm text-slate-500">Choisissez d'abord une année dans l'onglet « Par secteur ».</p>
       )}
 
-      {view === 'risques' && <RiskTab all={all} />}
+      {view === 'risques' && <RiskTab all={all} onZoom={setZoomNom} />}
 
-      {zoomNom !== null && <SupplierZoom all={all} initialNom={zoomNom || undefined} onClose={() => setZoomNom(null)} />}
+      {zoomNom !== null && (
+        <SupplierZoom all={allFull ?? all} initialNom={zoomNom || undefined} onClose={() => setZoomNom(null)} />
+      )}
     </div>
   )
 }

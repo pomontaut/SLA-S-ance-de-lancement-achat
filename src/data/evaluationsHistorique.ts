@@ -41,6 +41,22 @@ export function loadEvaluationsHistorique(): Promise<EvalRecord[]> {
   return pending
 }
 
+let fullCache: EvalRecord[] | null = null
+let fullPending: Promise<EvalRecord[]> | null = null
+
+/** Historique complet, sans le filtre ANNEE_MIN — utilisé par le zoom fournisseur pour
+ * ne pas perdre les évaluations antérieures à 2017 (notamment le bucket "Général"). */
+export function loadEvaluationsHistoriqueFull(): Promise<EvalRecord[]> {
+  if (fullCache) return Promise.resolve(fullCache)
+  if (!fullPending) {
+    fullPending = import('./evaluationsHistorique.json').then((mod) => {
+      fullCache = mod.default as unknown as EvalRecord[]
+      return fullCache
+    })
+  }
+  return fullPending
+}
+
 let statsCache: SecteurStat[] | null = null
 let statsPending: Promise<SecteurStat[]> | null = null
 
