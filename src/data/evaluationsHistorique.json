@@ -73043,11 +73043,11 @@
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 3.25,
-      "Respect des quantités prévues": 3.75,
-      "Compétence / assistance technique": 3.5,
       "Respect de la qualité convenue": 3.25,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Respect des délais de livraison convenus": 3.5
+      "Compétence / assistance technique": 3.5,
+      "Respect des quantités prévues": 3.75,
+      "Respect des délais de livraison convenus": 3.5,
+      "Souplesse et façon de traiter nos réclamations": 3.5
     }
   },
   {
@@ -73065,11 +73065,11 @@
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 3.5,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 3.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Respect des délais de livraison convenus": 3.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
@@ -73078,20 +73078,20 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.75,
+    "note": 3.7,
     "ca": 538691.1,
     "caInduni": 5725211.550000001,
     "pctCa": null,
-    "nbEvaluateurs": 4,
+    "nbEvaluateurs": 5,
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.5,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 3.5,
-      "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Respect des délais de livraison convenus": 4.0
+      "Rapport Qualité/Prix": 3.4,
+      "Respect de la qualité convenue": 3.8,
+      "Compétence / assistance technique": 3.6,
+      "Respect des quantités prévues": 3.8,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 3.6
     }
   },
   {
@@ -73100,20 +73100,20 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.7083,
+    "note": 3.7333,
     "ca": 505247.75,
     "caInduni": 512382.35,
     "pctCa": null,
-    "nbEvaluateurs": 4,
+    "nbEvaluateurs": 5,
     "remarques": "[Fassier] Alush : très bien! Certain de ces employés : plus compliqué",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.5,
-      "Respect des quantités prévues": 3.75,
-      "Compétence / assistance technique": 3.25,
-      "Respect de la qualité convenue": 3.75,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Rapport Qualité/Prix": 3.4,
+      "Respect de la qualité convenue": 3.8,
+      "Compétence / assistance technique": 3.4,
+      "Respect des quantités prévues": 3.8,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
@@ -73131,11 +73131,11 @@
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 4.0,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 3.5,
       "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 3.5,
+      "Respect des quantités prévues": 4.0,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
@@ -73144,20 +73144,20 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.5667,
+    "note": 3.5556,
     "ca": 414781.5,
     "caInduni": 1169686.9,
     "pctCa": null,
-    "nbEvaluateurs": 5,
+    "nbEvaluateurs": 6,
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.6,
-      "Respect des quantités prévues": 3.4,
-      "Compétence / assistance technique": 3.6,
-      "Respect de la qualité convenue": 3.8,
-      "Souplesse et façon de traiter nos réclamations": 3.4,
-      "Respect des délais de livraison convenus": 3.6
+      "Rapport Qualité/Prix": 3.6667,
+      "Respect de la qualité convenue": 3.8333,
+      "Compétence / assistance technique": 3.5,
+      "Respect des quantités prévues": 3.3333,
+      "Respect des délais de livraison convenus": 3.6667,
+      "Souplesse et façon de traiter nos réclamations": 3.3333
     }
   },
   {
@@ -73175,11 +73175,11 @@
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 1.5,
-      "Respect des quantités prévues": 3.5,
-      "Compétence / assistance technique": 3.5,
       "Respect de la qualité convenue": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Respect des délais de livraison convenus": 3.5
+      "Compétence / assistance technique": 3.5,
+      "Respect des quantités prévues": 3.5,
+      "Respect des délais de livraison convenus": 3.5,
+      "Souplesse et façon de traiter nos réclamations": 3.0
     }
   },
   {
@@ -73197,11 +73197,11 @@
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 3.25,
-      "Respect des quantités prévues": 3.75,
-      "Compétence / assistance technique": 2.75,
       "Respect de la qualité convenue": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 3.75,
-      "Respect des délais de livraison convenus": 3.75
+      "Compétence / assistance technique": 2.75,
+      "Respect des quantités prévues": 3.75,
+      "Respect des délais de livraison convenus": 3.75,
+      "Souplesse et façon de traiter nos réclamations": 3.75
     }
   },
   {
@@ -73210,20 +73210,20 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.8333,
+    "note": 3.5,
     "ca": 106440.35,
     "caInduni": 652938.85,
     "pctCa": null,
-    "nbEvaluateurs": 1,
+    "nbEvaluateurs": 2,
     "remarques": "[Crespo] à relancer plusieurs fois selon les personnes . Edwige la classe!",
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 4.0,
+      "Respect de la qualité convenue": 3.0,
+      "Compétence / assistance technique": 3.5,
       "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
-      "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Respect des délais de livraison convenus": 3.5,
+      "Souplesse et façon de traiter nos réclamations": 3.0
     }
   },
   {
@@ -73241,11 +73241,11 @@
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 3.75,
-      "Respect des quantités prévues": 3.75,
-      "Compétence / assistance technique": 3.75,
       "Respect de la qualité convenue": 3.75,
-      "Souplesse et façon de traiter nos réclamations": 3.75,
-      "Respect des délais de livraison convenus": 3.75
+      "Compétence / assistance technique": 3.75,
+      "Respect des quantités prévues": 3.75,
+      "Respect des délais de livraison convenus": 3.75,
+      "Souplesse et façon de traiter nos réclamations": 3.75
     }
   },
   {
@@ -73263,11 +73263,11 @@
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 4.0,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Respect des délais de livraison convenus": 2.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Respect des délais de livraison convenus": 2.0,
+      "Souplesse et façon de traiter nos réclamations": 3.0
     }
   },
   {
@@ -73276,20 +73276,20 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.7778,
+    "note": 3.625,
     "ca": 39760.6,
     "caInduni": 181424.05000000002,
     "pctCa": null,
-    "nbEvaluateurs": 3,
+    "nbEvaluateurs": 4,
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 3.0,
+      "Respect de la qualité convenue": 3.75,
+      "Compétence / assistance technique": 3.75,
       "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
-      "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 3.6667,
-      "Respect des délais de livraison convenus": 4.0
+      "Respect des délais de livraison convenus": 3.75,
+      "Souplesse et façon de traiter nos réclamations": 3.5
     }
   },
   {
@@ -73307,11 +73307,11 @@
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 3.0,
-      "Respect des quantités prévues": 3.6667,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 3.6667,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
@@ -73329,11 +73329,11 @@
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 3.0,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
@@ -73351,11 +73351,11 @@
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 4.0,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
@@ -73373,11 +73373,11 @@
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 4.0,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
@@ -73395,11 +73395,11 @@
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 4.0,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
@@ -73408,20 +73408,20 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.5,
+    "note": 3.4444,
     "ca": 3372851.2,
     "caInduni": 9504223.499999998,
     "pctCa": null,
-    "nbEvaluateurs": 5,
+    "nbEvaluateurs": 6,
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.4,
-      "Respect des quantités prévues": 3.4,
-      "Compétence / assistance technique": 3.6,
-      "Respect de la qualité convenue": 3.6,
-      "Souplesse et façon de traiter nos réclamations": 3.6,
-      "Respect des délais de livraison convenus": 3.4
+      "Rapport Qualité/Prix": 3.3333,
+      "Respect de la qualité convenue": 3.6667,
+      "Compétence / assistance technique": 3.5,
+      "Respect des quantités prévues": 3.3333,
+      "Respect des délais de livraison convenus": 3.3333,
+      "Souplesse et façon de traiter nos réclamations": 3.5
     }
   },
   {
@@ -73430,20 +73430,20 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.0,
+    "note": 3.0278,
     "ca": 4463866.45,
     "caInduni": 4463866.45,
     "pctCa": null,
-    "nbEvaluateurs": 5,
+    "nbEvaluateurs": 6,
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.4,
-      "Respect des quantités prévues": 2.4,
-      "Compétence / assistance technique": 2.4,
+      "Rapport Qualité/Prix": 3.3333,
       "Respect de la qualité convenue": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 3.2,
-      "Respect des délais de livraison convenus": 3.6
+      "Compétence / assistance technique": 2.5,
+      "Respect des quantités prévues": 2.5,
+      "Respect des délais de livraison convenus": 3.6667,
+      "Souplesse et façon de traiter nos réclamations": 3.1667
     }
   },
   {
@@ -73461,11 +73461,11 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 4.0,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 2.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 2.0
     }
   },
   {
@@ -73483,11 +73483,11 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 3.6667,
-      "Respect des quantités prévues": 3.0,
-      "Compétence / assistance technique": 3.0,
       "Respect de la qualité convenue": 3.3333,
-      "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Respect des délais de livraison convenus": 3.3333
+      "Compétence / assistance technique": 3.0,
+      "Respect des quantités prévues": 3.0,
+      "Respect des délais de livraison convenus": 3.3333,
+      "Souplesse et façon de traiter nos réclamations": 3.0
     }
   },
   {
@@ -73505,11 +73505,11 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 4.0,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 3.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Respect des délais de livraison convenus": 3.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
@@ -73527,11 +73527,11 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 4.0,
-      "Respect des quantités prévues": 3.5,
-      "Compétence / assistance technique": 3.0,
       "Respect de la qualité convenue": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Respect des délais de livraison convenus": 3.5
+      "Compétence / assistance technique": 3.0,
+      "Respect des quantités prévues": 3.5,
+      "Respect des délais de livraison convenus": 3.5,
+      "Souplesse et façon de traiter nos réclamations": 3.5
     }
   },
   {
@@ -73549,11 +73549,11 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 3.25,
-      "Respect des quantités prévues": 2.25,
-      "Compétence / assistance technique": 2.5,
       "Respect de la qualité convenue": 3.75,
-      "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Respect des délais de livraison convenus": 2.5
+      "Compétence / assistance technique": 2.5,
+      "Respect des quantités prévues": 2.25,
+      "Respect des délais de livraison convenus": 2.5,
+      "Souplesse et façon de traiter nos réclamations": 3.0
     }
   },
   {
@@ -73571,11 +73571,11 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 3.6667,
-      "Respect des quantités prévues": 3.0,
-      "Compétence / assistance technique": 3.3333,
       "Respect de la qualité convenue": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 3.6667,
-      "Respect des délais de livraison convenus": 3.6667
+      "Compétence / assistance technique": 3.3333,
+      "Respect des quantités prévues": 3.0,
+      "Respect des délais de livraison convenus": 3.6667,
+      "Souplesse et façon de traiter nos réclamations": 3.6667
     }
   },
   {
@@ -73593,11 +73593,11 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 3.0,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
@@ -73615,11 +73615,11 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 3.75,
-      "Respect des quantités prévues": 3.5,
-      "Compétence / assistance technique": 3.5,
       "Respect de la qualité convenue": 3.25,
-      "Souplesse et façon de traiter nos réclamations": 3.75,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 3.5,
+      "Respect des quantités prévues": 3.5,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 3.75
     }
   },
   {
@@ -73637,11 +73637,11 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 4.0,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
@@ -73659,11 +73659,11 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 4.0,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
@@ -73681,11 +73681,11 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 4.0,
-      "Respect des quantités prévues": 3.8,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 3.4,
-      "Souplesse et façon de traiter nos réclamations": 3.8,
-      "Respect des délais de livraison convenus": 3.8
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 3.8,
+      "Respect des délais de livraison convenus": 3.8,
+      "Souplesse et façon de traiter nos réclamations": 3.8
     }
   },
   {
@@ -73703,11 +73703,11 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 4.0,
-      "Respect des quantités prévues": 3.5,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 3.5,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
@@ -73725,11 +73725,11 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 4.0,
-      "Respect des quantités prévues": 3.6667,
-      "Compétence / assistance technique": 3.6667,
       "Respect de la qualité convenue": 3.3333,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 3.6667,
+      "Respect des quantités prévues": 3.6667,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
@@ -73738,20 +73738,20 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.3333,
+    "note": 3.2778,
     "ca": 65807.15,
     "caInduni": 559967.65,
     "pctCa": null,
-    "nbEvaluateurs": 2,
+    "nbEvaluateurs": 3,
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.5,
+      "Rapport Qualité/Prix": 3.3333,
+      "Respect de la qualité convenue": 3.3333,
+      "Compétence / assistance technique": 3.3333,
       "Respect des quantités prévues": 3.0,
-      "Compétence / assistance technique": 3.0,
-      "Respect de la qualité convenue": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Respect des délais de livraison convenus": 3.5
+      "Respect des délais de livraison convenus": 3.3333,
+      "Souplesse et façon de traiter nos réclamations": 3.3333
     }
   },
   {
@@ -73769,11 +73769,11 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 4.0,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
@@ -73791,11 +73791,11 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 4.0,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 3.6667,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
@@ -73813,11 +73813,11 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 3.75,
-      "Respect des quantités prévues": 3.75,
-      "Compétence / assistance technique": 3.75,
       "Respect de la qualité convenue": 2.75,
-      "Souplesse et façon de traiter nos réclamations": 3.75,
-      "Respect des délais de livraison convenus": 3.75
+      "Compétence / assistance technique": 3.75,
+      "Respect des quantités prévues": 3.75,
+      "Respect des délais de livraison convenus": 3.75,
+      "Souplesse et façon de traiter nos réclamations": 3.75
     }
   },
   {
@@ -73830,15 +73830,15 @@
     "ca": 123909.8,
     "caInduni": 123909.8,
     "pctCa": null,
-    "nbEvaluateurs": 5,
+    "nbEvaluateurs": 6,
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.6,
+      "Rapport Qualité/Prix": 3.5,
+      "Respect de la qualité convenue": 3.8333,
       "Compétence / assistance technique": 3.2,
-      "Respect de la qualité convenue": 3.8,
-      "Souplesse et façon de traiter nos réclamations": 3.8,
-      "Respect des délais de livraison convenus": 3.8
+      "Respect des délais de livraison convenus": 3.8333,
+      "Souplesse et façon de traiter nos réclamations": 3.8333
     }
   },
   {
@@ -73847,19 +73847,19 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.6,
+    "note": 3.5,
     "ca": 113137.7,
     "caInduni": 113137.7,
     "pctCa": null,
-    "nbEvaluateurs": 4,
+    "nbEvaluateurs": 5,
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.5,
+      "Rapport Qualité/Prix": 3.4,
+      "Respect de la qualité convenue": 3.4,
       "Compétence / assistance technique": 3.5,
-      "Respect de la qualité convenue": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 3.75,
-      "Respect des délais de livraison convenus": 3.75
+      "Respect des délais de livraison convenus": 3.6,
+      "Souplesse et façon de traiter nos réclamations": 3.6
     }
   },
   {
@@ -73868,19 +73868,19 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.5333,
+    "note": 3.4167,
     "ca": 57947.15,
     "caInduni": 221032.55,
     "pctCa": null,
-    "nbEvaluateurs": 3,
+    "nbEvaluateurs": 4,
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.3333,
+      "Rapport Qualité/Prix": 3.25,
+      "Respect de la qualité convenue": 3.5,
       "Compétence / assistance technique": 3.3333,
-      "Respect de la qualité convenue": 3.6667,
-      "Souplesse et façon de traiter nos réclamations": 3.6667,
-      "Respect des délais de livraison convenus": 3.6667
+      "Respect des délais de livraison convenus": 3.5,
+      "Souplesse et façon de traiter nos réclamations": 3.5
     }
   },
   {
@@ -73889,20 +73889,20 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.5667,
+    "note": 3.5556,
     "ca": 479360.65,
     "caInduni": 1791257.5500000003,
     "pctCa": null,
-    "nbEvaluateurs": 5,
+    "nbEvaluateurs": 6,
     "remarques": "[Crespo] MAJ des prix de montage à réaliser",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.4,
-      "Respect des quantités prévues": 3.6,
-      "Compétence / assistance technique": 3.6,
-      "Respect de la qualité convenue": 3.6,
-      "Souplesse et façon de traiter nos réclamations": 3.4,
-      "Respect des délais de livraison convenus": 3.8
+      "Rapport Qualité/Prix": 3.3333,
+      "Respect de la qualité convenue": 3.5,
+      "Compétence / assistance technique": 3.6667,
+      "Respect des quantités prévues": 3.5,
+      "Respect des délais de livraison convenus": 3.8333,
+      "Souplesse et façon de traiter nos réclamations": 3.5
     }
   },
   {
@@ -73911,20 +73911,20 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.7667,
+    "note": 3.7167,
     "ca": 347559.05,
     "caInduni": 911010.85,
     "pctCa": null,
-    "nbEvaluateurs": 5,
+    "nbEvaluateurs": 6,
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.2,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 3.8,
+      "Rapport Qualité/Prix": 3.1667,
       "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 3.6,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 3.6667,
+      "Respect des quantités prévues": 3.8,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 3.6667
     }
   },
   {
@@ -73942,11 +73942,11 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 3.6667,
-      "Respect des quantités prévues": 3.6667,
-      "Compétence / assistance technique": 3.6667,
       "Respect de la qualité convenue": 3.6667,
-      "Souplesse et façon de traiter nos réclamations": 3.3333,
-      "Respect des délais de livraison convenus": 3.6667
+      "Compétence / assistance technique": 3.6667,
+      "Respect des quantités prévues": 3.6667,
+      "Respect des délais de livraison convenus": 3.6667,
+      "Souplesse et façon de traiter nos réclamations": 3.3333
     }
   },
   {
@@ -73955,20 +73955,20 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.2667,
+    "note": 3.2778,
     "ca": 165053,
     "caInduni": 809382.15,
     "pctCa": null,
-    "nbEvaluateurs": 5,
+    "nbEvaluateurs": 6,
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Rapport Qualité/Prix": 2.8,
-      "Respect des quantités prévues": 3.4,
-      "Compétence / assistance technique": 3.6,
+      "Rapport Qualité/Prix": 2.8333,
       "Respect de la qualité convenue": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 3.2,
-      "Respect des délais de livraison convenus": 3.6
+      "Compétence / assistance technique": 3.5,
+      "Respect des quantités prévues": 3.3333,
+      "Respect des délais de livraison convenus": 3.6667,
+      "Souplesse et façon de traiter nos réclamations": 3.3333
     }
   },
   {
@@ -73986,11 +73986,11 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 3.0,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 3.0
     }
   },
   {
@@ -73999,18 +73999,18 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.15,
+    "note": 3.125,
     "ca": 1598383.25,
     "caInduni": 1598383.25,
     "pctCa": null,
-    "nbEvaluateurs": 5,
+    "nbEvaluateurs": 6,
     "remarques": "[Fassier] Manque lunette",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
+      "Respect de la qualité convenue": 3.3333,
+      "Rapport Qualité/Prix": 3.6667,
       "Respect des délais de livraison convenus": 3.0,
-      "Respect de la qualité convenue": 3.4,
-      "Souplesse et façon de traiter nos réclamations": 2.4,
-      "Rapport Qualité/Prix": 3.8
+      "Souplesse et façon de traiter nos réclamations": 2.5
     }
   },
   {
@@ -74019,18 +74019,18 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.1875,
+    "note": 3.15,
     "ca": 911995.25,
     "caInduni": 911995.25,
     "pctCa": null,
-    "nbEvaluateurs": 4,
+    "nbEvaluateurs": 5,
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
+      "Respect de la qualité convenue": 3.4,
+      "Rapport Qualité/Prix": 3.6,
       "Respect des délais de livraison convenus": 3.0,
-      "Respect de la qualité convenue": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 2.5,
-      "Rapport Qualité/Prix": 3.75
+      "Souplesse et façon de traiter nos réclamations": 2.6
     }
   },
   {
@@ -74039,18 +74039,18 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.2,
+    "note": 3.1666,
     "ca": 357175,
     "caInduni": 357175,
     "pctCa": null,
-    "nbEvaluateurs": 5,
+    "nbEvaluateurs": 6,
     "remarques": "[Mouaz] Top Grutiers; [Fassier] Manque lunette",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Respect des délais de livraison convenus": 3.4,
-      "Respect de la qualité convenue": 3.2,
-      "Souplesse et façon de traiter nos réclamations": 2.4,
-      "Rapport Qualité/Prix": 3.8
+      "Respect de la qualité convenue": 3.1667,
+      "Rapport Qualité/Prix": 3.8333,
+      "Respect des délais de livraison convenus": 3.3333,
+      "Souplesse et façon de traiter nos réclamations": 2.3333
     }
   },
   {
@@ -74067,10 +74067,10 @@
     "remarques": "[Fassier] Lunette OK, changement de responsable…. Dommage",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
-      "Respect des délais de livraison convenus": 2.5,
       "Respect de la qualité convenue": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Rapport Qualité/Prix": 3.0
+      "Rapport Qualité/Prix": 3.0,
+      "Respect des délais de livraison convenus": 2.5,
+      "Souplesse et façon de traiter nos réclamations": 3.0
     }
   },
   {
@@ -74079,20 +74079,20 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.375,
+    "note": 3.4,
     "ca": 2923755.25,
     "caInduni": 4491730.8,
     "pctCa": null,
-    "nbEvaluateurs": 4,
+    "nbEvaluateurs": 5,
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 3.0,
+      "Respect de la qualité convenue": 3.6,
+      "Compétence / assistance technique": 3.4,
       "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 3.25,
-      "Respect de la qualité convenue": 3.75,
-      "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Respect des délais de livraison convenus": 3.25
+      "Respect des délais de livraison convenus": 3.2,
+      "Souplesse et façon de traiter nos réclamations": 3.2
     }
   },
   {
@@ -74101,20 +74101,20 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.4167,
+    "note": 3.3889,
     "ca": 796361.2,
     "caInduni": 796361.2,
     "pctCa": null,
-    "nbEvaluateurs": 2,
+    "nbEvaluateurs": 3,
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.5,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 3.0,
+      "Rapport Qualité/Prix": 3.6667,
       "Respect de la qualité convenue": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Respect des délais de livraison convenus": 3.5
+      "Compétence / assistance technique": 2.6667,
+      "Respect des quantités prévues": 4.0,
+      "Respect des délais de livraison convenus": 3.6667,
+      "Souplesse et façon de traiter nos réclamations": 3.3333
     }
   },
   {
@@ -74123,20 +74123,20 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.0556,
+    "note": 3.125,
     "ca": 707401.2,
     "caInduni": 707401.2,
     "pctCa": null,
-    "nbEvaluateurs": 3,
+    "nbEvaluateurs": 4,
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.3333,
-      "Respect des quantités prévues": 3.6667,
-      "Compétence / assistance technique": 3.3333,
-      "Respect de la qualité convenue": 3.6667,
-      "Souplesse et façon de traiter nos réclamations": 2.3333,
-      "Respect des délais de livraison convenus": 2.0
+      "Rapport Qualité/Prix": 3.25,
+      "Respect de la qualité convenue": 3.5,
+      "Compétence / assistance technique": 3.25,
+      "Respect des quantités prévues": 3.75,
+      "Respect des délais de livraison convenus": 2.5,
+      "Souplesse et façon de traiter nos réclamations": 2.5
     }
   },
   {
@@ -74154,11 +74154,11 @@
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 3.0,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
@@ -74176,11 +74176,11 @@
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 3.0,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 3.5
     }
   },
   {
@@ -74198,11 +74198,11 @@
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 3.0,
-      "Respect des quantités prévues": 3.0,
-      "Compétence / assistance technique": 3.0,
       "Respect de la qualité convenue": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 1.0,
-      "Respect des délais de livraison convenus": 1.5
+      "Compétence / assistance technique": 3.0,
+      "Respect des quantités prévues": 3.0,
+      "Respect des délais de livraison convenus": 1.5,
+      "Souplesse et façon de traiter nos réclamations": 1.0
     }
   },
   {
@@ -74220,11 +74220,11 @@
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 2.6667,
-      "Respect des quantités prévues": 3.6667,
-      "Compétence / assistance technique": 3.3333,
       "Respect de la qualité convenue": 3.6667,
-      "Souplesse et façon de traiter nos réclamations": 2.6667,
-      "Respect des délais de livraison convenus": 2.0
+      "Compétence / assistance technique": 3.3333,
+      "Respect des quantités prévues": 3.6667,
+      "Respect des délais de livraison convenus": 2.0,
+      "Souplesse et façon de traiter nos réclamations": 2.6667
     }
   },
   {
@@ -74233,20 +74233,20 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.6667,
+    "note": 3.5,
     "ca": 112480.1,
     "caInduni": 343120.95,
     "pctCa": null,
-    "nbEvaluateurs": 2,
+    "nbEvaluateurs": 3,
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.5,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
-      "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Respect des délais de livraison convenus": 3.0
+      "Rapport Qualité/Prix": 3.6667,
+      "Respect de la qualité convenue": 3.6667,
+      "Compétence / assistance technique": 3.6667,
+      "Respect des quantités prévues": 3.3333,
+      "Respect des délais de livraison convenus": 3.3333,
+      "Souplesse et façon de traiter nos réclamations": 3.3333
     }
   },
   {
@@ -74264,11 +74264,11 @@
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 3.0,
-      "Respect des quantités prévues": 3.5,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 3.5,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
@@ -74286,11 +74286,11 @@
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 3.0,
-      "Respect des quantités prévues": 3.5,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Respect des délais de livraison convenus": 3.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 3.5,
+      "Respect des délais de livraison convenus": 3.0,
+      "Souplesse et façon de traiter nos réclamations": 3.5
     }
   },
   {
@@ -74308,11 +74308,11 @@
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 3.0,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
@@ -74321,20 +74321,20 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.5556,
+    "note": 3.5417,
     "ca": null,
     "caInduni": null,
     "pctCa": null,
-    "nbEvaluateurs": 3,
+    "nbEvaluateurs": 4,
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.3333,
-      "Respect des quantités prévues": 3.6667,
-      "Compétence / assistance technique": 3.6667,
-      "Respect de la qualité convenue": 3.6667,
-      "Souplesse et façon de traiter nos réclamations": 3.3333,
-      "Respect des délais de livraison convenus": 3.6667
+      "Rapport Qualité/Prix": 3.25,
+      "Respect de la qualité convenue": 3.75,
+      "Compétence / assistance technique": 3.5,
+      "Respect des quantités prévues": 3.75,
+      "Respect des délais de livraison convenus": 3.75,
+      "Souplesse et façon de traiter nos réclamations": 3.25
     }
   },
   {
@@ -74343,20 +74343,20 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.8333,
+    "note": 3.6667,
     "ca": null,
     "caInduni": null,
     "pctCa": null,
-    "nbEvaluateurs": 1,
+    "nbEvaluateurs": 2,
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 3.0,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 3.5,
+      "Respect des quantités prévues": 4.0,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 3.5
     }
   },
   {
@@ -74365,20 +74365,20 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.7778,
+    "note": 3.5833,
     "ca": null,
     "caInduni": null,
     "pctCa": null,
-    "nbEvaluateurs": 3,
+    "nbEvaluateurs": 4,
     "remarques": "[Fassier] Mortier spéciaux",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 3.3333,
-      "Respect des quantités prévues": 3.6667,
-      "Compétence / assistance technique": 3.6667,
-      "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Rapport Qualité/Prix": 3.25,
+      "Respect de la qualité convenue": 3.75,
+      "Compétence / assistance technique": 3.5,
+      "Respect des quantités prévues": 3.5,
+      "Respect des délais de livraison convenus": 3.75,
+      "Souplesse et façon de traiter nos réclamations": 3.75
     }
   },
   {
@@ -74396,11 +74396,11 @@
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 2.5,
-      "Respect des quantités prévues": 3.75,
-      "Compétence / assistance technique": 3.75,
       "Respect de la qualité convenue": 3.5,
-      "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Respect des délais de livraison convenus": 3.75
+      "Compétence / assistance technique": 3.75,
+      "Respect des quantités prévues": 3.75,
+      "Respect des délais de livraison convenus": 3.75,
+      "Souplesse et façon de traiter nos réclamations": 3.0
     }
   },
   {
@@ -74409,20 +74409,20 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.8333,
+    "note": 3.5556,
     "ca": 87207.2,
     "caInduni": 1176776.55,
     "pctCa": null,
-    "nbEvaluateurs": 2,
+    "nbEvaluateurs": 3,
     "remarques": "",
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 3.0,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
-      "Respect de la qualité convenue": 4.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Respect de la qualité convenue": 3.6667,
+      "Compétence / assistance technique": 3.6667,
+      "Respect des quantités prévues": 3.6667,
+      "Respect des délais de livraison convenus": 3.6667,
+      "Souplesse et façon de traiter nos réclamations": 3.6667
     }
   },
   {
@@ -74431,20 +74431,20 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 3.3333,
+    "note": 3.2778,
     "ca": 835645.55,
     "caInduni": 835645.55,
     "pctCa": null,
-    "nbEvaluateurs": 2,
+    "nbEvaluateurs": 3,
     "remarques": "",
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 4.0,
-      "Respect des quantités prévues": 3.0,
-      "Compétence / assistance technique": 2.5,
       "Respect de la qualité convenue": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 2.3333,
+      "Respect des quantités prévues": 3.0,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 3.3333
     }
   },
   {
@@ -74462,11 +74462,11 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 4.0,
-      "Respect des quantités prévues": 3.0,
-      "Compétence / assistance technique": 2.5,
       "Respect de la qualité convenue": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 2.5,
+      "Respect des quantités prévues": 3.0,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 3.5
     }
   },
   {
@@ -74484,11 +74484,11 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 4.0,
-      "Respect des quantités prévues": 4.0,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 4.0,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 4.0,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 4.0
     }
   },
   {
@@ -74497,20 +74497,20 @@
     "categorie": "",
     "secteur": "BAT VD",
     "annee": 2025,
-    "note": 2.75,
+    "note": 2.8333,
     "ca": null,
     "caInduni": null,
     "pctCa": null,
-    "nbEvaluateurs": 2,
+    "nbEvaluateurs": 3,
     "remarques": "[Fassier] Adjuvant",
     "famille": "FOURNISSEURS",
     "criteres": {
-      "Rapport Qualité/Prix": 2.5,
-      "Respect des quantités prévues": 3.0,
-      "Compétence / assistance technique": 3.0,
+      "Rapport Qualité/Prix": 2.6667,
       "Respect de la qualité convenue": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 2.0,
-      "Respect des délais de livraison convenus": 3.0
+      "Compétence / assistance technique": 3.0,
+      "Respect des quantités prévues": 3.0,
+      "Respect des délais de livraison convenus": 3.0,
+      "Souplesse et façon de traiter nos réclamations": 2.3333
     }
   },
   {
@@ -74528,11 +74528,11 @@
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 3.5,
-      "Respect des quantités prévues": 3.0,
-      "Compétence / assistance technique": 2.5,
       "Respect de la qualité convenue": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 2.5,
-      "Respect des délais de livraison convenus": 2.0
+      "Compétence / assistance technique": 2.5,
+      "Respect des quantités prévues": 3.0,
+      "Respect des délais de livraison convenus": 2.0,
+      "Souplesse et façon de traiter nos réclamations": 2.5
     }
   },
   {
@@ -74550,11 +74550,11 @@
     "famille": "FOURNISSEURS",
     "criteres": {
       "Rapport Qualité/Prix": 3.5,
-      "Respect des quantités prévues": 2.0,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Respect des délais de livraison convenus": 2.5
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 2.0,
+      "Respect des délais de livraison convenus": 2.5,
+      "Souplesse et façon de traiter nos réclamations": 3.0
     }
   },
   {
@@ -74572,11 +74572,11 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 3.5,
-      "Respect des quantités prévues": 3.0,
-      "Compétence / assistance technique": 3.0,
       "Respect de la qualité convenue": 2.5,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Respect des délais de livraison convenus": 3.5
+      "Compétence / assistance technique": 3.0,
+      "Respect des quantités prévues": 3.0,
+      "Respect des délais de livraison convenus": 3.5,
+      "Souplesse et façon de traiter nos réclamations": 3.5
     }
   },
   {
@@ -74594,11 +74594,11 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 4.0,
-      "Respect des quantités prévues": 3.0,
-      "Compétence / assistance technique": 4.0,
       "Respect de la qualité convenue": 3.0,
-      "Souplesse et façon de traiter nos réclamations": 3.0,
-      "Respect des délais de livraison convenus": 3.0
+      "Compétence / assistance technique": 4.0,
+      "Respect des quantités prévues": 3.0,
+      "Respect des délais de livraison convenus": 3.0,
+      "Souplesse et façon de traiter nos réclamations": 3.0
     }
   },
   {
@@ -74616,11 +74616,33 @@
     "famille": "SOUS-TRAITANTS",
     "criteres": {
       "Rapport Qualité/Prix": 3.5,
-      "Respect des quantités prévues": 2.5,
-      "Compétence / assistance technique": 3.0,
       "Respect de la qualité convenue": 2.0,
-      "Souplesse et façon de traiter nos réclamations": 3.5,
-      "Respect des délais de livraison convenus": 4.0
+      "Compétence / assistance technique": 3.0,
+      "Respect des quantités prévues": 2.5,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 3.5
+    }
+  },
+  {
+    "nom": "HOLCIM GRANULATS ET BETONS SA",
+    "type": "Fournisseur",
+    "categorie": "",
+    "secteur": "BAT VD",
+    "annee": 2025,
+    "note": 3.5,
+    "ca": 180181.5,
+    "caInduni": 240878.9,
+    "pctCa": null,
+    "nbEvaluateurs": 1,
+    "remarques": "",
+    "famille": "FOURNISSEURS",
+    "criteres": {
+      "Rapport Qualité/Prix": 3.0,
+      "Respect de la qualité convenue": 4.0,
+      "Compétence / assistance technique": 3.0,
+      "Respect des quantités prévues": 4.0,
+      "Respect des délais de livraison convenus": 4.0,
+      "Souplesse et façon de traiter nos réclamations": 3.0
     }
   }
 ]
