@@ -232,12 +232,12 @@
  {
   "secteur": "EG GE/VD",
   "annee": 2023,
-  "nbEvaluateurs": null,
+  "nbEvaluateurs": 17,
   "moyenneMini": 0.93,
   "moyenneMaxi": 4.0,
-  "nbInferieur2": 14,
-  "nbSuperieur35": 39,
-  "moyenneGlobale": 3.01
+  "nbInferieur2": 15,
+  "nbSuperieur35": 34,
+  "moyenneGlobale": 2.97
  },
  {
   "secteur": "EG GE/VD",
