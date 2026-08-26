@@ -16,8 +16,15 @@ export default function RiskMatrix({ records, onSelect }: { records: EvalRecord[
   const innerW = width - padding.left - padding.right
   const innerH = height - padding.top - padding.bottom
 
+  const minCa = Math.min(...points.map((p) => p.ca!))
   const maxCa = Math.max(...points.map((p) => p.ca!))
-  const x = (ca: number) => padding.left + (Math.log10(ca + 1) / Math.log10(maxCa + 1)) * innerW
+  const logMin = Math.log10(Math.max(minCa, 1))
+  const logMax = Math.log10(Math.max(maxCa, minCa + 1))
+  const logSpan = logMax - logMin || 1
+  // Échelle log bornée sur l'étendue réelle des montants filtrés (et non sur [1 CHF, max]) :
+  // sinon la quasi-totalité de la largeur du graphique est gaspillée sous le plus petit montant
+  // réel, et des montants très différents (ex. 60K vs 2M) finissent visuellement collés à droite.
+  const x = (ca: number) => padding.left + ((Math.log10(Math.max(ca, 1)) - logMin) / logSpan) * innerW
   const y = (note: number) => padding.top + innerH - (note / 5) * innerH
 
   return (

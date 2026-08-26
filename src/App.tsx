@@ -9,7 +9,7 @@ import EvaluationDashboard from './components/EvaluationDashboard'
 type View = 'dossiers' | 'fournisseurs' | 'dashboard'
 
 export default function App() {
-  const [view, setView] = useState<View>('dossiers')
+  const [view, setView] = useState<View>('dashboard')
   const [openDossierId, setOpenDossierId] = useState<string | null>(null)
 
   return (
@@ -19,20 +19,9 @@ export default function App() {
         <p className="text-sm text-white/80 mt-1">
           Dossier de passation achat, de la phase soumission à la phase exécution
         </p>
+        {/* Dossiers et Fournisseurs temporairement masqués de la navigation (fonctionnalités en pause) */}
         {!openDossierId && (
           <nav className="flex gap-4 mt-4">
-            <button
-              className={`text-sm font-medium pb-1 border-b-2 ${view === 'dossiers' ? 'border-white' : 'border-transparent text-white/70'}`}
-              onClick={() => setView('dossiers')}
-            >
-              Dossiers
-            </button>
-            <button
-              className={`text-sm font-medium pb-1 border-b-2 ${view === 'fournisseurs' ? 'border-white' : 'border-transparent text-white/70'}`}
-              onClick={() => setView('fournisseurs')}
-            >
-              Fournisseurs
-            </button>
             <button
               className={`text-sm font-medium pb-1 border-b-2 ${view === 'dashboard' ? 'border-white' : 'border-transparent text-white/70'}`}
               onClick={() => setView('dashboard')}
