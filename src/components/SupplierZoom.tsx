@@ -79,7 +79,10 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
     setFilterAnneeMax(null)
   }, [selected])
 
-  const anneeMin = filterAnneeMin ?? anneeBounds[0]
+  // Par défaut, n'affiche que les 5 dernières années disponibles (élargissable via le filtre) :
+  // l'historique complet remonte parfois à 2007 et rend le graphique illisible sans ce recentrage.
+  const defaultAnneeMin = Math.max(anneeBounds[0], anneeBounds[1] - 4)
+  const anneeMin = filterAnneeMin ?? defaultAnneeMin
   const anneeMax = filterAnneeMax ?? anneeBounds[1]
 
   const filteredHistory = useMemo(
