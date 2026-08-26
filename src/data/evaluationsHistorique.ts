@@ -192,10 +192,36 @@ export interface FamilleBreakdown {
   ca: number | null
 }
 
+// Formes canoniques alignées sur normalizeType() (même singulier) pour éviter que
+// "Fournisseurs" (via famille) et "Fournisseur" (via type) forment deux barres distinctes.
+const FAMILLE_ALIASES: Record<string, string> = {
+  FOURNISSEURS: 'Fournisseur',
+  'FOURNISSEURS (SANS FACTURATION DIRECTE)': 'Fournisseur',
+  'SOUS-TRAITANTS': 'Sous-traitant',
+  MANDATAIRES: 'Mandataire',
+  MARCHANDS: 'Marchand',
+  TRANSPORTEURS: 'Transporteur',
+  INTERIMAIRES: 'Intérimaire',
+  'LEVAGE / MACHINES /LOCATION': 'Location',
+  'TRAITEMENT DECHETS': 'Traitement déchets',
+}
+
+/** Le champ "famille" mélange des catégories réelles (FOURNISSEURS, SOUS-TRAITANTS...),
+ * des codes CFC de prestation (import EG GE/VD, EG VS — ex. "CFC 27 – ...") et des cases
+ * vides selon la source. On unifie les variantes connues et on retombe sur le type
+ * (normalisé) pour tout le reste, plutôt que de laisser des dizaines de codes CFC ou
+ * une grosse case vide polluer le graphique "Moyenne par famille". */
+function normalizeFamille(famille: string, type: string): string {
+  const key = famille.trim().toUpperCase()
+  if (FAMILLE_ALIASES[key]) return FAMILLE_ALIASES[key]
+  if (key === '' || key.startsWith('CFC')) return normalizeType(type)
+  return famille.trim()
+}
+
 export function familleBreakdown(records: EvalRecord[]): FamilleBreakdown[] {
   const bucket = new Map<string, EvalRecord[]>()
   for (const r of records) {
-    const key = r.famille || r.type || 'Non catégorisé'
+    const key = normalizeFamille(r.famille ?? '', r.type ?? '') || 'Non catégorisé'
     if (!bucket.has(key)) bucket.set(key, [])
     bucket.get(key)!.push(r)
   }
@@ -312,6 +338,9 @@ export function normalizeType(raw: string): string {
   if (lower === 'marchand' || lower === 'marchands') return 'Marchand'
   if (lower === 'location') return 'Location'
   if (lower === 'architecte' || lower === 'architectes') return 'Architecte'
+  if (lower === 'fournisseur de mat.' || lower === 'fournisseurs matériaux/matériel') return 'Fournisseur de matériaux'
+  if (lower === "fourn.main d'œuvre" || lower === "fournisseur main d'œuvre" || lower === 'fourniss. personnel')
+    return "Fournisseur main d'œuvre"
   return t
 }
 
