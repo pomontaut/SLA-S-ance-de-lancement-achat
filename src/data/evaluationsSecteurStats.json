@@ -548,5 +548,15 @@
   "nbInferieur2": 5,
   "nbSuperieur35": 17,
   "moyenneGlobale": 2.65
+ },
+ {
+  "secteur": "EG GE/VD",
+  "annee": 2021,
+  "nbEvaluateurs": 12,
+  "moyenneMini": 0.81,
+  "moyenneMaxi": 3.9,
+  "nbInferieur2": 12,
+  "nbSuperieur35": 11,
+  "moyenneGlobale": 2.77
  }
 ]
