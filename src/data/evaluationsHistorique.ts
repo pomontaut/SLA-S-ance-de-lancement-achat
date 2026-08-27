@@ -75,6 +75,41 @@ export function findSecteurStat(stats: SecteurStat[], secteur: string, annee: nu
   return stats.find((s) => s.secteur === secteur && s.annee === annee) ?? null
 }
 
+export interface BlacklistEntry {
+  nom: string
+  type: string
+  remarque: string
+}
+
+let blacklistCache: BlacklistEntry[] | null = null
+let blacklistPending: Promise<BlacklistEntry[]> | null = null
+
+/** Fournisseurs identifiés "à blacklister" dans le fichier historique Excel 2008-2025
+ * (colonne Remarques), à ne plus consulter — cf. src/data/blacklist.json. */
+export function loadBlacklist(): Promise<BlacklistEntry[]> {
+  if (blacklistCache) return Promise.resolve(blacklistCache)
+  if (!blacklistPending) {
+    blacklistPending = import('./blacklist.json').then((mod) => {
+      blacklistCache = mod.default as unknown as BlacklistEntry[]
+      return blacklistCache
+    })
+  }
+  return blacklistPending
+}
+
+function normNom(s: string): string {
+  return s
+    .normalize('NFKD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[\s\-'.,&()]/g, '')
+    .toUpperCase()
+}
+
+export function findBlacklistEntry(blacklist: BlacklistEntry[], nom: string): BlacklistEntry | null {
+  const n = normNom(nom)
+  return blacklist.find((b) => normNom(b.nom) === n) ?? null
+}
+
 export const SECTEURS = ['GC', 'BAT GE', 'BAT VD', 'EG GE/VD', 'EG VS', 'Général'] as const
 
 function avg(values: number[]): number | null {
@@ -441,124 +476,6 @@ export function noteDistribution(records: EvalRecord[]): { bucket: string; count
     bucket: b.bucket,
     count: notes.filter((n) => n >= b.min && n < b.max).length,
   }))
-}
-
-export interface RiskEntry {
-  nom: string
-  secteur: string
-  annee: number
-  note: number
-  ca: number | null
-  motif: string
-  gravite: 'critical' | 'warning'
-}
-
-/** Repère, pour la dernière année disponible de chaque secteur, les fournisseurs à surveiller. */
-export function riskWatchlist(all: EvalRecord[], limit = 40): RiskEntry[] {
-  const entries: RiskEntry[] = []
-  // "Général" est un bucket historique mixte (avant la scission par secteur), pas un secteur
-  // opérationnel actuel : l'exclure évite de noyer la watchlist sous des centaines de faux positifs.
-  const secteurs = Array.from(new Set(all.map((r) => r.secteur))).filter((s) => s !== 'Général')
-
-  for (const secteur of secteurs) {
-    const annees = anneesDisponibles(all, secteur)
-    if (annees.length === 0) continue
-    const dernier = annees[0]
-    const precedent = annees.includes(dernier - 1) ? dernier - 1 : null
-
-    const current = all.filter((r) => r.secteur === secteur && r.annee === dernier && r.note != null)
-    const previous = precedent != null ? all.filter((r) => r.secteur === secteur && r.annee === precedent && r.note != null) : []
-    const prevByNom = new Map(previous.map((r) => [r.nom, r.note!]))
-    const historiqueNoms = new Set(all.filter((r) => r.secteur === secteur && r.annee < dernier && r.note != null).map((r) => r.nom))
-
-    const cas = current.filter((r) => r.ca != null).map((r) => r.ca!)
-    const caThreshold = cas.length ? [...cas].sort((a, b) => b - a)[Math.max(0, Math.floor(cas.length * 0.2) - 1)] : null
-
-    for (const r of current) {
-      const noteVal = r.note!
-      if (noteVal < 2) {
-        entries.push({ nom: r.nom, secteur, annee: dernier, note: noteVal, ca: r.ca, motif: 'Note critique (< 2)', gravite: 'critical' })
-      }
-      const prev = prevByNom.get(r.nom)
-      if (prev != null && noteVal - prev <= -0.5) {
-        entries.push({
-          nom: r.nom,
-          secteur,
-          annee: dernier,
-          note: noteVal,
-          ca: r.ca,
-          motif: `Forte baisse (${prev} → ${noteVal})`,
-          gravite: 'warning',
-        })
-      }
-      if (caThreshold != null && r.ca != null && r.ca >= caThreshold && noteVal < 3) {
-        entries.push({
-          nom: r.nom,
-          secteur,
-          annee: dernier,
-          note: noteVal,
-          ca: r.ca,
-          motif: 'Fort volume d\'achat mais note < 3 (top 20% CA)',
-          gravite: 'critical',
-        })
-      }
-      if (!historiqueNoms.has(r.nom) && noteVal < 2.5) {
-        entries.push({
-          nom: r.nom,
-          secteur,
-          annee: dernier,
-          note: noteVal,
-          ca: r.ca,
-          motif: 'Nouveau fournisseur avec note faible dès la première évaluation',
-          gravite: 'warning',
-        })
-      }
-    }
-  }
-
-  const seen = new Set<string>()
-  const deduped = entries.filter((e) => {
-    const key = `${e.nom}|${e.secteur}|${e.motif}`
-    if (seen.has(key)) return false
-    seen.add(key)
-    return true
-  })
-
-  return deduped
-    .sort((a, b) => {
-      if (a.gravite !== b.gravite) return a.gravite === 'critical' ? -1 : 1
-      return (b.ca ?? 0) - (a.ca ?? 0)
-    })
-    .slice(0, limit)
-}
-
-export interface Mover {
-  nom: string
-  secteur: string
-  anneeActuelle: number
-  noteActuelle: number
-  noteAnterieure: number
-  evolution: number
-}
-
-export function topMovers(all: EvalRecord[], secteur: string, limit = 10): { hausses: Mover[]; baisses: Mover[] } {
-  const annees = anneesDisponibles(all, secteur)
-  if (annees.length < 2) return { hausses: [], baisses: [] }
-  const dernier = annees[0]
-  const precedent = annees.includes(dernier - 1) ? dernier - 1 : annees[1]
-  const current = all.filter((r) => r.secteur === secteur && r.annee === dernier && r.note != null)
-  const previous = new Map(all.filter((r) => r.secteur === secteur && r.annee === precedent && r.note != null).map((r) => [r.nom, r.note!]))
-
-  const movers: Mover[] = []
-  for (const r of current) {
-    const prev = previous.get(r.nom)
-    if (prev != null) {
-      movers.push({ nom: r.nom, secteur, anneeActuelle: dernier, noteActuelle: r.note!, noteAnterieure: prev, evolution: Math.round((r.note! - prev) * 100) / 100 })
-    }
-  }
-  const hausses = [...movers].sort((a, b) => b.evolution - a.evolution).slice(0, limit).filter((m) => m.evolution > 0)
-  const baisses = [...movers].sort((a, b) => a.evolution - b.evolution).slice(0, limit).filter((m) => m.evolution < 0)
-  return { hausses, baisses }
 }
 
 // ============ Zoom fournisseur ============

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import type { EvalRecord, GlobalFilters, SecteurKpis, SecteurStat } from '../data/evaluationsHistorique'
+import type { BlacklistEntry, EvalRecord, GlobalFilters, SecteurKpis, SecteurStat } from '../data/evaluationsHistorique'
 import {
   SECTEURS,
   anneesDisponibles,
@@ -8,6 +8,7 @@ import {
   defaultFilters,
   familleBreakdown,
   findSecteurStat,
+  loadBlacklist,
   loadEvaluationsHistorique,
   loadEvaluationsHistoriqueFull,
   loadSecteurStats,
@@ -17,8 +18,8 @@ import { secteurColor, noteColor } from '../data/palette'
 import BarChart from './BarChart'
 import SecteurComparison from './SecteurComparison'
 import OverviewTab from './OverviewTab'
-import RiskTab from './RiskTab'
 import SupplierZoom from './SupplierZoom'
+import { BlacklistBadge, BlacklistPanel } from './Blacklist'
 
 function formatCurrency(value: number | null): string {
   if (value == null) return 'Non disponible'
@@ -111,6 +112,7 @@ function TrendChart({ data }: { data: { annee: number; moyenne: number }[] }) {
 function SecteurTab({
   all,
   secteurStats,
+  blacklist,
   secteur,
   setSecteur,
   annee,
@@ -119,6 +121,7 @@ function SecteurTab({
 }: {
   all: EvalRecord[]
   secteurStats: SecteurStat[]
+  blacklist: BlacklistEntry[]
   secteur: string
   setSecteur: (s: string) => void
   annee: number | null
@@ -234,6 +237,8 @@ function SecteurTab({
             />
           </div>
 
+          <BlacklistPanel blacklist={blacklist} onZoom={onZoom} />
+
           <div className="card">
             <h3 className="font-semibold mb-3">Évolution de la moyenne — {secteur}</h3>
             <TrendChart data={trend} />
@@ -288,6 +293,7 @@ function SecteurTab({
                           <button className="hover:underline" onClick={() => onZoom(r.nom)}>
                             {r.nom}
                           </button>
+                          <BlacklistBadge nom={r.nom} blacklist={blacklist} />
                         </td>
                         <td className="py-1.5 pr-2">{formatCurrency(r.ca)}</td>
                         <td className="py-1.5 pr-2" style={{ color: noteColor(r.note!) }}>
@@ -324,6 +330,7 @@ function SecteurTab({
                         <button className="hover:underline text-left" onClick={() => onZoom(r.nom)}>
                           {r.nom}
                         </button>
+                        <BlacklistBadge nom={r.nom} blacklist={blacklist} />
                       </td>
                       <td className="py-1.5 pr-2 text-slate-500">{r.type}</td>
                       <td className="py-1.5 pr-2">{formatCurrency(r.ca)}</td>
@@ -346,19 +353,19 @@ function SecteurTab({
   )
 }
 
-type View = 'overview' | 'secteur' | 'comparaison' | 'risques'
+type View = 'overview' | 'secteur' | 'comparaison'
 
 const VIEW_TABS: { key: View; label: string }[] = [
   { key: 'overview', label: "Vue d'ensemble" },
   { key: 'secteur', label: 'Par secteur' },
   { key: 'comparaison', label: 'Comparaison secteurs' },
-  { key: 'risques', label: 'Risques & mouvements' },
 ]
 
 export default function EvaluationDashboard() {
   const [all, setAll] = useState<EvalRecord[] | null>(null)
   const [allFull, setAllFull] = useState<EvalRecord[] | null>(null)
   const [secteurStats, setSecteurStats] = useState<SecteurStat[]>([])
+  const [blacklist, setBlacklist] = useState<BlacklistEntry[]>([])
   const [secteur, setSecteur] = useState<string>('GC')
   const [annee, setAnnee] = useState<number | null>(null)
   const [view, setView] = useState<View>('overview')
@@ -372,6 +379,7 @@ export default function EvaluationDashboard() {
     })
     loadEvaluationsHistoriqueFull().then(setAllFull)
     loadSecteurStats().then(setSecteurStats)
+    loadBlacklist().then(setBlacklist)
   }, [])
 
   if (!all || !filters) {
@@ -405,12 +413,15 @@ export default function EvaluationDashboard() {
         ))}
       </div>
 
-      {view === 'overview' && <OverviewTab all={all} filters={filters} onFiltersChange={setFilters} onZoom={setZoomNom} />}
+      {view === 'overview' && (
+        <OverviewTab all={all} filters={filters} onFiltersChange={setFilters} onZoom={setZoomNom} blacklist={blacklist} />
+      )}
 
       {view === 'secteur' && (
         <SecteurTab
           all={all}
           secteurStats={secteurStats}
+          blacklist={blacklist}
           secteur={secteur}
           setSecteur={setSecteur}
           annee={annee}
@@ -423,8 +434,6 @@ export default function EvaluationDashboard() {
       {view === 'comparaison' && annee == null && (
         <p className="text-sm text-slate-500">Choisissez d'abord une année dans l'onglet « Par secteur ».</p>
       )}
-
-      {view === 'risques' && <RiskTab all={all} onZoom={setZoomNom} />}
 
       {zoomNom !== null && (
         <SupplierZoom all={allFull ?? all} initialNom={zoomNom || undefined} onClose={() => setZoomNom(null)} />

@@ -85,7 +85,8 @@ export default function RiskMatrix({ records, onSelect }: { records: EvalRecord[
           className="absolute bg-slate-800 text-white text-xs rounded px-2 py-1 pointer-events-none -translate-x-1/2 -translate-y-full"
           style={{ left: `${(x(points[hover].ca!) / width) * 100}%`, top: `${(y(points[hover].note!) / height) * 100}%` }}
         >
-          {points[hover].nom} — {points[hover].note} / 5 — {points[hover].ca!.toLocaleString('fr-CH')} CHF ({points[hover].secteur} {points[hover].annee})
+          {points[hover].nom} — {points[hover].note} / 5 ({points[hover].nbEvaluateurs != null ? `${points[hover].nbEvaluateurs} éval.` : 'nb éval. non disponible'}) —{' '}
+          {points[hover].ca!.toLocaleString('fr-CH')} CHF ({points[hover].secteur} {points[hover].annee})
         </div>
       )}
       <p className="text-xs text-slate-400 mt-1">Cliquez un point pour ouvrir la fiche du fournisseur.</p>
