@@ -21,6 +21,8 @@ import OverviewTab from './OverviewTab'
 import SupplierZoom from './SupplierZoom'
 import { BlacklistBadge } from './Blacklist'
 import BlacklistTab from './BlacklistTab'
+import DepenseTab from './DepenseTab'
+import ConsortiumTab from './ConsortiumTab'
 
 function formatCurrency(value: number | null): string {
   if (value == null) return 'Non disponible'
@@ -352,12 +354,14 @@ function SecteurTab({
   )
 }
 
-type View = 'overview' | 'secteur' | 'comparaison' | 'blacklist'
+type View = 'overview' | 'secteur' | 'comparaison' | 'blacklist' | 'depense' | 'consortium'
 
 const VIEW_TABS: { key: View; label: string }[] = [
   { key: 'overview', label: "Vue d'ensemble" },
   { key: 'secteur', label: 'Par secteur' },
   { key: 'comparaison', label: 'Comparaison secteurs' },
+  { key: 'depense', label: '💰 Analyse de la dépense' },
+  { key: 'consortium', label: 'Consortium' },
   { key: 'blacklist', label: '🚫 Blacklist' },
 ]
 
@@ -434,6 +438,10 @@ export default function EvaluationDashboard() {
       )}
 
       {view === 'blacklist' && <BlacklistTab all={allFull ?? all} blacklist={blacklist} onZoom={setZoomNom} />}
+
+      {view === 'depense' && <DepenseTab onZoom={setZoomNom} />}
+
+      {view === 'consortium' && <ConsortiumTab />}
 
       {zoomNom !== null && (
         <SupplierZoom all={allFull ?? all} initialNom={zoomNom || undefined} onClose={() => setZoomNom(null)} />

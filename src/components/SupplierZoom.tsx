@@ -3,6 +3,9 @@ import type { EvalRecord } from '../data/evaluationsHistorique'
 import { listSuppliers, supplierHistory } from '../data/evaluationsHistorique'
 import { secteurColor, noteColor } from '../data/palette'
 import BarChart from './BarChart'
+import type { DepenseFournisseur } from '../data/depenses'
+import { findDepenseFournisseur, loadDepensesFournisseurs } from '../data/depenses'
+import SupplierFinances from './SupplierFinances'
 
 function toggle<T>(list: T[], value: T): T[] {
   return list.includes(value) ? list.filter((v) => v !== value) : [...list, value]
@@ -146,6 +149,15 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
   const suppliers = useMemo(() => listSuppliers(all), [all])
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState<string | null>(initialNom ?? null)
+
+  const [depenseFournisseurs, setDepenseFournisseurs] = useState<DepenseFournisseur[] | null>(null)
+  useEffect(() => {
+    loadDepensesFournisseurs().then(setDepenseFournisseurs)
+  }, [])
+  const depenseFournisseur = useMemo(
+    () => (selected && depenseFournisseurs ? findDepenseFournisseur(depenseFournisseurs, selected) : null),
+    [selected, depenseFournisseurs],
+  )
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -313,6 +325,8 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
                   ← Autre fournisseur
                 </button>
               </div>
+
+              <SupplierFinances fournisseur={depenseFournisseur} loading={depenseFournisseurs === null} />
 
               {secteursDisponibles.length > 0 && (
                 <div className="flex flex-wrap items-center gap-3 bg-slate-50 rounded-lg p-3">

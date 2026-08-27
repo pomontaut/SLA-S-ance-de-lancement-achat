@@ -1,0 +1,340 @@
+{
+ "global": {
+  "montantTotal": 194987577.32,
+  "nbDocuments": 32706,
+  "nbFactures": 30811,
+  "montantFactures": 209917970.3,
+  "nbNotesCredit": 1895,
+  "montantNotesCredit": -14930392.98,
+  "nbPayees": 25600,
+  "montantPayees": 158705169.31,
+  "nbEnAttente": 7106,
+  "montantEnAttente": 36282408.01,
+  "nbATemps": 2441,
+  "montantATemps": 33140420.29,
+  "nbEnRetard": 23138,
+  "montantEnRetard": 125539192.42,
+  "retardMoyenJours": 45.7,
+  "nbFournisseurs": 1550
+ },
+ "chantier": {
+  "montantTotal": 172414246.1,
+  "nbDocuments": 30142,
+  "nbFactures": 28364,
+  "montantFactures": 186393312.99,
+  "nbNotesCredit": 1778,
+  "montantNotesCredit": -13979066.89,
+  "nbPayees": 23756,
+  "montantPayees": 142173617.07,
+  "nbEnAttente": 6386,
+  "montantEnAttente": 30240629.03,
+  "nbATemps": 1936,
+  "montantATemps": 29354124.04,
+  "nbEnRetard": 21800,
+  "montantEnRetard": 112794189.38,
+  "retardMoyenJours": 46.4,
+  "nbFournisseurs": 1463
+ },
+ "consortium": {
+  "montantTotal": 22573331.22,
+  "nbDocuments": 2564,
+  "nbFactures": 2447,
+  "montantFactures": 23524657.31,
+  "nbNotesCredit": 117,
+  "montantNotesCredit": -951326.09,
+  "nbPayees": 1844,
+  "montantPayees": 16531552.24,
+  "nbEnAttente": 720,
+  "montantEnAttente": 6041778.98,
+  "nbATemps": 505,
+  "montantATemps": 3786296.25,
+  "nbEnRetard": 1338,
+  "montantEnRetard": 12745003.04,
+  "retardMoyenJours": 34.0,
+  "nbFournisseurs": 226
+ },
+ "parEntite": {
+  "DG": {
+   "montantTotal": 5650333.19,
+   "nbDocuments": 2594,
+   "nbFactures": 2413,
+   "montantFactures": 7479776.62,
+   "nbNotesCredit": 181,
+   "montantNotesCredit": -1829443.43,
+   "nbPayees": 2299,
+   "montantPayees": 6193069.72,
+   "nbEnAttente": 295,
+   "montantEnAttente": -542736.53,
+   "nbATemps": 587,
+   "montantATemps": 1492726.6,
+   "nbEnRetard": 1709,
+   "montantEnRetard": 4693268.12,
+   "retardMoyenJours": 31.5,
+   "nbFournisseurs": 432
+  },
+  "BAT GE": {
+   "montantTotal": 37504008.3,
+   "nbDocuments": 8810,
+   "nbFactures": 8236,
+   "montantFactures": 40700324.89,
+   "nbNotesCredit": 574,
+   "montantNotesCredit": -3196316.59,
+   "nbPayees": 6632,
+   "montantPayees": 25432047.33,
+   "nbEnAttente": 2178,
+   "montantEnAttente": 12071960.97,
+   "nbATemps": 336,
+   "montantATemps": 2133991.95,
+   "nbEnRetard": 6294,
+   "montantEnRetard": 23297671.08,
+   "retardMoyenJours": 47.4,
+   "nbFournisseurs": 299
+  },
+  "BAT GE TRANSFO RENO": {
+   "montantTotal": 5832718.54,
+   "nbDocuments": 1963,
+   "nbFactures": 1826,
+   "montantFactures": 6449712.24,
+   "nbNotesCredit": 137,
+   "montantNotesCredit": -616993.7,
+   "nbPayees": 1540,
+   "montantPayees": 3585481.82,
+   "nbEnAttente": 423,
+   "montantEnAttente": 2247236.72,
+   "nbATemps": 83,
+   "montantATemps": 175705.08,
+   "nbEnRetard": 1455,
+   "montantEnRetard": 3409716.74,
+   "retardMoyenJours": 50.3,
+   "nbFournisseurs": 145
+  },
+  "DEPOT": {
+   "montantTotal": 6495509.06,
+   "nbDocuments": 4868,
+   "nbFactures": 4698,
+   "montantFactures": 6713673.66,
+   "nbNotesCredit": 170,
+   "montantNotesCredit": -218164.6,
+   "nbPayees": 4196,
+   "montantPayees": 5893124.48,
+   "nbEnAttente": 672,
+   "montantEnAttente": 602384.58,
+   "nbATemps": 74,
+   "montantATemps": 127749.13,
+   "nbEnRetard": 4113,
+   "montantEnRetard": 5756893.0,
+   "retardMoyenJours": 50.6,
+   "nbFournisseurs": 257
+  },
+  "GC": {
+   "montantTotal": 8457725.74,
+   "nbDocuments": 2301,
+   "nbFactures": 2157,
+   "montantFactures": 10629991.16,
+   "nbNotesCredit": 144,
+   "montantNotesCredit": -2172265.42,
+   "nbPayees": 1668,
+   "montantPayees": 7710013.27,
+   "nbEnAttente": 633,
+   "montantEnAttente": 747712.47,
+   "nbATemps": 75,
+   "montantATemps": 360086.0,
+   "nbEnRetard": 1591,
+   "montantEnRetard": 7342551.37,
+   "retardMoyenJours": 47.9,
+   "nbFournisseurs": 192
+  },
+  "EG VD": {
+   "montantTotal": 14506452.1,
+   "nbDocuments": 548,
+   "nbFactures": 503,
+   "montantFactures": 15215165.55,
+   "nbNotesCredit": 45,
+   "montantNotesCredit": -708713.45,
+   "nbPayees": 453,
+   "montantPayees": 14466766.75,
+   "nbEnAttente": 95,
+   "montantEnAttente": 39685.35,
+   "nbATemps": 25,
+   "montantATemps": 290001.8,
+   "nbEnRetard": 428,
+   "montantEnRetard": 14176764.95,
+   "retardMoyenJours": 52.8,
+   "nbFournisseurs": 158
+  },
+  "EG GE": {
+   "montantTotal": 24339033.12,
+   "nbDocuments": 1036,
+   "nbFactures": 988,
+   "montantFactures": 25715733.62,
+   "nbNotesCredit": 48,
+   "montantNotesCredit": -1376700.5,
+   "nbPayees": 896,
+   "montantPayees": 21467160.79,
+   "nbEnAttente": 140,
+   "montantEnAttente": 2871872.33,
+   "nbATemps": 146,
+   "montantATemps": 7096308.8,
+   "nbEnRetard": 749,
+   "montantEnRetard": 14370741.99,
+   "retardMoyenJours": 39.5,
+   "nbFournisseurs": 261
+  },
+  "BAT VD": {
+   "montantTotal": 28079337.95,
+   "nbDocuments": 5930,
+   "nbFactures": 5540,
+   "montantFactures": 30058943.0,
+   "nbNotesCredit": 390,
+   "montantNotesCredit": -1979605.05,
+   "nbPayees": 4665,
+   "montantPayees": 21660031.26,
+   "nbEnAttente": 1265,
+   "montantEnAttente": 6419306.69,
+   "nbATemps": 207,
+   "montantATemps": 1621019.38,
+   "nbEnRetard": 4457,
+   "montantEnRetard": 20037195.78,
+   "retardMoyenJours": 48.2,
+   "nbFournisseurs": 262
+  },
+  "EG VS": {
+   "montantTotal": 15937723.75,
+   "nbDocuments": 955,
+   "nbFactures": 927,
+   "montantFactures": 16590888.4,
+   "nbNotesCredit": 28,
+   "montantNotesCredit": -653164.65,
+   "nbPayees": 887,
+   "montantPayees": 15693331.0,
+   "nbEnAttente": 68,
+   "montantEnAttente": 244392.75,
+   "nbATemps": 192,
+   "montantATemps": 3933494.75,
+   "nbEnRetard": 695,
+   "montantEnRetard": 11759836.25,
+   "retardMoyenJours": 29.7,
+   "nbFournisseurs": 217
+  },
+  "AUTRES": {
+   "montantTotal": 48184735.57,
+   "nbDocuments": 3701,
+   "nbFactures": 3523,
+   "montantFactures": 50363761.16,
+   "nbNotesCredit": 178,
+   "montantNotesCredit": -2179025.59,
+   "nbPayees": 2364,
+   "montantPayees": 36604142.89,
+   "nbEnAttente": 1337,
+   "montantEnAttente": 11580592.68,
+   "nbATemps": 716,
+   "montantATemps": 15909336.8,
+   "nbEnRetard": 1647,
+   "montantEnRetard": 20694553.14,
+   "retardMoyenJours": 36.2,
+   "nbFournisseurs": 363
+  }
+ },
+ "top20Fournisseurs": [
+  {
+   "nfr": 105923668,
+   "nom": "INDUNI & CIE S 1",
+   "montant": 22888786.5
+  },
+  {
+   "nfr": 230977,
+   "nom": "HG COMMERCIALE",
+   "montant": 8905193.7
+  },
+  {
+   "nfr": 10053,
+   "nom": "CAISSES DE COMPE",
+   "montant": 4502299.45
+  },
+  {
+   "nfr": 200866,
+   "nom": "GENTILE SA",
+   "montant": 4445704.6
+  },
+  {
+   "nfr": 10000,
+   "nom": "BAT GE INDUNI",
+   "montant": 3751779.75
+  },
+  {
+   "nfr": 204995,
+   "nom": "FAVRE SA",
+   "montant": 3578648.6
+  },
+  {
+   "nfr": 248383953,
+   "nom": "PLACE TO WORK SA",
+   "montant": 3555928.9
+  },
+  {
+   "nfr": 106395559,
+   "nom": "ORLLATI (GE) SA",
+   "montant": 3079102.6
+  },
+  {
+   "nfr": 450085,
+   "nom": "BEWETEC AG",
+   "montant": 2861851.7
+  },
+  {
+   "nfr": 926483,
+   "nom": "COFFRAGE JM CH S",
+   "montant": 2523936.45
+  },
+  {
+   "nfr": 145739,
+   "nom": "PRO BETON SA",
+   "montant": 2172338.3
+  },
+  {
+   "nfr": 10368,
+   "nom": "FAR FONDATION RE",
+   "montant": 1978554.85
+  },
+  {
+   "nfr": 393664287,
+   "nom": "RAY SA",
+   "montant": 1808934.7
+  },
+  {
+   "nfr": 464681,
+   "nom": "WOLFFKRAN SCHWEI",
+   "montant": 1802608.05
+  },
+  {
+   "nfr": 574616,
+   "nom": "MFP PREFABRICATI",
+   "montant": 1653366.2
+  },
+  {
+   "nfr": 659640,
+   "nom": "SCRASA",
+   "montant": 1652272.6
+  },
+  {
+   "nfr": 452984915,
+   "nom": "NEW WORK HUMAN R",
+   "montant": 1598383.25
+  },
+  {
+   "nfr": 252381,
+   "nom": "MANPOWER SA",
+   "montant": 1511818.0
+  },
+  {
+   "nfr": 331915,
+   "nom": "CAISSE DE COMPEN",
+   "montant": 1463953.8
+  },
+  {
+   "nfr": 399765892,
+   "nom": "SNAP SARL",
+   "montant": 1458963.9
+  }
+ ]
+}
