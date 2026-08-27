@@ -108,6 +108,13 @@ export interface SecteurKpis {
   moyenneIsoPerimetrePrecedente: number | null
   evolutionIsoPerimetre: number | null
   moyenneNbEvaluateurs: number | null
+  /** Périmètre CA de tous les fournisseurs présents dans les sources pour ce secteur/année
+   * (candidats à évaluer), qu'ils aient reçu une note ou non — sert de référence pour la
+   * couverture, à ne pas confondre avec perimetreEvalue (CA des seuls fournisseurs notés). */
+  perimetrePotentiel: number | null
+  perimetreCouverturePct: number | null
+  fournisseursCandidats: number
+  fournisseursCouverturePct: number | null
 }
 
 export function computeKpis(all: EvalRecord[], secteur: string, annee: number): SecteurKpis {
@@ -140,6 +147,18 @@ export function computeKpis(all: EvalRecord[], secteur: string, annee: number): 
 
   const nbEval = current.map((r) => r.nbEvaluateurs).filter((n): n is number => n != null)
 
+  // Candidats = tous les fournisseurs présents dans les sources pour ce secteur/année,
+  // notés ou non (ex. entreprises listées mais sans réponse reçue) — sert à mesurer la
+  // couverture réelle de la campagne d'évaluation par rapport à son périmètre visé.
+  const candidats = bySecteur.filter((r) => r.annee === annee)
+  const candidatsNoms = new Set(candidats.map((r) => r.nom))
+  const withCaCandidats = candidats.filter((r) => r.ca != null)
+  const perimetrePotentiel = withCaCandidats.length ? sum(withCaCandidats.map((r) => r.ca!)) : null
+  const perimetreCouverturePct =
+    perimetrePotentiel && perimetreEvalue != null ? Math.round((perimetreEvalue / perimetrePotentiel) * 1000) / 10 : null
+  const fournisseursCouverturePct =
+    candidatsNoms.size > 0 ? Math.round((currentNoms.size / candidatsNoms.size) * 1000) / 10 : null
+
   return {
     annee,
     secteur,
@@ -162,6 +181,10 @@ export function computeKpis(all: EvalRecord[], secteur: string, annee: number): 
     moyenneIsoPerimetrePrecedente,
     evolutionIsoPerimetre,
     moyenneNbEvaluateurs: avg(nbEval),
+    perimetrePotentiel,
+    perimetreCouverturePct,
+    fournisseursCandidats: candidatsNoms.size,
+    fournisseursCouverturePct,
   }
 }
 

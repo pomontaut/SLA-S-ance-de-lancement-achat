@@ -193,6 +193,19 @@ function SecteurTab({
               value={kpis.moyenneGlobale != null ? `${kpis.moyenneGlobale} / 5` : '—'}
               sub={kpis.evolution != null ? `${kpis.evolution >= 0 ? '+' : ''}${kpis.evolution} pt vs ${kpis.annee - 1}` : undefined}
             />
+            <StatTile
+              label="Couverture d'évaluation"
+              value={
+                kpis.fournisseursCouverturePct != null
+                  ? `${kpis.fournisseursEvalues} / ${kpis.fournisseursCandidats} (${kpis.fournisseursCouverturePct}%)`
+                  : 'Non disponible'
+              }
+              sub={
+                kpis.perimetreCouverturePct != null
+                  ? `${formatCurrency(kpis.perimetreEvalue)} / ${formatCurrency(kpis.perimetrePotentiel)} (${kpis.perimetreCouverturePct}%)`
+                  : undefined
+              }
+            />
             <StatTile label="Périmètre évalué" value={formatCurrency(kpis.perimetreEvalue)} />
             <StatTile
               label="Top 10 (montant)"
