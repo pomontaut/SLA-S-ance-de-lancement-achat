@@ -19,7 +19,8 @@ import BarChart from './BarChart'
 import SecteurComparison from './SecteurComparison'
 import OverviewTab from './OverviewTab'
 import SupplierZoom from './SupplierZoom'
-import { BlacklistBadge, BlacklistPanel } from './Blacklist'
+import { BlacklistBadge } from './Blacklist'
+import BlacklistTab from './BlacklistTab'
 
 function formatCurrency(value: number | null): string {
   if (value == null) return 'Non disponible'
@@ -237,8 +238,6 @@ function SecteurTab({
             />
           </div>
 
-          <BlacklistPanel blacklist={blacklist} onZoom={onZoom} />
-
           <div className="card">
             <h3 className="font-semibold mb-3">Évolution de la moyenne — {secteur}</h3>
             <TrendChart data={trend} />
@@ -353,12 +352,13 @@ function SecteurTab({
   )
 }
 
-type View = 'overview' | 'secteur' | 'comparaison'
+type View = 'overview' | 'secteur' | 'comparaison' | 'blacklist'
 
 const VIEW_TABS: { key: View; label: string }[] = [
   { key: 'overview', label: "Vue d'ensemble" },
   { key: 'secteur', label: 'Par secteur' },
   { key: 'comparaison', label: 'Comparaison secteurs' },
+  { key: 'blacklist', label: '🚫 Blacklist' },
 ]
 
 export default function EvaluationDashboard() {
@@ -413,9 +413,7 @@ export default function EvaluationDashboard() {
         ))}
       </div>
 
-      {view === 'overview' && (
-        <OverviewTab all={all} filters={filters} onFiltersChange={setFilters} onZoom={setZoomNom} blacklist={blacklist} />
-      )}
+      {view === 'overview' && <OverviewTab all={all} filters={filters} onFiltersChange={setFilters} onZoom={setZoomNom} />}
 
       {view === 'secteur' && (
         <SecteurTab
@@ -434,6 +432,8 @@ export default function EvaluationDashboard() {
       {view === 'comparaison' && annee == null && (
         <p className="text-sm text-slate-500">Choisissez d'abord une année dans l'onglet « Par secteur ».</p>
       )}
+
+      {view === 'blacklist' && <BlacklistTab all={allFull ?? all} blacklist={blacklist} onZoom={setZoomNom} />}
 
       {zoomNom !== null && (
         <SupplierZoom all={allFull ?? all} initialNom={zoomNom || undefined} onClose={() => setZoomNom(null)} />

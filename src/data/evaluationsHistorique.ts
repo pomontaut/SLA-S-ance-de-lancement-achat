@@ -78,7 +78,10 @@ export function findSecteurStat(stats: SecteurStat[], secteur: string, annee: nu
 export interface BlacklistEntry {
   nom: string
   type: string
-  remarque: string
+  /** Une entrée par commentaire enregistré au fil des années dans le fichier source (ordre
+   * chronologique approximatif) — le fichier ne date pas chaque ligne individuellement, donc
+   * pas d'année exacte assignée sauf quand le texte la mentionne explicitement. */
+  remarques: string[]
 }
 
 let blacklistCache: BlacklistEntry[] | null = null
@@ -513,4 +516,24 @@ export function supplierHistory(all: EvalRecord[], nom: string): EvalRecord[] {
   return all
     .filter((r) => r.nom === nom && r.note != null)
     .sort((a, b) => b.annee - a.annee || a.secteur.localeCompare(b.secteur))
+}
+
+/** Comme supplierHistory, mais par nom normalisé — les entrées blacklist proviennent d'un
+ * fichier distinct où l'orthographe peut varier légèrement (ex. "BUSCHINI S.A." vs "BUSCHINI SA"
+ * dans l'historique d'évaluations). */
+export function supplierHistoryFuzzy(all: EvalRecord[], nom: string): EvalRecord[] {
+  const n = normNom(nom)
+  return all
+    .filter((r) => normNom(r.nom) === n && r.note != null)
+    .sort((a, b) => b.annee - a.annee || a.secteur.localeCompare(b.secteur))
+}
+
+/** Type + familles/CFC observés dans l'historique pour un fournisseur (par nom normalisé) —
+ * sert à filtrer la liste blacklist "par nature de fournisseur". */
+export function supplierClassifications(all: EvalRecord[], nom: string): { types: string[]; cfc: string[] } {
+  const n = normNom(nom)
+  const recs = all.filter((r) => normNom(r.nom) === n)
+  const types = Array.from(new Set(recs.map((r) => normalizeType(r.type)).filter(Boolean)))
+  const cfc = Array.from(new Set(recs.map((r) => r.famille).filter((f) => f && f.toUpperCase().startsWith('CFC'))))
+  return { types, cfc }
 }

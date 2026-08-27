@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import type { BlacklistEntry, EvalRecord, GlobalFilters, SecteurStat } from '../data/evaluationsHistorique'
+import type { EvalRecord, GlobalFilters, SecteurStat } from '../data/evaluationsHistorique'
 import {
   SECTEURS,
   applyFilters,
@@ -14,7 +14,6 @@ import MultiLineChart from './MultiLineChart'
 import Histogram from './Histogram'
 import RiskMatrix from './RiskMatrix'
 import BarChart from './BarChart'
-import { BlacklistPanel } from './Blacklist'
 import { familleBreakdown, critereMoyennes } from '../data/evaluationsHistorique'
 
 function formatCurrency(v: number | null): string {
@@ -36,13 +35,11 @@ export default function OverviewTab({
   filters,
   onFiltersChange,
   onZoom,
-  blacklist,
 }: {
   all: EvalRecord[]
   filters: GlobalFilters
   onFiltersChange: (f: GlobalFilters) => void
   onZoom: (nom: string) => void
-  blacklist: BlacklistEntry[]
 }) {
   const types = useMemo(() => distinctTypes(all), [all])
   const anneeBounds = useMemo((): [number, number] => {
@@ -78,8 +75,6 @@ export default function OverviewTab({
         <StatTile label="Périmètre (montants connus)" value={formatCurrency(kpis.perimetreEvalue)} />
         <StatTile label="Secteurs / années couverts" value={`${kpis.secteursCouverts} / ${kpis.anneesCouvertes}`} />
       </div>
-
-      <BlacklistPanel blacklist={blacklist} onZoom={onZoom} />
 
       <div className="card">
         <h3 className="font-semibold mb-3">Évolution comparée par secteur</h3>
