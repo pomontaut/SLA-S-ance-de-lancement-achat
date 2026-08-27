@@ -14,12 +14,47 @@ function fmtPct(v: number | null): string {
   return v == null ? 'Non disponible' : `${v}%`
 }
 
-function Row({ label, a, b }: { label: string; a: string; b: string }) {
+/** Moyenne des valeurs connues d'un indicateur pour les entités comparées — ignore les
+ * "Non disponible" plutôt que de rendre toute la moyenne indisponible à cause d'un seul trou. */
+function avgOf(values: (number | null | undefined)[]): number | null {
+  const nums = values.filter((v): v is number => v != null)
+  if (nums.length === 0) return null
+  return nums.reduce((s, v) => s + v, 0) / nums.length
+}
+
+function fmtCurrencyMoy(values: (number | null)[]): string {
+  return fmtCurrency(avgOf(values) != null ? Math.round(avgOf(values)!) : null)
+}
+
+function fmtPctMoy(values: (number | null)[]): string {
+  const v = avgOf(values)
+  return v == null ? 'Non disponible' : `${Math.round(v * 10) / 10}%`
+}
+
+function fmtNoteMoy(values: (number | null)[]): string {
+  const v = avgOf(values)
+  return v == null ? '—' : `${Math.round(v * 100) / 100} / 5`
+}
+
+function fmtPtMoy(values: (number | null)[]): string {
+  const v = avgOf(values)
+  if (v == null) return 'Non disponible'
+  const r = Math.round(v * 100) / 100
+  return `${r >= 0 ? '+' : ''}${r} pt`
+}
+
+function fmtCountMoy(values: (number | null)[]): string {
+  const v = avgOf(values)
+  return v == null ? '—' : String(Math.round(v * 10) / 10)
+}
+
+function Row({ label, a, b, moy }: { label: string; a: string; b: string; moy: string }) {
   return (
     <tr className="border-b border-slate-100">
       <td className="py-1.5 pr-3 text-slate-600">{label}</td>
       <td className="py-1.5 pr-3 font-medium">{a}</td>
-      <td className="py-1.5 font-medium">{b}</td>
+      <td className="py-1.5 pr-3 font-medium">{b}</td>
+      <td className="py-1.5 font-medium text-indigo-600">{moy}</td>
     </tr>
   )
 }
@@ -168,11 +203,12 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     {s}
                   </th>
                 ))}
+                <th className="py-2">Moyenne général</th>
               </tr>
             </thead>
             <tbody>
               <tr className="bg-slate-50">
-                <td colSpan={ENTITES.length + 1} className="py-1 px-2 font-semibold text-xs uppercase text-slate-500">
+                <td colSpan={ENTITES.length + 2} className="py-1 px-2 font-semibold text-xs uppercase text-slate-500">
                   Périmètre
                 </td>
               </tr>
@@ -183,6 +219,9 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     {fmtCurrency(kpis.perimetreEvalue)}
                   </td>
                 ))}
+                <td className="py-1.5 font-medium text-indigo-600">
+                  {fmtCurrencyMoy(kpisToutes.map(({ kpis }) => kpis.perimetreEvalue))}
+                </td>
               </tr>
               <tr className="border-b border-slate-100">
                 <td className="py-1.5 pr-3 text-slate-600">Top 10 (montant)</td>
@@ -191,6 +230,9 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     {fmtCurrency(kpis.top10Montant)}
                   </td>
                 ))}
+                <td className="py-1.5 font-medium text-indigo-600">
+                  {fmtCurrencyMoy(kpisToutes.map(({ kpis }) => kpis.top10Montant))}
+                </td>
               </tr>
               <tr className="border-b border-slate-100">
                 <td className="py-1.5 pr-3 text-slate-600">Top 10 (% du périmètre)</td>
@@ -199,6 +241,9 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     {fmtPct(kpis.top10PctPerimetre)}
                   </td>
                 ))}
+                <td className="py-1.5 font-medium text-indigo-600">
+                  {fmtPctMoy(kpisToutes.map(({ kpis }) => kpis.top10PctPerimetre))}
+                </td>
               </tr>
               <tr className="border-b border-slate-100">
                 <td className="py-1.5 pr-3 text-slate-600">Fournisseurs évalués</td>
@@ -207,6 +252,9 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     {kpis.fournisseursEvalues}
                   </td>
                 ))}
+                <td className="py-1.5 font-medium text-indigo-600">
+                  {fmtCountMoy(kpisToutes.map(({ kpis }) => kpis.fournisseursEvalues))}
+                </td>
               </tr>
               <tr className="border-b border-slate-100">
                 <td className="py-1.5 pr-3 text-slate-600">% du panel fournisseur (secteur)</td>
@@ -215,6 +263,13 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     {panelToutes[i] ? `${Math.round((kpis.fournisseursEvalues / panelToutes[i]) * 100)}%` : 'Non disponible'}
                   </td>
                 ))}
+                <td className="py-1.5 font-medium text-indigo-600">
+                  {fmtPctMoy(
+                    kpisToutes.map(({ kpis }, i) =>
+                      panelToutes[i] ? (kpis.fournisseursEvalues / panelToutes[i]) * 100 : null,
+                    ),
+                  )}
+                </td>
               </tr>
               <tr className="border-b border-slate-100">
                 <td className="py-1.5 pr-3 text-slate-600">Nombre d'évaluateurs</td>
@@ -226,10 +281,13 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     </td>
                   )
                 })}
+                <td className="py-1.5 font-medium text-indigo-600">
+                  {fmtCountMoy(ENTITES.map((s) => findSecteurStat(secteurStats, s, anneeToutes)?.nbEvaluateurs ?? null))}
+                </td>
               </tr>
 
               <tr className="bg-slate-50">
-                <td colSpan={ENTITES.length + 1} className="py-1 px-2 font-semibold text-xs uppercase text-slate-500">
+                <td colSpan={ENTITES.length + 2} className="py-1 px-2 font-semibold text-xs uppercase text-slate-500">
                   Évaluation
                 </td>
               </tr>
@@ -240,6 +298,9 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     {kpis.moyenneGlobale != null ? `${kpis.moyenneGlobale} / 5` : '—'}
                   </td>
                 ))}
+                <td className="py-1.5 font-medium text-indigo-600">
+                  {fmtNoteMoy(kpisToutes.map(({ kpis }) => kpis.moyenneGlobale))}
+                </td>
               </tr>
               <tr className="border-b border-slate-100">
                 <td className="py-1.5 pr-3 text-slate-600">Évolution vs année-1</td>
@@ -248,6 +309,7 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     {kpis.evolution != null ? `${kpis.evolution >= 0 ? '+' : ''}${kpis.evolution} pt` : 'Non disponible'}
                   </td>
                 ))}
+                <td className="py-1.5 font-medium text-indigo-600">{fmtPtMoy(kpisToutes.map(({ kpis }) => kpis.evolution))}</td>
               </tr>
               <tr className="border-b border-slate-100">
                 <td className="py-1.5 pr-3 text-slate-600">Fournisseurs ≥ 3,5</td>
@@ -256,6 +318,7 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     {kpis.excellents}
                   </td>
                 ))}
+                <td className="py-1.5 font-medium text-indigo-600">{fmtCountMoy(kpisToutes.map(({ kpis }) => kpis.excellents))}</td>
               </tr>
               <tr className="border-b border-slate-100">
                 <td className="py-1.5 pr-3 text-slate-600">Fournisseurs &lt; 3</td>
@@ -264,6 +327,7 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     {kpis.faibles}
                   </td>
                 ))}
+                <td className="py-1.5 font-medium text-indigo-600">{fmtCountMoy(kpisToutes.map(({ kpis }) => kpis.faibles))}</td>
               </tr>
               <tr className="border-b border-slate-100">
                 <td className="py-1.5 pr-3 text-slate-600">dont &lt; 2</td>
@@ -272,10 +336,11 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     {kpis.tresFaibles}
                   </td>
                 ))}
+                <td className="py-1.5 font-medium text-indigo-600">{fmtCountMoy(kpisToutes.map(({ kpis }) => kpis.tresFaibles))}</td>
               </tr>
 
               <tr className="bg-slate-50">
-                <td colSpan={ENTITES.length + 1} className="py-1 px-2 font-semibold text-xs uppercase text-slate-500">
+                <td colSpan={ENTITES.length + 2} className="py-1 px-2 font-semibold text-xs uppercase text-slate-500">
                   Analyse détaillée
                 </td>
               </tr>
@@ -286,6 +351,7 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     {kpis.uneEvaluation}
                   </td>
                 ))}
+                <td className="py-1.5 font-medium text-indigo-600">{fmtCountMoy(kpisToutes.map(({ kpis }) => kpis.uneEvaluation))}</td>
               </tr>
               <tr className="border-b border-slate-100">
                 <td className="py-1.5 pr-3 text-slate-600">Non évalués l'année précédente</td>
@@ -294,6 +360,9 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     {kpis.nonEvaluesAnneePrecedente}
                   </td>
                 ))}
+                <td className="py-1.5 font-medium text-indigo-600">
+                  {fmtCountMoy(kpisToutes.map(({ kpis }) => kpis.nonEvaluesAnneePrecedente))}
+                </td>
               </tr>
               <tr>
                 <td className="py-1.5 pr-3 text-slate-600">Jamais évalués avant</td>
@@ -302,6 +371,9 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     {kpis.jamaisEvaluesAvant}
                   </td>
                 ))}
+                <td className="py-1.5 font-medium text-indigo-600">
+                  {fmtCountMoy(kpisToutes.map(({ kpis }) => kpis.jamaisEvaluesAvant))}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -318,40 +390,58 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
             <tr className="text-left text-xs uppercase text-slate-500 border-b border-slate-200">
               <th className="py-2 pr-3">Indicateur</th>
               <th className="py-2 pr-3">{labelA}</th>
-              <th className="py-2">{labelB}</th>
+              <th className="py-2 pr-3">{labelB}</th>
+              <th className="py-2">Moyenne général</th>
             </tr>
           </thead>
           <tbody>
             <tr className="bg-slate-50">
-              <td colSpan={3} className="py-1 px-2 font-semibold text-xs uppercase text-slate-500">
+              <td colSpan={4} className="py-1 px-2 font-semibold text-xs uppercase text-slate-500">
                 Périmètre
               </td>
             </tr>
-            <Row label="Périmètre évalué" a={fmtCurrency(cmp.a.perimetreEvalue)} b={fmtCurrency(cmp.b.perimetreEvalue)} />
+            <Row
+              label="Périmètre évalué"
+              a={fmtCurrency(cmp.a.perimetreEvalue)}
+              b={fmtCurrency(cmp.b.perimetreEvalue)}
+              moy={fmtCurrencyMoy([cmp.a.perimetreEvalue, cmp.b.perimetreEvalue])}
+            />
             <Row
               label="Top 10 (montant)"
               a={fmtCurrency(cmp.a.top10Montant)}
               b={fmtCurrency(cmp.b.top10Montant)}
+              moy={fmtCurrencyMoy([cmp.a.top10Montant, cmp.b.top10Montant])}
             />
             <Row
               label="Top 10 (% du périmètre)"
               a={fmtPct(cmp.a.top10PctPerimetre)}
               b={fmtPct(cmp.b.top10PctPerimetre)}
+              moy={fmtPctMoy([cmp.a.top10PctPerimetre, cmp.b.top10PctPerimetre])}
             />
-            <Row label="Fournisseurs évalués" a={String(cmp.a.fournisseursEvalues)} b={String(cmp.b.fournisseursEvalues)} />
+            <Row
+              label="Fournisseurs évalués"
+              a={String(cmp.a.fournisseursEvalues)}
+              b={String(cmp.b.fournisseursEvalues)}
+              moy={fmtCountMoy([cmp.a.fournisseursEvalues, cmp.b.fournisseursEvalues])}
+            />
             <Row
               label="% du panel fournisseur (secteur)"
               a={panelTotalA ? `${Math.round((cmp.a.fournisseursEvalues / panelTotalA) * 100)}%` : 'Non disponible'}
               b={panelTotalB ? `${Math.round((cmp.b.fournisseursEvalues / panelTotalB) * 100)}%` : 'Non disponible'}
+              moy={fmtPctMoy([
+                panelTotalA ? (cmp.a.fournisseursEvalues / panelTotalA) * 100 : null,
+                panelTotalB ? (cmp.b.fournisseursEvalues / panelTotalB) * 100 : null,
+              ])}
             />
             <Row
               label="Nombre d'évaluateurs"
               a={statA?.nbEvaluateurs != null ? String(statA.nbEvaluateurs) : 'Non disponible'}
               b={statB?.nbEvaluateurs != null ? String(statB.nbEvaluateurs) : 'Non disponible'}
+              moy={fmtCountMoy([statA?.nbEvaluateurs ?? null, statB?.nbEvaluateurs ?? null])}
             />
 
             <tr className="bg-slate-50">
-              <td colSpan={3} className="py-1 px-2 font-semibold text-xs uppercase text-slate-500">
+              <td colSpan={4} className="py-1 px-2 font-semibold text-xs uppercase text-slate-500">
                 Évaluation
               </td>
             </tr>
@@ -359,39 +449,74 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
               label="Moyenne globale"
               a={cmp.a.moyenneGlobale != null ? `${cmp.a.moyenneGlobale} / 5 (${cellA.annee})` : '—'}
               b={cmp.b.moyenneGlobale != null ? `${cmp.b.moyenneGlobale} / 5 (${cellB.annee})` : '—'}
+              moy={fmtNoteMoy([cmp.a.moyenneGlobale, cmp.b.moyenneGlobale])}
             />
             <Row
               label="Évolution vs année-1"
               a={cmp.a.evolution != null ? `${cmp.a.evolution >= 0 ? '+' : ''}${cmp.a.evolution} pt` : 'Non disponible'}
               b={cmp.b.evolution != null ? `${cmp.b.evolution >= 0 ? '+' : ''}${cmp.b.evolution} pt` : 'Non disponible'}
+              moy={fmtPtMoy([cmp.a.evolution, cmp.b.evolution])}
             />
             <Row
               label="Fournisseurs communs (iso-périmètre, vs année-1)"
               a={String(cmp.a.fournisseursCommuns)}
               b={String(cmp.b.fournisseursCommuns)}
+              moy={fmtCountMoy([cmp.a.fournisseursCommuns, cmp.b.fournisseursCommuns])}
             />
             <Row
               label="Moyenne iso-périmètre"
               a={cmp.a.moyenneIsoPerimetre != null ? `${cmp.a.moyenneIsoPerimetre} / 5` : 'Non disponible'}
               b={cmp.b.moyenneIsoPerimetre != null ? `${cmp.b.moyenneIsoPerimetre} / 5` : 'Non disponible'}
+              moy={fmtNoteMoy([cmp.a.moyenneIsoPerimetre, cmp.b.moyenneIsoPerimetre])}
             />
             <Row
               label="Évolution iso-périmètre"
               a={cmp.a.evolutionIsoPerimetre != null ? `${cmp.a.evolutionIsoPerimetre >= 0 ? '+' : ''}${cmp.a.evolutionIsoPerimetre} pt` : 'Non disponible'}
               b={cmp.b.evolutionIsoPerimetre != null ? `${cmp.b.evolutionIsoPerimetre >= 0 ? '+' : ''}${cmp.b.evolutionIsoPerimetre} pt` : 'Non disponible'}
+              moy={fmtPtMoy([cmp.a.evolutionIsoPerimetre, cmp.b.evolutionIsoPerimetre])}
             />
-            <Row label="Fournisseurs ≥ 3,5" a={String(cmp.a.excellents)} b={String(cmp.b.excellents)} />
-            <Row label="Fournisseurs < 3" a={String(cmp.a.faibles)} b={String(cmp.b.faibles)} />
-            <Row label="dont < 2" a={String(cmp.a.tresFaibles)} b={String(cmp.b.tresFaibles)} />
+            <Row
+              label="Fournisseurs ≥ 3,5"
+              a={String(cmp.a.excellents)}
+              b={String(cmp.b.excellents)}
+              moy={fmtCountMoy([cmp.a.excellents, cmp.b.excellents])}
+            />
+            <Row
+              label="Fournisseurs < 3"
+              a={String(cmp.a.faibles)}
+              b={String(cmp.b.faibles)}
+              moy={fmtCountMoy([cmp.a.faibles, cmp.b.faibles])}
+            />
+            <Row
+              label="dont < 2"
+              a={String(cmp.a.tresFaibles)}
+              b={String(cmp.b.tresFaibles)}
+              moy={fmtCountMoy([cmp.a.tresFaibles, cmp.b.tresFaibles])}
+            />
 
             <tr className="bg-slate-50">
-              <td colSpan={3} className="py-1 px-2 font-semibold text-xs uppercase text-slate-500">
+              <td colSpan={4} className="py-1 px-2 font-semibold text-xs uppercase text-slate-500">
                 Analyse détaillée
               </td>
             </tr>
-            <Row label="À une seule évaluation" a={String(cmp.a.uneEvaluation)} b={String(cmp.b.uneEvaluation)} />
-            <Row label="Non évalués l'année précédente" a={String(cmp.a.nonEvaluesAnneePrecedente)} b={String(cmp.b.nonEvaluesAnneePrecedente)} />
-            <Row label="Jamais évalués avant" a={String(cmp.a.jamaisEvaluesAvant)} b={String(cmp.b.jamaisEvaluesAvant)} />
+            <Row
+              label="À une seule évaluation"
+              a={String(cmp.a.uneEvaluation)}
+              b={String(cmp.b.uneEvaluation)}
+              moy={fmtCountMoy([cmp.a.uneEvaluation, cmp.b.uneEvaluation])}
+            />
+            <Row
+              label="Non évalués l'année précédente"
+              a={String(cmp.a.nonEvaluesAnneePrecedente)}
+              b={String(cmp.b.nonEvaluesAnneePrecedente)}
+              moy={fmtCountMoy([cmp.a.nonEvaluesAnneePrecedente, cmp.b.nonEvaluesAnneePrecedente])}
+            />
+            <Row
+              label="Jamais évalués avant"
+              a={String(cmp.a.jamaisEvaluesAvant)}
+              b={String(cmp.b.jamaisEvaluesAvant)}
+              moy={fmtCountMoy([cmp.a.jamaisEvaluesAvant, cmp.b.jamaisEvaluesAvant])}
+            />
           </tbody>
         </table>
         <p className="text-xs text-slate-400 mt-3">
