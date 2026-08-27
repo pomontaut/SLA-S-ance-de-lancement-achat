@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import type { DepenseBucketStats, DepensesGlobal } from '../data/depenses'
+import type { DepenseBucketStats, DepenseChantierStats, DepensesGlobal } from '../data/depenses'
 import { formatCurrency, loadDepensesGlobal, pct } from '../data/depenses'
 import { secteurColor } from '../data/palette'
 
@@ -55,6 +55,53 @@ function EntiteTable({ parEntite }: { parEntite: Record<string, DepenseBucketSta
           ))}
         </tbody>
       </table>
+    </div>
+  )
+}
+
+function ChantierTable({ parChantier, nbChantiers, montantTotal }: { parChantier: DepenseChantierStats[]; nbChantiers: number; montantTotal: number }) {
+  const [showAll, setShowAll] = useState(false)
+  const rows = showAll ? parChantier : parChantier.slice(0, 20)
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm border-collapse">
+        <thead>
+          <tr className="text-left text-xs uppercase text-slate-500 border-b border-slate-200">
+            <th className="py-2 pr-3">Chantier (compte de débit)</th>
+            <th className="py-2 pr-3">Montant</th>
+            <th className="py-2 pr-3">% du total</th>
+            <th className="py-2 pr-3">Documents</th>
+            <th className="py-2 pr-3">Payé à temps</th>
+            <th className="py-2">Payé en retard</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((c) => (
+            <tr key={c.code} className="border-b border-slate-100">
+              <td className="py-1.5 pr-3 font-mono text-xs">{c.code}</td>
+              <td className="py-1.5 pr-3 font-medium">{formatCurrency(c.montantTotal)}</td>
+              <td className="py-1.5 pr-3">{pct(c.montantTotal, montantTotal)}%</td>
+              <td className="py-1.5 pr-3">{c.nbDocuments}</td>
+              <td className="py-1.5 pr-3 text-green-600">
+                {c.nbATemps} ({formatCurrency(c.montantATemps)})
+              </td>
+              <td className="py-1.5 text-red-600">
+                {c.nbEnRetard} ({formatCurrency(c.montantEnRetard)})
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {parChantier.length > 20 && (
+        <button className="text-xs text-indigo-600 hover:underline mt-2" onClick={() => setShowAll((v) => !v)}>
+          {showAll ? 'Réduire' : `Afficher les ${parChantier.length} chantiers chargés`}
+        </button>
+      )}
+      <p className="text-xs text-slate-400 mt-2">
+        {nbChantiers} chantiers distincts au total (60 chargés ici, triés par montant décroissant). Le fichier
+        source n'associe pas de nom de chantier à ces codes comptables — uniquement le numéro de compte de débit.
+        Transmets une table de correspondance compte → nom de chantier si tu veux des libellés lisibles.
+      </p>
     </div>
   )
 }
@@ -176,6 +223,14 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
       <div className="card">
         <h3 className="font-semibold mb-3">Dépense par entité</h3>
         <EntiteTable parEntite={data.parEntite} />
+      </div>
+
+      <div className="card">
+        <h3 className="font-semibold mb-1">Dépense par chantier</h3>
+        <p className="text-xs text-slate-500 mb-3">
+          "Chantier" = compte de débit comptable, sur indication explicite de la personne qui utilise l'outil.
+        </p>
+        <ChantierTable parChantier={data.parChantier} nbChantiers={data.nbChantiers} montantTotal={g.montantTotal} />
       </div>
 
       <div className="card">

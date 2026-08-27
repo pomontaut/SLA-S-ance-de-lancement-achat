@@ -109,6 +109,38 @@ export default function SupplierFinances({ fournisseur, loading }: { fournisseur
         </div>
       )}
 
+      {Object.keys(fournisseur.parChantier).length > 0 && (
+        <div>
+          <h5 className="text-[11px] uppercase text-slate-500 mb-1">
+            Détail par chantier (compte de débit) — {Object.keys(fournisseur.parChantier).length}
+          </h5>
+          <div className="overflow-x-auto max-h-40 overflow-y-auto">
+            <table className="w-full text-xs border-collapse">
+              <thead>
+                <tr className="text-left text-slate-500 border-b border-slate-200 sticky top-0 bg-slate-50">
+                  <th className="py-1 pr-2">Chantier</th>
+                  <th className="py-1 pr-2">Montant</th>
+                  <th className="py-1 pr-2">À temps</th>
+                  <th className="py-1">En retard</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.entries(fournisseur.parChantier)
+                  .sort((a, b) => b[1].montantTotal - a[1].montantTotal)
+                  .map(([code, v]) => (
+                    <tr key={code} className="border-b border-slate-100">
+                      <td className="py-1 pr-2 font-mono">{code}</td>
+                      <td className="py-1 pr-2">{formatCurrency(v.montantTotal)}</td>
+                      <td className="py-1 pr-2 text-green-600">{v.nbATemps}</td>
+                      <td className="py-1 text-red-600">{v.nbEnRetard}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
       {notesCredit.length > 0 && (
         <div>
           <h5 className="text-[11px] uppercase text-slate-500 mb-1">Notes de crédit versées ({notesCredit.length})</h5>
@@ -146,6 +178,7 @@ export default function SupplierFinances({ fournisseur, loading }: { fournisseur
                 <th className="py-1 pr-2">Date doc.</th>
                 <th className="py-1 pr-2">Genre</th>
                 <th className="py-1 pr-2">Entité</th>
+                <th className="py-1 pr-2">Chantier</th>
                 <th className="py-1 pr-2">Aff.</th>
                 <th className="py-1 pr-2">Montant</th>
                 <th className="py-1 pr-2">Échéance</th>
@@ -158,6 +191,7 @@ export default function SupplierFinances({ fournisseur, loading }: { fournisseur
                   <td className="py-1 pr-2">{d.dateDoc}</td>
                   <td className="py-1 pr-2">{d.genre}</td>
                   <td className="py-1 pr-2">{d.entite}</td>
+                  <td className="py-1 pr-2 font-mono">{d.chantier}</td>
                   <td className="py-1 pr-2">{d.aff === 'CONSORTIUM' ? 'Consortium' : 'Chantier'}</td>
                   <td className="py-1 pr-2">{formatCurrency(d.montant)}</td>
                   <td className="py-1 pr-2 text-slate-500">{d.dateEcheance ?? '—'}</td>

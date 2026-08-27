@@ -31,11 +31,20 @@ export interface DepenseBucketStats {
   nbFournisseurs?: number
 }
 
+export interface DepenseChantierStats extends DepenseBucketStats {
+  /** Code du "Cpt Débit" comptable — utilisé comme identifiant de chantier (pas de nom
+   * de chantier disponible dans ce fichier, seulement un code de compte). */
+  code: string
+}
+
 export interface DepensesGlobal {
   global: DepenseBucketStats
   chantier: DepenseBucketStats
   consortium: DepenseBucketStats
   parEntite: Record<string, DepenseBucketStats>
+  /** Top 60 chantiers (comptes de débit) par montant, sur 238 comptes distincts au total. */
+  parChantier: DepenseChantierStats[]
+  nbChantiers: number
   top20Fournisseurs: { nfr: number; nom: string; montant: number }[]
 }
 
@@ -47,6 +56,8 @@ export interface DepenseDocument {
   genre: string
   condition: string | null
   entite: string | null
+  /** Code du chantier (Cpt Débit). */
+  chantier: string | null
   aff: 'CHANTIER INDUNI' | 'CONSORTIUM'
   montant: number | null
   ref: string | null
@@ -60,6 +71,7 @@ export interface DepenseFournisseur {
   chantierMontant: number
   consortiumMontant: number
   parEntite: Record<string, DepenseBucketStats>
+  parChantier: Record<string, DepenseBucketStats>
   conditions: string[]
   documents: DepenseDocument[]
 }
