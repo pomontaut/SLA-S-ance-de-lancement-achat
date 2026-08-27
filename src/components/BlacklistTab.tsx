@@ -113,13 +113,16 @@ export default function BlacklistTab({ all, blacklist, onZoom }: { all: EvalReco
   )
 
   const [selectedFilters, setSelectedFilters] = useState<string[]>([])
+  const [search, setSearch] = useState('')
 
   const filtered = useMemo(() => {
-    if (selectedFilters.length === 0) return enriched
-    return enriched.filter(
-      (e) => selectedFilters.includes(e.type) || e.classifications.cfc.some((c) => selectedFilters.includes(c)),
-    )
-  }, [enriched, selectedFilters])
+    const q = search.trim().toLowerCase()
+    return enriched.filter((e) => {
+      if (q && !e.entry.nom.toLowerCase().includes(q)) return false
+      if (selectedFilters.length === 0) return true
+      return selectedFilters.includes(e.type) || e.classifications.cfc.some((c) => selectedFilters.includes(c))
+    })
+  }, [enriched, selectedFilters, search])
 
   return (
     <div className="space-y-4">
@@ -130,6 +133,25 @@ export default function BlacklistTab({ all, blacklist, onZoom }: { all: EvalReco
           n'étant pas datées individuellement dans le fichier source, elles sont listées dans leur ordre
           d'origine sans année assignée (sauf mention explicite dans le texte).
         </p>
+        <div className="flex flex-wrap items-center gap-3 mb-3">
+          <input
+            className="input flex-1 min-w-[220px] py-1"
+            placeholder="Rechercher un fournisseur blacklisté…"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            list="blacklist-datalist"
+          />
+          <datalist id="blacklist-datalist">
+            {enriched.map(({ entry }) => (
+              <option key={entry.nom} value={entry.nom} />
+            ))}
+          </datalist>
+          {search && (
+            <button className="text-xs text-slate-400 underline" onClick={() => setSearch('')}>
+              Effacer
+            </button>
+          )}
+        </div>
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex flex-wrap items-center gap-1.5">
             <span className="text-xs uppercase text-slate-500 mr-1">Type</span>
