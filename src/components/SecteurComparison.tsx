@@ -48,13 +48,43 @@ function fmtCountMoy(values: (number | null)[]): string {
   return v == null ? '—' : String(Math.round(v * 10) / 10)
 }
 
-function Row({ label, a, b, moy }: { label: string; a: string; b: string; moy: string }) {
+/** Somme des valeurs connues — pour le total (entre parenthèses) à côté de la moyenne,
+ * sur les indicateurs où un cumul a du sens (montants, effectifs). */
+function sumOf(values: (number | null | undefined)[]): number | null {
+  const nums = values.filter((v): v is number => v != null)
+  if (nums.length === 0) return null
+  return nums.reduce((s, v) => s + v, 0)
+}
+
+function fmtCurrencyTotal(values: (number | null)[]): string | null {
+  const s = sumOf(values)
+  return s == null ? null : s.toLocaleString('fr-CH', { maximumFractionDigits: 0 }) + ' CHF'
+}
+
+function fmtCountTotal(values: (number | null)[]): string | null {
+  const s = sumOf(values)
+  return s == null ? null : String(s)
+}
+
+function MoyTd({ moy, total }: { moy: string; total?: string | null }) {
+  return (
+    <td className="py-1.5 font-medium text-indigo-600">
+      {moy}
+      {total != null && <span className="text-[11px] text-slate-400 font-normal ml-1">(total : {total})</span>}
+    </td>
+  )
+}
+
+function Row({ label, a, b, moy, total }: { label: string; a: string; b: string; moy: string; total?: string | null }) {
   return (
     <tr className="border-b border-slate-100">
       <td className="py-1.5 pr-3 text-slate-600">{label}</td>
       <td className="py-1.5 pr-3 font-medium">{a}</td>
       <td className="py-1.5 pr-3 font-medium">{b}</td>
-      <td className="py-1.5 font-medium text-indigo-600">{moy}</td>
+      <td className="py-1.5 font-medium text-indigo-600">
+        {moy}
+        {total != null && <span className="text-[11px] text-slate-400 font-normal ml-1">(total : {total})</span>}
+      </td>
     </tr>
   )
 }
@@ -219,9 +249,10 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     {fmtCurrency(kpis.perimetreEvalue)}
                   </td>
                 ))}
-                <td className="py-1.5 font-medium text-indigo-600">
-                  {fmtCurrencyMoy(kpisToutes.map(({ kpis }) => kpis.perimetreEvalue))}
-                </td>
+                <MoyTd
+                  moy={fmtCurrencyMoy(kpisToutes.map(({ kpis }) => kpis.perimetreEvalue))}
+                  total={fmtCurrencyTotal(kpisToutes.map(({ kpis }) => kpis.perimetreEvalue))}
+                />
               </tr>
               <tr className="border-b border-slate-100">
                 <td className="py-1.5 pr-3 text-slate-600">Top 10 (montant)</td>
@@ -252,9 +283,10 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     {kpis.fournisseursEvalues}
                   </td>
                 ))}
-                <td className="py-1.5 font-medium text-indigo-600">
-                  {fmtCountMoy(kpisToutes.map(({ kpis }) => kpis.fournisseursEvalues))}
-                </td>
+                <MoyTd
+                  moy={fmtCountMoy(kpisToutes.map(({ kpis }) => kpis.fournisseursEvalues))}
+                  total={fmtCountTotal(kpisToutes.map(({ kpis }) => kpis.fournisseursEvalues))}
+                />
               </tr>
               <tr className="border-b border-slate-100">
                 <td className="py-1.5 pr-3 text-slate-600">% du panel fournisseur (secteur)</td>
@@ -281,9 +313,10 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     </td>
                   )
                 })}
-                <td className="py-1.5 font-medium text-indigo-600">
-                  {fmtCountMoy(ENTITES.map((s) => findSecteurStat(secteurStats, s, anneeToutes)?.nbEvaluateurs ?? null))}
-                </td>
+                <MoyTd
+                  moy={fmtCountMoy(ENTITES.map((s) => findSecteurStat(secteurStats, s, anneeToutes)?.nbEvaluateurs ?? null))}
+                  total={fmtCountTotal(ENTITES.map((s) => findSecteurStat(secteurStats, s, anneeToutes)?.nbEvaluateurs ?? null))}
+                />
               </tr>
 
               <tr className="bg-slate-50">
@@ -318,7 +351,10 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     {kpis.excellents}
                   </td>
                 ))}
-                <td className="py-1.5 font-medium text-indigo-600">{fmtCountMoy(kpisToutes.map(({ kpis }) => kpis.excellents))}</td>
+                <MoyTd
+                  moy={fmtCountMoy(kpisToutes.map(({ kpis }) => kpis.excellents))}
+                  total={fmtCountTotal(kpisToutes.map(({ kpis }) => kpis.excellents))}
+                />
               </tr>
               <tr className="border-b border-slate-100">
                 <td className="py-1.5 pr-3 text-slate-600">Fournisseurs &lt; 3</td>
@@ -327,7 +363,10 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     {kpis.faibles}
                   </td>
                 ))}
-                <td className="py-1.5 font-medium text-indigo-600">{fmtCountMoy(kpisToutes.map(({ kpis }) => kpis.faibles))}</td>
+                <MoyTd
+                  moy={fmtCountMoy(kpisToutes.map(({ kpis }) => kpis.faibles))}
+                  total={fmtCountTotal(kpisToutes.map(({ kpis }) => kpis.faibles))}
+                />
               </tr>
               <tr className="border-b border-slate-100">
                 <td className="py-1.5 pr-3 text-slate-600">dont &lt; 2</td>
@@ -336,7 +375,10 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     {kpis.tresFaibles}
                   </td>
                 ))}
-                <td className="py-1.5 font-medium text-indigo-600">{fmtCountMoy(kpisToutes.map(({ kpis }) => kpis.tresFaibles))}</td>
+                <MoyTd
+                  moy={fmtCountMoy(kpisToutes.map(({ kpis }) => kpis.tresFaibles))}
+                  total={fmtCountTotal(kpisToutes.map(({ kpis }) => kpis.tresFaibles))}
+                />
               </tr>
 
               <tr className="bg-slate-50">
@@ -351,7 +393,10 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     {kpis.uneEvaluation}
                   </td>
                 ))}
-                <td className="py-1.5 font-medium text-indigo-600">{fmtCountMoy(kpisToutes.map(({ kpis }) => kpis.uneEvaluation))}</td>
+                <MoyTd
+                  moy={fmtCountMoy(kpisToutes.map(({ kpis }) => kpis.uneEvaluation))}
+                  total={fmtCountTotal(kpisToutes.map(({ kpis }) => kpis.uneEvaluation))}
+                />
               </tr>
               <tr className="border-b border-slate-100">
                 <td className="py-1.5 pr-3 text-slate-600">Non évalués l'année précédente</td>
@@ -360,9 +405,10 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     {kpis.nonEvaluesAnneePrecedente}
                   </td>
                 ))}
-                <td className="py-1.5 font-medium text-indigo-600">
-                  {fmtCountMoy(kpisToutes.map(({ kpis }) => kpis.nonEvaluesAnneePrecedente))}
-                </td>
+                <MoyTd
+                  moy={fmtCountMoy(kpisToutes.map(({ kpis }) => kpis.nonEvaluesAnneePrecedente))}
+                  total={fmtCountTotal(kpisToutes.map(({ kpis }) => kpis.nonEvaluesAnneePrecedente))}
+                />
               </tr>
               <tr>
                 <td className="py-1.5 pr-3 text-slate-600">Jamais évalués avant</td>
@@ -371,9 +417,10 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                     {kpis.jamaisEvaluesAvant}
                   </td>
                 ))}
-                <td className="py-1.5 font-medium text-indigo-600">
-                  {fmtCountMoy(kpisToutes.map(({ kpis }) => kpis.jamaisEvaluesAvant))}
-                </td>
+                <MoyTd
+                  moy={fmtCountMoy(kpisToutes.map(({ kpis }) => kpis.jamaisEvaluesAvant))}
+                  total={fmtCountTotal(kpisToutes.map(({ kpis }) => kpis.jamaisEvaluesAvant))}
+                />
               </tr>
             </tbody>
           </table>
@@ -405,6 +452,7 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
               a={fmtCurrency(cmp.a.perimetreEvalue)}
               b={fmtCurrency(cmp.b.perimetreEvalue)}
               moy={fmtCurrencyMoy([cmp.a.perimetreEvalue, cmp.b.perimetreEvalue])}
+              total={fmtCurrencyTotal([cmp.a.perimetreEvalue, cmp.b.perimetreEvalue])}
             />
             <Row
               label="Top 10 (montant)"
@@ -423,6 +471,7 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
               a={String(cmp.a.fournisseursEvalues)}
               b={String(cmp.b.fournisseursEvalues)}
               moy={fmtCountMoy([cmp.a.fournisseursEvalues, cmp.b.fournisseursEvalues])}
+              total={fmtCountTotal([cmp.a.fournisseursEvalues, cmp.b.fournisseursEvalues])}
             />
             <Row
               label="% du panel fournisseur (secteur)"
@@ -438,6 +487,7 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
               a={statA?.nbEvaluateurs != null ? String(statA.nbEvaluateurs) : 'Non disponible'}
               b={statB?.nbEvaluateurs != null ? String(statB.nbEvaluateurs) : 'Non disponible'}
               moy={fmtCountMoy([statA?.nbEvaluateurs ?? null, statB?.nbEvaluateurs ?? null])}
+              total={fmtCountTotal([statA?.nbEvaluateurs ?? null, statB?.nbEvaluateurs ?? null])}
             />
 
             <tr className="bg-slate-50">
@@ -480,18 +530,21 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
               a={String(cmp.a.excellents)}
               b={String(cmp.b.excellents)}
               moy={fmtCountMoy([cmp.a.excellents, cmp.b.excellents])}
+              total={fmtCountTotal([cmp.a.excellents, cmp.b.excellents])}
             />
             <Row
               label="Fournisseurs < 3"
               a={String(cmp.a.faibles)}
               b={String(cmp.b.faibles)}
               moy={fmtCountMoy([cmp.a.faibles, cmp.b.faibles])}
+              total={fmtCountTotal([cmp.a.faibles, cmp.b.faibles])}
             />
             <Row
               label="dont < 2"
               a={String(cmp.a.tresFaibles)}
               b={String(cmp.b.tresFaibles)}
               moy={fmtCountMoy([cmp.a.tresFaibles, cmp.b.tresFaibles])}
+              total={fmtCountTotal([cmp.a.tresFaibles, cmp.b.tresFaibles])}
             />
 
             <tr className="bg-slate-50">
@@ -504,18 +557,21 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
               a={String(cmp.a.uneEvaluation)}
               b={String(cmp.b.uneEvaluation)}
               moy={fmtCountMoy([cmp.a.uneEvaluation, cmp.b.uneEvaluation])}
+              total={fmtCountTotal([cmp.a.uneEvaluation, cmp.b.uneEvaluation])}
             />
             <Row
               label="Non évalués l'année précédente"
               a={String(cmp.a.nonEvaluesAnneePrecedente)}
               b={String(cmp.b.nonEvaluesAnneePrecedente)}
               moy={fmtCountMoy([cmp.a.nonEvaluesAnneePrecedente, cmp.b.nonEvaluesAnneePrecedente])}
+              total={fmtCountTotal([cmp.a.nonEvaluesAnneePrecedente, cmp.b.nonEvaluesAnneePrecedente])}
             />
             <Row
               label="Jamais évalués avant"
               a={String(cmp.a.jamaisEvaluesAvant)}
               b={String(cmp.b.jamaisEvaluesAvant)}
               moy={fmtCountMoy([cmp.a.jamaisEvaluesAvant, cmp.b.jamaisEvaluesAvant])}
+              total={fmtCountTotal([cmp.a.jamaisEvaluesAvant, cmp.b.jamaisEvaluesAvant])}
             />
           </tbody>
         </table>
