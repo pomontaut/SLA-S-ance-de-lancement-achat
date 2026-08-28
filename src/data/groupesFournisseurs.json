@@ -247,5 +247,18 @@
     "nom": "DEBRUNNER ACIF"
    }
   ]
+ },
+ {
+  "nom": "Groupe R",
+  "membres": [
+   {
+    "nfr": 204433,
+    "nom": "JAQUET SA VALLOR"
+   },
+   {
+    "nfr": 204995,
+    "nom": "FAVRE SA"
+   }
+  ]
  }
 ]
