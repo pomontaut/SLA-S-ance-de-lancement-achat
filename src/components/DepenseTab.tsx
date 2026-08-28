@@ -12,11 +12,24 @@ import {
 } from '../data/depenses'
 import { secteurColor } from '../data/palette'
 
-function StatTile({ label, value, sub, tone }: { label: string; value: string; sub?: string; tone?: 'good' | 'warning' | 'critical' }) {
+function StatTile({
+  label,
+  value,
+  sub,
+  tone,
+  title,
+}: {
+  label: string
+  value: string
+  sub?: string
+  tone?: 'good' | 'warning' | 'critical'
+  /** Infobulle native au survol (ex. détail des exclusions du reporting). */
+  title?: string
+}) {
   const toneClass =
     tone === 'good' ? 'text-green-600' : tone === 'warning' ? 'text-amber-600' : tone === 'critical' ? 'text-red-600' : 'text-indigo-600'
   return (
-    <div className="card text-center py-4">
+    <div className={`card text-center py-4 ${title ? 'cursor-help' : ''}`} title={title}>
       <div className={`text-2xl font-bold ${toneClass}`}>{value}</div>
       <div className="text-xs text-slate-500 mt-1">{label}</div>
       {sub && <div className="text-[11px] text-slate-400 mt-0.5">{sub}</div>}
@@ -264,6 +277,7 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
   const [data, setData] = useState<DepensesGlobal | null>(null)
   const [groupes, setGroupes] = useState<GroupeFournisseur[] | null>(null)
   const [fournisseurs, setFournisseurs] = useState<DepenseFournisseur[] | null>(null)
+  const [selectedEntite, setSelectedEntite] = useState<string | null>(null)
 
   useEffect(() => {
     loadDepensesGlobal().then(setData)
@@ -276,10 +290,19 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
     [groupes, fournisseurs],
   )
 
-  const g = data?.global
-  const chantierPct = useMemo(() => (data ? pct(data.chantier.montantTotal, data.global.montantTotal) : null), [data])
-  const consortiumPct = useMemo(() => (data ? pct(data.consortium.montantTotal, data.global.montantTotal) : null), [data])
-  const ncPct = useMemo(() => (data && g ? pct(Math.abs(g.montantNotesCredit), g.montantFactures) : null), [data, g])
+  // Le filtre par entité ne s'applique qu'à cette section (tuiles d'analyse achat) : ces
+  // agrégats par entité sont déjà précalculés (data.parEntite), contrairement au détail par
+  // chantier/tranches/top fournisseurs plus bas, qui restent "toutes entités confondues".
+  const g = selectedEntite ? data?.parEntite[selectedEntite] : data?.global
+  const chantierPct = useMemo(
+    () => (data && !selectedEntite ? pct(data.chantier.montantTotal, data.global.montantTotal) : null),
+    [data, selectedEntite],
+  )
+  const consortiumPct = useMemo(
+    () => (data && !selectedEntite ? pct(data.consortium.montantTotal, data.global.montantTotal) : null),
+    [data, selectedEntite],
+  )
+  const ncPct = useMemo(() => (g ? pct(Math.abs(g.montantNotesCredit), g.montantFactures) : null), [g])
   const paiementConnuPct = useMemo(
     () => (g ? pct(g.nbATemps, g.nbATemps + g.nbEnRetard) : null),
     [g],
@@ -288,6 +311,8 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
   if (!data || !g) {
     return <p className="text-sm text-slate-500">Chargement des données de dépense…</p>
   }
+
+  const entites = Object.keys(data.parEntite).sort((a, b) => data.parEntite[b].montantTotal - data.parEntite[a].montantTotal)
 
   return (
     <div className="space-y-4">
@@ -303,18 +328,59 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
         </p>
       </div>
 
+      <div className="flex flex-wrap items-center gap-1.5">
+        <span className="text-xs uppercase text-slate-500 mr-1">Analyse achat — entité</span>
+        <button
+          className="px-2 py-0.5 rounded-full text-xs font-medium border transition-colors"
+          style={
+            !selectedEntite
+              ? { backgroundColor: '#4f46e5', borderColor: '#4f46e5', color: 'white' }
+              : { backgroundColor: 'white', borderColor: '#e2e8f0', color: '#475569' }
+          }
+          onClick={() => setSelectedEntite(null)}
+        >
+          Toutes entités
+        </button>
+        {entites.map((entite) => (
+          <button
+            key={entite}
+            className="px-2 py-0.5 rounded-full text-xs font-medium border transition-colors"
+            style={
+              selectedEntite === entite
+                ? { backgroundColor: secteurColor(entite), borderColor: secteurColor(entite), color: 'white' }
+                : { backgroundColor: 'white', borderColor: '#e2e8f0', color: '#475569' }
+            }
+            onClick={() => setSelectedEntite(entite)}
+          >
+            {entite}
+          </button>
+        ))}
+      </div>
+
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <StatTile label="Dépense totale (montant pos.)" value={formatCurrency(g.montantTotal)} />
         <StatTile
-          label="Chantier Induni"
-          value={formatCurrency(data.chantier.montantTotal)}
-          sub={chantierPct != null ? `${chantierPct}% du total` : undefined}
+          label="Dépense totale (montant pos.)"
+          value={formatCurrency(g.montantTotal)}
+          title={
+            data.exclusions
+              ? `${formatCurrency(data.exclusions.montantTotal)} exclus (${data.exclusions.nbLignes} ligne(s)) : ${data.exclusions.details.map((e) => `${e.nom} (${formatCurrency(e.montant)}) — ${e.motif}`).join(' · ')}`
+              : undefined
+          }
         />
-        <StatTile
-          label="Consortium"
-          value={formatCurrency(data.consortium.montantTotal)}
-          sub={consortiumPct != null ? `${consortiumPct}% du total` : undefined}
-        />
+        {!selectedEntite && (
+          <>
+            <StatTile
+              label="Chantier Induni"
+              value={formatCurrency(data.chantier.montantTotal)}
+              sub={chantierPct != null ? `${chantierPct}% du total` : undefined}
+            />
+            <StatTile
+              label="Consortium"
+              value={formatCurrency(data.consortium.montantTotal)}
+              sub={consortiumPct != null ? `${consortiumPct}% du total` : undefined}
+            />
+          </>
+        )}
         <StatTile label="Fournisseurs actifs" value={String(g.nbFournisseurs)} />
         <StatTile
           label="Panier moyen"

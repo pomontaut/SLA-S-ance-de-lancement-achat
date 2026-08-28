@@ -75,6 +75,14 @@ export interface DepensesGlobal {
    * qui inclut aussi les quelques factures sans montant pos. renseigné). */
   nbFacturesTotal: number
   montantFacturesTotal: number
+  /** Fournisseurs exclus du reporting car ce ne sont pas de vrais fournisseurs externes
+   * (écritures intercompagnie, caisses sociales, etc.) — voir fournisseurExclusionsDepense.json.
+   * Sert à documenter au survol ce qui a été retiré du montant "Dépense totale". */
+  exclusions?: {
+    nbLignes: number
+    montantTotal: number
+    details: { nfr: number; nom: string; montant: number; motif: string }[]
+  }
 }
 
 export interface DepenseDocument {

@@ -1661,6 +1661,60 @@
    "montant": 1314585.5
   }
  ],
+ "exclusions": {
+  "nbLignes": 1225,
+  "montantTotal": 37648699.9,
+  "details": [
+   {
+    "nfr": 105923668,
+    "nom": "INDUNI & CIE S 1",
+    "montant": 22888786.5,
+    "motif": "Écritures intercompagnie (INDUNI & CIE, l'entreprise qui utilise ce dashboard) — pas un fournisseur externe."
+   },
+   {
+    "nfr": 10000,
+    "nom": "BAT GE INDUNI",
+    "montant": 3751779.75,
+    "motif": "Écritures intercompagnie (INDUNI & CIE) — pas un fournisseur externe."
+   },
+   {
+    "nfr": 20000,
+    "nom": "INDUNI & CIE TRA",
+    "montant": 586882.65,
+    "motif": "Écritures intercompagnie (INDUNI & CIE) — pas un fournisseur externe."
+   },
+   {
+    "nfr": 30000,
+    "nom": "GC GE INDUNI",
+    "montant": 1331037.75,
+    "motif": "Écritures intercompagnie (INDUNI & CIE) — pas un fournisseur externe."
+   },
+   {
+    "nfr": 60000,
+    "nom": "INDUNI CRISSIER",
+    "montant": 1206555.05,
+    "motif": "Écritures intercompagnie (INDUNI & CIE) — pas un fournisseur externe."
+   },
+   {
+    "nfr": 10053,
+    "nom": "CAISSES DE COMPE",
+    "montant": 4502299.45,
+    "motif": "Caisse de compensation (cotisations sociales AVS/AI) — pas un fournisseur externe, exclu sur demande explicite."
+   },
+   {
+    "nfr": 10368,
+    "nom": "FAR FONDATION RE",
+    "montant": 1978554.85,
+    "motif": "Fondation FAR (retraite anticipée, secteur de la construction) — pas un fournisseur externe, à exclure systématiquement sur demande explicite."
+   },
+   {
+    "nfr": 155757,
+    "nom": "SUVA",
+    "montant": 1402803.9,
+    "motif": "Assurance-accidents obligatoire (SUVA) — pas un fournisseur externe, exclue sur demande explicite."
+   }
+  ]
+ },
  "tranches": [
   {
    "label": "< 2'000 CHF",
