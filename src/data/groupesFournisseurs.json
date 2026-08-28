@@ -373,5 +373,22 @@
     "nom": "CULLIGAN SWITZER"
    }
   ]
+ },
+ {
+  "nom": "Groupe GESA",
+  "membres": [
+   {
+    "nfr": 878385,
+    "nom": "SOREVAL SA"
+   },
+   {
+    "nfr": 893055,
+    "nom": "POINTGE SA"
+   },
+   {
+    "nfr": 144802,
+    "nom": "GRAVIERES D'EPEI"
+   }
+  ]
  }
 ]
