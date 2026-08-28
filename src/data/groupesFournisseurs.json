@@ -551,5 +551,15 @@
     "nom": "TOPNET SA"
    }
   ]
+ },
+ {
+  "nom": "Béton du Salève",
+  "parent": "Descombes Père et Fils Sàrl & Les Carrières d'Allinges",
+  "membres": [
+   {
+    "nfr": 429630661,
+    "nom": "BETON DU SALEVE"
+   }
+  ]
  }
 ]
