@@ -483,5 +483,18 @@
     "nom": "SANITAS TROESCH"
    }
   ]
+ },
+ {
+  "nom": "Pemsa Group",
+  "membres": [
+   {
+    "nfr": 248383953,
+    "nom": "PLACE TO WORK SA"
+   },
+   {
+    "nfr": 462305,
+    "nom": "PEMSA GE SA"
+   }
+  ]
  }
 ]
