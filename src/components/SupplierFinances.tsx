@@ -112,7 +112,7 @@ export default function SupplierFinances({ fournisseur, loading }: { fournisseur
       {Object.keys(fournisseur.parChantier).length > 0 && (
         <div>
           <h5 className="text-[11px] uppercase text-slate-500 mb-1">
-            Détail par chantier (compte de débit) — {Object.keys(fournisseur.parChantier).length}
+            Détail par chantier (SECT Débit) — {Object.keys(fournisseur.parChantier).length}
           </h5>
           <div className="overflow-x-auto max-h-40 overflow-y-auto">
             <table className="w-full text-xs border-collapse">

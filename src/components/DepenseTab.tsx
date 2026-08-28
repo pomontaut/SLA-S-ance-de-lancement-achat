@@ -67,7 +67,7 @@ function ChantierTable({ parChantier, nbChantiers, montantTotal }: { parChantier
       <table className="w-full text-sm border-collapse">
         <thead>
           <tr className="text-left text-xs uppercase text-slate-500 border-b border-slate-200">
-            <th className="py-2 pr-3">Chantier (compte de débit)</th>
+            <th className="py-2 pr-3">Chantier (SECT Débit)</th>
             <th className="py-2 pr-3">Montant</th>
             <th className="py-2 pr-3">% du total</th>
             <th className="py-2 pr-3">Documents</th>
@@ -99,7 +99,7 @@ function ChantierTable({ parChantier, nbChantiers, montantTotal }: { parChantier
       )}
       <p className="text-xs text-slate-400 mt-2">
         {nbChantiers} chantiers distincts au total (60 chargés ici, triés par montant décroissant). Le fichier
-        source n'associe pas de nom de chantier à ces codes comptables — uniquement le numéro de compte de débit.
+        source n'associe pas de nom de chantier à ces codes comptables — uniquement le numéro de SECT Débit.
         Transmets une table de correspondance compte → nom de chantier si tu veux des libellés lisibles.
       </p>
     </div>
@@ -228,7 +228,7 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
       <div className="card">
         <h3 className="font-semibold mb-1">Dépense par chantier</h3>
         <p className="text-xs text-slate-500 mb-3">
-          "Chantier" = compte de débit comptable, sur indication explicite de la personne qui utilise l'outil.
+          "Chantier" = numéro "SECT Débit" du journal comptable, sur indication explicite de la personne qui utilise l'outil.
         </p>
         <ChantierTable parChantier={data.parChantier} nbChantiers={data.nbChantiers} montantTotal={g.montantTotal} />
       </div>
