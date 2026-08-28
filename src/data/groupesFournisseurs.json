@@ -443,5 +443,22 @@
     "nom": "MARTI LOGISTIK A"
    }
   ]
+ },
+ {
+  "nom": "Groupe Saint-Gobain",
+  "membres": [
+   {
+    "nfr": 10759,
+    "nom": "BMRA POINT P"
+   },
+   {
+    "nfr": 226919,
+    "nom": "SAINT-GOBAIN WEB"
+   },
+   {
+    "nfr": 120731,
+    "nom": "SANITAS TROESCH"
+   }
+  ]
  }
 ]
