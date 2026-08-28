@@ -299,5 +299,18 @@
     "nom": "ROTH GERUESTE AG"
    }
   ]
+ },
+ {
+  "nom": "Groupe Gentile",
+  "membres": [
+   {
+    "nfr": 200866,
+    "nom": "GENTILE SA"
+   },
+   {
+    "nfr": 206009,
+    "nom": "PRO ARMATURE SA"
+   }
+  ]
  }
 ]
