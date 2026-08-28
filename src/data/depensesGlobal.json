@@ -15,7 +15,7 @@
   "nbEnRetard": 23138,
   "montantEnRetard": 125539192.42,
   "retardMoyenJours": 45.7,
-  "nbFournisseurs": 1504
+  "nbFournisseurs": 1503
  },
  "chantier": {
   "montantTotal": 172414246.1,
@@ -51,7 +51,7 @@
   "nbEnRetard": 1338,
   "montantEnRetard": 12745003.04,
   "retardMoyenJours": 34.0,
-  "nbFournisseurs": 223
+  "nbFournisseurs": 222
  },
  "parEntite": {
   "DG": {
@@ -232,7 +232,7 @@
    "nbEnRetard": 395,
    "montantEnRetard": 13438800.85,
    "retardMoyenJours": 51.8,
-   "nbFournisseurs": 217
+   "nbFournisseurs": 216
   }
  },
  "parChantier": [
@@ -256,7 +256,7 @@
    "nbEnRetard": 1647,
    "montantEnRetard": 20694553.14,
    "retardMoyenJours": 36.2,
-   "nbFournisseurs": 358
+   "nbFournisseurs": 357
   },
   {
    "code": "42102",
@@ -1631,6 +1631,11 @@
    "montant": 1802608.05
   },
   {
+   "nfr": 112930662,
+   "nom": "ORLLATI (VD) SA",
+   "montant": 1714495.95
+  },
+  {
    "nfr": 574616,
    "nom": "MFP PREFABRICATI",
    "montant": 1653366.2
@@ -1654,11 +1659,6 @@
    "nfr": 331915,
    "nom": "CAISSE DE COMPEN",
    "montant": 1463953.8
-  },
-  {
-   "nfr": 399765892,
-   "nom": "SNAP SARL",
-   "montant": 1458963.9
   }
  ],
  "tranches": [

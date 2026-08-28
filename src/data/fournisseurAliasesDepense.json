@@ -378,5 +378,15 @@
   "aliasNoms": [
    "BETREIBUNGSAMT"
   ]
+ },
+ {
+  "canonicalNfr": 112930662,
+  "canonicalNom": "ORLLATI (VD) SA",
+  "aliasNfrs": [
+   116346723
+  ],
+  "aliasNoms": [
+   "ORLLATI (VD) SA"
+  ]
  }
 ]
