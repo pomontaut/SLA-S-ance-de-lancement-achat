@@ -553,12 +553,18 @@
   ]
  },
  {
-  "nom": "Béton du Salève",
+  "nom": "Groupe Descombes",
   "parent": "Descombes Père et Fils Sàrl & Les Carrières d'Allinges",
   "membres": [
    {
     "nfr": 429630661,
-    "nom": "BETON DU SALEVE"
+    "nom": "BETON DU SALEVE",
+    "note": "prise de participation"
+   },
+   {
+    "nfr": 511947,
+    "nom": "SASSO RECYCLAGE",
+    "note": "prise de participation"
    }
   ]
  }
