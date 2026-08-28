@@ -1600,5 +1600,45 @@
    "nom": "SNAP SARL",
    "montant": 1458963.9
   }
- ]
+ ],
+ "tranches": [
+  {
+   "label": "< 2'000 CHF",
+   "nbFactures": 18807,
+   "montantFactures": 11663762.05,
+   "pctNb": 61.39,
+   "pctMontant": 5.41
+  },
+  {
+   "label": "2'001 - 5'000 CHF",
+   "nbFactures": 5916,
+   "montantFactures": 17776528.3,
+   "pctNb": 19.31,
+   "pctMontant": 8.25
+  },
+  {
+   "label": "5'001 - 10'000 CHF",
+   "nbFactures": 2607,
+   "montantFactures": 18469701.13,
+   "pctNb": 8.51,
+   "pctMontant": 8.57
+  },
+  {
+   "label": "10'001 - 50'000 CHF",
+   "nbFactures": 2397,
+   "montantFactures": 50173893.25,
+   "pctNb": 7.82,
+   "pctMontant": 23.28
+  },
+  {
+   "label": "> 50'000 CHF",
+   "nbFactures": 907,
+   "montantFactures": 117449151.27,
+   "pctNb": 2.96,
+   "pctMontant": 54.489999999999995
+  }
+ ],
+ "panierMoyenFacture": 7035.75,
+ "nbFacturesTotal": 30634,
+ "montantFacturesTotal": 215533036.0
 }

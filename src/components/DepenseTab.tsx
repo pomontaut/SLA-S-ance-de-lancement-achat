@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import type { DepenseBucketStats, DepenseChantierStats, DepensesGlobal } from '../data/depenses'
+import type { DepenseBucketStats, DepenseChantierStats, DepensesGlobal, DepenseTranche } from '../data/depenses'
 import { chantierColor, chantierLabel, formatCurrency, loadDepensesGlobal, pct } from '../data/depenses'
 import { secteurColor } from '../data/palette'
 
@@ -137,6 +137,35 @@ function ChantierTable({
   )
 }
 
+function TrancheTable({ tranches }: { tranches: DepenseTranche[] }) {
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm border-collapse">
+        <thead>
+          <tr className="text-left text-xs uppercase text-slate-500 border-b border-slate-200">
+            <th className="py-2 pr-3">Tranche de montant</th>
+            <th className="py-2 pr-3">Nb factures</th>
+            <th className="py-2 pr-3">% du nombre</th>
+            <th className="py-2 pr-3">Montant</th>
+            <th className="py-2">% du montant</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tranches.map((t) => (
+            <tr key={t.label} className="border-b border-slate-100">
+              <td className="py-1.5 pr-3 font-medium">{t.label}</td>
+              <td className="py-1.5 pr-3">{t.nbFactures}</td>
+              <td className="py-1.5 pr-3">{t.pctNb != null ? `${t.pctNb.toFixed(1)}%` : '—'}</td>
+              <td className="py-1.5 pr-3">{formatCurrency(t.montantFactures)}</td>
+              <td className="py-1.5">{t.pctMontant != null ? `${t.pctMontant.toFixed(1)}%` : '—'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
 function TopFournisseursTable({ top20, montantTotal }: { top20: { nfr: number; nom: string; montant: number }[]; montantTotal: number }) {
   let cumul = 0
   return (
@@ -222,6 +251,11 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
         />
         <StatTile label="Fournisseurs actifs" value={String(g.nbFournisseurs)} />
         <StatTile
+          label="Panier moyen"
+          value={formatCurrency(g.montantTotal / g.nbDocuments)}
+          sub={`${formatCurrency(g.montantTotal)} / ${g.nbDocuments} document(s)`}
+        />
+        <StatTile
           label="Factures"
           value={String(g.nbFactures)}
           sub={`Facture moyenne : ${formatCurrency(g.montantFactures / g.nbFactures)}`}
@@ -267,6 +301,19 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
           nbChantiersAvecNom={data.nbChantiersAvecNom}
           montantTotal={g.montantTotal}
         />
+      </div>
+
+      <div className="card">
+        <h3 className="font-semibold mb-1">Répartition des factures par tranche de montant</h3>
+        <p className="text-xs text-slate-500 mb-3">
+          Uniquement les documents de genre "Facture" avec un montant pos. renseigné —{' '}
+          {data.nbFacturesTotal.toLocaleString('fr-CH')} factures ({formatCurrency(data.montantFacturesTotal)}), soit
+          {g.nbFactures - data.nbFacturesTotal > 0
+            ? ` ${g.nbFactures - data.nbFacturesTotal} facture(s) de moins que le total ci-dessus car leur montant pos. n'est pas renseigné`
+            : ''}
+          . Panier moyen sur ce périmètre : {formatCurrency(data.panierMoyenFacture)}.
+        </p>
+        <TrancheTable tranches={data.tranches} />
       </div>
 
       <div className="card">

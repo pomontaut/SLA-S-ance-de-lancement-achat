@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import type { DepenseFournisseur } from '../data/depenses'
-import { chantierColor, chantierLabel, formatCurrency, pct } from '../data/depenses'
+import { chantierColor, chantierLabel, computeTranches, formatCurrency, pct } from '../data/depenses'
 import { secteurColor } from '../data/palette'
 
 function KpiTile({ label, value, sub, tone }: { label: string; value: string; sub?: string; tone?: 'good' | 'warning' | 'critical' }) {
@@ -17,6 +17,7 @@ function KpiTile({ label, value, sub, tone }: { label: string; value: string; su
 
 export default function SupplierFinances({ fournisseur, loading }: { fournisseur: DepenseFournisseur | null; loading: boolean }) {
   const [showAllDocs, setShowAllDocs] = useState(false)
+  const trancheData = useMemo(() => (fournisseur ? computeTranches(fournisseur.documents) : null), [fournisseur])
 
   if (loading) {
     return <p className="text-xs text-slate-400">Chargement des données de dépense…</p>
@@ -46,6 +47,11 @@ export default function SupplierFinances({ fournisseur, loading }: { fournisseur
         <KpiTile label="CA Chantier Induni" value={formatCurrency(fournisseur.chantierMontant)} />
         <KpiTile label="CA Consortium" value={formatCurrency(fournisseur.consortiumMontant)} />
         <KpiTile label="Total" value={formatCurrency(g.montantTotal)} sub={`${g.nbDocuments} document(s)`} />
+        <KpiTile
+          label="Panier moyen"
+          value={g.nbDocuments ? formatCurrency(g.montantTotal / g.nbDocuments) : '—'}
+          sub="montant total / nb documents"
+        />
         <KpiTile
           label="Notes de crédit"
           value={formatCurrency(g.montantNotesCredit)}
@@ -158,6 +164,39 @@ export default function SupplierFinances({ fournisseur, loading }: { fournisseur
                     <td className="py-1 pr-2 text-slate-500">{d.dateDoc}</td>
                     <td className="py-1 pr-2 font-medium text-red-600">{formatCurrency(d.montant)}</td>
                     <td className="py-1 text-slate-500">{d.ref}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {trancheData && trancheData.nbFactures > 0 && (
+        <div>
+          <h5 className="text-[11px] uppercase text-slate-500 mb-1">
+            Répartition des factures par tranche de montant ({trancheData.nbFactures}) — panier moyen{' '}
+            {formatCurrency(trancheData.panierMoyen)}
+          </h5>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs border-collapse">
+              <thead>
+                <tr className="text-left text-slate-500 border-b border-slate-200">
+                  <th className="py-1 pr-2">Tranche</th>
+                  <th className="py-1 pr-2">Nb</th>
+                  <th className="py-1 pr-2">% nb</th>
+                  <th className="py-1 pr-2">Montant</th>
+                  <th className="py-1">% montant</th>
+                </tr>
+              </thead>
+              <tbody>
+                {trancheData.tranches.map((t) => (
+                  <tr key={t.label} className="border-b border-slate-100">
+                    <td className="py-1 pr-2 font-medium">{t.label}</td>
+                    <td className="py-1 pr-2">{t.nbFactures}</td>
+                    <td className="py-1 pr-2">{t.pctNb != null ? `${t.pctNb.toFixed(1)}%` : '—'}</td>
+                    <td className="py-1 pr-2">{formatCurrency(t.montantFactures)}</td>
+                    <td className="py-1">{t.pctMontant != null ? `${t.pctMontant.toFixed(1)}%` : '—'}</td>
                   </tr>
                 ))}
               </tbody>

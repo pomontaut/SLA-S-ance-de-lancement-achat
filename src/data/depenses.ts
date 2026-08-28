@@ -44,6 +44,14 @@ export interface DepenseChantierStats extends DepenseBucketStats {
   consortium: boolean | null
 }
 
+export interface DepenseTranche {
+  label: string
+  nbFactures: number
+  montantFactures: number
+  pctNb: number | null
+  pctMontant: number | null
+}
+
 export interface DepensesGlobal {
   global: DepenseBucketStats
   chantier: DepenseBucketStats
@@ -54,6 +62,15 @@ export interface DepensesGlobal {
   nbChantiers: number
   nbChantiersAvecNom: number
   top20Fournisseurs: { nfr: number; nom: string; montant: number }[]
+  /** Répartition des factures par tranche de montant (uniquement genre "Facture", montant
+   * connu) — 5 tranches : <2'000, 2'001-5'000, 5'001-10'000, 10'001-50'000, >50'000 CHF. */
+  tranches: DepenseTranche[]
+  /** Panier moyen = montantFacturesTotal / nbFacturesTotal (factures uniquement, montant connu). */
+  panierMoyenFacture: number
+  /** Nombre de factures avec un montant connu (légèrement inférieur au nbFactures de `global`,
+   * qui inclut aussi les quelques factures sans montant pos. renseigné). */
+  nbFacturesTotal: number
+  montantFacturesTotal: number
 }
 
 export interface DepenseDocument {
@@ -150,6 +167,51 @@ export function formatCurrency(v: number | null | undefined): string {
 export function pct(part: number, total: number): number | null {
   if (!total) return null
   return Math.round((part / total) * 1000) / 10
+}
+
+/** Bornes des 5 tranches de montant de facture — identiques à celles utilisées côté Python pour
+ * `depensesGlobal.json.tranches`, afin que la répartition par fournisseur (calculée ici côté
+ * client à partir de `documents`) reste comparable à la répartition globale. */
+const TRANCHE_BOUNDS: { label: string; min: number; max: number | null }[] = [
+  { label: "< 2'000 CHF", min: 0, max: 2000 },
+  { label: "2'001 - 5'000 CHF", min: 2000, max: 5000 },
+  { label: "5'001 - 10'000 CHF", min: 5000, max: 10000 },
+  { label: "10'001 - 50'000 CHF", min: 10000, max: 50000 },
+  { label: "> 50'000 CHF", min: 50000, max: null },
+]
+
+/** Calcule la répartition par tranche de montant (et le panier moyen) sur un ensemble de
+ * documents fournisseur, en se limitant au genre "Facture" avec un montant connu — même
+ * logique que celle appliquée globalement dans `tranches.py`. */
+export function computeTranches(documents: DepenseDocument[]): {
+  tranches: DepenseTranche[]
+  panierMoyen: number | null
+  nbFactures: number
+  montantFactures: number
+} {
+  const factures = documents.filter((d) => d.genre === 'Facture' && d.montant != null)
+  const nbFactures = factures.length
+  const montantFactures = Math.round(factures.reduce((sum, d) => sum + Math.abs(d.montant ?? 0), 0) * 100) / 100
+  const tranches = TRANCHE_BOUNDS.map(({ label, min, max }) => {
+    const inTranche = factures.filter((d) => {
+      const m = Math.abs(d.montant ?? 0)
+      return m >= min && (max === null || m < max)
+    })
+    const montant = Math.round(inTranche.reduce((sum, d) => sum + Math.abs(d.montant ?? 0), 0) * 100) / 100
+    return {
+      label,
+      nbFactures: inTranche.length,
+      montantFactures: montant,
+      pctNb: pct(inTranche.length, nbFactures),
+      pctMontant: pct(montant, montantFactures),
+    }
+  })
+  return {
+    tranches,
+    panierMoyen: nbFactures ? Math.round((montantFactures / nbFactures) * 100) / 100 : null,
+    nbFactures,
+    montantFactures,
+  }
 }
 
 /** Libellé d'affichage d'un chantier : "N° - Nom" si retrouvé dans Chantiers.xlsx, sinon
