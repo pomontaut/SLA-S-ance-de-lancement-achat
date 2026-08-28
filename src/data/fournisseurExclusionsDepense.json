@@ -1,0 +1,27 @@
+[
+ {
+  "nfr": 105923668,
+  "nom": "INDUNI & CIE S 1",
+  "motif": "Écritures intercompagnie (INDUNI & CIE, l'entreprise qui utilise ce dashboard) — pas un fournisseur externe."
+ },
+ {
+  "nfr": 10000,
+  "nom": "BAT GE INDUNI",
+  "motif": "Écritures intercompagnie (INDUNI & CIE) — pas un fournisseur externe."
+ },
+ {
+  "nfr": 20000,
+  "nom": "INDUNI & CIE TRA",
+  "motif": "Écritures intercompagnie (INDUNI & CIE) — pas un fournisseur externe."
+ },
+ {
+  "nfr": 30000,
+  "nom": "GC GE INDUNI",
+  "motif": "Écritures intercompagnie (INDUNI & CIE) — pas un fournisseur externe."
+ },
+ {
+  "nfr": 60000,
+  "nom": "INDUNI CRISSIER",
+  "motif": "Écritures intercompagnie (INDUNI & CIE) — pas un fournisseur externe."
+ }
+]

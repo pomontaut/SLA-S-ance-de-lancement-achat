@@ -33,7 +33,7 @@
   ]
  },
  {
-  "nom": "SNAP Étanchéité Sàrl",
+  "nom": "Groupe Snap",
   "membres": [
    {
     "nfr": 399765892,
@@ -146,19 +146,10 @@
    {
     "nfr": 198487,
     "nom": "HOLCIM BF + P SA"
-   }
-  ]
- },
- {
-  "nom": "Sunrise GmbH",
-  "membres": [
-   {
-    "nfr": 106848147,
-    "nom": "SUNRISE GMBH"
    },
    {
-    "nfr": 103209608,
-    "nom": "SUNRISE COMMUN 1"
+    "nfr": 109494382,
+    "nom": "PRAZ SA"
    }
   ]
  },
@@ -254,6 +245,58 @@
    {
     "nfr": 204995,
     "nom": "FAVRE SA"
+   }
+  ]
+ },
+ {
+  "nom": "Groupe Edmond Baud SA",
+  "membres": [
+   {
+    "nfr": 143391,
+    "nom": "EDMOND BAUD SA"
+   },
+   {
+    "nfr": 148504,
+    "nom": "QUINCAILLERIE DU"
+   }
+  ]
+ },
+ {
+  "nom": "Groupe Jaquet",
+  "membres": [
+   {
+    "nfr": 142968,
+    "nom": "JAQUET SA GENEVE"
+   },
+   {
+    "nfr": 910228,
+    "nom": "JAQUIER SERVICES"
+   }
+  ]
+ },
+ {
+  "nom": "Groupe Rochat",
+  "membres": [
+   {
+    "nfr": 203566,
+    "nom": "ROCHAT ET FILS"
+   },
+   {
+    "nfr": 205747,
+    "nom": "ROCHAT OLIVIER"
+   }
+  ]
+ },
+ {
+  "nom": "Groupe Roth",
+  "membres": [
+   {
+    "nfr": 337549109,
+    "nom": "ROTH ECHAFAUDAGE"
+   },
+   {
+    "nfr": 105961686,
+    "nom": "ROTH GERUESTE AG"
    }
   ]
  }

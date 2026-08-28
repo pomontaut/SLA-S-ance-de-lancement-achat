@@ -11,7 +11,7 @@
  },
  {
   "canonicalNfr": 10026,
-  "canonicalNom": "ZURICH VERSICHE",
+  "canonicalNom": "ZURICH ASSURANCES",
   "aliasNfrs": [
    319269043
   ],
@@ -41,7 +41,7 @@
  },
  {
   "canonicalNfr": 146607785,
-  "canonicalNom": "LIAUDET PIAL S 1",
+  "canonicalNom": "LIAUDET PIAL",
   "aliasNfrs": [
    200295
   ],
@@ -101,7 +101,7 @@
  },
  {
   "canonicalNfr": 10018,
-  "canonicalNom": "ALLIANZ SUISSE I",
+  "canonicalNom": "ALLIANZ SUISSE",
   "aliasNfrs": [
    319067
   ],
@@ -163,7 +163,7 @@
  },
  {
   "canonicalNfr": 11604,
-  "canonicalNom": "ETAT DE GENEVE S",
+  "canonicalNom": "ETAT DE GENEVE",
   "aliasNfrs": [
    11736,
    10158,
@@ -173,7 +173,8 @@
    382921,
    10749,
    457833,
-   11905
+   11905,
+   10202
   ],
   "aliasNoms": [
    "ETAT DE GENEV 22",
@@ -184,12 +185,13 @@
    "ETAT DE GENEVE 9",
    "ETAT DE GENEV 10",
    "ETAT DE GENEVE 4",
-   "ETAT DE GENEV 34"
+   "ETAT DE GENEV 34",
+   "DIAE/REGISTRE FO"
   ]
  },
  {
   "canonicalNfr": 107468468,
-  "canonicalNom": "RIEDER SYSTEMS 2",
+  "canonicalNom": "RIEDER SYSTEMS",
   "aliasNfrs": [
    449875
   ],
@@ -219,7 +221,7 @@
  },
  {
   "canonicalNfr": 337549109,
-  "canonicalNom": "ROTH ECHAFAUDA 3",
+  "canonicalNom": "ROTH ECHAFAUDAGE",
   "aliasNfrs": [
    391861925
   ],
@@ -259,7 +261,7 @@
  },
  {
   "canonicalNfr": 265437,
-  "canonicalNom": "DE CERENVILLE GE",
+  "canonicalNom": "DE CERENVILLE",
   "aliasNfrs": [
    105766127
   ],
@@ -349,14 +351,18 @@
  },
  {
   "canonicalNfr": 10249,
-  "canonicalNom": "ETAT DE VAUD - O",
+  "canonicalNom": "ETAT DE VAUD",
   "aliasNfrs": [
    11906,
-   434072
+   434072,
+   10055,
+   331915
   ],
   "aliasNoms": [
    "ETAT DE VAUD - O",
-   "ETAT DE VAUD 1"
+   "ETAT DE VAUD 1",
+   "FEDERATION VAU 1",
+   "CAISSE DE COMPEN"
   ]
  },
  {
@@ -387,6 +393,36 @@
   ],
   "aliasNoms": [
    "ORLLATI (VD) SA"
+  ]
+ },
+ {
+  "canonicalNfr": 106848147,
+  "canonicalNom": "SUNRISE GMBH",
+  "aliasNfrs": [
+   103209608
+  ],
+  "aliasNoms": [
+   "SUNRISE COMMUN 1"
+  ]
+ },
+ {
+  "canonicalNfr": 352406196,
+  "canonicalNom": "REGENT SUISSE SA",
+  "aliasNfrs": [
+   604232
+  ],
+  "aliasNoms": [
+   "REGENT BELEUCHTU"
+  ]
+ },
+ {
+  "canonicalNfr": 330422005,
+  "canonicalNom": "FER GENEVE",
+  "aliasNfrs": [
+   332625
+  ],
+  "aliasNoms": [
+   "FEDERATION DES 2"
   ]
  }
 ]

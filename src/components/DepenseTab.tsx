@@ -200,8 +200,8 @@ function TopFournisseursTable({ top20, montantTotal }: { top20: { nfr: number; n
         </tbody>
       </table>
       <p className="text-xs text-slate-400 mt-2">
-        "INDUNI &amp; CIE" en tête de liste correspond à des écritures intercompagnie (loyers,
-        refacturations internes), pas à un fournisseur externe — à interpréter en conséquence.
+        Les écritures intercompagnie (INDUNI &amp; CIE — loyers, refacturations internes) sont exclues de
+        toute l'analyse de la dépense, ici comme ailleurs dans cet onglet.
       </p>
     </div>
   )
