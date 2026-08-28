@@ -345,45 +345,11 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
                 </button>
               </div>
 
-              {notesRecentes && (
-                <div className="bg-slate-50 rounded-lg p-3 inline-flex flex-col gap-1.5 min-w-[180px]">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs uppercase text-slate-500 w-20">Note {notesRecentes.yLatest}</span>
-                    <span
-                      className="text-lg font-bold"
-                      style={{ color: notesRecentes.noteLatest != null ? noteColor(notesRecentes.noteLatest) : undefined }}
-                    >
-                      {notesRecentes.noteLatest != null ? `${notesRecentes.noteLatest} / 5` : '—'}
-                    </span>
-                  </div>
-                  {notesRecentes.yPrev != null && (
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs uppercase text-slate-500 w-20">Note {notesRecentes.yPrev}</span>
-                      <span
-                        className="text-lg font-bold"
-                        style={{ color: notesRecentes.notePrev != null ? noteColor(notesRecentes.notePrev) : undefined }}
-                      >
-                        {notesRecentes.notePrev != null ? `${notesRecentes.notePrev} / 5` : '—'}
-                      </span>
-                      {notesRecentes.noteLatest != null && notesRecentes.notePrev != null && (
-                        (() => {
-                          const variation = Math.round((notesRecentes.noteLatest - notesRecentes.notePrev) * 100) / 100
-                          const emoji = variation > 0 ? '📈' : variation < 0 ? '📉' : '➡️'
-                          const toneClass = variation > 0 ? 'text-green-600' : variation < 0 ? 'text-red-600' : 'text-slate-500'
-                          return (
-                            <span className={`text-xs font-medium ${toneClass}`}>
-                              {variation > 0 ? '+' : ''}
-                              {variation} {emoji}
-                            </span>
-                          )
-                        })()
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
-
-              <SupplierFinances fournisseur={depenseFournisseur} loading={depenseFournisseurs === null} />
+              <SupplierFinances
+                fournisseur={depenseFournisseur}
+                loading={depenseFournisseurs === null}
+                notesRecentes={notesRecentes}
+              />
 
               {secteursDisponibles.length > 0 && (
                 <div className="flex flex-wrap items-center gap-3 bg-slate-50 rounded-lg p-3">

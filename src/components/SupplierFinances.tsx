@@ -1,21 +1,52 @@
 import { useMemo, useState } from 'react'
 import type { DepenseFournisseur } from '../data/depenses'
 import { chantierColor, chantierLabel, computeTranches, formatCurrency, pct } from '../data/depenses'
-import { secteurColor } from '../data/palette'
+import { secteurColor, noteColor } from '../data/palette'
 
-function KpiTile({ label, value, sub, tone }: { label: string; value: string; sub?: string; tone?: 'good' | 'warning' | 'critical' }) {
+export interface NotesRecentes {
+  yLatest: number
+  noteLatest: number | null
+  yPrev: number | null
+  notePrev: number | null
+}
+
+function KpiTile({
+  label,
+  value,
+  sub,
+  tone,
+  color,
+  big,
+}: {
+  label: string
+  value: string
+  sub?: string
+  tone?: 'good' | 'warning' | 'critical'
+  color?: string
+  big?: boolean
+}) {
   const toneClass =
     tone === 'good' ? 'text-green-600' : tone === 'warning' ? 'text-amber-600' : tone === 'critical' ? 'text-red-600' : 'text-indigo-600'
   return (
     <div className="bg-white rounded-lg border border-slate-200 text-center py-3 px-2">
-      <div className={`text-lg font-bold ${toneClass}`}>{value}</div>
+      <div className={`${big ? 'text-3xl' : 'text-lg'} font-bold ${color ? '' : toneClass}`} style={color ? { color } : undefined}>
+        {value}
+      </div>
       <div className="text-[11px] text-slate-500 mt-0.5">{label}</div>
       {sub && <div className="text-[10px] text-slate-400 mt-0.5">{sub}</div>}
     </div>
   )
 }
 
-export default function SupplierFinances({ fournisseur, loading }: { fournisseur: DepenseFournisseur | null; loading: boolean }) {
+export default function SupplierFinances({
+  fournisseur,
+  loading,
+  notesRecentes,
+}: {
+  fournisseur: DepenseFournisseur | null
+  loading: boolean
+  notesRecentes?: NotesRecentes | null
+}) {
   const [showAllDocs, setShowAllDocs] = useState(false)
   const trancheData = useMemo(() => (fournisseur ? computeTranches(fournisseur.documents) : null), [fournisseur])
 
@@ -44,6 +75,31 @@ export default function SupplierFinances({ fournisseur, loading }: { fournisseur
       <h4 className="text-xs uppercase text-slate-500">💰 Dépenses &amp; paiements (Journal COFI)</h4>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        {notesRecentes && (
+          <KpiTile
+            label={`Note ${notesRecentes.yLatest}`}
+            value={notesRecentes.noteLatest != null ? `${notesRecentes.noteLatest} / 5` : '—'}
+            color={notesRecentes.noteLatest != null ? noteColor(notesRecentes.noteLatest) : undefined}
+            big
+          />
+        )}
+        {notesRecentes && notesRecentes.yPrev != null && (
+          <KpiTile
+            label={`Note ${notesRecentes.yPrev}`}
+            value={notesRecentes.notePrev != null ? `${notesRecentes.notePrev} / 5` : '—'}
+            color={notesRecentes.notePrev != null ? noteColor(notesRecentes.notePrev) : undefined}
+            big
+            sub={
+              notesRecentes.noteLatest != null && notesRecentes.notePrev != null
+                ? (() => {
+                    const variation = Math.round((notesRecentes.noteLatest! - notesRecentes.notePrev!) * 100) / 100
+                    const emoji = variation > 0 ? '📈' : variation < 0 ? '📉' : '➡️'
+                    return `${variation > 0 ? '+' : ''}${variation} ${emoji}`
+                  })()
+                : undefined
+            }
+          />
+        )}
         <KpiTile label="CA Chantier Induni" value={formatCurrency(fournisseur.chantierMontant)} />
         <KpiTile label="CA Consortium" value={formatCurrency(fournisseur.consortiumMontant)} />
         <KpiTile label="Total" value={formatCurrency(g.montantTotal)} sub={`${g.nbDocuments} document(s)`} />
