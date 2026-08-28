@@ -25,6 +25,14 @@
    {
     "nfr": 108117847,
     "nom": "ORLLATI REAL E 1"
+   },
+   {
+    "nfr": 116346723,
+    "nom": "ORLLATI (VD) SA"
+   },
+   {
+    "nfr": 112930662,
+    "nom": "ORLLATI (VD) S.A"
    }
   ]
  },
@@ -224,6 +232,19 @@
    {
     "nfr": 105832327,
     "nom": "EMIL FREY AUTOMO"
+   }
+  ]
+ },
+ {
+  "nom": "Groupe Klöckner & Co",
+  "membres": [
+   {
+    "nfr": 450085,
+    "nom": "BEWETEC AG"
+   },
+   {
+    "nfr": 105973005,
+    "nom": "DEBRUNNER ACIF"
    }
   ]
  }
