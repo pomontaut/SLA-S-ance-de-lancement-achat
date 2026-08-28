@@ -392,7 +392,7 @@
   ]
  },
  {
-  "nom": "Groupe Vigier",
+  "nom": "Vigier Holding",
   "parent": "Groupe Vicat",
   "membres": [
    {
@@ -402,6 +402,10 @@
    {
     "nfr": 142460,
     "nom": "VIGIER BETON"
+   },
+   {
+    "nfr": 182831,
+    "nom": "ALTOLA AG"
    }
   ]
  },
