@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { DepenseBucketStats, DepenseChantierStats, DepensesGlobal } from '../data/depenses'
-import { formatCurrency, loadDepensesGlobal, pct } from '../data/depenses'
+import { chantierColor, chantierLabel, formatCurrency, loadDepensesGlobal, pct } from '../data/depenses'
 import { secteurColor } from '../data/palette'
 
 function StatTile({ label, value, sub, tone }: { label: string; value: string; sub?: string; tone?: 'good' | 'warning' | 'critical' }) {
@@ -59,15 +59,39 @@ function EntiteTable({ parEntite }: { parEntite: Record<string, DepenseBucketSta
   )
 }
 
-function ChantierTable({ parChantier, nbChantiers, montantTotal }: { parChantier: DepenseChantierStats[]; nbChantiers: number; montantTotal: number }) {
+function ChantierTable({
+  parChantier,
+  nbChantiers,
+  nbChantiersAvecNom,
+  montantTotal,
+}: {
+  parChantier: DepenseChantierStats[]
+  nbChantiers: number
+  nbChantiersAvecNom: number
+  montantTotal: number
+}) {
   const [showAll, setShowAll] = useState(false)
   const rows = showAll ? parChantier : parChantier.slice(0, 20)
   return (
     <div className="overflow-x-auto">
+      <div className="flex flex-wrap gap-x-4 gap-y-1 mb-2 text-xs text-slate-600">
+        <span className="flex items-center gap-1.5">
+          <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ backgroundColor: chantierColor(false) }} />
+          Chantier Induni
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ backgroundColor: chantierColor(true) }} />
+          Consortium
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ backgroundColor: chantierColor(null) }} />
+          Non identifié
+        </span>
+      </div>
       <table className="w-full text-sm border-collapse">
         <thead>
           <tr className="text-left text-xs uppercase text-slate-500 border-b border-slate-200">
-            <th className="py-2 pr-3">Chantier (SECT Débit)</th>
+            <th className="py-2 pr-3">Chantier</th>
             <th className="py-2 pr-3">Montant</th>
             <th className="py-2 pr-3">% du total</th>
             <th className="py-2 pr-3">Documents</th>
@@ -78,7 +102,13 @@ function ChantierTable({ parChantier, nbChantiers, montantTotal }: { parChantier
         <tbody>
           {rows.map((c) => (
             <tr key={c.code} className="border-b border-slate-100">
-              <td className="py-1.5 pr-3 font-mono text-xs">{c.code}</td>
+              <td className="py-1.5 pr-3">
+                <span
+                  className="inline-block w-2 h-2 rounded-full mr-1.5 align-middle"
+                  style={{ backgroundColor: chantierColor(c.consortium) }}
+                />
+                {chantierLabel(c.code, c.nom)}
+              </td>
               <td className="py-1.5 pr-3 font-medium">{formatCurrency(c.montantTotal)}</td>
               <td className="py-1.5 pr-3">{pct(c.montantTotal, montantTotal)}%</td>
               <td className="py-1.5 pr-3">{c.nbDocuments}</td>
@@ -98,9 +128,10 @@ function ChantierTable({ parChantier, nbChantiers, montantTotal }: { parChantier
         </button>
       )}
       <p className="text-xs text-slate-400 mt-2">
-        {nbChantiers} chantiers distincts au total (60 chargés ici, triés par montant décroissant). Le fichier
-        source n'associe pas de nom de chantier à ces codes comptables — uniquement le numéro de SECT Débit.
-        Transmets une table de correspondance compte → nom de chantier si tu veux des libellés lisibles.
+        {nbChantiers} chantiers distincts au total (60 chargés ici, triés par montant décroissant) — noms retrouvés
+        pour {nbChantiersAvecNom} d'entre eux via Chantiers.xlsx. Le code consortium/Induni est celui du chantier
+        (colonne "Chantier consortium" de ce fichier), qui ne coïncide pas toujours avec le champ "Aff." du
+        document (~18% d'écart constaté) — à clarifier avec la comptabilité si besoin.
       </p>
     </div>
   )
@@ -230,7 +261,12 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
         <p className="text-xs text-slate-500 mb-3">
           "Chantier" = numéro "SECT Débit" du journal comptable, sur indication explicite de la personne qui utilise l'outil.
         </p>
-        <ChantierTable parChantier={data.parChantier} nbChantiers={data.nbChantiers} montantTotal={g.montantTotal} />
+        <ChantierTable
+          parChantier={data.parChantier}
+          nbChantiers={data.nbChantiers}
+          nbChantiersAvecNom={data.nbChantiersAvecNom}
+          montantTotal={g.montantTotal}
+        />
       </div>
 
       <div className="card">

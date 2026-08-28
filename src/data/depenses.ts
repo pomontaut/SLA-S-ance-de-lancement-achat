@@ -32,9 +32,16 @@ export interface DepenseBucketStats {
 }
 
 export interface DepenseChantierStats extends DepenseBucketStats {
-  /** Code "SECT Débit" du journal comptable — utilisé comme identifiant de chantier (pas de nom
-   * de chantier disponible dans ce fichier, seulement un code de compte). */
+  /** Code "SECT Débit" du journal comptable — utilisé comme identifiant de chantier. */
   code: string
+  /** Nom du chantier, depuis le fichier "Chantiers.xlsx" (colonne B, format "N°-Nom") —
+   * null si le code n'a pas été retrouvé dans ce référentiel (157/224 chantiers matchés). */
+  nom: string | null
+  /** Chantier consortium ou non, depuis la colonne "Chantier consortium" (Q) de ce même
+   * fichier — null si non retrouvé. Cet indicateur, au niveau du chantier, ne coïncide pas
+   * toujours avec le champ "Aff." du journal COFI (au niveau du document) : ~18% d'écart
+   * constaté sur les chantiers retrouvés dans les deux sources. */
+  consortium: boolean | null
 }
 
 export interface DepensesGlobal {
@@ -45,6 +52,7 @@ export interface DepensesGlobal {
   /** Top 60 chantiers (codes "SECT Débit") par montant, sur ~224 codes distincts au total. */
   parChantier: DepenseChantierStats[]
   nbChantiers: number
+  nbChantiersAvecNom: number
   top20Fournisseurs: { nfr: number; nom: string; montant: number }[]
 }
 
@@ -58,10 +66,17 @@ export interface DepenseDocument {
   entite: string | null
   /** Code du chantier (colonne "SECT Débit"). */
   chantier: string | null
+  chantierNom: string | null
+  chantierConsortium: boolean | null
   aff: 'CHANTIER INDUNI' | 'CONSORTIUM'
   montant: number | null
   ref: string | null
   enRetard: boolean
+}
+
+export interface DepenseChantierBucket extends DepenseBucketStats {
+  nom: string | null
+  consortium: boolean | null
 }
 
 export interface DepenseFournisseur {
@@ -71,7 +86,7 @@ export interface DepenseFournisseur {
   chantierMontant: number
   consortiumMontant: number
   parEntite: Record<string, DepenseBucketStats>
-  parChantier: Record<string, DepenseBucketStats>
+  parChantier: Record<string, DepenseChantierBucket>
   conditions: string[]
   documents: DepenseDocument[]
 }
@@ -135,4 +150,18 @@ export function formatCurrency(v: number | null | undefined): string {
 export function pct(part: number, total: number): number | null {
   if (!total) return null
   return Math.round((part / total) * 1000) / 10
+}
+
+/** Libellé d'affichage d'un chantier : "N° - Nom" si retrouvé dans Chantiers.xlsx, sinon
+ * juste le code brut. */
+export function chantierLabel(code: string, nom: string | null): string {
+  if (code === 'NON RENSEIGNE') return 'Non renseigné'
+  return nom ? `${code} - ${nom}` : code
+}
+
+/** Bleu pour les chantiers Induni, vert pour les chantiers consortium — demande explicite,
+ * distinct de la palette secteurColor utilisée ailleurs (autre dimension). */
+export function chantierColor(consortium: boolean | null): string {
+  if (consortium == null) return '#94a3b8'
+  return consortium ? '#16a34a' : '#2563eb'
 }

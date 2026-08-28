@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { DepenseFournisseur } from '../data/depenses'
-import { formatCurrency, pct } from '../data/depenses'
+import { chantierColor, chantierLabel, formatCurrency, pct } from '../data/depenses'
 import { secteurColor } from '../data/palette'
 
 function KpiTile({ label, value, sub, tone }: { label: string; value: string; sub?: string; tone?: 'good' | 'warning' | 'critical' }) {
@@ -112,7 +112,7 @@ export default function SupplierFinances({ fournisseur, loading }: { fournisseur
       {Object.keys(fournisseur.parChantier).length > 0 && (
         <div>
           <h5 className="text-[11px] uppercase text-slate-500 mb-1">
-            Détail par chantier (SECT Débit) — {Object.keys(fournisseur.parChantier).length}
+            Détail par chantier — {Object.keys(fournisseur.parChantier).length}
           </h5>
           <div className="overflow-x-auto max-h-40 overflow-y-auto">
             <table className="w-full text-xs border-collapse">
@@ -129,7 +129,13 @@ export default function SupplierFinances({ fournisseur, loading }: { fournisseur
                   .sort((a, b) => b[1].montantTotal - a[1].montantTotal)
                   .map(([code, v]) => (
                     <tr key={code} className="border-b border-slate-100">
-                      <td className="py-1 pr-2 font-mono">{code}</td>
+                      <td className="py-1 pr-2">
+                        <span
+                          className="inline-block w-2 h-2 rounded-full mr-1.5 align-middle"
+                          style={{ backgroundColor: chantierColor(v.consortium) }}
+                        />
+                        {chantierLabel(code, v.nom)}
+                      </td>
                       <td className="py-1 pr-2">{formatCurrency(v.montantTotal)}</td>
                       <td className="py-1 pr-2 text-green-600">{v.nbATemps}</td>
                       <td className="py-1 text-red-600">{v.nbEnRetard}</td>
@@ -191,7 +197,17 @@ export default function SupplierFinances({ fournisseur, loading }: { fournisseur
                   <td className="py-1 pr-2">{d.dateDoc}</td>
                   <td className="py-1 pr-2">{d.genre}</td>
                   <td className="py-1 pr-2">{d.entite}</td>
-                  <td className="py-1 pr-2 font-mono">{d.chantier}</td>
+                  <td className="py-1 pr-2">
+                    {d.chantier && (
+                      <>
+                        <span
+                          className="inline-block w-2 h-2 rounded-full mr-1.5 align-middle"
+                          style={{ backgroundColor: chantierColor(d.chantierConsortium) }}
+                        />
+                        {chantierLabel(d.chantier, d.chantierNom)}
+                      </>
+                    )}
+                  </td>
                   <td className="py-1 pr-2">{d.aff === 'CONSORTIUM' ? 'Consortium' : 'Chantier'}</td>
                   <td className="py-1 pr-2">{formatCurrency(d.montant)}</td>
                   <td className="py-1 pr-2 text-slate-500">{d.dateEcheance ?? '—'}</td>

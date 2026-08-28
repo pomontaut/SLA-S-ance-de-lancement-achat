@@ -238,6 +238,8 @@
  "parChantier": [
   {
    "code": "NON RENSEIGNE",
+   "nom": null,
+   "consortium": null,
    "montantTotal": 48184735.57,
    "nbDocuments": 3701,
    "nbFactures": 3523,
@@ -257,6 +259,8 @@
   },
   {
    "code": "42102",
+   "nom": "CLENDY-DESSOUS",
+   "consortium": false,
    "montantTotal": 13737519.55,
    "nbDocuments": 313,
    "nbFactures": 299,
@@ -276,6 +280,8 @@
   },
   {
    "code": "52303",
+   "nom": "PRE GENTIL - SATIGNY",
+   "consortium": false,
    "montantTotal": 8570119.24,
    "nbDocuments": 262,
    "nbFactures": 253,
@@ -295,6 +301,8 @@
   },
   {
    "code": "52403",
+   "nom": "ALPHA",
+   "consortium": false,
    "montantTotal": 7271629.7,
    "nbDocuments": 99,
    "nbFactures": 96,
@@ -314,6 +322,8 @@
   },
   {
    "code": "12409",
+   "nom": "Rolliet F - H2",
+   "consortium": false,
    "montantTotal": 6884684.01,
    "nbDocuments": 1375,
    "nbFactures": 1302,
@@ -333,6 +343,8 @@
   },
   {
    "code": "12404",
+   "nom": "Pré-Bouvier 31",
+   "consortium": false,
    "montantTotal": 6630490.62,
    "nbDocuments": 973,
    "nbFactures": 916,
@@ -352,6 +364,8 @@
   },
   {
    "code": "62503",
+   "nom": "Swissquote",
+   "consortium": false,
    "montantTotal": 5831174.0,
    "nbDocuments": 666,
    "nbFactures": 619,
@@ -371,6 +385,8 @@
   },
   {
    "code": "72403",
+   "nom": "GreenParc - phase 2",
+   "consortium": false,
    "montantTotal": 4339101.2,
    "nbDocuments": 203,
    "nbFactures": 202,
@@ -390,6 +406,8 @@
   },
   {
    "code": "62404",
+   "nom": "Les Cèdres HIJK",
+   "consortium": false,
    "montantTotal": 4277429.76,
    "nbDocuments": 1019,
    "nbFactures": 938,
@@ -409,6 +427,8 @@
   },
   {
    "code": "12410",
+   "nom": "FLO 6",
+   "consortium": false,
    "montantTotal": 3671216.85,
    "nbDocuments": 564,
    "nbFactures": 529,
@@ -428,6 +448,8 @@
   },
   {
    "code": "12501",
+   "nom": "Caran d'Ache",
+   "consortium": false,
    "montantTotal": 3617535.2,
    "nbDocuments": 384,
    "nbFactures": 358,
@@ -447,6 +469,8 @@
   },
   {
    "code": "72101",
+   "nom": "GreenParc",
+   "consortium": false,
    "montantTotal": 3498536.0,
    "nbDocuments": 337,
    "nbFactures": 329,
@@ -466,6 +490,8 @@
   },
   {
    "code": "72404",
+   "nom": "Immeuble Revalis à Sierre",
+   "consortium": false,
    "montantTotal": 3119380.6,
    "nbDocuments": 73,
    "nbFactures": 69,
@@ -485,6 +511,8 @@
   },
   {
    "code": "72402",
+   "nom": "Immeuble résidentiel \"Alpe\" à Rarogne",
+   "consortium": false,
    "montantTotal": 2982949.35,
    "nbDocuments": 79,
    "nbFactures": 76,
@@ -504,6 +532,8 @@
   },
   {
    "code": "100",
+   "nom": null,
+   "consortium": null,
    "montantTotal": 2870177.43,
    "nbDocuments": 1368,
    "nbFactures": 1284,
@@ -523,6 +553,8 @@
   },
   {
    "code": "52402",
+   "nom": "RANCHES 2",
+   "consortium": false,
    "montantTotal": 2832155.05,
    "nbDocuments": 131,
    "nbFactures": 129,
@@ -542,6 +574,8 @@
   },
   {
    "code": "62403",
+   "nom": "En Gruvatiez B - ST1",
+   "consortium": false,
    "montantTotal": 2829123.42,
    "nbDocuments": 771,
    "nbFactures": 722,
@@ -561,6 +595,8 @@
   },
   {
    "code": "62502",
+   "nom": "CASINO",
+   "consortium": false,
    "montantTotal": 2718980.1,
    "nbDocuments": 436,
    "nbFactures": 424,
@@ -580,6 +616,8 @@
   },
   {
    "code": "12403",
+   "nom": "Colombier-Moléson",
+   "consortium": false,
    "montantTotal": 2692895.96,
    "nbDocuments": 699,
    "nbFactures": 663,
@@ -599,6 +637,8 @@
   },
   {
    "code": "12406",
+   "nom": "Concorde",
+   "consortium": false,
    "montantTotal": 2512932.82,
    "nbDocuments": 582,
    "nbFactures": 544,
@@ -618,6 +658,8 @@
   },
   {
    "code": "230",
+   "nom": null,
+   "consortium": null,
    "montantTotal": 2170454.83,
    "nbDocuments": 2106,
    "nbFactures": 2049,
@@ -637,6 +679,8 @@
   },
   {
    "code": "62406",
+   "nom": "AXA-Clarens",
+   "consortium": false,
    "montantTotal": 2047692.61,
    "nbDocuments": 564,
    "nbFactures": 527,
@@ -656,6 +700,8 @@
   },
   {
    "code": "62510",
+   "nom": "GYBUS",
+   "consortium": false,
    "montantTotal": 1975456.88,
    "nbDocuments": 391,
    "nbFactures": 364,
@@ -675,6 +721,8 @@
   },
   {
    "code": "72301",
+   "nom": "Immeuble \"Les Silènes\" à Chamoson",
+   "consortium": false,
    "montantTotal": 1759244.6,
    "nbDocuments": 101,
    "nbFactures": 96,
@@ -694,6 +742,8 @@
   },
   {
    "code": "12407",
+   "nom": "Sous-Moulin",
+   "consortium": false,
    "montantTotal": 1668919.81,
    "nbDocuments": 467,
    "nbFactures": 447,
@@ -713,6 +763,8 @@
   },
   {
    "code": "52204",
+   "nom": "CP ATELIERS",
+   "consortium": false,
    "montantTotal": 1630779.5,
    "nbDocuments": 65,
    "nbFactures": 60,
@@ -732,6 +784,8 @@
   },
   {
    "code": "62304",
+   "nom": "HUBLOT H3 H4",
+   "consortium": true,
    "montantTotal": 1558476.44,
    "nbDocuments": 284,
    "nbFactures": 269,
@@ -751,6 +805,8 @@
   },
   {
    "code": "32506",
+   "nom": "S. Mousse 46",
+   "consortium": true,
    "montantTotal": 1491302.05,
    "nbDocuments": 125,
    "nbFactures": 114,
@@ -770,6 +826,8 @@
   },
   {
    "code": "22412",
+   "nom": "Florissant 47",
+   "consortium": false,
    "montantTotal": 1384749.63,
    "nbDocuments": 249,
    "nbFactures": 240,
@@ -789,6 +847,8 @@
   },
   {
    "code": "231",
+   "nom": null,
+   "consortium": null,
    "montantTotal": 1264114.15,
    "nbDocuments": 220,
    "nbFactures": 219,
@@ -808,6 +868,8 @@
   },
   {
    "code": "12405",
+   "nom": "Vandœuvres 77",
+   "consortium": false,
    "montantTotal": 1210089.23,
    "nbDocuments": 386,
    "nbFactures": 351,
@@ -827,6 +889,8 @@
   },
   {
    "code": "62511",
+   "nom": "Les Liddes",
+   "consortium": false,
    "montantTotal": 1156486.51,
    "nbDocuments": 210,
    "nbFactures": 204,
@@ -846,6 +910,8 @@
   },
   {
    "code": "62401",
+   "nom": "LET",
+   "consortium": true,
    "montantTotal": 1146714.28,
    "nbDocuments": 183,
    "nbFactures": 163,
@@ -865,6 +931,8 @@
   },
   {
    "code": "22502",
+   "nom": "AXA Cendrier 15-17",
+   "consortium": false,
    "montantTotal": 1100181.12,
    "nbDocuments": 324,
    "nbFactures": 299,
@@ -884,6 +952,8 @@
   },
   {
    "code": "12503",
+   "nom": "Alpha",
+   "consortium": false,
    "montantTotal": 1075879.12,
    "nbDocuments": 246,
    "nbFactures": 218,
@@ -903,6 +973,8 @@
   },
   {
    "code": "52301",
+   "nom": "BOIS DE LA CHAPELLE",
+   "consortium": false,
    "montantTotal": 1028707.05,
    "nbDocuments": 49,
    "nbFactures": 46,
@@ -922,6 +994,8 @@
   },
   {
    "code": "215",
+   "nom": null,
+   "consortium": null,
    "montantTotal": 998780.89,
    "nbDocuments": 883,
    "nbFactures": 855,
@@ -941,6 +1015,8 @@
   },
   {
    "code": "32411",
+   "nom": "Florence - Malagnou",
+   "consortium": true,
    "montantTotal": 993292.3,
    "nbDocuments": 198,
    "nbFactures": 177,
@@ -960,6 +1036,8 @@
   },
   {
    "code": "32410",
+   "nom": "Nemaco Parking III",
+   "consortium": true,
    "montantTotal": 948595.95,
    "nbDocuments": 195,
    "nbFactures": 186,
@@ -979,6 +1057,8 @@
   },
   {
    "code": "22401",
+   "nom": "Hôtel Beau Rivage",
+   "consortium": false,
    "montantTotal": 872275.3,
    "nbDocuments": 183,
    "nbFactures": 173,
@@ -998,6 +1078,8 @@
   },
   {
    "code": "10983",
+   "nom": null,
+   "consortium": null,
    "montantTotal": 870464.05,
    "nbDocuments": 372,
    "nbFactures": 348,
@@ -1017,6 +1099,8 @@
   },
   {
    "code": "62507",
+   "nom": "RTS - AMEX",
+   "consortium": false,
    "montantTotal": 798894.72,
    "nbDocuments": 110,
    "nbFactures": 106,
@@ -1036,6 +1120,8 @@
   },
   {
    "code": "52404",
+   "nom": "Aménagement Dépôt Induni",
+   "consortium": false,
    "montantTotal": 780774.98,
    "nbDocuments": 40,
    "nbFactures": 38,
@@ -1055,6 +1141,8 @@
   },
   {
    "code": "12305",
+   "nom": "Emma-Kammacher 11",
+   "consortium": false,
    "montantTotal": 759063.07,
    "nbDocuments": 199,
    "nbFactures": 178,
@@ -1074,6 +1162,8 @@
   },
   {
    "code": "22301",
+   "nom": "Forages & Sciages",
+   "consortium": false,
    "montantTotal": 750499.31,
    "nbDocuments": 451,
    "nbFactures": 445,
@@ -1093,6 +1183,8 @@
   },
   {
    "code": "12314",
+   "nom": "Hotel des Bergues",
+   "consortium": false,
    "montantTotal": 727966.7,
    "nbDocuments": 127,
    "nbFactures": 113,
@@ -1112,6 +1204,8 @@
   },
   {
    "code": "32501",
+   "nom": "SIG La Praille",
+   "consortium": true,
    "montantTotal": 719636.05,
    "nbDocuments": 235,
    "nbFactures": 227,
@@ -1131,6 +1225,8 @@
   },
   {
    "code": "12312",
+   "nom": "Pré-Gentil",
+   "consortium": false,
    "montantTotal": 713613.16,
    "nbDocuments": 322,
    "nbFactures": 296,
@@ -1150,6 +1246,8 @@
   },
   {
    "code": "52401",
+   "nom": "BROADWAY",
+   "consortium": false,
    "montantTotal": 689027.3,
    "nbDocuments": 91,
    "nbFactures": 90,
@@ -1169,6 +1267,8 @@
   },
   {
    "code": "12408",
+   "nom": "Franchises 3",
+   "consortium": false,
    "montantTotal": 672223.2,
    "nbDocuments": 235,
    "nbFactures": 227,
@@ -1188,6 +1288,8 @@
   },
   {
    "code": "12304",
+   "nom": "Plaza",
+   "consortium": true,
    "montantTotal": 666340.67,
    "nbDocuments": 281,
    "nbFactures": 264,
@@ -1207,6 +1309,8 @@
   },
   {
    "code": "32406",
+   "nom": "Rolliet H1-J",
+   "consortium": true,
    "montantTotal": 665277.6,
    "nbDocuments": 180,
    "nbFactures": 168,
@@ -1226,6 +1330,8 @@
   },
   {
    "code": "62515",
+   "nom": "Garage BMW",
+   "consortium": false,
    "montantTotal": 659009.98,
    "nbDocuments": 115,
    "nbFactures": 108,
@@ -1245,6 +1351,8 @@
   },
   {
    "code": "62504",
+   "nom": "Community HUB",
+   "consortium": true,
    "montantTotal": 581155.35,
    "nbDocuments": 210,
    "nbFactures": 193,
@@ -1264,6 +1372,8 @@
   },
   {
    "code": "12401",
+   "nom": "Meynite",
+   "consortium": false,
    "montantTotal": 553017.56,
    "nbDocuments": 212,
    "nbFactures": 201,
@@ -1283,6 +1393,8 @@
   },
   {
    "code": "52405",
+   "nom": "Aménagement dépôt Locataire",
+   "consortium": false,
    "montantTotal": 527176.75,
    "nbDocuments": 50,
    "nbFactures": 48,
@@ -1302,6 +1414,8 @@
   },
   {
    "code": "130",
+   "nom": null,
+   "consortium": null,
    "montantTotal": 520999.54,
    "nbDocuments": 347,
    "nbFactures": 344,
@@ -1321,6 +1435,8 @@
   },
   {
    "code": "62512",
+   "nom": "Villa Neale",
+   "consortium": false,
    "montantTotal": 503399.1,
    "nbDocuments": 91,
    "nbFactures": 86,
@@ -1340,6 +1456,8 @@
   },
   {
    "code": "12311",
+   "nom": "Actaris",
+   "consortium": false,
    "montantTotal": 498587.1,
    "nbDocuments": 103,
    "nbFactures": 90,
@@ -1359,6 +1477,8 @@
   },
   {
    "code": "31308",
+   "nom": "SARACO",
+   "consortium": true,
    "montantTotal": 464043.25,
    "nbDocuments": 121,
    "nbFactures": 113,
@@ -1378,6 +1498,7 @@
   }
  ],
  "nbChantiers": 224,
+ "nbChantiersAvecNom": 157,
  "top20Fournisseurs": [
   {
    "nfr": 105923668,
