@@ -156,6 +156,11 @@
     "nfr": 198253,
     "nom": "SAGRAVE SA",
     "note": "prise de participation"
+   },
+   {
+    "nfr": 144300,
+    "nom": "MATERIAUX ALLUVI",
+    "note": "prise de participation"
    }
   ]
  },
@@ -407,6 +412,11 @@
    {
     "nfr": 144802,
     "nom": "GRAVIERES D'EPEI"
+   },
+   {
+    "nfr": 144300,
+    "nom": "MATERIAUX ALLUVI",
+    "note": "prise de participation"
    }
   ]
  },
@@ -508,6 +518,15 @@
    {
     "nfr": 464681,
     "nom": "WOLFFKRAN SCHWEI"
+   }
+  ]
+ },
+ {
+  "nom": "Groupe PNG",
+  "membres": [
+   {
+    "nfr": 268444,
+    "nom": "NOVATIS SA"
    }
   ]
  }

@@ -4,7 +4,7 @@ import { canonicalizeCriteres, listSuppliers, supplierHistory } from '../data/ev
 import { secteurColor, noteColor } from '../data/palette'
 import BarChart from './BarChart'
 import type { DepenseFournisseur, GroupeFournisseur } from '../data/depenses'
-import { findDepenseFournisseur, findGroupeDetail, loadDepensesFournisseurs, loadGroupesFournisseurs } from '../data/depenses'
+import { findDepenseFournisseur, findGroupeDetails, loadDepensesFournisseurs, loadGroupesFournisseurs } from '../data/depenses'
 import SupplierFinances from './SupplierFinances'
 
 function toggle<T>(list: T[], value: T): T[] {
@@ -163,11 +163,11 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
   useEffect(() => {
     loadGroupesFournisseurs().then(setGroupes)
   }, [])
-  const groupeDetail = useMemo(
+  const groupeDetails = useMemo(
     () =>
       depenseFournisseur && groupes && depenseFournisseurs
-        ? findGroupeDetail(groupes, depenseFournisseurs, depenseFournisseur.nfr)
-        : null,
+        ? findGroupeDetails(groupes, depenseFournisseurs, depenseFournisseur.nfr)
+        : [],
     [depenseFournisseur, groupes, depenseFournisseurs],
   )
 
@@ -365,7 +365,7 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
                 fournisseur={depenseFournisseur}
                 loading={depenseFournisseurs === null}
                 notesRecentes={notesRecentes}
-                groupeDetail={groupeDetail}
+                groupeDetails={groupeDetails}
               />
 
               {secteursDisponibles.length > 0 && (

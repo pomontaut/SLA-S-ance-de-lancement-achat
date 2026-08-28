@@ -172,16 +172,7 @@ export function loadGroupesFournisseurs(): Promise<GroupeFournisseur[]> {
   return groupesPending
 }
 
-/** Cherche le groupe validé auquel appartient un fournisseur (par N° fr), et calcule le détail
- * du groupe (montant total cumulé, liste des entités) à partir de la liste complète des
- * fournisseurs de dépense. Retourne null si ce fournisseur n'appartient à aucun groupe validé. */
-export function findGroupeDetail(
-  groupes: GroupeFournisseur[],
-  allFournisseurs: DepenseFournisseur[],
-  nfr: number,
-): GroupeDetail | null {
-  const groupe = groupes.find((g) => g.membres.some((m) => m.nfr === nfr))
-  if (!groupe) return null
+function buildGroupeDetail(groupe: GroupeFournisseur, allFournisseurs: DepenseFournisseur[]): GroupeDetail {
   const entites = groupe.membres
     .map((m) => {
       const f = allFournisseurs.find((af) => af.nfr === m.nfr)
@@ -190,6 +181,18 @@ export function findGroupeDetail(
     .sort((a, b) => b.montantTotal - a.montantTotal)
   const montantTotal = Math.round(entites.reduce((sum, e) => sum + e.montantTotal, 0) * 100) / 100
   return { nom: groupe.nom, parent: groupe.parent, montantTotal, entites }
+}
+
+/** Cherche TOUS les groupes validés auxquels appartient un fournisseur (par N° fr) — un
+ * fournisseur peut appartenir à plusieurs groupes à la fois (ex. participation croisée entre
+ * deux groupes) — et calcule le détail de chacun (montant total cumulé, liste des entités) à
+ * partir de la liste complète des fournisseurs de dépense. Tableau vide si aucun groupe validé. */
+export function findGroupeDetails(
+  groupes: GroupeFournisseur[],
+  allFournisseurs: DepenseFournisseur[],
+  nfr: number,
+): GroupeDetail[] {
+  return groupes.filter((g) => g.membres.some((m) => m.nfr === nfr)).map((g) => buildGroupeDetail(g, allFournisseurs))
 }
 
 export interface GroupeTotal {
