@@ -148,14 +148,14 @@ export interface GroupeFournisseur {
   /** Groupe parent (holding) le cas échéant — ex. "Groupe Colas" a pour parent "Groupe Bouygues".
    * Simple hiérarchie à deux niveaux : le parent n'a pas ses propres "membres" ici, seulement un nom. */
   parent?: string
-  membres: { nfr: number; nom: string }[]
+  membres: { nfr: number; nom: string; note?: string }[]
 }
 
 export interface GroupeDetail {
   nom: string
   parent?: string
   montantTotal: number
-  entites: { nfr: number; nom: string; montantTotal: number }[]
+  entites: { nfr: number; nom: string; montantTotal: number; note?: string }[]
 }
 
 let groupesCache: GroupeFournisseur[] | null = null
@@ -185,7 +185,7 @@ export function findGroupeDetail(
   const entites = groupe.membres
     .map((m) => {
       const f = allFournisseurs.find((af) => af.nfr === m.nfr)
-      return { nfr: m.nfr, nom: f?.nom ?? m.nom, montantTotal: f?.global.montantTotal ?? 0 }
+      return { nfr: m.nfr, nom: f?.nom ?? m.nom, montantTotal: f?.global.montantTotal ?? 0, note: m.note }
     })
     .sort((a, b) => b.montantTotal - a.montantTotal)
   const montantTotal = Math.round(entites.reduce((sum, e) => sum + e.montantTotal, 0) * 100) / 100

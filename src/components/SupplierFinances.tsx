@@ -187,6 +187,7 @@ export default function SupplierFinances({
                     <td className="py-1 pr-2">
                       {e.nom}
                       {e.nfr === fournisseur.nfr && <span className="text-indigo-400 font-normal"> (ce fournisseur)</span>}
+                      {e.note && <span className="text-indigo-400 font-normal italic"> — {e.note}</span>}
                     </td>
                     <td className="py-1 pr-2">{formatCurrency(e.montantTotal)}</td>
                     <td className="py-1">{pct(e.montantTotal, groupeDetail.montantTotal)}%</td>
