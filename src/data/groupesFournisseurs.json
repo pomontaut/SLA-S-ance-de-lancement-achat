@@ -598,5 +598,19 @@
     "nom": "CARBAGAS"
    }
   ]
+ },
+ {
+  "nom": "Groupe Henry Transports",
+  "membres": [
+   {
+    "nfr": 785243,
+    "nom": "HENRY TRANSPOR 1"
+   },
+   {
+    "nfr": 235242562,
+    "nom": "BGO SA",
+    "note": "prise de participation"
+   }
+  ]
  }
 ]
