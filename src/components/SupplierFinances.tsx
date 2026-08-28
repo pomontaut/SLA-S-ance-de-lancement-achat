@@ -17,6 +17,7 @@ function KpiTile({
   tone,
   color,
   big,
+  subClass,
 }: {
   label: string
   value: string
@@ -24,6 +25,7 @@ function KpiTile({
   tone?: 'good' | 'warning' | 'critical'
   color?: string
   big?: boolean
+  subClass?: string
 }) {
   const toneClass =
     tone === 'good' ? 'text-green-600' : tone === 'warning' ? 'text-amber-600' : tone === 'critical' ? 'text-red-600' : 'text-indigo-600'
@@ -33,9 +35,18 @@ function KpiTile({
         {value}
       </div>
       <div className="text-[11px] text-slate-500 mt-0.5">{label}</div>
-      {sub && <div className="text-[10px] text-slate-400 mt-0.5">{sub}</div>}
+      {sub && <div className={`text-[10px] mt-0.5 ${subClass ?? 'text-slate-400'}`}>{sub}</div>}
     </div>
   )
+}
+
+/** Vert souriant si nette hausse (>+0.1 pt), rouge triste si nette baisse (>-0.1 pt), jaune
+ * neutre si quasi stable (±0.1 pt) — seuils fixés sur demande explicite de la personne qui
+ * utilise l'outil. */
+function noteVariationBadge(diff: number): { emoji: string; className: string } {
+  if (diff > 0.1) return { emoji: '😊', className: 'text-green-600' }
+  if (diff < -0.1) return { emoji: '😢', className: 'text-red-600' }
+  return { emoji: '😐', className: 'text-amber-600' }
 }
 
 export default function SupplierFinances({
@@ -75,31 +86,35 @@ export default function SupplierFinances({
       <h4 className="text-xs uppercase text-slate-500">💰 Dépenses &amp; paiements (Journal COFI)</h4>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-        {notesRecentes && (
-          <KpiTile
-            label={`Note ${notesRecentes.yLatest}`}
-            value={notesRecentes.noteLatest != null ? `${notesRecentes.noteLatest} / 5` : '—'}
-            color={notesRecentes.noteLatest != null ? noteColor(notesRecentes.noteLatest) : undefined}
-            big
-          />
-        )}
-        {notesRecentes && notesRecentes.yPrev != null && (
-          <KpiTile
-            label={`Note ${notesRecentes.yPrev}`}
-            value={notesRecentes.notePrev != null ? `${notesRecentes.notePrev} / 5` : '—'}
-            color={notesRecentes.notePrev != null ? noteColor(notesRecentes.notePrev) : undefined}
-            big
-            sub={
-              notesRecentes.noteLatest != null && notesRecentes.notePrev != null
-                ? (() => {
-                    const variation = Math.round((notesRecentes.noteLatest! - notesRecentes.notePrev!) * 100) / 100
-                    const emoji = variation > 0 ? '📈' : variation < 0 ? '📉' : '➡️'
-                    return `${variation > 0 ? '+' : ''}${variation} ${emoji}`
-                  })()
-                : undefined
+        {notesRecentes &&
+          (() => {
+            const { yLatest, noteLatest, yPrev, notePrev } = notesRecentes
+            let sub: string | undefined
+            let subClass: string | undefined
+            if (yPrev != null) {
+              if (notePrev != null) {
+                sub = `Note ${yPrev} : ${notePrev} / 5`
+                if (noteLatest != null) {
+                  const diff = Math.round((noteLatest - notePrev) * 100) / 100
+                  const badge = noteVariationBadge(diff)
+                  sub += ` ${badge.emoji}`
+                  subClass = badge.className
+                }
+              } else {
+                sub = `Note ${yPrev} : —`
+              }
             }
-          />
-        )}
+            return (
+              <KpiTile
+                label={`Note ${yLatest}`}
+                value={noteLatest != null ? `${noteLatest} / 5` : '—'}
+                color={noteLatest != null ? noteColor(noteLatest) : undefined}
+                big
+                sub={sub}
+                subClass={subClass}
+              />
+            )
+          })()}
         <KpiTile label="CA Chantier Induni" value={formatCurrency(fournisseur.chantierMontant)} />
         <KpiTile label="CA Consortium" value={formatCurrency(fournisseur.consortiumMontant)} />
         <KpiTile label="Total" value={formatCurrency(g.montantTotal)} sub={`${g.nbDocuments} document(s)`} />
