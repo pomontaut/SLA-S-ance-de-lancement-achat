@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { EvalRecord } from '../data/evaluationsHistorique'
-import { listSuppliers, supplierHistory } from '../data/evaluationsHistorique'
+import { canonicalizeCriteres, listSuppliers, supplierHistory } from '../data/evaluationsHistorique'
 import { secteurColor, noteColor } from '../data/palette'
 import BarChart from './BarChart'
 import type { DepenseFournisseur } from '../data/depenses'
@@ -254,7 +254,7 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
     if (!showGeneral) return null
     const bucket = new Map<string, number[]>()
     for (const rec of critereRecordsBySecteur) {
-      for (const [label, value] of Object.entries(rec.criteres ?? {})) {
+      for (const [label, value] of Object.entries(canonicalizeCriteres(rec.criteres))) {
         if (!bucket.has(label)) bucket.set(label, [])
         bucket.get(label)!.push(value)
       }
@@ -285,7 +285,11 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
   }
   const recA = recordForYear(compareA)
   const recB = recordForYear(compareB)
-  const critereLabels = Array.from(new Set([...Object.keys(recA?.criteres ?? {}), ...Object.keys(recB?.criteres ?? {})]))
+  // Canonicalisés pour que le même critère se compare sur une seule ligne même si compareA et
+  // compareB proviennent de secteurs utilisant des libellés différents (ex. BAT GE vs GC).
+  const critereA = useMemo(() => canonicalizeCriteres(recA?.criteres), [recA])
+  const critereB = useMemo(() => canonicalizeCriteres(recB?.criteres), [recB])
+  const critereLabels = Array.from(new Set([...Object.keys(critereA), ...Object.keys(critereB)]))
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={onClose}>
@@ -481,8 +485,8 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
                         {critereLabels.map((label) => (
                           <tr key={label} className="border-b border-slate-100">
                             <td className="py-1.5 pr-3 text-slate-600">{label}</td>
-                            <td className="py-1.5 pr-3">{recA?.criteres?.[label] ?? '—'}</td>
-                            <td className="py-1.5">{recB?.criteres?.[label] ?? '—'}</td>
+                            <td className="py-1.5 pr-3">{critereA[label] ?? '—'}</td>
+                            <td className="py-1.5">{critereB[label] ?? '—'}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -529,7 +533,7 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
                           ...critereRecordsBySecteur.map((rec) => ({
                             label: `${rec.secteur} ${rec.annee}`,
                             color: secteurColor(rec.secteur),
-                            criteres: rec.criteres!,
+                            criteres: canonicalizeCriteres(rec.criteres),
                           })),
                           ...(generalCriteres
                             ? [{ label: 'Général', color: secteurColor('Général'), criteres: generalCriteres }]
@@ -539,7 +543,7 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
                     </>
                   ) : (
                     <BarChart
-                      data={Object.entries(critereRecordsBySecteur[0].criteres!).map(([label, value]) => ({ label, value }))}
+                      data={Object.entries(canonicalizeCriteres(critereRecordsBySecteur[0].criteres)).map(([label, value]) => ({ label, value }))}
                       max={5}
                     />
                   )}

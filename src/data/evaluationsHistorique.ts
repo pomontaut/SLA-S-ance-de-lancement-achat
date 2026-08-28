@@ -108,6 +108,82 @@ function normNom(s: string): string {
     .toUpperCase()
 }
 
+// Les grilles d'évaluation ne partagent pas toutes le même libellé pour un même critère —
+// notamment BAT GE, qui utilise des intitulés courts ("Délais livraison") là où BAT VD/GC/EG
+// utilisent une formulation longue ("Respect des délais de livraison convenus") pour désigner
+// exactement la même chose. Sans regroupement, "Détail par critère" (mode multi-secteurs et
+// mode "Général") affiche ces deux libellés comme deux critères distincts au lieu de les aligner
+// sur une même ligne. La table ci-dessous a été construite à partir de la liste exhaustive des
+// libellés bruts présents dans evaluationsHistorique.json (recensement par secteur), en ne
+// fusionnant que : (a) les 6 équivalences BAT GE ↔ BAT VD/GC signalées explicitement par la
+// personne qui utilise l'outil, et (b) des variantes typographiques incontestables du même texte
+// (casse, espaces autour de "/", coquilles comme "pévues"/"prévues" ou "yc."/"y.c."). Les
+// libellés proches mais non confirmés identiques (ex. "Respect des quantités convenues", distinct
+// de "Respect des quantités prévues") sont volontairement laissés à part plutôt que fusionnés au
+// jugé.
+const CRITERE_LABEL_MAP: Record<string, string> = {
+  // Compétence / assistance technique
+  'Compétence': 'Compétence / assistance technique',
+  'Compétence / Assistance technique': 'Compétence / assistance technique',
+  'Compétence/Assistance technique': 'Compétence / assistance technique',
+  'Compétence/assistance technique': 'Compétence / assistance technique',
+
+  // Respect des délais de livraison convenus
+  'Délais livraison': 'Respect des délais de livraison convenus',
+
+  // Respect de la qualité convenue
+  'Qualité convenue': 'Respect de la qualité convenue',
+
+  // Qualité des prestations / Compétence (variante orthographique uniquement)
+  'Qualité des prestations/Compétence': 'Qualité des prestations / Compétence',
+
+  // Rapport qualité/prix
+  'Qualité/Prix': 'Rapport qualité/prix',
+  'Rapport Qualité/Prix': 'Rapport qualité/prix',
+  'Rapport qualité / Prix': 'Rapport qualité/prix',
+  'Rapport qualité / prix': 'Rapport qualité/prix',
+
+  // Respect des quantités prévues
+  'Quantités': 'Respect des quantités prévues',
+  'Respect des quantités pévues': 'Respect des quantités prévues',
+
+  // Souplesse et façon de traiter nos réclamations
+  'Réclamations': 'Souplesse et façon de traiter nos réclamations',
+  'Souplesse et façon de traiter os réclamations': 'Souplesse et façon de traiter nos réclamations',
+
+  // Gestion des litiges (y.c. levée de réserves) — variantes orthographiques
+  'Gestion des litiges (y c. levée de réserves)': 'Gestion des litiges (y.c. levée de réserves)',
+  'Gestion des litiges (yc. levée de réserves)': 'Gestion des litiges (y.c. levée de réserves)',
+  'Gestion des litiges (yc levée des réserves)': 'Gestion des litiges (y.c. levée de réserves)',
+  'Gestion des litiges (yc. levée des réserves)': 'Gestion des litiges (y.c. levée de réserves)',
+
+  // Maîtrise du BIM (variante orthographique)
+  'Maitrise du BIM': 'Maîtrise du BIM',
+
+  // Suivi administratif et facturation (variantes orthographiques)
+  'Suivi administratif / Facturation': 'Suivi administratif et facturation',
+  'Suivi administratif / facturation': 'Suivi administratif et facturation',
+}
+
+export function canonicalCritereLabel(label: string): string {
+  return CRITERE_LABEL_MAP[label] ?? label
+}
+
+/** Ramène un dictionnaire de critères aux libellés canoniques ci-dessus, pour que les mêmes
+ * critères de secteurs différents (BAT GE vs BAT VD/GC/EG) s'alignent sur une même ligne dans
+ * les comparatifs multi-secteurs et dans la moyenne "Général". */
+export function canonicalizeCriteres(criteres: Record<string, number> | null | undefined): Record<string, number> {
+  if (!criteres) return {}
+  const out: Record<string, number> = {}
+  for (const [label, value] of Object.entries(criteres)) {
+    const canon = canonicalCritereLabel(label)
+    // Si un même enregistrement contenait déjà deux variantes du même critère (ne devrait pas
+    // arriver en pratique), on moyenne plutôt que d'en écraser une silencieusement.
+    out[canon] = out[canon] != null ? Math.round(((out[canon] + value) / 2) * 100) / 100 : value
+  }
+  return out
+}
+
 export function findBlacklistEntry(blacklist: BlacklistEntry[], nom: string): BlacklistEntry | null {
   const n = normNom(nom)
   return blacklist.find((b) => normNom(b.nom) === n) ?? null

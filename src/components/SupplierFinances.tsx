@@ -115,8 +115,16 @@ export default function SupplierFinances({
               />
             )
           })()}
-        <KpiTile label="CA Chantier Induni" value={formatCurrency(fournisseur.chantierMontant)} />
-        <KpiTile label="CA Consortium" value={formatCurrency(fournisseur.consortiumMontant)} />
+        <KpiTile
+          label="CA Chantier Induni"
+          value={formatCurrency(fournisseur.chantierMontant)}
+          sub={g.montantTotal ? `${pct(fournisseur.chantierMontant, g.montantTotal)}% du total` : undefined}
+        />
+        <KpiTile
+          label="CA Consortium"
+          value={formatCurrency(fournisseur.consortiumMontant)}
+          sub={g.montantTotal ? `${pct(fournisseur.consortiumMontant, g.montantTotal)}% du total` : undefined}
+        />
         <KpiTile label="Total" value={formatCurrency(g.montantTotal)} sub={`${g.nbDocuments} document(s)`} />
         <KpiTile
           label="Panier moyen"
