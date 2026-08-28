@@ -124,19 +124,6 @@
   ]
  },
  {
-  "nom": "Creabeton Matériaux SA",
-  "membres": [
-   {
-    "nfr": 422012,
-    "nom": "CREABETON BAUSTO"
-   },
-   {
-    "nfr": 641070,
-    "nom": "CREABETON MATERI"
-   }
-  ]
- },
- {
   "nom": "Groupe Holcim",
   "membres": [
    {
@@ -358,6 +345,32 @@
    {
     "nfr": 443654459,
     "nom": "SUTER GRUPPE AG,"
+   }
+  ]
+ },
+ {
+  "nom": "Groupe BJ Office & Coffee SA",
+  "membres": [
+   {
+    "nfr": 650515,
+    "nom": "BJ-OFFICE SA"
+   },
+   {
+    "nfr": 650517,
+    "nom": "BJ-COFFEE SA"
+   }
+  ]
+ },
+ {
+  "nom": "Groupe Culligan Suisse",
+  "membres": [
+   {
+    "nfr": 382569,
+    "nom": "EDEN SPRINGS"
+   },
+   {
+    "nfr": 101326427,
+    "nom": "CULLIGAN SWITZER"
    }
   ]
  }

@@ -201,7 +201,7 @@
  },
  {
   "canonicalNfr": 381809449,
-  "canonicalNom": "FRIDERICI SPEC 3",
+  "canonicalNom": "FRIDERICI SPECIAL",
   "aliasNfrs": [
    615154
   ],
@@ -321,7 +321,7 @@
  },
  {
   "canonicalNfr": 120731,
-  "canonicalNom": "SANITAS TROESC 2",
+  "canonicalNom": "SANITAS TROESCH",
   "aliasNfrs": [
    105915143
   ],
@@ -331,7 +331,7 @@
  },
  {
   "canonicalNfr": 350689,
-  "canonicalNom": "VILLE DE LAUSA 1",
+  "canonicalNom": "VILLE DE LAUSANNE",
   "aliasNfrs": [
    100758391
   ],
@@ -423,6 +423,16 @@
   ],
   "aliasNoms": [
    "FEDERATION DES 2"
+  ]
+ },
+ {
+  "canonicalNfr": 422012,
+  "canonicalNom": "CREABETON MATERIAUX SA",
+  "aliasNfrs": [
+   641070
+  ],
+  "aliasNoms": [
+   "CREABETON MATERI"
   ]
  }
 ]

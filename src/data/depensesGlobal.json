@@ -15,7 +15,7 @@
   "nbEnRetard": 22945,
   "montantEnRetard": 119695689.37,
   "retardMoyenJours": 45.6,
-  "nbFournisseurs": 1492
+  "nbFournisseurs": 1491
  },
  "chantier": {
   "montantTotal": 148807014.5,
@@ -33,7 +33,7 @@
   "nbEnRetard": 21628,
   "montantEnRetard": 108431531.38,
   "retardMoyenJours": 46.4,
-  "nbFournisseurs": 1408
+  "nbFournisseurs": 1407
  },
  "consortium": {
   "montantTotal": 16415521.12,
@@ -88,7 +88,7 @@
    "nbEnRetard": 6294,
    "montantEnRetard": 23297671.08,
    "retardMoyenJours": 47.4,
-   "nbFournisseurs": 295
+   "nbFournisseurs": 294
   },
   "BAT GE TRANSFO RENO": {
    "montantTotal": 5832718.54,
@@ -432,7 +432,7 @@
    "nbEnRetard": 398,
    "montantEnRetard": 1843193.35,
    "retardMoyenJours": 45.4,
-   "nbFournisseurs": 61
+   "nbFournisseurs": 60
   },
   {
    "code": "12501",
