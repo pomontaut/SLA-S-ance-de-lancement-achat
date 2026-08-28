@@ -166,6 +166,25 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
   }, [suppliers, query])
 
   const history = useMemo(() => (selected ? supplierHistory(all, selected) : []), [all, selected])
+
+  // Note la plus récente disponible pour ce fournisseur (moyenne tous secteurs de l'année, comme
+  // "Général" ailleurs dans cette vue) et l'année précédente, pour afficher la variation.
+  const notesRecentes = useMemo(() => {
+    const annees = Array.from(new Set(history.filter((h) => h.note != null).map((h) => h.annee))).sort((a, b) => b - a)
+    if (annees.length === 0) return null
+    const avgForYear = (y: number) => {
+      const notes = history.filter((h) => h.annee === y && h.note != null).map((h) => h.note!)
+      return notes.length ? Math.round((notes.reduce((a, b) => a + b, 0) / notes.length) * 100) / 100 : null
+    }
+    const yLatest = annees[0]
+    const yPrev = annees[1] ?? null
+    return {
+      yLatest,
+      noteLatest: avgForYear(yLatest),
+      yPrev,
+      notePrev: yPrev != null ? avgForYear(yPrev) : null,
+    }
+  }, [history])
   // "Général" est toujours proposé, même sans historique pré-2017 : sélectionné, il n'affiche
   // pas un secteur réel mais la moyenne agrégée tous secteurs confondus (cf. generalSeries).
   const secteursDisponibles = useMemo(() => {
@@ -325,6 +344,44 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
                   ← Autre fournisseur
                 </button>
               </div>
+
+              {notesRecentes && (
+                <div className="bg-slate-50 rounded-lg p-3 inline-flex flex-col gap-1.5 min-w-[180px]">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs uppercase text-slate-500 w-20">Note {notesRecentes.yLatest}</span>
+                    <span
+                      className="text-lg font-bold"
+                      style={{ color: notesRecentes.noteLatest != null ? noteColor(notesRecentes.noteLatest) : undefined }}
+                    >
+                      {notesRecentes.noteLatest != null ? `${notesRecentes.noteLatest} / 5` : '—'}
+                    </span>
+                  </div>
+                  {notesRecentes.yPrev != null && (
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs uppercase text-slate-500 w-20">Note {notesRecentes.yPrev}</span>
+                      <span
+                        className="text-lg font-bold"
+                        style={{ color: notesRecentes.notePrev != null ? noteColor(notesRecentes.notePrev) : undefined }}
+                      >
+                        {notesRecentes.notePrev != null ? `${notesRecentes.notePrev} / 5` : '—'}
+                      </span>
+                      {notesRecentes.noteLatest != null && notesRecentes.notePrev != null && (
+                        (() => {
+                          const variation = Math.round((notesRecentes.noteLatest - notesRecentes.notePrev) * 100) / 100
+                          const emoji = variation > 0 ? '📈' : variation < 0 ? '📉' : '➡️'
+                          const toneClass = variation > 0 ? 'text-green-600' : variation < 0 ? 'text-red-600' : 'text-slate-500'
+                          return (
+                            <span className={`text-xs font-medium ${toneClass}`}>
+                              {variation > 0 ? '+' : ''}
+                              {variation} {emoji}
+                            </span>
+                          )
+                        })()
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
 
               <SupplierFinances fournisseur={depenseFournisseur} loading={depenseFournisseurs === null} />
 
