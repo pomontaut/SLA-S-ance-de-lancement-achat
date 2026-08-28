@@ -11,7 +11,7 @@
  },
  {
   "canonicalNfr": 10026,
-  "canonicalNom": "ZURICH ASSURANCES",
+  "canonicalNom": "ZURICH",
   "aliasNfrs": [
    319269043
   ],
@@ -21,7 +21,7 @@
  },
  {
   "canonicalNfr": 765986,
-  "canonicalNom": "TMH THOMAS HAG 1",
+  "canonicalNom": "TMH Thomas Hagenbucher AG",
   "aliasNfrs": [
    215890
   ],
@@ -133,7 +133,7 @@
  },
  {
   "canonicalNfr": 575723,
-  "canonicalNom": "SCHENKER STOREN",
+  "canonicalNom": "SCHENKER STORE",
   "aliasNfrs": [
    183306
   ],

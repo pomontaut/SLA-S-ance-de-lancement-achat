@@ -325,5 +325,32 @@
     "nom": "PAYOT DANY DP NE"
    }
   ]
+ },
+ {
+  "nom": "Groupe Colas",
+  "parent": "Groupe Bouygues",
+  "membres": [
+   {
+    "nfr": 143334,
+    "nom": "PIASIO SA"
+   },
+   {
+    "nfr": 422415,
+    "nom": "HTP SA"
+   }
+  ]
+ },
+ {
+  "nom": "Groupe Suter",
+  "membres": [
+   {
+    "nfr": 219441896,
+    "nom": "SUTER ROMANDIE S"
+   },
+   {
+    "nfr": 443654459,
+    "nom": "SUTER GRUPPE AG,"
+   }
+  ]
  }
 ]

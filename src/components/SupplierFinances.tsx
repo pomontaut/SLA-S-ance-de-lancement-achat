@@ -162,7 +162,9 @@ export default function SupplierFinances({
       {groupeDetail && (
         <div className="bg-indigo-50 border border-indigo-100 rounded-lg p-3">
           <h5 className="text-[11px] uppercase text-indigo-700 mb-1">
-            🏢 {groupeDetail.nom} — {formatCurrency(groupeDetail.montantTotal)} au total ({groupeDetail.entites.length} entités)
+            🏢 {groupeDetail.nom}
+            {groupeDetail.parent && <span className="normal-case text-indigo-400"> (filiale du {groupeDetail.parent})</span>} —{' '}
+            {formatCurrency(groupeDetail.montantTotal)} au total ({groupeDetail.entites.length} entités)
           </h5>
           <p className="text-[10px] text-indigo-400 mb-2">
             Groupe validé manuellement (similarité de nom + recherche web) — voir le fichier de détection de doublons/groupes.

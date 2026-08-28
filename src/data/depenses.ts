@@ -145,11 +145,15 @@ export function loadDepensesFournisseurs(): Promise<DepenseFournisseur[]> {
  * détection de doublons/groupes, colonne Validation = "OK") — voir groupesFournisseurs.json. */
 export interface GroupeFournisseur {
   nom: string
+  /** Groupe parent (holding) le cas échéant — ex. "Groupe Colas" a pour parent "Groupe Bouygues".
+   * Simple hiérarchie à deux niveaux : le parent n'a pas ses propres "membres" ici, seulement un nom. */
+  parent?: string
   membres: { nfr: number; nom: string }[]
 }
 
 export interface GroupeDetail {
   nom: string
+  parent?: string
   montantTotal: number
   entites: { nfr: number; nom: string; montantTotal: number }[]
 }
@@ -185,7 +189,7 @@ export function findGroupeDetail(
     })
     .sort((a, b) => b.montantTotal - a.montantTotal)
   const montantTotal = Math.round(entites.reduce((sum, e) => sum + e.montantTotal, 0) * 100) / 100
-  return { nom: groupe.nom, montantTotal, entites }
+  return { nom: groupe.nom, parent: groupe.parent, montantTotal, entites }
 }
 
 function normNomDepense(s: string): string {
