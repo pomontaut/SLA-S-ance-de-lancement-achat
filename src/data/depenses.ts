@@ -42,6 +42,10 @@ export interface DepenseChantierStats extends DepenseBucketStats {
    * toujours avec le champ "Aff." du journal COFI (au niveau du document) : ~18% d'écart
    * constaté sur les chantiers retrouvés dans les deux sources. */
   consortium: boolean | null
+  /** Technicien référent du chantier, depuis Chantiers.xlsx (colonne "Technicien") — null si
+   * non renseigné dans ce référentiel (la valeur littérale "NULL" du fichier source est traitée
+   * comme une absence de valeur). */
+  technicien: string | null
 }
 
 export interface DepenseTranche {
@@ -94,6 +98,7 @@ export interface DepenseDocument {
 export interface DepenseChantierBucket extends DepenseBucketStats {
   nom: string | null
   consortium: boolean | null
+  technicien: string | null
 }
 
 export interface DepenseFournisseur {

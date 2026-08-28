@@ -92,9 +92,11 @@ function ChantierTable({
         <thead>
           <tr className="text-left text-xs uppercase text-slate-500 border-b border-slate-200">
             <th className="py-2 pr-3">Chantier</th>
+            <th className="py-2 pr-3">Technicien</th>
             <th className="py-2 pr-3">Montant</th>
             <th className="py-2 pr-3">% du total</th>
             <th className="py-2 pr-3">Documents</th>
+            <th className="py-2 pr-3">Nb factures</th>
             <th className="py-2 pr-3">Payé à temps</th>
             <th className="py-2">Payé en retard</th>
           </tr>
@@ -109,9 +111,11 @@ function ChantierTable({
                 />
                 {chantierLabel(c.code, c.nom)}
               </td>
+              <td className="py-1.5 pr-3 text-slate-500">{c.technicien ?? '—'}</td>
               <td className="py-1.5 pr-3 font-medium">{formatCurrency(c.montantTotal)}</td>
               <td className="py-1.5 pr-3">{pct(c.montantTotal, montantTotal)}%</td>
               <td className="py-1.5 pr-3">{c.nbDocuments}</td>
+              <td className="py-1.5 pr-3">{c.nbFactures}</td>
               <td className="py-1.5 pr-3 text-green-600">
                 {c.nbATemps} ({formatCurrency(c.montantATemps)})
               </td>
@@ -128,10 +132,10 @@ function ChantierTable({
         </button>
       )}
       <p className="text-xs text-slate-400 mt-2">
-        {nbChantiers} chantiers distincts au total (60 chargés ici, triés par montant décroissant) — noms retrouvés
-        pour {nbChantiersAvecNom} d'entre eux via Chantiers.xlsx. Le code consortium/Induni est celui du chantier
-        (colonne "Chantier consortium" de ce fichier), qui ne coïncide pas toujours avec le champ "Aff." du
-        document (~18% d'écart constaté) — à clarifier avec la comptabilité si besoin.
+        {nbChantiers} chantiers distincts au total (60 chargés ici, triés par montant décroissant) — noms et
+        techniciens retrouvés pour {nbChantiersAvecNom} d'entre eux via Chantiers.xlsx. Le code consortium/Induni
+        est celui du chantier (colonne "Chantier consortium" de ce fichier), qui ne coïncide pas toujours avec le
+        champ "Aff." du document (~18% d'écart constaté) — à clarifier avec la comptabilité si besoin.
       </p>
     </div>
   )

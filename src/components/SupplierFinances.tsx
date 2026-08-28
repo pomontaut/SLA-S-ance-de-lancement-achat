@@ -196,7 +196,9 @@ export default function SupplierFinances({
               <thead>
                 <tr className="text-left text-slate-500 border-b border-slate-200 sticky top-0 bg-slate-50">
                   <th className="py-1 pr-2">Chantier</th>
+                  <th className="py-1 pr-2">Technicien</th>
                   <th className="py-1 pr-2">Montant</th>
+                  <th className="py-1 pr-2">Nb factures</th>
                   <th className="py-1 pr-2">À temps</th>
                   <th className="py-1">En retard</th>
                 </tr>
@@ -213,7 +215,9 @@ export default function SupplierFinances({
                         />
                         {chantierLabel(code, v.nom)}
                       </td>
+                      <td className="py-1 pr-2 text-slate-500">{v.technicien ?? '—'}</td>
                       <td className="py-1 pr-2">{formatCurrency(v.montantTotal)}</td>
+                      <td className="py-1 pr-2">{v.nbFactures}</td>
                       <td className="py-1 pr-2 text-green-600">{v.nbATemps}</td>
                       <td className="py-1 text-red-600">{v.nbEnRetard}</td>
                     </tr>
