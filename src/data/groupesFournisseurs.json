@@ -430,5 +430,18 @@
     "nom": "TRANSVOIRIE SA S"
    }
   ]
+ },
+ {
+  "nom": "Groupe Planzer",
+  "membres": [
+   {
+    "nfr": 251457,
+    "nom": "PLANZER TRANSPOR"
+   },
+   {
+    "nfr": 10806,
+    "nom": "MARTI LOGISTIK A"
+   }
+  ]
  }
 ]
