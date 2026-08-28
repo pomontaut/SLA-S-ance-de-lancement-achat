@@ -500,5 +500,15 @@
     "nom": "PEMSA GE SA"
    }
   ]
+ },
+ {
+  "nom": "Wolffkran Suisse",
+  "parent": "Wolffkran Holding AG",
+  "membres": [
+   {
+    "nfr": 464681,
+    "nom": "WOLFFKRAN SCHWEI"
+   }
+  ]
  }
 ]
