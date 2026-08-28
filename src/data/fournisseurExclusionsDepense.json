@@ -33,5 +33,10 @@
   "nfr": 10368,
   "nom": "FAR FONDATION RE",
   "motif": "Fondation FAR (retraite anticipée, secteur de la construction) — pas un fournisseur externe, à exclure systématiquement sur demande explicite."
+ },
+ {
+  "nfr": 155757,
+  "nom": "SUVA",
+  "motif": "Assurance-accidents obligatoire (SUVA) — pas un fournisseur externe, exclue sur demande explicite."
  }
 ]
