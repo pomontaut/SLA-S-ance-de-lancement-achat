@@ -85,7 +85,7 @@
   ]
  },
  {
-  "nom": "Groupe Probst",
+  "nom": "Probst Group Holding",
   "membres": [
    {
     "nfr": 159138,
@@ -415,6 +415,19 @@
    {
     "nfr": 422012,
     "nom": "CREABETON MATERIAUX SA"
+   }
+  ]
+ },
+ {
+  "nom": "Groupe Helvetia Environnement",
+  "membres": [
+   {
+    "nfr": 480681957,
+    "nom": "SOGETRI SA, PRAI"
+   },
+   {
+    "nfr": 282802892,
+    "nom": "TRANSVOIRIE SA S"
    }
   ]
  }
