@@ -1,6 +1,15 @@
 import { useEffect, useMemo, useState } from 'react'
-import type { DepenseBucketStats, DepenseChantierStats, DepensesGlobal, DepenseTranche } from '../data/depenses'
-import { chantierColor, chantierLabel, formatCurrency, loadDepensesGlobal, pct } from '../data/depenses'
+import type { DepenseBucketStats, DepenseChantierStats, DepenseFournisseur, DepensesGlobal, DepenseTranche, GroupeFournisseur, GroupeTotal } from '../data/depenses'
+import {
+  chantierColor,
+  chantierLabel,
+  computeGroupesTotals,
+  formatCurrency,
+  loadDepensesFournisseurs,
+  loadDepensesGlobal,
+  loadGroupesFournisseurs,
+  pct,
+} from '../data/depenses'
 import { secteurColor } from '../data/palette'
 
 function StatTile({ label, value, sub, tone }: { label: string; value: string; sub?: string; tone?: 'good' | 'warning' | 'critical' }) {
@@ -208,12 +217,64 @@ function TopFournisseursTable({ top20, montantTotal }: { top20: { nfr: number; n
   )
 }
 
+function TopGroupesTable({ groupes, montantTotal }: { groupes: GroupeTotal[]; montantTotal: number }) {
+  const top20 = groupes.slice(0, 20)
+  let cumul = 0
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm border-collapse">
+        <thead>
+          <tr className="text-left text-xs uppercase text-slate-500 border-b border-slate-200">
+            <th className="py-2 pr-3">#</th>
+            <th className="py-2 pr-3">Groupe</th>
+            <th className="py-2 pr-3">Entités</th>
+            <th className="py-2 pr-3">Montant</th>
+            <th className="py-2 pr-3">% du total</th>
+            <th className="py-2">% cumulé</th>
+          </tr>
+        </thead>
+        <tbody>
+          {top20.map((g, i) => {
+            cumul += g.montantTotal
+            return (
+              <tr key={g.nom} className="border-b border-slate-100">
+                <td className="py-1.5 pr-3 text-slate-400">{i + 1}</td>
+                <td className="py-1.5 pr-3 font-medium">
+                  {g.nom}
+                  {g.parent && <span className="ml-1.5 font-normal text-slate-400">(filiale du {g.parent})</span>}
+                </td>
+                <td className="py-1.5 pr-3">{g.nbEntites}</td>
+                <td className="py-1.5 pr-3">{formatCurrency(g.montantTotal)}</td>
+                <td className="py-1.5 pr-3">{pct(g.montantTotal, montantTotal)}%</td>
+                <td className="py-1.5">{pct(cumul, montantTotal)}%</td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+      <p className="text-xs text-slate-400 mt-2">
+        Regroupements de fournisseurs distincts appartenant au même groupe (holding, filiales, entreprises
+        sœurs), validés manuellement — voir le fichier de détection de doublons/groupes.
+      </p>
+    </div>
+  )
+}
+
 export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }) {
   const [data, setData] = useState<DepensesGlobal | null>(null)
+  const [groupes, setGroupes] = useState<GroupeFournisseur[] | null>(null)
+  const [fournisseurs, setFournisseurs] = useState<DepenseFournisseur[] | null>(null)
 
   useEffect(() => {
     loadDepensesGlobal().then(setData)
+    loadGroupesFournisseurs().then(setGroupes)
+    loadDepensesFournisseurs().then(setFournisseurs)
   }, [])
+
+  const groupesTotals = useMemo(
+    () => (groupes && fournisseurs ? computeGroupesTotals(groupes, fournisseurs) : null),
+    [groupes, fournisseurs],
+  )
 
   const g = data?.global
   const chantierPct = useMemo(() => (data ? pct(data.chantier.montantTotal, data.global.montantTotal) : null), [data])
@@ -333,6 +394,16 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
           ))}
         </div>
       </div>
+
+      {groupesTotals && groupesTotals.length > 0 && (
+        <div className="card">
+          <h3 className="font-semibold mb-1">Top 20 groupes fournisseurs par dépense</h3>
+          <p className="text-xs text-slate-500 mb-3">
+            Fournisseurs distincts appartenant au même groupe, agrégés — même principe que le Top 20 ci-dessus.
+          </p>
+          <TopGroupesTable groupes={groupesTotals} montantTotal={g.montantTotal} />
+        </div>
+      )}
     </div>
   )
 }

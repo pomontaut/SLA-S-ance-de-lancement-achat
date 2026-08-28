@@ -28,5 +28,10 @@
   "nfr": 10053,
   "nom": "CAISSES DE COMPE",
   "motif": "Caisse de compensation (cotisations sociales AVS/AI) — pas un fournisseur externe, exclu sur demande explicite."
+ },
+ {
+  "nfr": 10368,
+  "nom": "FAR FONDATION RE",
+  "motif": "Fondation FAR (retraite anticipée, secteur de la construction) — pas un fournisseur externe, à exclure systématiquement sur demande explicite."
  }
 ]
