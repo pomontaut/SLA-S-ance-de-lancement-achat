@@ -200,8 +200,9 @@ function TopFournisseursTable({ top20, montantTotal }: { top20: { nfr: number; n
         </tbody>
       </table>
       <p className="text-xs text-slate-400 mt-2">
-        Les écritures intercompagnie (INDUNI &amp; CIE — loyers, refacturations internes) sont exclues de
-        toute l'analyse de la dépense, ici comme ailleurs dans cet onglet.
+        Les écritures intercompagnie (INDUNI &amp; CIE — loyers, refacturations internes) et la caisse de
+        compensation (cotisations sociales) sont exclues de toute l'analyse de la dépense, ici comme
+        ailleurs dans cet onglet.
       </p>
     </div>
   )

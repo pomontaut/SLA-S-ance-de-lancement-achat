@@ -23,5 +23,10 @@
   "nfr": 60000,
   "nom": "INDUNI CRISSIER",
   "motif": "Écritures intercompagnie (INDUNI & CIE) — pas un fournisseur externe."
+ },
+ {
+  "nfr": 10053,
+  "nom": "CAISSES DE COMPE",
+  "motif": "Caisse de compensation (cotisations sociales AVS/AI) — pas un fournisseur externe, exclu sur demande explicite."
  }
 ]
