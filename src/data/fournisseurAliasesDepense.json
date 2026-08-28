@@ -1,0 +1,382 @@
+[
+ {
+  "canonicalNfr": 143390,
+  "canonicalNom": "SERVICES INDUSTR",
+  "aliasNfrs": [
+   319531
+  ],
+  "aliasNoms": [
+   "SERVICES INDUST"
+  ]
+ },
+ {
+  "canonicalNfr": 10026,
+  "canonicalNom": "ZURICH VERSICHE",
+  "aliasNfrs": [
+   319269043
+  ],
+  "aliasNoms": [
+   "ZURICH VERSICHE"
+  ]
+ },
+ {
+  "canonicalNfr": 765986,
+  "canonicalNom": "TMH THOMAS HAG 1",
+  "aliasNfrs": [
+   215890
+  ],
+  "aliasNoms": [
+   "TMH THOMAS HAGEN"
+  ]
+ },
+ {
+  "canonicalNfr": 441135527,
+  "canonicalNom": "SINEF SA",
+  "aliasNfrs": [
+   411135527
+  ],
+  "aliasNoms": [
+   "SINEF"
+  ]
+ },
+ {
+  "canonicalNfr": 146607785,
+  "canonicalNom": "LIAUDET PIAL S 1",
+  "aliasNfrs": [
+   200295
+  ],
+  "aliasNoms": [
+   "LIAUDET PIAL SA"
+  ]
+ },
+ {
+  "canonicalNfr": 11689,
+  "canonicalNom": "EDIL EUGANEA S.R",
+  "aliasNfrs": [
+   11634
+  ],
+  "aliasNoms": [
+   "EDIL EUGANEA FRA"
+  ]
+ },
+ {
+  "canonicalNfr": 109492986,
+  "canonicalNom": "ROMANDE ENERGI 4",
+  "aliasNfrs": [
+   198271
+  ],
+  "aliasNoms": [
+   "ROMANDE ENERGIE"
+  ]
+ },
+ {
+  "canonicalNfr": 10006,
+  "canonicalNom": "EXERCICES DE L'A",
+  "aliasNfrs": [
+   908508
+  ],
+  "aliasNoms": [
+   "EXERCICES DE L 2"
+  ]
+ },
+ {
+  "canonicalNfr": 282802892,
+  "canonicalNom": "TRANSVOIRIE SA S",
+  "aliasNfrs": [
+   11437
+  ],
+  "aliasNoms": [
+   "TRANSVOIRIE SA S"
+  ]
+ },
+ {
+  "canonicalNfr": 10015,
+  "canonicalNom": "SERVICE DES AUTO",
+  "aliasNfrs": [
+   10023
+  ],
+  "aliasNoms": [
+   "SERVICE DES AUTO"
+  ]
+ },
+ {
+  "canonicalNfr": 10018,
+  "canonicalNom": "ALLIANZ SUISSE I",
+  "aliasNfrs": [
+   319067
+  ],
+  "aliasNoms": [
+   "ALLIANZ SUISSE I"
+  ]
+ },
+ {
+  "canonicalNfr": 222381378,
+  "canonicalNom": "GENEUX DANCET  1",
+  "aliasNfrs": [
+   143344
+  ],
+  "aliasNoms": [
+   "GENEUX DANCET SA"
+  ]
+ },
+ {
+  "canonicalNfr": 480681957,
+  "canonicalNom": "SOGETRI SA, PRAI",
+  "aliasNfrs": [
+   346482409,
+   411631
+  ],
+  "aliasNoms": [
+   "SOGETRI SA, SATI",
+   "SOGETRI SA"
+  ]
+ },
+ {
+  "canonicalNfr": 575723,
+  "canonicalNom": "SCHENKER STOREN",
+  "aliasNfrs": [
+   183306
+  ],
+  "aliasNoms": [
+   "SCHENKER STORES"
+  ]
+ },
+ {
+  "canonicalNfr": 313822,
+  "canonicalNom": "SD INGENIERIE DE",
+  "aliasNfrs": [
+   313850
+  ],
+  "aliasNoms": [
+   "SD INGENIERIE GE"
+  ]
+ },
+ {
+  "canonicalNfr": 297561,
+  "canonicalNom": "SCHWEIZERISCHE 1",
+  "aliasNfrs": [
+   103143725
+  ],
+  "aliasNoms": [
+   "SCHWEIZERISCHE N"
+  ]
+ },
+ {
+  "canonicalNfr": 11604,
+  "canonicalNom": "ETAT DE GENEVE S",
+  "aliasNfrs": [
+   11736,
+   10158,
+   11827,
+   11014,
+   11580,
+   382921,
+   10749,
+   457833,
+   11905
+  ],
+  "aliasNoms": [
+   "ETAT DE GENEV 22",
+   "ETAT DE GENEVE O",
+   "ETAT DE GENEV 32",
+   "ETAT DE GENEV 18",
+   "ETAT DE GENEV 30",
+   "ETAT DE GENEVE 9",
+   "ETAT DE GENEV 10",
+   "ETAT DE GENEVE 4",
+   "ETAT DE GENEV 34"
+  ]
+ },
+ {
+  "canonicalNfr": 107468468,
+  "canonicalNom": "RIEDER SYSTEMS 2",
+  "aliasNfrs": [
+   449875
+  ],
+  "aliasNoms": [
+   "RIEDER SYSTEMS S"
+  ]
+ },
+ {
+  "canonicalNfr": 381809449,
+  "canonicalNom": "FRIDERICI SPEC 3",
+  "aliasNfrs": [
+   615154
+  ],
+  "aliasNoms": [
+   "FRIDERICI SPEC 1"
+  ]
+ },
+ {
+  "canonicalNfr": 198720,
+  "canonicalNom": "PHIDA ETANCHEI 1",
+  "aliasNfrs": [
+   550705
+  ],
+  "aliasNoms": [
+   "PHIDA ETANCHEITE"
+  ]
+ },
+ {
+  "canonicalNfr": 337549109,
+  "canonicalNom": "ROTH ECHAFAUDA 3",
+  "aliasNfrs": [
+   391861925
+  ],
+  "aliasNoms": [
+   "ROTH ECHAFAUDA 1"
+  ]
+ },
+ {
+  "canonicalNfr": 331210,
+  "canonicalNom": "MOBILIERE SUISSE",
+  "aliasNfrs": [
+   113961642
+  ],
+  "aliasNoms": [
+   "MOBILIERE SUIS 2"
+  ]
+ },
+ {
+  "canonicalNfr": 459210789,
+  "canonicalNom": "ASSOCIATION SB S",
+  "aliasNfrs": [
+   10583
+  ],
+  "aliasNoms": [
+   "ASSOCIATION SB S"
+  ]
+ },
+ {
+  "canonicalNfr": 483549,
+  "canonicalNom": "FIRE SYSTEM S.A.",
+  "aliasNfrs": [
+   299073084
+  ],
+  "aliasNoms": [
+   "FIRE SYSTEMS SA,"
+  ]
+ },
+ {
+  "canonicalNfr": 265437,
+  "canonicalNom": "DE CERENVILLE GE",
+  "aliasNfrs": [
+   105766127
+  ],
+  "aliasNoms": [
+   "DE CERENVILLE GE"
+  ]
+ },
+ {
+  "canonicalNfr": 106014627,
+  "canonicalNom": "NESTLE NESPRES 1",
+  "aliasNfrs": [
+   205824
+  ],
+  "aliasNoms": [
+   "NESTLE NESPRESSO"
+  ]
+ },
+ {
+  "canonicalNfr": 326826842,
+  "canonicalNom": "SWISSPRO SR SA,",
+  "aliasNfrs": [
+   417549
+  ],
+  "aliasNoms": [
+   "SWISSPRO SR SA"
+  ]
+ },
+ {
+  "canonicalNfr": 199213611,
+  "canonicalNom": "OFFICE FEDERAL 7",
+  "aliasNfrs": [
+   10644
+  ],
+  "aliasNoms": [
+   "OFFICE FEDERAL 6"
+  ]
+ },
+ {
+  "canonicalNfr": 151224668,
+  "canonicalNom": "ASSOCIATION HORI",
+  "aliasNfrs": [
+   11661
+  ],
+  "aliasNoms": [
+   "ASSOCIATION ORUN"
+  ]
+ },
+ {
+  "canonicalNfr": 244997,
+  "canonicalNom": "AB INGENIEURS SA",
+  "aliasNfrs": [
+   146755397
+  ],
+  "aliasNoms": [
+   "AB INGENIEURS"
+  ]
+ },
+ {
+  "canonicalNfr": 120731,
+  "canonicalNom": "SANITAS TROESC 2",
+  "aliasNfrs": [
+   105915143
+  ],
+  "aliasNoms": [
+   "SANITAS TROESC 2"
+  ]
+ },
+ {
+  "canonicalNfr": 350689,
+  "canonicalNom": "VILLE DE LAUSA 1",
+  "aliasNfrs": [
+   100758391
+  ],
+  "aliasNoms": [
+   "VILLE DE LAUSA 5"
+  ]
+ },
+ {
+  "canonicalNfr": 10978,
+  "canonicalNom": "ASSOCIATION GE 3",
+  "aliasNfrs": [
+   11804
+  ],
+  "aliasNoms": [
+   "ASSOCIATION DE 8"
+  ]
+ },
+ {
+  "canonicalNfr": 10249,
+  "canonicalNom": "ETAT DE VAUD - O",
+  "aliasNfrs": [
+   11906,
+   434072
+  ],
+  "aliasNoms": [
+   "ETAT DE VAUD - O",
+   "ETAT DE VAUD 1"
+  ]
+ },
+ {
+  "canonicalNfr": 10378,
+  "canonicalNom": "ETAT DU VALAIS 1",
+  "aliasNfrs": [
+   11404
+  ],
+  "aliasNoms": [
+   "ETAT DU VALAIS 5"
+  ]
+ },
+ {
+  "canonicalNfr": 11834,
+  "canonicalNom": "BETREIBUNGSAMT R",
+  "aliasNfrs": [
+   11841
+  ],
+  "aliasNoms": [
+   "BETREIBUNGSAMT"
+  ]
+ }
+]

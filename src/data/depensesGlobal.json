@@ -15,7 +15,7 @@
   "nbEnRetard": 23138,
   "montantEnRetard": 125539192.42,
   "retardMoyenJours": 45.7,
-  "nbFournisseurs": 1550
+  "nbFournisseurs": 1504
  },
  "chantier": {
   "montantTotal": 172414246.1,
@@ -33,7 +33,7 @@
   "nbEnRetard": 21800,
   "montantEnRetard": 112794189.38,
   "retardMoyenJours": 46.4,
-  "nbFournisseurs": 1463
+  "nbFournisseurs": 1419
  },
  "consortium": {
   "montantTotal": 22573331.22,
@@ -51,7 +51,7 @@
   "nbEnRetard": 1338,
   "montantEnRetard": 12745003.04,
   "retardMoyenJours": 34.0,
-  "nbFournisseurs": 226
+  "nbFournisseurs": 223
  },
  "parEntite": {
   "DG": {
@@ -70,7 +70,7 @@
    "nbEnRetard": 1709,
    "montantEnRetard": 4693268.12,
    "retardMoyenJours": 31.5,
-   "nbFournisseurs": 432
+   "nbFournisseurs": 418
   },
   "BAT GE": {
    "montantTotal": 37504008.3,
@@ -88,7 +88,7 @@
    "nbEnRetard": 6294,
    "montantEnRetard": 23297671.08,
    "retardMoyenJours": 47.4,
-   "nbFournisseurs": 299
+   "nbFournisseurs": 296
   },
   "BAT GE TRANSFO RENO": {
    "montantTotal": 5832718.54,
@@ -106,7 +106,7 @@
    "nbEnRetard": 1455,
    "montantEnRetard": 3409716.74,
    "retardMoyenJours": 50.3,
-   "nbFournisseurs": 145
+   "nbFournisseurs": 143
   },
   "DEPOT": {
    "montantTotal": 6495509.06,
@@ -124,7 +124,7 @@
    "nbEnRetard": 4113,
    "montantEnRetard": 5756893.0,
    "retardMoyenJours": 50.6,
-   "nbFournisseurs": 257
+   "nbFournisseurs": 252
   },
   "GC": {
    "montantTotal": 22885041.76,
@@ -142,7 +142,7 @@
    "nbEnRetard": 2843,
    "montantEnRetard": 14598303.66,
    "retardMoyenJours": 40.6,
-   "nbFournisseurs": 310
+   "nbFournisseurs": 302
   },
   "EG VD": {
    "montantTotal": 14506452.1,
@@ -160,7 +160,7 @@
    "nbEnRetard": 428,
    "montantEnRetard": 14176764.95,
    "retardMoyenJours": 52.8,
-   "nbFournisseurs": 158
+   "nbFournisseurs": 157
   },
   "EG GE": {
    "montantTotal": 24339033.12,
@@ -178,7 +178,7 @@
    "nbEnRetard": 749,
    "montantEnRetard": 14370741.99,
    "retardMoyenJours": 39.5,
-   "nbFournisseurs": 261
+   "nbFournisseurs": 255
   },
   "BAT VD": {
    "montantTotal": 28079337.95,
@@ -196,7 +196,7 @@
    "nbEnRetard": 4457,
    "montantEnRetard": 20037195.78,
    "retardMoyenJours": 48.2,
-   "nbFournisseurs": 262
+   "nbFournisseurs": 257
   },
   "EG VS": {
    "montantTotal": 15937723.75,
@@ -214,7 +214,7 @@
    "nbEnRetard": 695,
    "montantEnRetard": 11759836.25,
    "retardMoyenJours": 29.7,
-   "nbFournisseurs": 217
+   "nbFournisseurs": 216
   },
   "AUTRES": {
    "montantTotal": 33757419.55,
@@ -232,7 +232,7 @@
    "nbEnRetard": 395,
    "montantEnRetard": 13438800.85,
    "retardMoyenJours": 51.8,
-   "nbFournisseurs": 219
+   "nbFournisseurs": 217
   }
  },
  "parChantier": [
@@ -256,7 +256,7 @@
    "nbEnRetard": 1647,
    "montantEnRetard": 20694553.14,
    "retardMoyenJours": 36.2,
-   "nbFournisseurs": 363
+   "nbFournisseurs": 358
   },
   {
    "code": "42102",
@@ -322,7 +322,7 @@
    "nbEnRetard": 66,
    "montantEnRetard": 2547329.75,
    "retardMoyenJours": 46.8,
-   "nbFournisseurs": 31
+   "nbFournisseurs": 30
   },
   {
    "code": "12409",
@@ -432,7 +432,7 @@
    "nbEnRetard": 760,
    "montantEnRetard": 3303568.49,
    "retardMoyenJours": 53.2,
-   "nbFournisseurs": 70
+   "nbFournisseurs": 68
   },
   {
    "code": "12410",
@@ -564,7 +564,7 @@
    "nbEnRetard": 841,
    "montantEnRetard": 2054928.08,
    "retardMoyenJours": 31.8,
-   "nbFournisseurs": 201
+   "nbFournisseurs": 192
   },
   {
    "code": "52402",
@@ -608,7 +608,7 @@
    "nbEnRetard": 600,
    "montantEnRetard": 2003360.08,
    "retardMoyenJours": 48.3,
-   "nbFournisseurs": 60
+   "nbFournisseurs": 59
   },
   {
    "code": "62502",
@@ -652,7 +652,7 @@
    "nbEnRetard": 495,
    "montantEnRetard": 1932227.61,
    "retardMoyenJours": 46.6,
-   "nbFournisseurs": 67
+   "nbFournisseurs": 66
   },
   {
    "code": "12406",
@@ -674,7 +674,7 @@
    "nbEnRetard": 409,
    "montantEnRetard": 1657745.82,
    "retardMoyenJours": 41.9,
-   "nbFournisseurs": 61
+   "nbFournisseurs": 59
   },
   {
    "code": "230",
@@ -740,7 +740,7 @@
    "nbEnRetard": 304,
    "montantEnRetard": 1277563.99,
    "retardMoyenJours": 57.2,
-   "nbFournisseurs": 52
+   "nbFournisseurs": 51
   },
   {
    "code": "72301",
@@ -806,7 +806,7 @@
    "nbEnRetard": 52,
    "montantEnRetard": 1425539.95,
    "retardMoyenJours": 40.1,
-   "nbFournisseurs": 39
+   "nbFournisseurs": 38
   },
   {
    "code": "62304",
@@ -828,7 +828,7 @@
    "nbEnRetard": 227,
    "montantEnRetard": 1064973.54,
    "retardMoyenJours": 47.6,
-   "nbFournisseurs": 51
+   "nbFournisseurs": 50
   },
   {
    "code": "32506",
@@ -1026,7 +1026,7 @@
    "nbEnRetard": 42,
    "montantEnRetard": 1075352.35,
    "retardMoyenJours": 55.1,
-   "nbFournisseurs": 27
+   "nbFournisseurs": 26
   },
   {
    "code": "215",
@@ -1136,7 +1136,7 @@
    "nbEnRetard": 175,
    "montantEnRetard": 469528.2,
    "retardMoyenJours": 43.8,
-   "nbFournisseurs": 38
+   "nbFournisseurs": 37
   },
   {
    "code": "62507",
@@ -1224,7 +1224,7 @@
    "nbEnRetard": 399,
    "montantEnRetard": 666597.46,
    "retardMoyenJours": 52.3,
-   "nbFournisseurs": 58
+   "nbFournisseurs": 57
   },
   {
    "code": "12314",
@@ -1356,7 +1356,7 @@
    "nbEnRetard": 195,
    "montantEnRetard": 471223.97,
    "retardMoyenJours": 48.7,
-   "nbFournisseurs": 42
+   "nbFournisseurs": 41
   },
   {
    "code": "32406",
@@ -1466,7 +1466,7 @@
    "nbEnRetard": 38,
    "montantEnRetard": 371941.3,
    "retardMoyenJours": 40.8,
-   "nbFournisseurs": 25
+   "nbFournisseurs": 23
   },
   {
    "code": "130",
@@ -1554,7 +1554,7 @@
    "nbEnRetard": 90,
    "montantEnRetard": 264794.55,
    "retardMoyenJours": 58.0,
-   "nbFournisseurs": 34
+   "nbFournisseurs": 33
   }
  ],
  "nbChantiers": 224,
