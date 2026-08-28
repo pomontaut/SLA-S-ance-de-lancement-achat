@@ -390,5 +390,32 @@
     "nom": "GRAVIERES D'EPEI"
    }
   ]
+ },
+ {
+  "nom": "Groupe Vigier",
+  "parent": "Groupe Vicat",
+  "membres": [
+   {
+    "nfr": 182034,
+    "nom": "CIMENTS VIGIER"
+   },
+   {
+    "nfr": 142460,
+    "nom": "VIGIER BETON"
+   }
+  ]
+ },
+ {
+  "nom": "Groupe Müller Steinag",
+  "membres": [
+   {
+    "nfr": 840875,
+    "nom": "MUELLER-STEINAG"
+   },
+   {
+    "nfr": 422012,
+    "nom": "CREABETON MATERIAUX SA"
+   }
+  ]
  }
 ]
