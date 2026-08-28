@@ -3,8 +3,8 @@ import type { EvalRecord } from '../data/evaluationsHistorique'
 import { canonicalizeCriteres, listSuppliers, supplierHistory } from '../data/evaluationsHistorique'
 import { secteurColor, noteColor } from '../data/palette'
 import BarChart from './BarChart'
-import type { DepenseFournisseur } from '../data/depenses'
-import { findDepenseFournisseur, loadDepensesFournisseurs } from '../data/depenses'
+import type { DepenseFournisseur, GroupeFournisseur } from '../data/depenses'
+import { findDepenseFournisseur, findGroupeDetail, loadDepensesFournisseurs, loadGroupesFournisseurs } from '../data/depenses'
 import SupplierFinances from './SupplierFinances'
 
 function toggle<T>(list: T[], value: T): T[] {
@@ -157,6 +157,18 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
   const depenseFournisseur = useMemo(
     () => (selected && depenseFournisseurs ? findDepenseFournisseur(depenseFournisseurs, selected) : null),
     [selected, depenseFournisseurs],
+  )
+
+  const [groupes, setGroupes] = useState<GroupeFournisseur[] | null>(null)
+  useEffect(() => {
+    loadGroupesFournisseurs().then(setGroupes)
+  }, [])
+  const groupeDetail = useMemo(
+    () =>
+      depenseFournisseur && groupes && depenseFournisseurs
+        ? findGroupeDetail(groupes, depenseFournisseurs, depenseFournisseur.nfr)
+        : null,
+    [depenseFournisseur, groupes, depenseFournisseurs],
   )
 
   const results = useMemo(() => {
@@ -353,6 +365,7 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
                 fournisseur={depenseFournisseur}
                 loading={depenseFournisseurs === null}
                 notesRecentes={notesRecentes}
+                groupeDetail={groupeDetail}
               />
 
               {secteursDisponibles.length > 0 && (

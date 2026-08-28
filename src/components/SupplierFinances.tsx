@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import type { DepenseFournisseur } from '../data/depenses'
+import type { DepenseFournisseur, GroupeDetail } from '../data/depenses'
 import { chantierColor, chantierLabel, computeTranches, formatCurrency, pct } from '../data/depenses'
 import { secteurColor, noteColor } from '../data/palette'
 
@@ -53,10 +53,12 @@ export default function SupplierFinances({
   fournisseur,
   loading,
   notesRecentes,
+  groupeDetail,
 }: {
   fournisseur: DepenseFournisseur | null
   loading: boolean
   notesRecentes?: NotesRecentes | null
+  groupeDetail?: GroupeDetail | null
 }) {
   const [showAllDocs, setShowAllDocs] = useState(false)
   const trancheData = useMemo(() => (fournisseur ? computeTranches(fournisseur.documents) : null), [fournisseur])
@@ -156,6 +158,43 @@ export default function SupplierFinances({
         />
         <KpiTile label="Conditions de paiement" value={fournisseur.conditions.length ? fournisseur.conditions[0] : '—'} sub={fournisseur.conditions.length > 1 ? `+${fournisseur.conditions.length - 1} autre(s)` : undefined} />
       </div>
+
+      {groupeDetail && (
+        <div className="bg-indigo-50 border border-indigo-100 rounded-lg p-3">
+          <h5 className="text-[11px] uppercase text-indigo-700 mb-1">
+            🏢 {groupeDetail.nom} — {formatCurrency(groupeDetail.montantTotal)} au total ({groupeDetail.entites.length} entités)
+          </h5>
+          <p className="text-[10px] text-indigo-400 mb-2">
+            Groupe validé manuellement (similarité de nom + recherche web) — voir le fichier de détection de doublons/groupes.
+          </p>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs border-collapse">
+              <thead>
+                <tr className="text-left text-indigo-500 border-b border-indigo-200">
+                  <th className="py-1 pr-2">Entité</th>
+                  <th className="py-1 pr-2">Montant</th>
+                  <th className="py-1">% du groupe</th>
+                </tr>
+              </thead>
+              <tbody>
+                {groupeDetail.entites.map((e) => (
+                  <tr
+                    key={e.nfr}
+                    className={`border-b border-indigo-100 ${e.nfr === fournisseur.nfr ? 'font-bold' : ''}`}
+                  >
+                    <td className="py-1 pr-2">
+                      {e.nom}
+                      {e.nfr === fournisseur.nfr && <span className="text-indigo-400 font-normal"> (ce fournisseur)</span>}
+                    </td>
+                    <td className="py-1 pr-2">{formatCurrency(e.montantTotal)}</td>
+                    <td className="py-1">{pct(e.montantTotal, groupeDetail.montantTotal)}%</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
 
       {Object.keys(fournisseur.parEntite).length > 1 && (
         <div>

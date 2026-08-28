@@ -141,6 +141,53 @@ export function loadDepensesFournisseurs(): Promise<DepenseFournisseur[]> {
   return fournisseursPending
 }
 
+/** Groupe de fournisseurs validé manuellement (onglet "Groupes potentiels" du fichier de
+ * détection de doublons/groupes, colonne Validation = "OK") — voir groupesFournisseurs.json. */
+export interface GroupeFournisseur {
+  nom: string
+  membres: { nfr: number; nom: string }[]
+}
+
+export interface GroupeDetail {
+  nom: string
+  montantTotal: number
+  entites: { nfr: number; nom: string; montantTotal: number }[]
+}
+
+let groupesCache: GroupeFournisseur[] | null = null
+let groupesPending: Promise<GroupeFournisseur[]> | null = null
+
+export function loadGroupesFournisseurs(): Promise<GroupeFournisseur[]> {
+  if (groupesCache) return Promise.resolve(groupesCache)
+  if (!groupesPending) {
+    groupesPending = import('./groupesFournisseurs.json').then((mod) => {
+      groupesCache = mod.default as unknown as GroupeFournisseur[]
+      return groupesCache
+    })
+  }
+  return groupesPending
+}
+
+/** Cherche le groupe validé auquel appartient un fournisseur (par N° fr), et calcule le détail
+ * du groupe (montant total cumulé, liste des entités) à partir de la liste complète des
+ * fournisseurs de dépense. Retourne null si ce fournisseur n'appartient à aucun groupe validé. */
+export function findGroupeDetail(
+  groupes: GroupeFournisseur[],
+  allFournisseurs: DepenseFournisseur[],
+  nfr: number,
+): GroupeDetail | null {
+  const groupe = groupes.find((g) => g.membres.some((m) => m.nfr === nfr))
+  if (!groupe) return null
+  const entites = groupe.membres
+    .map((m) => {
+      const f = allFournisseurs.find((af) => af.nfr === m.nfr)
+      return { nfr: m.nfr, nom: f?.nom ?? m.nom, montantTotal: f?.global.montantTotal ?? 0 }
+    })
+    .sort((a, b) => b.montantTotal - a.montantTotal)
+  const montantTotal = Math.round(entites.reduce((sum, e) => sum + e.montantTotal, 0) * 100) / 100
+  return { nom: groupe.nom, montantTotal, entites }
+}
+
 function normNomDepense(s: string): string {
   return s
     .normalize('NFKD')
