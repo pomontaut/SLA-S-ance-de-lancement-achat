@@ -181,6 +181,7 @@ export default function SupplierFinances({ fournisseur, loading }: { fournisseur
           <table className="w-full text-xs border-collapse">
             <thead>
               <tr className="text-left text-slate-500 border-b border-slate-200 sticky top-0 bg-slate-50">
+                <th className="py-1 pr-2">N° doc.</th>
                 <th className="py-1 pr-2">Date doc.</th>
                 <th className="py-1 pr-2">Genre</th>
                 <th className="py-1 pr-2">Entité</th>
@@ -194,6 +195,7 @@ export default function SupplierFinances({ fournisseur, loading }: { fournisseur
             <tbody>
               {docs.map((d) => (
                 <tr key={d.docno} className="border-b border-slate-100">
+                  <td className="py-1 pr-2 text-slate-500">{d.docno}</td>
                   <td className="py-1 pr-2">{d.dateDoc}</td>
                   <td className="py-1 pr-2">{d.genre}</td>
                   <td className="py-1 pr-2">{d.entite}</td>
