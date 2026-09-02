@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import type { DepenseFournisseur, GroupeDetail } from '../data/depenses'
+import type { DepenseFournisseur, GroupeDetail, LiensDirigeantsEntry } from '../data/depenses'
 import { chantierColor, chantierLabel, computeTranches, formatCurrency, pct } from '../data/depenses'
 import { secteurColor, noteColor } from '../data/palette'
 
@@ -54,12 +54,15 @@ export default function SupplierFinances({
   loading,
   notesRecentes,
   groupeDetails,
+  liensReseau,
 }: {
   fournisseur: DepenseFournisseur | null
   loading: boolean
   notesRecentes?: NotesRecentes | null
   /** Un fournisseur peut appartenir à plusieurs groupes à la fois (ex. participation croisée). */
   groupeDetails?: GroupeDetail[]
+  /** Réseau de dirigeants/liens entre sociétés (cartographie externe) — informatif uniquement. */
+  liensReseau?: LiensDirigeantsEntry | null
 }) {
   const [showAllDocs, setShowAllDocs] = useState(false)
   const trancheData = useMemo(() => (fournisseur ? computeTranches(fournisseur.documents) : null), [fournisseur])
@@ -202,6 +205,39 @@ export default function SupplierFinances({
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {liensReseau && (liensReseau.dirigeantsCommuns.length > 0 || liensReseau.liensDirects.length > 0) && (
+        <div className="bg-amber-50 border border-amber-100 rounded-lg p-3">
+          <h5 className="text-[11px] uppercase text-amber-700 mb-1">🔗 Réseau de dirigeants (à titre indicatif)</h5>
+          <p className="text-[10px] text-amber-500 mb-2">
+            Cartographie externe des liens entre sociétés et dirigeants (registres RC/FOSC, presse) — informatif
+            uniquement, distinct des groupes validés ci-dessus. Trait plein = lien confirmé publiquement, en{' '}
+            <em>italique</em> = lien non confirmé.
+          </p>
+          {liensReseau.dirigeantsCommuns.map((d) => (
+            <p key={d.personne} className="text-xs text-amber-800 mb-1">
+              <span className="font-medium">{d.personne}</span> est aussi lié·e à :{' '}
+              {d.societes.map((s, i) => (
+                <span key={`${s.nom}-${i}`}>
+                  {i > 0 && ', '}
+                  <span className={s.confirme ? '' : 'italic'}>{s.nom}</span>
+                </span>
+              ))}
+            </p>
+          ))}
+          {liensReseau.liensDirects.length > 0 && (
+            <p className="text-xs text-amber-800">
+              <span className="font-medium">Lien direct (structure de groupe)</span> avec :{' '}
+              {liensReseau.liensDirects.map((s, i) => (
+                <span key={`${s.nom}-${i}`}>
+                  {i > 0 && ', '}
+                  <span className={s.confirme ? '' : 'italic'}>{s.nom}</span>
+                </span>
+              ))}
+            </p>
+          )}
         </div>
       )}
 

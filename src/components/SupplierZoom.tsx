@@ -3,8 +3,15 @@ import type { EvalRecord } from '../data/evaluationsHistorique'
 import { canonicalizeCriteres, listSuppliers, supplierHistory } from '../data/evaluationsHistorique'
 import { secteurColor, noteColor } from '../data/palette'
 import BarChart from './BarChart'
-import type { DepenseFournisseur, GroupeFournisseur } from '../data/depenses'
-import { findDepenseFournisseur, findGroupeDetails, loadDepensesFournisseurs, loadGroupesFournisseurs } from '../data/depenses'
+import type { DepenseFournisseur, GroupeFournisseur, LiensDirigeantsEntry } from '../data/depenses'
+import {
+  findDepenseFournisseur,
+  findGroupeDetails,
+  findLiensDirigeants,
+  loadDepensesFournisseurs,
+  loadGroupesFournisseurs,
+  loadLiensDirigeants,
+} from '../data/depenses'
 import SupplierFinances from './SupplierFinances'
 
 function toggle<T>(list: T[], value: T): T[] {
@@ -169,6 +176,15 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
         ? findGroupeDetails(groupes, depenseFournisseurs, depenseFournisseur.nfr)
         : [],
     [depenseFournisseur, groupes, depenseFournisseurs],
+  )
+
+  const [liensDirigeants, setLiensDirigeants] = useState<LiensDirigeantsEntry[] | null>(null)
+  useEffect(() => {
+    loadLiensDirigeants().then(setLiensDirigeants)
+  }, [])
+  const liensReseau = useMemo(
+    () => (depenseFournisseur && liensDirigeants ? findLiensDirigeants(liensDirigeants, depenseFournisseur.nfr) : null),
+    [depenseFournisseur, liensDirigeants],
   )
 
   const results = useMemo(() => {
@@ -366,6 +382,7 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
                 loading={depenseFournisseurs === null}
                 notesRecentes={notesRecentes}
                 groupeDetails={groupeDetails}
+                liensReseau={liensReseau}
               />
 
               {secteursDisponibles.length > 0 && (

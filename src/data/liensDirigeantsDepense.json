@@ -1,0 +1,883 @@
+[
+ {
+  "nfr": 10311,
+  "dirigeantsCommuns": [
+   {
+    "personne": "Arnaud Dubrez",
+    "societes": [
+     {
+      "nom": "Jura Léman Béton (J.L.B. SAS)",
+      "nfr": 11189,
+      "confirme": true
+     },
+     {
+      "nom": "CAREIVA / SOCAF (holdings)",
+      "nfr": null,
+      "confirme": true
+     },
+     {
+      "nom": "CARELMA",
+      "nfr": null,
+      "confirme": true
+     }
+    ]
+   }
+  ],
+  "liensDirects": []
+ },
+ {
+  "nfr": 11189,
+  "dirigeantsCommuns": [
+   {
+    "personne": "Arnaud Dubrez",
+    "societes": [
+     {
+      "nom": "CAREIVA / SOCAF (holdings)",
+      "nfr": null,
+      "confirme": true
+     },
+     {
+      "nom": "SECAM",
+      "nfr": 10311,
+      "confirme": true
+     },
+     {
+      "nom": "CARELMA",
+      "nfr": null,
+      "confirme": true
+     }
+    ]
+   },
+   {
+    "personne": "Daniel Dubrez",
+    "societes": [
+     {
+      "nom": "CAREIVA / SOCAF (holdings)",
+      "nfr": null,
+      "confirme": true
+     }
+    ]
+   }
+  ],
+  "liensDirects": [
+   {
+    "nom": "CAREIVA / SOCAF (holdings)",
+    "nfr": null,
+    "confirme": true
+   }
+  ]
+ },
+ {
+  "nfr": 11584,
+  "dirigeantsCommuns": [],
+  "liensDirects": [
+   {
+    "nom": "SRG (Sté Recyclage et Gravier)",
+    "nfr": null,
+    "confirme": true
+   }
+  ]
+ },
+ {
+  "nfr": 142460,
+  "dirigeantsCommuns": [],
+  "liensDirects": [
+   {
+    "nom": "Vigier Holding SA",
+    "nfr": 182034,
+    "confirme": true
+   }
+  ]
+ },
+ {
+  "nfr": 144802,
+  "dirigeantsCommuns": [
+   {
+    "personne": "Jean-Bernard Buchs",
+    "societes": [
+     {
+      "nom": "PointGe SA",
+      "nfr": 893055,
+      "confirme": true
+     },
+     {
+      "nom": "Soreval SA",
+      "nfr": 878385,
+      "confirme": true
+     },
+     {
+      "nom": "CGO SA",
+      "nfr": null,
+      "confirme": true
+     },
+     {
+      "nom": "Ecom3 SA",
+      "nfr": 271937631,
+      "confirme": true
+     }
+    ]
+   },
+   {
+    "personne": "Nicola Di Padova",
+    "societes": [
+     {
+      "nom": "PointGe SA",
+      "nfr": 893055,
+      "confirme": true
+     }
+    ]
+   }
+  ],
+  "liensDirects": []
+ },
+ {
+  "nfr": 145739,
+  "dirigeantsCommuns": [
+   {
+    "personne": "Vincent Chavaz",
+    "societes": [
+     {
+      "nom": "Entreprise Chavaz SA",
+      "nfr": 142084405,
+      "confirme": true
+     },
+     {
+      "nom": "Sasso Recyclage / Granulats SA",
+      "nfr": 511947,
+      "confirme": true
+     }
+    ]
+   },
+   {
+    "personne": "Guy Sidos",
+    "societes": [
+     {
+      "nom": "Groupe Vicat",
+      "nfr": null,
+      "confirme": true
+     }
+    ]
+   },
+   {
+    "personne": "Lukas Epple",
+    "societes": [
+     {
+      "nom": "GCM SA (Claie-aux-Moines)",
+      "nfr": null,
+      "confirme": true
+     }
+    ]
+   }
+  ],
+  "liensDirects": []
+ },
+ {
+  "nfr": 145997,
+  "dirigeantsCommuns": [],
+  "liensDirects": [
+   {
+    "nom": "Groupe Albemi",
+    "nfr": null,
+    "confirme": false
+   }
+  ]
+ },
+ {
+  "nfr": 182034,
+  "dirigeantsCommuns": [],
+  "liensDirects": [
+   {
+    "nom": "Groupe Vicat",
+    "nfr": null,
+    "confirme": true
+   },
+   {
+    "nom": "Vigier Béton AG",
+    "nfr": 142460,
+    "confirme": true
+   }
+  ]
+ },
+ {
+  "nfr": 196970,
+  "dirigeantsCommuns": [
+   {
+    "personne": "Louis Risse",
+    "societes": [
+     {
+      "nom": "Ecosor SA",
+      "nfr": 599488,
+      "confirme": true
+     }
+    ]
+   },
+   {
+    "personne": "Pascal Doutaz",
+    "societes": [
+     {
+      "nom": "Ecosor SA",
+      "nfr": 599488,
+      "confirme": false
+     }
+    ]
+   }
+  ],
+  "liensDirects": [
+   {
+    "nom": "Léman Granulats SA",
+    "nfr": null,
+    "confirme": false
+   }
+  ]
+ },
+ {
+  "nfr": 203802,
+  "dirigeantsCommuns": [
+   {
+    "personne": "Frederic Michoud",
+    "societes": [
+     {
+      "nom": "PQR Béton SA",
+      "nfr": 203924,
+      "confirme": true
+     }
+    ]
+   },
+   {
+    "personne": "Jean-Christophe Famy",
+    "societes": [
+     {
+      "nom": "Groupe Famy",
+      "nfr": null,
+      "confirme": false
+     }
+    ]
+   },
+   {
+    "personne": "Daniele Bonito",
+    "societes": [
+     {
+      "nom": "Ronchi SA",
+      "nfr": 742758,
+      "confirme": true
+     },
+     {
+      "nom": "PQR Béton SA",
+      "nfr": 203924,
+      "confirme": true
+     },
+     {
+      "nom": "Novaco SA",
+      "nfr": null,
+      "confirme": true
+     }
+    ]
+   },
+   {
+    "personne": "Nils Rentsch",
+    "societes": [
+     {
+      "nom": "Novaco SA",
+      "nfr": null,
+      "confirme": true
+     }
+    ]
+   },
+   {
+    "personne": "Pascal Amaron",
+    "societes": [
+     {
+      "nom": "Novaco SA",
+      "nfr": null,
+      "confirme": true
+     }
+    ]
+   }
+  ],
+  "liensDirects": []
+ },
+ {
+  "nfr": 203924,
+  "dirigeantsCommuns": [
+   {
+    "personne": "David Martini",
+    "societes": [
+     {
+      "nom": "Ronchi SA",
+      "nfr": 742758,
+      "confirme": true
+     },
+     {
+      "nom": "Novaco SA",
+      "nfr": null,
+      "confirme": true
+     }
+    ]
+   },
+   {
+    "personne": "Daniele Bonito",
+    "societes": [
+     {
+      "nom": "Ronchi SA",
+      "nfr": 742758,
+      "confirme": true
+     },
+     {
+      "nom": "Perrin Frères SA",
+      "nfr": 203802,
+      "confirme": true
+     },
+     {
+      "nom": "Novaco SA",
+      "nfr": null,
+      "confirme": true
+     }
+    ]
+   },
+   {
+    "personne": "Frederic Michoud",
+    "societes": [
+     {
+      "nom": "Perrin Frères SA",
+      "nfr": 203802,
+      "confirme": true
+     }
+    ]
+   }
+  ],
+  "liensDirects": []
+ },
+ {
+  "nfr": 218557,
+  "dirigeantsCommuns": [],
+  "liensDirects": [
+   {
+    "nom": "Holcim Ltd (groupe)",
+    "nfr": null,
+    "confirme": true
+   },
+   {
+    "nom": "Consortium Gravière Sous-Bernex",
+    "nfr": null,
+    "confirme": true
+   },
+   {
+    "nom": "Cand-Landi SA / Holding",
+    "nfr": 851070,
+    "confirme": true
+   }
+  ]
+ },
+ {
+  "nfr": 396522,
+  "dirigeantsCommuns": [
+   {
+    "personne": "Richard Maury",
+    "societes": [
+     {
+      "nom": "Maury Transports SA",
+      "nfr": 396522,
+      "confirme": true
+     },
+     {
+      "nom": "Sablière du Cannelet SA",
+      "nfr": 396522,
+      "confirme": true
+     },
+     {
+      "nom": "Maury Développement SA",
+      "nfr": 396522,
+      "confirme": true
+     },
+     {
+      "nom": "Maury Garage SA",
+      "nfr": 396522,
+      "confirme": true
+     },
+     {
+      "nom": "Maury Gravières SA",
+      "nfr": 396522,
+      "confirme": true
+     }
+    ]
+   }
+  ],
+  "liensDirects": [
+   {
+    "nom": "Consortium Gravière Sous-Bernex",
+    "nfr": null,
+    "confirme": true
+   }
+  ]
+ },
+ {
+  "nfr": 511947,
+  "dirigeantsCommuns": [
+   {
+    "personne": "Vincent Chavaz",
+    "societes": [
+     {
+      "nom": "Entreprise Chavaz SA",
+      "nfr": 142084405,
+      "confirme": true
+     },
+     {
+      "nom": "Pro Béton SA",
+      "nfr": 145739,
+      "confirme": true
+     }
+    ]
+   },
+   {
+    "personne": "John Descombes",
+    "societes": [
+     {
+      "nom": "Groupe Carrières du Salève",
+      "nfr": null,
+      "confirme": true
+     },
+     {
+      "nom": "Descombes Père et Fils SARL",
+      "nfr": null,
+      "confirme": true
+     }
+    ]
+   }
+  ],
+  "liensDirects": [
+   {
+    "nom": "Descombes Père et Fils SARL",
+    "nfr": null,
+    "confirme": false
+   }
+  ]
+ },
+ {
+  "nfr": 599488,
+  "dirigeantsCommuns": [
+   {
+    "personne": "Louis Risse",
+    "societes": [
+     {
+      "nom": "Le Coultre S.A.",
+      "nfr": 196970,
+      "confirme": true
+     }
+    ]
+   },
+   {
+    "personne": "Pascal Doutaz",
+    "societes": [
+     {
+      "nom": "Le Coultre S.A.",
+      "nfr": 196970,
+      "confirme": false
+     }
+    ]
+   },
+   {
+    "personne": "Famille Moinat",
+    "societes": [
+     {
+      "nom": "Sotrag SA",
+      "nfr": null,
+      "confirme": true
+     },
+     {
+      "nom": "Léman Granulats SA",
+      "nfr": null,
+      "confirme": true
+     },
+     {
+      "nom": "GCM SA (Claie-aux-Moines)",
+      "nfr": null,
+      "confirme": true
+     }
+    ]
+   }
+  ],
+  "liensDirects": [
+   {
+    "nom": "BGO SA",
+    "nfr": 235242562,
+    "confirme": false
+   }
+  ]
+ },
+ {
+  "nfr": 659640,
+  "dirigeantsCommuns": [
+   {
+    "personne": "Daniel Bel",
+    "societes": [
+     {
+      "nom": "Soreval SA",
+      "nfr": 878385,
+      "confirme": true
+     }
+    ]
+   },
+   {
+    "personne": "Jean-Pierre Gardiol",
+    "societes": [
+     {
+      "nom": "Soreval SA",
+      "nfr": 878385,
+      "confirme": true
+     }
+    ]
+   }
+  ],
+  "liensDirects": []
+ },
+ {
+  "nfr": 742758,
+  "dirigeantsCommuns": [
+   {
+    "personne": "David Martini",
+    "societes": [
+     {
+      "nom": "PQR Béton SA",
+      "nfr": 203924,
+      "confirme": true
+     },
+     {
+      "nom": "Novaco SA",
+      "nfr": null,
+      "confirme": true
+     }
+    ]
+   },
+   {
+    "personne": "Daniele Bonito",
+    "societes": [
+     {
+      "nom": "PQR Béton SA",
+      "nfr": 203924,
+      "confirme": true
+     },
+     {
+      "nom": "Perrin Frères SA",
+      "nfr": 203802,
+      "confirme": true
+     },
+     {
+      "nom": "Novaco SA",
+      "nfr": null,
+      "confirme": true
+     }
+    ]
+   }
+  ],
+  "liensDirects": [
+   {
+    "nom": "Léman Granulats SA",
+    "nfr": null,
+    "confirme": false
+   }
+  ]
+ },
+ {
+  "nfr": 785243,
+  "dirigeantsCommuns": [
+   {
+    "personne": "Blaise Marc Henry",
+    "societes": [
+     {
+      "nom": "BGO SA",
+      "nfr": 235242562,
+      "confirme": true
+     }
+    ]
+   }
+  ],
+  "liensDirects": []
+ },
+ {
+  "nfr": 851070,
+  "dirigeantsCommuns": [
+   {
+    "personne": "Gérard Häberli",
+    "societes": [
+     {
+      "nom": "Groupe Orllati SA",
+      "nfr": null,
+      "confirme": true
+     }
+    ]
+   },
+   {
+    "personne": "Stéphane Pilloud",
+    "societes": [
+     {
+      "nom": "BGO SA",
+      "nfr": 235242562,
+      "confirme": true
+     },
+     {
+      "nom": "Béton Replan SA / Catellani",
+      "nfr": 105495945,
+      "confirme": true
+     }
+    ]
+   }
+  ],
+  "liensDirects": [
+   {
+    "nom": "Holcim (Suisse) SA",
+    "nfr": 218557,
+    "confirme": true
+   }
+  ]
+ },
+ {
+  "nfr": 878385,
+  "dirigeantsCommuns": [
+   {
+    "personne": "Jean-Bernard Buchs",
+    "societes": [
+     {
+      "nom": "Gravières d'Epeisses SA",
+      "nfr": 144802,
+      "confirme": true
+     },
+     {
+      "nom": "PointGe SA",
+      "nfr": 893055,
+      "confirme": true
+     },
+     {
+      "nom": "CGO SA",
+      "nfr": null,
+      "confirme": true
+     },
+     {
+      "nom": "Ecom3 SA",
+      "nfr": 271937631,
+      "confirme": true
+     }
+    ]
+   },
+   {
+    "personne": "Daniel Bel",
+    "societes": [
+     {
+      "nom": "SCRASA SA",
+      "nfr": 659640,
+      "confirme": true
+     }
+    ]
+   },
+   {
+    "personne": "Jean-Pierre Gardiol",
+    "societes": [
+     {
+      "nom": "SCRASA SA",
+      "nfr": 659640,
+      "confirme": true
+     }
+    ]
+   }
+  ],
+  "liensDirects": [
+   {
+    "nom": "Consortium Gravière Sous-Bernex",
+    "nfr": null,
+    "confirme": true
+   }
+  ]
+ },
+ {
+  "nfr": 893055,
+  "dirigeantsCommuns": [
+   {
+    "personne": "Jean-Bernard Buchs",
+    "societes": [
+     {
+      "nom": "Gravières d'Epeisses SA",
+      "nfr": 144802,
+      "confirme": true
+     },
+     {
+      "nom": "Soreval SA",
+      "nfr": 878385,
+      "confirme": true
+     },
+     {
+      "nom": "CGO SA",
+      "nfr": null,
+      "confirme": true
+     },
+     {
+      "nom": "Ecom3 SA",
+      "nfr": 271937631,
+      "confirme": true
+     }
+    ]
+   },
+   {
+    "personne": "Nicola Di Padova",
+    "societes": [
+     {
+      "nom": "Gravières d'Epeisses SA",
+      "nfr": 144802,
+      "confirme": true
+     }
+    ]
+   }
+  ],
+  "liensDirects": []
+ },
+ {
+  "nfr": 105495945,
+  "dirigeantsCommuns": [
+   {
+    "personne": "Stéphane Pilloud",
+    "societes": [
+     {
+      "nom": "BGO SA",
+      "nfr": 235242562,
+      "confirme": true
+     },
+     {
+      "nom": "Cand-Landi SA / Holding",
+      "nfr": 851070,
+      "confirme": true
+     }
+    ]
+   }
+  ],
+  "liensDirects": []
+ },
+ {
+  "nfr": 106395559,
+  "dirigeantsCommuns": [
+   {
+    "personne": "Fratrie Orllati (Avni,Basri,Gjevgjet,Velush)",
+    "societes": [
+     {
+      "nom": "Groupe Orllati SA",
+      "nfr": null,
+      "confirme": true
+     },
+     {
+      "nom": "Consortium Gravière Sous-Bernex",
+      "nfr": null,
+      "confirme": false
+     }
+    ]
+   }
+  ],
+  "liensDirects": []
+ },
+ {
+  "nfr": 142084405,
+  "dirigeantsCommuns": [
+   {
+    "personne": "Vincent Chavaz",
+    "societes": [
+     {
+      "nom": "Sasso Recyclage / Granulats SA",
+      "nfr": 511947,
+      "confirme": true
+     },
+     {
+      "nom": "Pro Béton SA",
+      "nfr": 145739,
+      "confirme": true
+     }
+    ]
+   }
+  ],
+  "liensDirects": []
+ },
+ {
+  "nfr": 235242562,
+  "dirigeantsCommuns": [
+   {
+    "personne": "Stéphane Pilloud",
+    "societes": [
+     {
+      "nom": "Cand-Landi SA / Holding",
+      "nfr": 851070,
+      "confirme": true
+     },
+     {
+      "nom": "Béton Replan SA / Catellani",
+      "nfr": 105495945,
+      "confirme": true
+     }
+    ]
+   },
+   {
+    "personne": "Blaise Marc Henry",
+    "societes": [
+     {
+      "nom": "Henry Transports SA",
+      "nfr": 785243,
+      "confirme": true
+     }
+    ]
+   },
+   {
+    "personne": "Laurent Dorthe",
+    "societes": [
+     {
+      "nom": "GCM SA (Claie-aux-Moines)",
+      "nfr": null,
+      "confirme": true
+     }
+    ]
+   }
+  ],
+  "liensDirects": [
+   {
+    "nom": "Ecosor SA",
+    "nfr": 599488,
+    "confirme": false
+   }
+  ]
+ },
+ {
+  "nfr": 271937631,
+  "dirigeantsCommuns": [
+   {
+    "personne": "Jean-Bernard Buchs",
+    "societes": [
+     {
+      "nom": "Gravières d'Epeisses SA",
+      "nfr": 144802,
+      "confirme": true
+     },
+     {
+      "nom": "PointGe SA",
+      "nfr": 893055,
+      "confirme": true
+     },
+     {
+      "nom": "Soreval SA",
+      "nfr": 878385,
+      "confirme": true
+     },
+     {
+      "nom": "CGO SA",
+      "nfr": null,
+      "confirme": true
+     }
+    ]
+   }
+  ],
+  "liensDirects": []
+ },
+ {
+  "nfr": 429630661,
+  "dirigeantsCommuns": [],
+  "liensDirects": [
+   {
+    "nom": "Groupe Albemi",
+    "nfr": null,
+    "confirme": true
+   }
+  ]
+ }
+]

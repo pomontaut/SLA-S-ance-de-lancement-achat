@@ -203,6 +203,38 @@ export function findGroupeDetails(
   return groupes.filter((g) => g.membres.some((m) => m.nfr === nfr)).map((g) => buildGroupeDetail(g, allFournisseurs))
 }
 
+/** Réseau de dirigeants et de liens entre sociétés (administrateurs communs, structures de
+ * groupe), issu d'une cartographie externe (registres RC/FOSC, presse) sur le secteur
+ * gravier/béton — INFORMATIF uniquement, distinct des "Groupes potentiels" validés
+ * manuellement : ceci reflète un réseau de relations (parfois non confirmées publiquement,
+ * `confirme: false`), pas une structure d'actionnariat vérifiée. Voir liensDirigeantsDepense.json. */
+export interface LiensDirigeantsEntry {
+  nfr: number
+  dirigeantsCommuns: {
+    personne: string
+    societes: { nom: string; nfr: number | null; confirme: boolean }[]
+  }[]
+  liensDirects: { nom: string; nfr: number | null; confirme: boolean }[]
+}
+
+let liensDirigeantsCache: LiensDirigeantsEntry[] | null = null
+let liensDirigeantsPending: Promise<LiensDirigeantsEntry[]> | null = null
+
+export function loadLiensDirigeants(): Promise<LiensDirigeantsEntry[]> {
+  if (liensDirigeantsCache) return Promise.resolve(liensDirigeantsCache)
+  if (!liensDirigeantsPending) {
+    liensDirigeantsPending = import('./liensDirigeantsDepense.json').then((mod) => {
+      liensDirigeantsCache = mod.default as unknown as LiensDirigeantsEntry[]
+      return liensDirigeantsCache
+    })
+  }
+  return liensDirigeantsPending
+}
+
+export function findLiensDirigeants(liens: LiensDirigeantsEntry[], nfr: number): LiensDirigeantsEntry | null {
+  return liens.find((l) => l.nfr === nfr) ?? null
+}
+
 export interface GroupeTotal {
   nom: string
   parent?: string
