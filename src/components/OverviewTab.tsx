@@ -7,6 +7,7 @@ import {
   distinctTypes,
   globalKpis,
   multiSecteurTrend,
+  montantDistribution,
   noteDistribution,
 } from '../data/evaluationsHistorique'
 import FilterBar from './FilterBar'
@@ -52,6 +53,7 @@ export default function OverviewTab({
   const secteursForTrend = filters.secteurs.length > 0 ? filters.secteurs : [...SECTEURS]
   const trend = useMemo(() => multiSecteurTrend(all, secteursForTrend), [all, secteursForTrend])
   const distribution = useMemo(() => noteDistribution(filtered), [filtered])
+  const montantDist = useMemo(() => montantDistribution(filtered), [filtered])
   const famille = useMemo(() => familleBreakdown(filtered).slice(0, 12), [filtered])
   const criteres = useMemo(() => critereMoyennes(filtered), [filtered])
   const supplierNames = useMemo(() => Array.from(new Set(all.map((r) => r.nom))).sort((a, b) => a.localeCompare(b)), [all])
@@ -87,13 +89,19 @@ export default function OverviewTab({
           <Histogram data={distribution} />
         </div>
         <div className="card">
-          <h3 className="font-semibold mb-3">Moyenne par famille / segment (top 12)</h3>
-          {famille.length > 0 ? (
-            <BarChart data={famille.map((f) => ({ label: f.famille, value: f.moyenne, sub: `${f.count} éval.` }))} max={5} />
-          ) : (
-            <p className="text-sm text-slate-500">Aucune donnée.</p>
-          )}
+          <h3 className="font-semibold mb-1">Distribution des montants</h3>
+          <p className="text-xs text-slate-500 mb-3">Même tranches de note, mais pondérées par le CA plutôt que par le nombre de fournisseurs.</p>
+          <Histogram data={montantDist} formatValue={(v) => formatCurrency(v)} />
         </div>
+      </div>
+
+      <div className="card">
+        <h3 className="font-semibold mb-3">Moyenne par famille / segment (top 12)</h3>
+        {famille.length > 0 ? (
+          <BarChart data={famille.map((f) => ({ label: f.famille, value: f.moyenne, sub: `${f.count} éval.` }))} max={5} />
+        ) : (
+          <p className="text-sm text-slate-500">Aucune donnée.</p>
+        )}
       </div>
 
       <div className="card">

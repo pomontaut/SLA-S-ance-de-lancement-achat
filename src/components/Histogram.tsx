@@ -1,4 +1,11 @@
-export default function Histogram({ data }: { data: { bucket: string; count: number }[] }) {
+export default function Histogram({
+  data,
+  formatValue = (v) => String(v),
+}: {
+  data: { bucket: string; count: number }[]
+  /** Formatte la valeur affichée au sommet de chaque barre (par défaut : nombre brut). */
+  formatValue?: (v: number) => string
+}) {
   const max = Math.max(1, ...data.map((d) => d.count))
   const total = data.reduce((sum, d) => sum + d.count, 0)
   return (
@@ -6,7 +13,7 @@ export default function Histogram({ data }: { data: { bucket: string; count: num
       {data.map((d) => (
         <div key={d.bucket} className="flex-1 flex flex-col items-center justify-end h-full">
           <div className="text-xs text-slate-600 mb-1 text-center">
-            {d.count}
+            {formatValue(d.count)}
             <div className="text-[10px] text-slate-400">{total > 0 ? `${Math.round((d.count / total) * 100)}%` : '0%'}</div>
           </div>
           <div

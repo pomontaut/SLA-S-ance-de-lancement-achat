@@ -541,19 +541,31 @@ export function multiSecteurTrend(all: EvalRecord[], secteurs: string[]): Secteu
   return secteurs.map((secteur) => ({ secteur, points: trendParAnnee(all, secteur) }))
 }
 
+const NOTE_BUCKETS = [
+  { bucket: '< 2', min: -Infinity, max: 2 },
+  { bucket: '2 – 2,5', min: 2, max: 2.5 },
+  { bucket: '2,5 – 3', min: 2.5, max: 3 },
+  { bucket: '3 – 3,5', min: 3, max: 3.5 },
+  { bucket: '3,5 – 4', min: 3.5, max: 4 },
+  { bucket: '≥ 4', min: 4, max: Infinity },
+]
+
 export function noteDistribution(records: EvalRecord[]): { bucket: string; count: number }[] {
-  const buckets = [
-    { bucket: '< 2', min: -Infinity, max: 2 },
-    { bucket: '2 – 2,5', min: 2, max: 2.5 },
-    { bucket: '2,5 – 3', min: 2.5, max: 3 },
-    { bucket: '3 – 3,5', min: 3, max: 3.5 },
-    { bucket: '3,5 – 4', min: 3.5, max: 4 },
-    { bucket: '≥ 4', min: 4, max: Infinity },
-  ]
   const notes = records.filter((r) => r.note != null).map((r) => r.note!)
-  return buckets.map((b) => ({
+  return NOTE_BUCKETS.map((b) => ({
     bucket: b.bucket,
     count: notes.filter((n) => n >= b.min && n < b.max).length,
+  }))
+}
+
+/** Même répartition par tranche de note que `noteDistribution`, mais pondérée par le montant
+ * (CA, même convention que `perimetreEvalue`/RiskMatrix) plutôt que par le nombre de fournisseurs
+ * — permet de voir si les gros volumes sont plutôt bien ou mal notés. */
+export function montantDistribution(records: EvalRecord[]): { bucket: string; count: number }[] {
+  const withCa = records.filter((r) => r.note != null && r.ca != null)
+  return NOTE_BUCKETS.map((b) => ({
+    bucket: b.bucket,
+    count: Math.round(withCa.filter((r) => r.note! >= b.min && r.note! < b.max).reduce((sum, r) => sum + r.ca!, 0)),
   }))
 }
 
