@@ -286,14 +286,24 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
   }, [])
 
   const groupesTotals = useMemo(
-    () => (groupes && fournisseurs ? computeGroupesTotals(groupes, fournisseurs) : null),
-    [groupes, fournisseurs],
+    () => (groupes && fournisseurs ? computeGroupesTotals(groupes, fournisseurs, selectedEntite) : null),
+    [groupes, fournisseurs, selectedEntite],
   )
 
-  // Le filtre par entité ne s'applique qu'à cette section (tuiles d'analyse achat) : ces
-  // agrégats par entité sont déjà précalculés (data.parEntite), contrairement au détail par
-  // chantier/tranches/top fournisseurs plus bas, qui restent "toutes entités confondues".
+  // Le filtre par entité s'applique aux tuiles d'analyse achat (agrégats déjà précalculés dans
+  // data.parEntite) ainsi qu'aux Top 20 fournisseurs/groupes (recalculés côté client à partir du
+  // détail par fournisseur, cf. top20ForEntite ci-dessous) — mais pas au détail par chantier ni
+  // aux tranches, qui restent "toutes entités confondues".
   const g = selectedEntite ? data?.parEntite[selectedEntite] : data?.global
+  const top20ForEntite = useMemo(() => {
+    if (!selectedEntite) return data?.top20Fournisseurs ?? null
+    if (!fournisseurs) return null
+    return fournisseurs
+      .map((f) => ({ nfr: f.nfr, nom: f.nom, montant: f.parEntite[selectedEntite]?.montantTotal ?? 0 }))
+      .filter((f) => f.montant > 0)
+      .sort((a, b) => b.montant - a.montant)
+      .slice(0, 20)
+  }, [data, fournisseurs, selectedEntite])
   const chantierPct = useMemo(
     () => (data && !selectedEntite ? pct(data.chantier.montantTotal, data.global.montantTotal) : null),
     [data, selectedEntite],
@@ -451,14 +461,20 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
       <div className="card">
         <h3 className="font-semibold mb-1">Top 20 fournisseurs par dépense</h3>
         <p className="text-xs text-slate-500 mb-3">Cliquez un nom pour ouvrir sa fiche fournisseur.</p>
-        <TopFournisseursTable top20={data.top20Fournisseurs} montantTotal={g.montantTotal} />
-        <div className="mt-2 flex flex-wrap gap-2">
-          {data.top20Fournisseurs.map((f) => (
-            <button key={f.nfr} className="text-xs text-indigo-600 hover:underline" onClick={() => onZoom(f.nom)}>
-              {f.nom} →
-            </button>
-          ))}
-        </div>
+        {top20ForEntite ? (
+          <>
+            <TopFournisseursTable top20={top20ForEntite} montantTotal={g.montantTotal} />
+            <div className="mt-2 flex flex-wrap gap-2">
+              {top20ForEntite.map((f) => (
+                <button key={f.nfr} className="text-xs text-indigo-600 hover:underline" onClick={() => onZoom(f.nom)}>
+                  {f.nom} →
+                </button>
+              ))}
+            </div>
+          </>
+        ) : (
+          <p className="text-sm text-slate-500">Chargement…</p>
+        )}
       </div>
 
       {groupesTotals && groupesTotals.length > 0 && (

@@ -244,13 +244,19 @@ export interface GroupeTotal {
 
 /** Calcule, pour chaque groupe validé, le montant total cumulé de ses entités membres — sert au
  * classement "Top 20 groupes fournisseurs" (même principe que le Top 20 fournisseurs individuel,
- * mais agrégé par groupe plutôt que par N° fr). */
-export function computeGroupesTotals(groupes: GroupeFournisseur[], allFournisseurs: DepenseFournisseur[]): GroupeTotal[] {
+ * mais agrégé par groupe plutôt que par N° fr). Si `entite` est fourni, ne compte que le montant
+ * de chaque membre pour cette entité (`DepenseFournisseur.parEntite`) plutôt que son total global. */
+export function computeGroupesTotals(
+  groupes: GroupeFournisseur[],
+  allFournisseurs: DepenseFournisseur[],
+  entite?: string | null,
+): GroupeTotal[] {
   return groupes
     .map((g) => {
       const montantTotal = g.membres.reduce((sum, m) => {
         const f = allFournisseurs.find((af) => af.nfr === m.nfr)
-        return sum + (f?.global.montantTotal ?? 0)
+        const montant = entite ? f?.parEntite[entite]?.montantTotal : f?.global.montantTotal
+        return sum + (montant ?? 0)
       }, 0)
       return { nom: g.nom, parent: g.parent, montantTotal: Math.round(montantTotal * 100) / 100, nbEntites: g.membres.length }
     })
