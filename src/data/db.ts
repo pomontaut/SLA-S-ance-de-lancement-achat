@@ -1,5 +1,16 @@
 import { supabase } from '../lib/supabase'
-import type { ChecklistItem, Dossier, Evaluation, Lot, NewChecklistItem, NewDossier, NewEvaluation, NewLot } from '../types'
+import type {
+  ChecklistItem,
+  Dossier,
+  Evaluation,
+  EvaluationFormulaire,
+  Lot,
+  NewChecklistItem,
+  NewDossier,
+  NewEvaluation,
+  NewEvaluationFormulaire,
+  NewLot,
+} from '../types'
 import { CHECKLIST_TEMPLATE } from './lists'
 
 function requireClient() {
@@ -448,4 +459,83 @@ export async function ensureEvaluationForLot(lot: Lot): Promise<Evaluation | nul
     commentaire: '',
     statut: 'Brouillon',
   })
+}
+
+interface EvaluationFormulaireRow {
+  id: string
+  famille: string
+  fournisseur_id: number | null
+  fournisseur_nom: string
+  numero_chantier: string
+  nom_chantier: string
+  criteres: Record<string, number | null>
+  moyenne: number | null
+  remarques: string
+  evaluateur: string
+  created_at: string
+}
+
+function evaluationFormulaireFromRow(row: EvaluationFormulaireRow): EvaluationFormulaire {
+  return {
+    id: row.id,
+    famille: row.famille,
+    fournisseurId: row.fournisseur_id,
+    fournisseurNom: row.fournisseur_nom,
+    numeroChantier: row.numero_chantier,
+    nomChantier: row.nom_chantier,
+    criteres: row.criteres ?? {},
+    moyenne: row.moyenne,
+    remarques: row.remarques,
+    evaluateur: row.evaluateur,
+    createdAt: row.created_at,
+  }
+}
+
+function evaluationFormulaireToRow(e: NewEvaluationFormulaire | EvaluationFormulaire) {
+  return {
+    famille: e.famille,
+    fournisseur_id: e.fournisseurId,
+    fournisseur_nom: e.fournisseurNom,
+    numero_chantier: e.numeroChantier,
+    nom_chantier: e.nomChantier,
+    criteres: e.criteres,
+    moyenne: e.moyenne,
+    remarques: e.remarques,
+    evaluateur: e.evaluateur,
+  }
+}
+
+export async function listEvaluationsFormulaire(): Promise<EvaluationFormulaire[]> {
+  const { data, error } = await requireClient()
+    .from('evaluations_formulaire')
+    .select('*')
+    .order('created_at', { ascending: false })
+  if (error) throw error
+  return (data as EvaluationFormulaireRow[]).map(evaluationFormulaireFromRow)
+}
+
+export async function createEvaluationFormulaire(input: NewEvaluationFormulaire): Promise<EvaluationFormulaire> {
+  const { data, error } = await requireClient()
+    .from('evaluations_formulaire')
+    .insert(evaluationFormulaireToRow(input))
+    .select()
+    .single()
+  if (error) throw error
+  return evaluationFormulaireFromRow(data as EvaluationFormulaireRow)
+}
+
+export async function updateEvaluationFormulaire(evaluation: EvaluationFormulaire): Promise<EvaluationFormulaire> {
+  const { data, error } = await requireClient()
+    .from('evaluations_formulaire')
+    .update(evaluationFormulaireToRow(evaluation))
+    .eq('id', evaluation.id)
+    .select()
+    .single()
+  if (error) throw error
+  return evaluationFormulaireFromRow(data as EvaluationFormulaireRow)
+}
+
+export async function deleteEvaluationFormulaire(id: string): Promise<void> {
+  const { error } = await requireClient().from('evaluations_formulaire').delete().eq('id', id)
+  if (error) throw error
 }

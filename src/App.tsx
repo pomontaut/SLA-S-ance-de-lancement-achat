@@ -5,8 +5,9 @@ import DossiersList from './components/DossiersList'
 import Workspace from './components/Workspace'
 import FournisseursAnnuaire from './components/FournisseursAnnuaire'
 import EvaluationDashboard from './components/EvaluationDashboard'
+import FormulaireEvaluationTab from './components/FormulaireEvaluationTab'
 
-type View = 'dossiers' | 'fournisseurs' | 'dashboard'
+type View = 'dossiers' | 'fournisseurs' | 'dashboard' | 'formulaire'
 
 export default function App() {
   const [view, setView] = useState<View>('dashboard')
@@ -25,6 +26,12 @@ export default function App() {
               onClick={() => setView('dashboard')}
             >
               Dashboard évaluations
+            </button>
+            <button
+              className={`text-sm font-medium pb-1 border-b-2 ${view === 'formulaire' ? 'border-white' : 'border-transparent text-white/70'}`}
+              onClick={() => setView('formulaire')}
+            >
+              Formulaire d'évaluation
             </button>
           </nav>
         )}
@@ -48,6 +55,8 @@ export default function App() {
         <FournisseursAnnuaire />
       ) : view === 'dashboard' ? (
         <EvaluationDashboard />
+      ) : view === 'formulaire' ? (
+        <FormulaireEvaluationTab />
       ) : (
         <DossiersList onOpen={setOpenDossierId} />
       )}

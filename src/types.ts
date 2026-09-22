@@ -106,6 +106,29 @@ export function noteGlobale(evaluation: Evaluation): number | null {
   return Math.round((notes.reduce((a, b) => a + b, 0) / notes.length) * 10) / 10
 }
 
+// ============ Formulaire d'évaluation (famille/critères dynamiques) ============
+//
+// Distinct du modèle Evaluation ci-dessus (qui est rattaché à un dossier/lot précis du Suivi HA,
+// avec un jeu de critères fixe) : ce formulaire est autonome, saisissable pour n'importe quel
+// fournisseur/chantier, avec des critères qui dépendent de la famille choisie — voir
+// src/data/formulaireEvaluation.ts.
+
+export interface EvaluationFormulaire {
+  id: string
+  famille: string
+  fournisseurId: number | null
+  fournisseurNom: string
+  numeroChantier: string
+  nomChantier: string
+  criteres: Record<string, number | null>
+  moyenne: number | null
+  remarques: string
+  evaluateur: string
+  createdAt: string
+}
+
+export type NewEvaluationFormulaire = Omit<EvaluationFormulaire, 'id' | 'createdAt'>
+
 export interface LotComputed {
   budgetNetCible: number | null
   ecartBudget: number | null

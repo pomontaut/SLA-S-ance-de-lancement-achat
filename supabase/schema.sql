@@ -9,6 +9,7 @@ create extension if not exists "pgcrypto";
 drop table if exists lots cascade;
 drop table if exists checklist_items cascade;
 drop table if exists dossiers cascade;
+drop table if exists evaluations_formulaire cascade;
 
 create table dossiers (
   id uuid primary key default gen_random_uuid(),
@@ -88,10 +89,28 @@ create table evaluations (
   statut text not null default 'Brouillon'
 );
 
+-- Formulaire d'évaluation autonome (famille/critères dynamiques, indépendant d'un dossier/lot
+-- précis — voir src/data/formulaireEvaluation.ts pour le jeu de critères par famille).
+create table evaluations_formulaire (
+  id uuid primary key default gen_random_uuid(),
+  famille text not null default '',
+  fournisseur_id bigint,
+  fournisseur_nom text not null default '',
+  numero_chantier text not null default '',
+  nom_chantier text not null default '',
+  criteres jsonb not null default '{}',
+  moyenne numeric,
+  remarques text not null default '',
+  evaluateur text not null default '',
+  created_at timestamptz not null default now()
+);
+
 create index lots_dossier_id_idx on lots(dossier_id);
 create index checklist_items_dossier_id_idx on checklist_items(dossier_id);
 create index evaluations_dossier_id_idx on evaluations(dossier_id);
 create index evaluations_fournisseur_nom_idx on evaluations(fournisseur_nom);
+create index evaluations_formulaire_fournisseur_nom_idx on evaluations_formulaire(fournisseur_nom);
+create index evaluations_formulaire_created_at_idx on evaluations_formulaire(created_at);
 
 -- Accès ouvert via la clé "anon" : outil interne, pas d'authentification.
 -- Si l'accès doit être restreint à l'avenir, remplacer ces policies par des règles liées à auth.uid().
@@ -99,8 +118,10 @@ alter table dossiers enable row level security;
 alter table lots enable row level security;
 alter table checklist_items enable row level security;
 alter table evaluations enable row level security;
+alter table evaluations_formulaire enable row level security;
 
 create policy "dossiers_all" on dossiers for all using (true) with check (true);
 create policy "lots_all" on lots for all using (true) with check (true);
 create policy "checklist_items_all" on checklist_items for all using (true) with check (true);
 create policy "evaluations_all" on evaluations for all using (true) with check (true);
+create policy "evaluations_formulaire_all" on evaluations_formulaire for all using (true) with check (true);
