@@ -18,7 +18,8 @@ export default function App() {
       <header className="bg-gradient-to-r from-brand-from to-brand-to text-white px-6 py-5">
         {/* Titre temporairement renommé (bascule prévue plus tard vers "SLA — Séance de lancement achats") */}
         <h1 className="text-2xl font-bold">Dashboard Évaluation Fournisseur</h1>
-        {/* Dossiers et Fournisseurs temporairement masqués de la navigation (fonctionnalités en pause) */}
+        {/* Fournisseurs (annuaire) reste masqué de la navigation (fonctionnalité en pause) —
+            Séance de lancement achats (Dossiers) remise temporairement visible sur demande. */}
         {!openDossierId && (
           <nav className="flex gap-4 mt-4">
             <button
@@ -32,6 +33,12 @@ export default function App() {
               onClick={() => setView('formulaire')}
             >
               Formulaire d'évaluation
+            </button>
+            <button
+              className={`text-sm font-medium pb-1 border-b-2 ${view === 'dossiers' ? 'border-white' : 'border-transparent text-white/70'}`}
+              onClick={() => setView('dossiers')}
+            >
+              Séance de lancement achats
             </button>
           </nav>
         )}
