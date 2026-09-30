@@ -21,8 +21,9 @@ Chantier » (Fiche chantier / Checklist documents / Suivi HA).
   logique du fichier Excel de référence.
 
 Les données sont partagées entre tous les participants via une base
-[Supabase](https://supabase.com) (Postgres hébergé) — pas de compte/connexion
-requis, l'outil est prévu pour un usage interne.
+[Supabase](https://supabase.com) (Postgres hébergé). Accès réservé aux comptes
+`@induni.ch` (connexion requise), avec des droits par onglet configurables par
+un administrateur — voir « Authentification et droits d'accès » ci-dessous.
 
 ## Stack
 
@@ -50,10 +51,29 @@ cp .env.example .env
    - `anon public` key → `VITE_SUPABASE_ANON_KEY`
 4. Renseigner ces deux valeurs dans `.env`.
 
-> Les policies RLS du schéma autorisent tout accès via la clé `anon` (outil
-> interne sans authentification). Si l'accès doit être restreint à l'avenir,
-> ajouter une authentification Supabase et remplacer les policies par des
-> règles basées sur `auth.uid()`.
+## Authentification et droits d'accès
+
+L'app est protégée par Supabase Auth (e-mail/mot de passe, comptes `@induni.ch`
+uniquement). Chaque compte a une ligne dans la table `profiles`, créée
+automatiquement à l'inscription, avec un droit booléen par onglet/sous-onglet
+(tous à `false` par défaut) — voir [`src/data/permissions.ts`](src/data/permissions.ts)
+pour le mapping onglet ↔ colonne.
+
+- **Premier démarrage** : si vous créez le projet Supabase depuis zéro,
+  `schema.sql` inclut déjà la table `profiles` et ses policies. Sur un projet
+  existant, exécutez plutôt [`supabase/migration_auth_profiles.sql`](supabase/migration_auth_profiles.sql)
+  (additif, ne touche à aucune donnée existante).
+- **Compte administrateur permanent** : `pomontaut@induni.ch` est toujours
+  administrateur (voit tout, accède à l'écran Administration), même si sa
+  ligne `profiles` est mal configurée — même principe que ESHOP-INDUNI.
+- **Nouveaux comptes** : inscription libre depuis l'écran de connexion,
+  restreinte aux adresses `@induni.ch`. Un nouveau compte ne voit **aucun**
+  onglet tant qu'un administrateur ne lui a pas coché les droits voulus dans
+  l'onglet « Administration ».
+- Les tables `dossiers`/`lots`/`checklist_items`/`evaluations`/
+  `evaluations_formulaire` exigent désormais un compte connecté (n'importe
+  lequel) — la visibilité fine par onglet est gérée côté app, pas en RLS
+  ligne par ligne.
 
 ## Développement
 

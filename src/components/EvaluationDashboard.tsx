@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { BlacklistEntry, EvalRecord, GlobalFilters, SecteurKpis, SecteurStat } from '../data/evaluationsHistorique'
+import type { PermissionKey, Profile } from '../types'
+import { can } from '../data/permissions'
 import {
   SECTEURS,
   anneesDisponibles,
@@ -356,23 +358,24 @@ function SecteurTab({
 
 type View = 'overview' | 'secteur' | 'comparaison' | 'blacklist' | 'depense' | 'consortium'
 
-const VIEW_TABS: { key: View; label: string }[] = [
-  { key: 'overview', label: "Vue d'ensemble" },
-  { key: 'secteur', label: 'Par secteur' },
-  { key: 'comparaison', label: 'Comparaison secteurs' },
-  { key: 'depense', label: '💰 Analyse de la dépense' },
-  { key: 'consortium', label: 'Consortium' },
-  { key: 'blacklist', label: '🚫 Blacklist' },
+const VIEW_TABS: { key: View; label: string; permission: PermissionKey }[] = [
+  { key: 'overview', label: "Vue d'ensemble", permission: 'canViewOverview' },
+  { key: 'secteur', label: 'Par secteur', permission: 'canViewSecteur' },
+  { key: 'comparaison', label: 'Comparaison secteurs', permission: 'canViewComparaison' },
+  { key: 'depense', label: '💰 Analyse de la dépense', permission: 'canViewDepense' },
+  { key: 'consortium', label: 'Consortium', permission: 'canViewConsortium' },
+  { key: 'blacklist', label: '🚫 Blacklist', permission: 'canViewBlacklist' },
 ]
 
-export default function EvaluationDashboard() {
+export default function EvaluationDashboard({ profile }: { profile: Profile }) {
   const [all, setAll] = useState<EvalRecord[] | null>(null)
   const [allFull, setAllFull] = useState<EvalRecord[] | null>(null)
   const [secteurStats, setSecteurStats] = useState<SecteurStat[]>([])
   const [blacklist, setBlacklist] = useState<BlacklistEntry[]>([])
   const [secteur, setSecteur] = useState<string>('GC')
   const [annee, setAnnee] = useState<number | null>(null)
-  const [view, setView] = useState<View>('overview')
+  const visibleTabs = VIEW_TABS.filter((t) => can(profile, t.permission))
+  const [view, setView] = useState<View>(visibleTabs[0]?.key ?? 'overview')
   const [filters, setFilters] = useState<GlobalFilters | null>(null)
   const [zoomNom, setZoomNom] = useState<string | null>(null)
 
@@ -410,7 +413,7 @@ export default function EvaluationDashboard() {
       </div>
 
       <div className="border-b border-slate-200 flex gap-1 flex-wrap">
-        {VIEW_TABS.map((t) => (
+        {visibleTabs.map((t) => (
           <button key={t.key} className={`tab-button ${view === t.key ? 'active' : ''}`} onClick={() => setView(t.key)}>
             {t.label}
           </button>

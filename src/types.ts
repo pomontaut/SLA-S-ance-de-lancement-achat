@@ -8,6 +8,33 @@ export interface Dossier {
   updatedAt: string
 }
 
+// ============ Comptes & droits d'accès par onglet ============
+//
+// Un droit booléen par onglet/sous-onglet de l'app — voir src/data/permissions.ts pour le mapping
+// onglet <-> champ, et supabase/migration_auth_profiles.sql pour le schéma. isAdmin outrepasse
+// tous les autres droits (voit tout, et accède à l'écran Administration).
+
+export interface Profile {
+  id: string
+  email: string
+  fullName: string
+  isAdmin: boolean
+  canViewOverview: boolean
+  canViewSecteur: boolean
+  canViewComparaison: boolean
+  canViewDepense: boolean
+  canViewConsortium: boolean
+  canViewBlacklist: boolean
+  canViewFormulaire: boolean
+  canViewSeanceLancement: boolean
+  canViewFournisseurs: boolean
+  createdAt: string
+}
+
+export type PermissionKey = Exclude<keyof Profile, 'id' | 'email' | 'fullName' | 'isAdmin' | 'createdAt'>
+
+export type NewProfilePatch = Partial<Pick<Profile, 'fullName' | 'isAdmin' | PermissionKey>>
+
 export type NewDossier = Omit<Dossier, 'id' | 'createdAt' | 'updatedAt'>
 
 export interface Lot {

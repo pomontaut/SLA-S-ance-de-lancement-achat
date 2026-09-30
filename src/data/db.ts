@@ -10,6 +10,8 @@ import type {
   NewEvaluation,
   NewEvaluationFormulaire,
   NewLot,
+  NewProfilePatch,
+  Profile,
 } from '../types'
 import { CHECKLIST_TEMPLATE } from './lists'
 
@@ -538,4 +540,75 @@ export async function updateEvaluationFormulaire(evaluation: EvaluationFormulair
 export async function deleteEvaluationFormulaire(id: string): Promise<void> {
   const { error } = await requireClient().from('evaluations_formulaire').delete().eq('id', id)
   if (error) throw error
+}
+
+interface ProfileRow {
+  id: string
+  email: string
+  full_name: string
+  is_admin: boolean
+  can_view_overview: boolean
+  can_view_secteur: boolean
+  can_view_comparaison: boolean
+  can_view_depense: boolean
+  can_view_consortium: boolean
+  can_view_blacklist: boolean
+  can_view_formulaire: boolean
+  can_view_seance_lancement: boolean
+  can_view_fournisseurs: boolean
+  created_at: string
+}
+
+function profileFromRow(row: ProfileRow): Profile {
+  return {
+    id: row.id,
+    email: row.email,
+    fullName: row.full_name,
+    isAdmin: row.is_admin,
+    canViewOverview: row.can_view_overview,
+    canViewSecteur: row.can_view_secteur,
+    canViewComparaison: row.can_view_comparaison,
+    canViewDepense: row.can_view_depense,
+    canViewConsortium: row.can_view_consortium,
+    canViewBlacklist: row.can_view_blacklist,
+    canViewFormulaire: row.can_view_formulaire,
+    canViewSeanceLancement: row.can_view_seance_lancement,
+    canViewFournisseurs: row.can_view_fournisseurs,
+    createdAt: row.created_at,
+  }
+}
+
+/** Charge le profil (droits d'accès) du compte actuellement connecté — null si la ligne n'existe
+ * pas encore (ne devrait pas arriver, un trigger Supabase la crée automatiquement à l'inscription). */
+export async function getMyProfile(userId: string): Promise<Profile | null> {
+  const { data, error } = await requireClient().from('profiles').select('*').eq('id', userId).maybeSingle()
+  if (error) throw error
+  return data ? profileFromRow(data as ProfileRow) : null
+}
+
+/** Liste tous les comptes — réservé aux administrateurs côté RLS (une ligne "profiles_select"
+ * n'autorise que sa propre ligne ou un admin ; un non-admin ne récupère donc que lui-même ici). */
+export async function listProfiles(): Promise<Profile[]> {
+  const { data, error } = await requireClient().from('profiles').select('*').order('email', { ascending: true })
+  if (error) throw error
+  return (data as ProfileRow[]).map(profileFromRow)
+}
+
+/** Met à jour les droits d'un compte — réservé aux administrateurs côté RLS. */
+export async function updateProfilePermissions(id: string, patch: NewProfilePatch): Promise<Profile> {
+  const row: Record<string, unknown> = {}
+  if (patch.fullName !== undefined) row.full_name = patch.fullName
+  if (patch.isAdmin !== undefined) row.is_admin = patch.isAdmin
+  if (patch.canViewOverview !== undefined) row.can_view_overview = patch.canViewOverview
+  if (patch.canViewSecteur !== undefined) row.can_view_secteur = patch.canViewSecteur
+  if (patch.canViewComparaison !== undefined) row.can_view_comparaison = patch.canViewComparaison
+  if (patch.canViewDepense !== undefined) row.can_view_depense = patch.canViewDepense
+  if (patch.canViewConsortium !== undefined) row.can_view_consortium = patch.canViewConsortium
+  if (patch.canViewBlacklist !== undefined) row.can_view_blacklist = patch.canViewBlacklist
+  if (patch.canViewFormulaire !== undefined) row.can_view_formulaire = patch.canViewFormulaire
+  if (patch.canViewSeanceLancement !== undefined) row.can_view_seance_lancement = patch.canViewSeanceLancement
+  if (patch.canViewFournisseurs !== undefined) row.can_view_fournisseurs = patch.canViewFournisseurs
+  const { data, error } = await requireClient().from('profiles').update(row).eq('id', id).select().single()
+  if (error) throw error
+  return profileFromRow(data as ProfileRow)
 }
