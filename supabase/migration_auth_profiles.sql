@@ -73,25 +73,41 @@ create policy "profiles_update_admin_only" on profiles for update
 -- Resserre l'accès aux tables existantes : connexion requise (n'importe quel compte), au lieu
 -- d'un accès totalement libre. La visibilité fine par onglet/profil est gérée côté app (React),
 -- pas ligne par ligne ici — cf. la demande initiale ("rendre les onglets visibles ou non").
-drop policy if exists "dossiers_all" on dossiers;
-create policy "dossiers_authenticated" on dossiers for all
-  using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+-- Chaque bloc est protégé par to_regclass() : si une de ces tables n'existe pas encore sur votre
+-- projet (ex. jamais utilisé "Suivi HA"), il est simplement ignoré au lieu de faire échouer tout
+-- le script (Supabase exécute ce script en une seule transaction : une erreur annule tout).
+do $$
+begin
+  if to_regclass('public.dossiers') is not null then
+    execute 'drop policy if exists "dossiers_all" on dossiers';
+    execute $policy$create policy "dossiers_authenticated" on dossiers for all
+      using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated')$policy$;
+  end if;
 
-drop policy if exists "lots_all" on lots;
-create policy "lots_authenticated" on lots for all
-  using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+  if to_regclass('public.lots') is not null then
+    execute 'drop policy if exists "lots_all" on lots';
+    execute $policy$create policy "lots_authenticated" on lots for all
+      using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated')$policy$;
+  end if;
 
-drop policy if exists "checklist_items_all" on checklist_items;
-create policy "checklist_items_authenticated" on checklist_items for all
-  using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+  if to_regclass('public.checklist_items') is not null then
+    execute 'drop policy if exists "checklist_items_all" on checklist_items';
+    execute $policy$create policy "checklist_items_authenticated" on checklist_items for all
+      using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated')$policy$;
+  end if;
 
-drop policy if exists "evaluations_all" on evaluations;
-create policy "evaluations_authenticated" on evaluations for all
-  using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+  if to_regclass('public.evaluations') is not null then
+    execute 'drop policy if exists "evaluations_all" on evaluations';
+    execute $policy$create policy "evaluations_authenticated" on evaluations for all
+      using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated')$policy$;
+  end if;
 
-drop policy if exists "evaluations_formulaire_all" on evaluations_formulaire;
-create policy "evaluations_formulaire_authenticated" on evaluations_formulaire for all
-  using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+  if to_regclass('public.evaluations_formulaire') is not null then
+    execute 'drop policy if exists "evaluations_formulaire_all" on evaluations_formulaire';
+    execute $policy$create policy "evaluations_formulaire_authenticated" on evaluations_formulaire for all
+      using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated')$policy$;
+  end if;
+end $$;
 
 -- Après avoir exécuté ce script : Authentication > Providers > Email doit être activé (c'est le
 -- cas par défaut) et Authentication > Settings > "Confirm email" décidera si un nouveau compte
