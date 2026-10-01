@@ -189,3 +189,9 @@ create policy "profiles_select" on profiles for select
   using (auth.uid() = id or is_admin(auth.uid()));
 create policy "profiles_update_admin_only" on profiles for update
   using (is_admin(auth.uid())) with check (is_admin(auth.uid()));
+
+-- Rattrapage pour les comptes auth déjà existants avant la (re)création de cette table (le
+-- trigger on_auth_user_created ne déclenche que sur les nouvelles inscriptions).
+insert into public.profiles (id, email)
+select id, email from auth.users
+where id not in (select id from public.profiles);

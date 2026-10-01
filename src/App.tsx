@@ -4,7 +4,7 @@ import type { Dossier, Profile } from './types'
 import { isSupabaseConfigured } from './lib/supabase'
 import { getSession, onAuthStateChange, signOut } from './lib/auth'
 import { getMyProfile } from './data/db'
-import { can, canViewDashboard } from './data/permissions'
+import { can, canViewDashboard, isAdminProfile } from './data/permissions'
 import DossiersList from './components/DossiersList'
 import Workspace from './components/Workspace'
 import FournisseursAnnuaire from './components/FournisseursAnnuaire'
@@ -26,7 +26,7 @@ function visibleViews(profile: Profile): View[] {
   if (can(profile, 'canViewFormulaire')) views.push('formulaire')
   if (FEATURE_SEANCE_LANCEMENT_ENABLED && can(profile, 'canViewSeanceLancement')) views.push('dossiers')
   if (FEATURE_FOURNISSEURS_ENABLED && can(profile, 'canViewFournisseurs')) views.push('fournisseurs')
-  if (profile.isAdmin) views.push('admin')
+  if (isAdminProfile(profile)) views.push('admin')
   return views
 }
 
@@ -42,6 +42,7 @@ export default function App() {
   const [sessionLoading, setSessionLoading] = useState(true)
   const [session, setSession] = useState<Session | null>(null)
   const [profile, setProfile] = useState<Profile | null>(null)
+  const [profileLoading, setProfileLoading] = useState(false)
   const [profileError, setProfileError] = useState<string | null>(null)
   const [view, setView] = useState<View | null>(null)
   const [openDossierId, setOpenDossierId] = useState<string | null>(null)
@@ -65,12 +66,34 @@ export default function App() {
 
   useEffect(() => {
     if (!session) return
+    setProfileLoading(true)
+    setProfileError(null)
     getMyProfile(session.user.id)
       .then((p) => {
-        setProfile(p)
-        if (p) setView(visibleViews(p)[0] ?? null)
+        // Compte créé avant l'existence de la table `profiles` (ou trigger non déclenché) :
+        // repli sur un profil vide plutôt que de rester bloqué sur "Chargement…" — isAdminProfile()
+        // garde quand même l'accès total pour l'admin permanent même sans ligne en base.
+        const resolved: Profile = p ?? {
+          id: session.user.id,
+          email: session.user.email ?? '',
+          fullName: '',
+          isAdmin: false,
+          canViewOverview: false,
+          canViewSecteur: false,
+          canViewComparaison: false,
+          canViewDepense: false,
+          canViewConsortium: false,
+          canViewBlacklist: false,
+          canViewFormulaire: false,
+          canViewSeanceLancement: false,
+          canViewFournisseurs: false,
+          createdAt: '',
+        }
+        setProfile(resolved)
+        setView(visibleViews(resolved)[0] ?? null)
       })
       .catch((e) => setProfileError((e as Error).message))
+      .finally(() => setProfileLoading(false))
   }, [session])
 
   async function handleSignOut() {
@@ -135,7 +158,7 @@ export default function App() {
             <p className="text-sm text-red-700">Erreur lors du chargement de votre profil : {profileError}</p>
           </div>
         </div>
-      ) : !profile ? (
+      ) : profileLoading || !profile ? (
         <p className="text-sm text-slate-500 text-center mt-10">Chargement de votre profil…</p>
       ) : allowed.length === 0 ? (
         <div className="max-w-md mx-auto mt-16 px-4">

@@ -70,6 +70,13 @@ create policy "profiles_update_admin_only" on profiles for update
   using (is_admin(auth.uid()))
   with check (is_admin(auth.uid()));
 
+-- Rattrapage pour les comptes déjà créés AVANT l'existence de cette table (le trigger
+-- on_auth_user_created ne déclenche que sur les nouvelles inscriptions) : sans cette ligne, un
+-- compte plus ancien n'a aucune ligne `profiles` tant qu'il ne se réinscrit pas.
+insert into public.profiles (id, email)
+select id, email from auth.users
+where id not in (select id from public.profiles);
+
 -- Resserre l'accès aux tables existantes : connexion requise (n'importe quel compte), au lieu
 -- d'un accès totalement libre. La visibilité fine par onglet/profil est gérée côté app (React),
 -- pas ligne par ligne ici — cf. la demande initiale ("rendre les onglets visibles ou non").

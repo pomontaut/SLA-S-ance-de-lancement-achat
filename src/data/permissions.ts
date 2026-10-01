@@ -7,6 +7,15 @@ export interface PermissionDef {
   groupe: string
 }
 
+/** Même garde-fou que la fonction SQL is_admin() et PERMANENT_ADMIN_EMAILS côté ESHOP-INDUNI :
+ * reste administrateur même si sa ligne `profiles` est absente ou mal configurée. */
+const PERMANENT_ADMIN_EMAILS = ['pomontaut@induni.ch']
+
+export function isAdminProfile(profile: Profile | null): boolean {
+  if (!profile) return false
+  return profile.isAdmin || PERMANENT_ADMIN_EMAILS.includes(profile.email.toLowerCase())
+}
+
 // L'ordre reflète la navigation de l'app : d'abord les sous-onglets du Dashboard évaluations,
 // puis les autres onglets de premier niveau.
 export const PERMISSIONS: PermissionDef[] = [
@@ -24,14 +33,14 @@ export const PERMISSIONS: PermissionDef[] = [
 /** true si le profil peut voir cet onglet — un admin voit toujours tout. */
 export function can(profile: Profile | null, key: PermissionKey): boolean {
   if (!profile) return false
-  return profile.isAdmin || profile[key]
+  return isAdminProfile(profile) || profile[key]
 }
 
 /** true si le profil a au moins un droit parmi les sous-onglets du Dashboard évaluations —
  * détermine si l'onglet de premier niveau "Dashboard évaluations" doit apparaître du tout. */
 export function canViewDashboard(profile: Profile | null): boolean {
   if (!profile) return false
-  if (profile.isAdmin) return true
+  if (isAdminProfile(profile)) return true
   return (
     profile.canViewOverview ||
     profile.canViewSecteur ||
