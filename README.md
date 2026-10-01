@@ -66,14 +66,43 @@ pour le mapping onglet ↔ colonne.
 - **Compte administrateur permanent** : `pomontaut@induni.ch` est toujours
   administrateur (voit tout, accède à l'écran Administration), même si sa
   ligne `profiles` est mal configurée — même principe que ESHOP-INDUNI.
-- **Nouveaux comptes** : inscription libre depuis l'écran de connexion,
-  restreinte aux adresses `@induni.ch`. Un nouveau compte ne voit **aucun**
-  onglet tant qu'un administrateur ne lui a pas coché les droits voulus dans
-  l'onglet « Administration ».
+- **Nouveaux comptes** : créés directement par un administrateur depuis
+  l'onglet « Administration » (nom, e-mail `@induni.ch`, mot de passe
+  temporaire généré, droits à cocher) — sur le même principe qu'ESHOP-INDUNI.
+  Aucun envoi d'e-mail automatique : le mot de passe temporaire s'affiche à
+  l'écran, à communiquer soi-même à la personne.
 - Les tables `dossiers`/`lots`/`checklist_items`/`evaluations`/
   `evaluations_formulaire` exigent désormais un compte connecté (n'importe
   lequel) — la visibilité fine par onglet est gérée côté app, pas en RLS
   ligne par ligne.
+
+### Déployer l'Edge Function de gestion des comptes
+
+Créer/réinitialiser/supprimer un compte exige la clé `service_role` de
+Supabase (accès total à la base), qui ne doit **jamais** être exposée au
+navigateur — elle vit uniquement dans une Edge Function (serveur), dans
+[`supabase/functions/admin-users`](supabase/functions/admin-users/index.ts).
+
+1. Installer la [CLI Supabase](https://supabase.com/docs/guides/cli) si ce
+   n'est pas déjà fait, puis depuis la racine du projet :
+   ```bash
+   supabase login
+   supabase link --project-ref <votre-project-ref>   # visible dans l'URL du dashboard
+   supabase functions deploy admin-users
+   ```
+   (`SUPABASE_URL`, `SUPABASE_ANON_KEY` et `SUPABASE_SERVICE_ROLE_KEY` sont
+   fournis automatiquement à toute Edge Function par Supabase — rien à
+   configurer pour ceux-là.)
+2. Définir un code secret de promotion administrateur (même principe que
+   `ADMIN_PROMOTION_CODE` côté ESHOP-INDUNI — empêche qu'un compte admin
+   compromis suffise seul à créer un autre admin) :
+   ```bash
+   supabase secrets set ADMIN_PROMOTION_CODE=<un-code-que-vous-choisissez>
+   ```
+   Sans ce secret configuré, cocher « Administrateur » à la création d'un
+   compte est refusé.
+3. Dans l'écran « Administration » de l'app, « + Créer un compte » appelle
+   cette fonction.
 
 ## Développement
 
