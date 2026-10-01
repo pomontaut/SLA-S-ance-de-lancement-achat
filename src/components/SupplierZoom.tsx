@@ -29,8 +29,8 @@ function MiniTrend({ history, generalSeries }: { history: EvalRecord[]; generalS
   const annees = Array.from(new Set([...points.map((p) => p.annee), ...general.map((g) => g.annee)])).sort((a, b) => a - b)
   const secteurs = Array.from(new Set(points.map((p) => p.secteur)))
   const width = 500
-  const height = 120
-  const pad = { top: 10, right: 10, bottom: 20, left: 24 }
+  const height = 130
+  const pad = { top: 18, right: 10, bottom: 26, left: 24 }
   const innerW = width - pad.left - pad.right
   const innerH = height - pad.top - pad.bottom
   const minA = annees[0]
@@ -54,7 +54,12 @@ function MiniTrend({ history, generalSeries }: { history: EvalRecord[]; generalS
             <g key={sec}>
               <path d={d} fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" />
               {pts.map((p) => (
-                <circle key={p.annee} cx={x(p.annee)} cy={y(p.note!)} r={4} fill={color} stroke="white" strokeWidth={1} />
+                <g key={p.annee}>
+                  <circle cx={x(p.annee)} cy={y(p.note!)} r={4} fill={color} stroke="white" strokeWidth={1} />
+                  <text x={x(p.annee)} y={y(p.note!) - 8} textAnchor="middle" fontSize={10} fontWeight={600} fill={color}>
+                    {p.note!.toFixed(1)}
+                  </text>
+                </g>
               ))}
             </g>
           )
@@ -74,15 +79,26 @@ function MiniTrend({ history, generalSeries }: { history: EvalRecord[]; generalS
               strokeLinecap="round"
             />
             {general.map((p) => (
-              <circle
-                key={p.annee}
-                cx={x(p.annee)}
-                cy={y(p.note)}
-                r={4}
-                fill={secteurColor('Général')}
-                stroke="white"
-                strokeWidth={1}
-              />
+              <g key={p.annee}>
+                <circle
+                  cx={x(p.annee)}
+                  cy={y(p.note)}
+                  r={4}
+                  fill={secteurColor('Général')}
+                  stroke="white"
+                  strokeWidth={1}
+                />
+                <text
+                  x={x(p.annee)}
+                  y={y(p.note) + 15}
+                  textAnchor="middle"
+                  fontSize={10}
+                  fontWeight={600}
+                  fill={secteurColor('Général')}
+                >
+                  {p.note.toFixed(1)}
+                </text>
+              </g>
             ))}
           </g>
         )}
@@ -152,15 +168,28 @@ function PairedCriteriaChart({ series }: { series: { label: string; color: strin
   )
 }
 
-export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRecord[]; initialNom?: string; onClose: () => void }) {
+export default function SupplierZoom({
+  all,
+  initialNom,
+  onClose,
+  evaluationOnly = false,
+}: {
+  all: EvalRecord[]
+  initialNom?: string
+  onClose: () => void
+  /** N'affiche que les notations (critères, évolution de la note, remarques) — masque CA,
+   * montants et tout ce qui vient de la base dépense (groupes, réseau de dirigeants). */
+  evaluationOnly?: boolean
+}) {
   const suppliers = useMemo(() => listSuppliers(all), [all])
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState<string | null>(initialNom ?? null)
 
   const [depenseFournisseurs, setDepenseFournisseurs] = useState<DepenseFournisseur[] | null>(null)
   useEffect(() => {
+    if (evaluationOnly) return
     loadDepensesFournisseurs().then(setDepenseFournisseurs)
-  }, [])
+  }, [evaluationOnly])
   const depenseFournisseur = useMemo(
     () => (selected && depenseFournisseurs ? findDepenseFournisseur(depenseFournisseurs, selected) : null),
     [selected, depenseFournisseurs],
@@ -168,8 +197,9 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
 
   const [groupes, setGroupes] = useState<GroupeFournisseur[] | null>(null)
   useEffect(() => {
+    if (evaluationOnly) return
     loadGroupesFournisseurs().then(setGroupes)
-  }, [])
+  }, [evaluationOnly])
   const groupeDetails = useMemo(
     () =>
       depenseFournisseur && groupes && depenseFournisseurs
@@ -180,8 +210,9 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
 
   const [liensDirigeants, setLiensDirigeants] = useState<LiensDirigeantsEntry[] | null>(null)
   useEffect(() => {
+    if (evaluationOnly) return
     loadLiensDirigeants().then(setLiensDirigeants)
-  }, [])
+  }, [evaluationOnly])
   const liensReseau = useMemo(
     () => (depenseFournisseur && liensDirigeants ? findLiensDirigeants(liensDirigeants, depenseFournisseur.nfr) : null),
     [depenseFournisseur, liensDirigeants],
@@ -323,6 +354,11 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={onClose}>
       <div className="bg-white rounded-xl max-w-3xl w-full max-h-[85vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
         <div className="p-4 border-b border-slate-200 flex items-center gap-3">
+          {evaluationOnly && (
+            <span className="shrink-0 text-[10px] font-semibold uppercase bg-indigo-100 text-indigo-700 px-2 py-1 rounded">
+              Évaluation uniquement
+            </span>
+          )}
           <input
             className="input flex-1"
             autoFocus
@@ -377,13 +413,15 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
                 </button>
               </div>
 
-              <SupplierFinances
-                fournisseur={depenseFournisseur}
-                loading={depenseFournisseurs === null}
-                notesRecentes={notesRecentes}
-                groupeDetails={groupeDetails}
-                liensReseau={liensReseau}
-              />
+              {!evaluationOnly && (
+                <SupplierFinances
+                  fournisseur={depenseFournisseur}
+                  loading={depenseFournisseurs === null}
+                  notesRecentes={notesRecentes}
+                  groupeDetails={groupeDetails}
+                  liensReseau={liensReseau}
+                />
+              )}
 
               {secteursDisponibles.length > 0 && (
                 <div className="flex flex-wrap items-center gap-3 bg-slate-50 rounded-lg p-3">
@@ -507,11 +545,13 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
                             {recB?.note != null ? `${recB.note} / 5` : '—'}
                           </td>
                         </tr>
-                        <tr className="border-b border-slate-100">
-                          <td className="py-1.5 pr-3 text-slate-600">Montant</td>
-                          <td className="py-1.5 pr-3">{formatCurrency(recA?.ca ?? null)}</td>
-                          <td className="py-1.5">{formatCurrency(recB?.ca ?? null)}</td>
-                        </tr>
+                        {!evaluationOnly && (
+                          <tr className="border-b border-slate-100">
+                            <td className="py-1.5 pr-3 text-slate-600">Montant</td>
+                            <td className="py-1.5 pr-3">{formatCurrency(recA?.ca ?? null)}</td>
+                            <td className="py-1.5">{formatCurrency(recB?.ca ?? null)}</td>
+                          </tr>
+                        )}
                         {critereLabels.map((label) => (
                           <tr key={label} className="border-b border-slate-100">
                             <td className="py-1.5 pr-3 text-slate-600">{label}</td>
@@ -590,7 +630,7 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
                       <th className="py-1.5 pr-2">Secteur</th>
                       <th className="py-1.5 pr-2">Année</th>
                       <th className="py-1.5 pr-2">Note</th>
-                      <th className="py-1.5 pr-2">Montant</th>
+                      {!evaluationOnly && <th className="py-1.5 pr-2">Montant</th>}
                       <th className="py-1.5 pr-2">Nb éval.</th>
                       <th className="py-1.5">Remarques</th>
                     </tr>
@@ -610,7 +650,7 @@ export default function SupplierZoom({ all, initialNom, onClose }: { all: EvalRe
                         <td className="py-1.5 pr-2 font-medium" style={{ color: noteColor(h.note!) }}>
                           {h.note} / 5
                         </td>
-                        <td className="py-1.5 pr-2">{formatCurrency(h.ca)}</td>
+                        {!evaluationOnly && <td className="py-1.5 pr-2">{formatCurrency(h.ca)}</td>}
                         <td className="py-1.5 pr-2">{h.nbEvaluateurs ?? '—'}</td>
                         <td className="py-1.5 text-slate-500 max-w-xs truncate" title={h.remarques}>
                           {h.remarques}

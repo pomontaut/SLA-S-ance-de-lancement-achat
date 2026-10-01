@@ -378,6 +378,15 @@ export default function EvaluationDashboard({ profile }: { profile: Profile }) {
   const [view, setView] = useState<View>(visibleTabs[0]?.key ?? 'overview')
   const [filters, setFilters] = useState<GlobalFilters | null>(null)
   const [zoomNom, setZoomNom] = useState<string | null>(null)
+  // true seulement quand ouvert via le bouton dédié "Zoom fournisseur évaluation" — tout autre
+  // point d'entrée (clic sur un nom de fournisseur ailleurs dans le dashboard) ouvre le zoom
+  // complet, voir handleZoom ci-dessous.
+  const [zoomEvaluationOnly, setZoomEvaluationOnly] = useState(false)
+
+  function handleZoom(nom: string) {
+    setZoomEvaluationOnly(false)
+    setZoomNom(nom)
+  }
 
   useEffect(() => {
     loadEvaluationsHistorique().then((data) => {
@@ -407,9 +416,20 @@ export default function EvaluationDashboard({ profile }: { profile: Profile }) {
             d'évaluateurs) varie selon secteurs/années : « Non disponible » plutôt qu'une estimation.
           </p>
         </div>
-        <button className="btn-primary whitespace-nowrap" onClick={() => setZoomNom('')}>
-          🔍 Zoom fournisseur
-        </button>
+        <div className="flex gap-2 flex-wrap">
+          <button className="btn-primary whitespace-nowrap" onClick={() => handleZoom('')}>
+            🔍 Zoom fournisseur
+          </button>
+          <button
+            className="btn-secondary whitespace-nowrap"
+            onClick={() => {
+              setZoomEvaluationOnly(true)
+              setZoomNom('')
+            }}
+          >
+            🔍 Zoom fournisseur évaluation
+          </button>
+        </div>
       </div>
 
       <div className="border-b border-slate-200 flex gap-1 flex-wrap">
@@ -420,7 +440,7 @@ export default function EvaluationDashboard({ profile }: { profile: Profile }) {
         ))}
       </div>
 
-      {view === 'overview' && <OverviewTab all={all} filters={filters} onFiltersChange={setFilters} onZoom={setZoomNom} />}
+      {view === 'overview' && <OverviewTab all={all} filters={filters} onFiltersChange={setFilters} onZoom={handleZoom} />}
 
       {view === 'secteur' && (
         <SecteurTab
@@ -431,7 +451,7 @@ export default function EvaluationDashboard({ profile }: { profile: Profile }) {
           setSecteur={setSecteur}
           annee={annee}
           setAnnee={setAnnee}
-          onZoom={setZoomNom}
+          onZoom={handleZoom}
         />
       )}
 
@@ -440,14 +460,19 @@ export default function EvaluationDashboard({ profile }: { profile: Profile }) {
         <p className="text-sm text-slate-500">Choisissez d'abord une année dans l'onglet « Par secteur ».</p>
       )}
 
-      {view === 'blacklist' && <BlacklistTab all={allFull ?? all} blacklist={blacklist} onZoom={setZoomNom} />}
+      {view === 'blacklist' && <BlacklistTab all={allFull ?? all} blacklist={blacklist} onZoom={handleZoom} />}
 
-      {view === 'depense' && <DepenseTab onZoom={setZoomNom} />}
+      {view === 'depense' && <DepenseTab onZoom={handleZoom} />}
 
       {view === 'consortium' && <ConsortiumTab />}
 
       {zoomNom !== null && (
-        <SupplierZoom all={allFull ?? all} initialNom={zoomNom || undefined} onClose={() => setZoomNom(null)} />
+        <SupplierZoom
+          all={allFull ?? all}
+          initialNom={zoomNom || undefined}
+          onClose={() => setZoomNom(null)}
+          evaluationOnly={zoomEvaluationOnly}
+        />
       )}
     </div>
   )
