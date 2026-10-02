@@ -61,6 +61,10 @@ export interface DepensesGlobal {
   chantier: DepenseBucketStats
   consortium: DepenseBucketStats
   parEntite: Record<string, DepenseBucketStats>
+  /** Dépense par famille d'achat (FOURNISSEURS/SOUS-TRAITANTS/TRANSPORTEURS/CFC .../"Non classé")
+   * — famille reprise de l'historique d'évaluation (EvalRecord.famille) par correspondance de nom,
+   * voir DepenseFournisseur.familleAchat. "Non classé" = fournisseur jamais évalué, pas d'erreur. */
+  parFamilleAchat: Record<string, DepenseBucketStats>
   /** Top 60 chantiers (codes "SECT Débit") par montant, sur ~224 codes distincts au total. */
   parChantier: DepenseChantierStats[]
   nbChantiers: number
@@ -117,6 +121,10 @@ export interface DepenseFournisseur {
   consortiumMontant: number
   parEntite: Record<string, DepenseBucketStats>
   parChantier: Record<string, DepenseChantierBucket>
+  /** Famille d'achat (FOURNISSEURS/SOUS-TRAITANTS/TRANSPORTEURS/CFC .../...) reprise de
+   * l'historique d'évaluation par correspondance de nom — null si ce fournisseur n'a jamais été
+   * évalué (pas de donnée disponible, pas une erreur). Sert au rapprochement CA/fournisseur/famille. */
+  familleAchat: string | null
   conditions: string[]
   documents: DepenseDocument[]
 }

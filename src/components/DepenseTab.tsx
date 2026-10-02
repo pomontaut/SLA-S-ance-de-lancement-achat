@@ -81,6 +81,40 @@ function EntiteTable({ parEntite }: { parEntite: Record<string, DepenseBucketSta
   )
 }
 
+/** Famille d'achat = classification reprise de l'historique d'évaluation (FOURNISSEURS/
+ * SOUS-TRAITANTS/TRANSPORTEURS/codes CFC...) par correspondance de nom — "Non classé" = jamais
+ * évalué, pas une erreur. Sert au rapprochement CA/fournisseur/famille. */
+function FamilleAchatTable({ parFamilleAchat }: { parFamilleAchat: Record<string, DepenseBucketStats> }) {
+  const rows = Object.entries(parFamilleAchat).sort((a, b) => b[1].montantTotal - a[1].montantTotal)
+  const total = rows.reduce((s, [, v]) => s + v.montantTotal, 0)
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm border-collapse">
+        <thead>
+          <tr className="text-left text-xs uppercase text-slate-500 border-b border-slate-200">
+            <th className="py-2 pr-3">Famille d'achat</th>
+            <th className="py-2 pr-3">Montant</th>
+            <th className="py-2 pr-3">% du total</th>
+            <th className="py-2 pr-3">Fournisseurs</th>
+            <th className="py-2">Documents</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(([famille, v]) => (
+            <tr key={famille} className={`border-b border-slate-100 ${famille === 'Non classé' ? 'text-slate-400' : ''}`}>
+              <td className="py-1.5 pr-3">{famille}</td>
+              <td className="py-1.5 pr-3 font-medium">{formatCurrency(v.montantTotal)}</td>
+              <td className="py-1.5 pr-3">{pct(v.montantTotal, total)}%</td>
+              <td className="py-1.5 pr-3">{v.nbFournisseurs ?? '—'}</td>
+              <td className="py-1.5">{v.nbDocuments}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
 function ChantierTable({
   parChantier,
   nbChantiers,
@@ -430,6 +464,15 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
       <div className="card">
         <h3 className="font-semibold mb-3">Dépense par entité</h3>
         <EntiteTable parEntite={data.parEntite} />
+      </div>
+
+      <div className="card">
+        <h3 className="font-semibold mb-1">Dépense par famille d'achat</h3>
+        <p className="text-xs text-slate-500 mb-3">
+          Famille reprise du Dashboard évaluations (par correspondance de nom) — "Non classé" = fournisseur jamais
+          évalué, à utiliser pour les rebouclements CA/fournisseur/famille.
+        </p>
+        <FamilleAchatTable parFamilleAchat={data.parFamilleAchat} />
       </div>
 
       <div className="card">

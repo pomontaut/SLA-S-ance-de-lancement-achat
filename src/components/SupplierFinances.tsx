@@ -89,7 +89,16 @@ export default function SupplierFinances({
 
   return (
     <div className="bg-slate-50 rounded-lg p-3 space-y-3">
-      <h4 className="text-xs uppercase text-slate-500">💰 Dépenses &amp; paiements (Journal COFI)</h4>
+      <div className="flex items-center justify-between flex-wrap gap-2">
+        <h4 className="text-xs uppercase text-slate-500">💰 Dépenses &amp; paiements (Journal COFI)</h4>
+        {fournisseur.familleAchat ? (
+          <span className="text-[10px] font-medium uppercase bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded">
+            Famille d'achat : {fournisseur.familleAchat}
+          </span>
+        ) : (
+          <span className="text-[10px] text-slate-400">Famille d'achat : non classé (jamais évalué)</span>
+        )}
+      </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
         {notesRecentes &&
