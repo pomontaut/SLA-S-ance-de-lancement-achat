@@ -312,7 +312,7 @@ export function critereMoyennes(records: EvalRecord[]): CritereMoyenne[] {
   const bucket = new Map<string, number[]>()
   for (const r of records) {
     if (!r.criteres) continue
-    for (const [label, note] of Object.entries(r.criteres)) {
+    for (const [label, note] of Object.entries(canonicalizeCriteres(r.criteres))) {
       if (!bucket.has(label)) bucket.set(label, [])
       bucket.get(label)!.push(note)
     }
@@ -331,15 +331,18 @@ export interface FamilleBreakdown {
 
 // Formes canoniques alignées sur normalizeType() (même singulier) pour éviter que
 // "Fournisseurs" (via famille) et "Fournisseur" (via type) forment deux barres distinctes.
+// "Fournisseur" et "Fournisseur de matériaux" fusionnés sous ce dernier libellé, et
+// "Levage / machines" fusionné avec "Location" — demande explicite de l'utilisateur.
 const FAMILLE_ALIASES: Record<string, string> = {
-  FOURNISSEURS: 'Fournisseur',
-  'FOURNISSEURS (SANS FACTURATION DIRECTE)': 'Fournisseur',
+  FOURNISSEURS: 'Fournisseur de matériaux',
+  'FOURNISSEURS (SANS FACTURATION DIRECTE)': 'Fournisseur de matériaux',
   'SOUS-TRAITANTS': 'Sous-traitant',
   MANDATAIRES: 'Mandataire',
   MARCHANDS: 'Marchand',
   TRANSPORTEURS: 'Transporteur',
   INTERIMAIRES: 'Intérimaire',
   'LEVAGE / MACHINES /LOCATION': 'Location',
+  'LEVAGE / MACHINES': 'Location',
   'TRAITEMENT DECHETS': 'Traitement déchets',
 }
 
@@ -351,7 +354,10 @@ const FAMILLE_ALIASES: Record<string, string> = {
 function normalizeFamille(famille: string, type: string): string {
   const key = famille.trim().toUpperCase()
   if (FAMILLE_ALIASES[key]) return FAMILLE_ALIASES[key]
-  if (key === '' || key.startsWith('CFC')) return normalizeType(type)
+  if (key === '' || key.startsWith('CFC')) {
+    const t = normalizeType(type)
+    return t === 'Fournisseur' ? 'Fournisseur de matériaux' : t
+  }
   return famille.trim()
 }
 
