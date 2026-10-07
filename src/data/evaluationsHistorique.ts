@@ -117,10 +117,10 @@ function normNom(s: string): string {
 // libellés bruts présents dans evaluationsHistorique.json (recensement par secteur), en ne
 // fusionnant que : (a) les 6 équivalences BAT GE ↔ BAT VD/GC signalées explicitement par la
 // personne qui utilise l'outil, et (b) des variantes typographiques incontestables du même texte
-// (casse, espaces autour de "/", coquilles comme "pévues"/"prévues" ou "yc."/"y.c."). Les
-// libellés proches mais non confirmés identiques (ex. "Respect des quantités convenues", distinct
-// de "Respect des quantités prévues") sont volontairement laissés à part plutôt que fusionnés au
-// jugé.
+// (casse, espaces autour de "/", coquilles comme "pévues"/"prévues" ou "yc."/"y.c."), ainsi que
+// (c) deux fusions supplémentaires explicitement validées par l'utilisateur après revue du
+// graphique "Moyenne par critère" : "Qualité des prestations" -> "Qualité des prestations /
+// Compétence", et "Respect des quantités convenues" -> "Respect des quantités prévues".
 const CRITERE_LABEL_MAP: Record<string, string> = {
   // Compétence / assistance technique
   'Compétence': 'Compétence / assistance technique',
@@ -134,8 +134,10 @@ const CRITERE_LABEL_MAP: Record<string, string> = {
   // Respect de la qualité convenue
   'Qualité convenue': 'Respect de la qualité convenue',
 
-  // Qualité des prestations / Compétence (variante orthographique uniquement)
+  // Qualité des prestations / Compétence (variante orthographique, et version
+  // raccourcie "Qualité des prestations" — fusion validée par l'utilisateur)
   'Qualité des prestations/Compétence': 'Qualité des prestations / Compétence',
+  'Qualité des prestations': 'Qualité des prestations / Compétence',
 
   // Rapport qualité/prix
   'Qualité/Prix': 'Rapport qualité/prix',
@@ -143,9 +145,11 @@ const CRITERE_LABEL_MAP: Record<string, string> = {
   'Rapport qualité / Prix': 'Rapport qualité/prix',
   'Rapport qualité / prix': 'Rapport qualité/prix',
 
-  // Respect des quantités prévues
+  // Respect des quantités prévues (et "convenues" — fusion validée par l'utilisateur,
+  // initialement laissées distinctes faute de confirmation qu'il s'agissait du même critère)
   'Quantités': 'Respect des quantités prévues',
   'Respect des quantités pévues': 'Respect des quantités prévues',
+  'Respect des quantités convenues': 'Respect des quantités prévues',
 
   // Souplesse et façon de traiter nos réclamations
   'Réclamations': 'Souplesse et façon de traiter nos réclamations',
