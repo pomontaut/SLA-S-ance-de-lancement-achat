@@ -176,8 +176,26 @@ export interface GroupeFournisseur {
 export interface GroupeDetail {
   nom: string
   parent?: string
+  /** Année "dernière année" / année précédente utilisées pour les montants ci-dessous — reprises
+   * du fournisseur zoomé (voir `anneesRecentesDepense`), vide si ce fournisseur n'a aucune donnée
+   * de dépense. */
+  annee: string | null
+  anneePrecedente: string | null
+  /** Montant total du groupe pour `annee` (et non plus un cumul toutes années confondues). */
   montantTotal: number
-  entites: { nfr: number; nom: string; montantTotal: number; note?: string }[]
+  montantTotalPrecedent: number
+  /** Montant total du groupe pour chacune des années passées à `findGroupeDetails` (jusqu'à 3,
+   * la plus récente en premier) — sert au graphique d'évolution sur 3 ans. */
+  montantParAnnee: { annee: string; montant: number }[]
+  entites: {
+    nfr: number
+    nom: string
+    montantTotal: number
+    montantAnneePrecedente: number
+    /** % d'évolution entre les deux années, null si l'année précédente est à 0 ou absente. */
+    evolutionPct: number | null
+    note?: string
+  }[]
 }
 
 let groupesCache: GroupeFournisseur[] | null = null
@@ -194,27 +212,75 @@ export function loadGroupesFournisseurs(): Promise<GroupeFournisseur[]> {
   return groupesPending
 }
 
-function buildGroupeDetail(groupe: GroupeFournisseur, allFournisseurs: DepenseFournisseur[]): GroupeDetail {
+function evolutionPct(latest: number, prev: number): number | null {
+  if (!prev) return null
+  return Math.round(((latest - prev) / Math.abs(prev)) * 1000) / 10
+}
+
+function buildGroupeDetail(groupe: GroupeFournisseur, allFournisseurs: DepenseFournisseur[], annees: string[]): GroupeDetail {
+  const [annee = null, anneePrecedente = null] = annees
   const entites = groupe.membres
     .map((m) => {
       const f = allFournisseurs.find((af) => af.nfr === m.nfr)
-      return { nfr: m.nfr, nom: f?.nom ?? m.nom, montantTotal: f?.global.montantTotal ?? 0, note: m.note }
+      const montantTotal = annee ? f?.parAnnee[annee]?.montantTotal ?? 0 : 0
+      const montantAnneePrecedente = anneePrecedente ? f?.parAnnee[anneePrecedente]?.montantTotal ?? 0 : 0
+      return {
+        nfr: m.nfr,
+        nom: f?.nom ?? m.nom,
+        montantTotal,
+        montantAnneePrecedente,
+        evolutionPct: evolutionPct(montantTotal, montantAnneePrecedente),
+        note: m.note,
+      }
     })
     .sort((a, b) => b.montantTotal - a.montantTotal)
   const montantTotal = Math.round(entites.reduce((sum, e) => sum + e.montantTotal, 0) * 100) / 100
-  return { nom: groupe.nom, parent: groupe.parent, montantTotal, entites }
+  const montantTotalPrecedent = Math.round(entites.reduce((sum, e) => sum + e.montantAnneePrecedente, 0) * 100) / 100
+  const montantParAnnee = annees.map((a) => ({
+    annee: a,
+    montant:
+      Math.round(
+        groupe.membres.reduce((sum, m) => sum + (allFournisseurs.find((af) => af.nfr === m.nfr)?.parAnnee[a]?.montantTotal ?? 0), 0) *
+          100,
+      ) / 100,
+  }))
+  return {
+    nom: groupe.nom,
+    parent: groupe.parent,
+    annee,
+    anneePrecedente,
+    montantTotal,
+    montantTotalPrecedent,
+    montantParAnnee,
+    entites,
+  }
 }
 
 /** Cherche TOUS les groupes validés auxquels appartient un fournisseur (par N° fr) — un
  * fournisseur peut appartenir à plusieurs groupes à la fois (ex. participation croisée entre
- * deux groupes) — et calcule le détail de chacun (montant total cumulé, liste des entités) à
- * partir de la liste complète des fournisseurs de dépense. Tableau vide si aucun groupe validé. */
+ * deux groupes) — et calcule le détail de chacun (montant par année, liste des entités) à partir
+ * de la liste complète des fournisseurs de dépense. `annees` = années du fournisseur zoomé
+ * (voir `anneesRecentesDepense`, la plus récente en premier), pour que toutes les lignes du
+ * groupe se lisent sur les mêmes années. Tableau vide si aucun groupe validé. */
 export function findGroupeDetails(
   groupes: GroupeFournisseur[],
   allFournisseurs: DepenseFournisseur[],
   nfr: number,
+  annees: string[],
 ): GroupeDetail[] {
-  return groupes.filter((g) => g.membres.some((m) => m.nfr === nfr)).map((g) => buildGroupeDetail(g, allFournisseurs))
+  return groupes.filter((g) => g.membres.some((m) => m.nfr === nfr)).map((g) => buildGroupeDetail(g, allFournisseurs, annees))
+}
+
+/** Les 2 (ou `count`) années les plus récentes pour lesquelles ce fournisseur a de la dépense
+ * (clés de `parAnnee`, triées décroissant) — même principe que la paire note/année précédente
+ * déjà utilisée pour les évaluations (SupplierZoom.notesRecentes) : dynamique par fournisseur,
+ * pas une année calendaire figée en dur. */
+export function anneesRecentesDepense(fournisseur: DepenseFournisseur | null, count = 3): string[] {
+  if (!fournisseur) return []
+  return Object.keys(fournisseur.parAnnee)
+    .filter((a) => /^\d{4}$/.test(a))
+    .sort((a, b) => b.localeCompare(a))
+    .slice(0, count)
 }
 
 /** Réseau de dirigeants et de liens entre sociétés (administrateurs communs, structures de

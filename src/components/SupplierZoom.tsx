@@ -5,6 +5,7 @@ import { secteurColor, noteColor } from '../data/palette'
 import BarChart from './BarChart'
 import type { DepenseFournisseur, GroupeFournisseur, LiensDirigeantsEntry } from '../data/depenses'
 import {
+  anneesRecentesDepense,
   findDepenseFournisseur,
   findGroupeDetails,
   findLiensDirigeants,
@@ -131,8 +132,17 @@ function MiniTrend({ history, generalSeries }: { history: EvalRecord[]; generalS
 /** Pour un même critère, empile les barres de chaque secteur directement l'une sous
  * l'autre (plutôt que deux graphiques côte à côte non alignés) pour comparer d'un
  * coup d'œil les secteurs qui partagent le même libellé de critère. */
-function PairedCriteriaChart({ series }: { series: { label: string; color: string; criteres: Record<string, number> }[] }) {
+function PairedCriteriaChart({
+  series,
+  highlighted,
+}: {
+  series: { label: string; color: string; criteres: Record<string, number> }[]
+  /** Si renseigné, seule la série dont le label correspond est affichée (filtre déclenché en
+   * cliquant sur la légende) — demande explicite pour isoler une entité en bas de liste. */
+  highlighted?: string | null
+}) {
   const labels = Array.from(new Set(series.flatMap((s) => Object.keys(s.criteres))))
+  const visibleSeries = highlighted ? series.filter((s) => s.label === highlighted) : series
   return (
     <div className="space-y-3">
       {labels.map((label) => (
@@ -141,16 +151,18 @@ function PairedCriteriaChart({ series }: { series: { label: string; color: strin
             {label}
           </div>
           <div className="space-y-1">
-            {series.map((s) => {
+            {visibleSeries.map((s) => {
               const value = s.criteres[label]
               if (value == null) return null
               return (
-                <div key={s.label} className="flex items-center gap-2 text-xs">
+                <div key={s.label} className="flex items-center gap-1.5 text-xs">
                   <span
                     className="inline-block w-2 h-2 rounded-full shrink-0"
                     style={{ backgroundColor: s.color }}
-                    title={s.label}
                   />
+                  <span className="w-24 shrink-0 truncate font-medium" style={{ color: s.color }} title={s.label}>
+                    {s.label}
+                  </span>
                   <div className="flex-1 bg-slate-100 rounded-full h-3 relative overflow-hidden">
                     <div
                       className="h-full rounded-full"
@@ -184,6 +196,10 @@ export default function SupplierZoom({
   const suppliers = useMemo(() => listSuppliers(all), [all])
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState<string | null>(initialNom ?? null)
+  // Entité (secteur + année) mise en avant dans "Détail par critère" en cliquant sur la légende —
+  // réinitialisé à chaque changement de fournisseur.
+  const [critereHighlight, setCritereHighlight] = useState<string | null>(null)
+  useEffect(() => setCritereHighlight(null), [selected])
 
   const [depenseFournisseurs, setDepenseFournisseurs] = useState<DepenseFournisseur[] | null>(null)
   useEffect(() => {
@@ -195,6 +211,10 @@ export default function SupplierZoom({
     [selected, depenseFournisseurs],
   )
 
+  // 3 dernières années de dépense disponibles pour ce fournisseur, dynamique (pas d'année
+  // calendaire figée) — même principe que notesRecentes pour les évaluations.
+  const anneesDepense = useMemo(() => anneesRecentesDepense(depenseFournisseur, 3), [depenseFournisseur])
+
   const [groupes, setGroupes] = useState<GroupeFournisseur[] | null>(null)
   useEffect(() => {
     if (evaluationOnly) return
@@ -203,9 +223,9 @@ export default function SupplierZoom({
   const groupeDetails = useMemo(
     () =>
       depenseFournisseur && groupes && depenseFournisseurs
-        ? findGroupeDetails(groupes, depenseFournisseurs, depenseFournisseur.nfr)
+        ? findGroupeDetails(groupes, depenseFournisseurs, depenseFournisseur.nfr, anneesDepense)
         : [],
-    [depenseFournisseur, groupes, depenseFournisseurs],
+    [depenseFournisseur, groupes, depenseFournisseurs, anneesDepense],
   )
 
   const [liensDirigeants, setLiensDirigeants] = useState<LiensDirigeantsEntry[] | null>(null)
@@ -418,6 +438,7 @@ export default function SupplierZoom({
                   fournisseur={depenseFournisseur}
                   loading={depenseFournisseurs === null}
                   notesRecentes={notesRecentes}
+                  anneesDepense={anneesDepense}
                   groupeDetails={groupeDetails}
                   liensReseau={liensReseau}
                 />
@@ -579,24 +600,43 @@ export default function SupplierZoom({
                   {critereRecordsBySecteur.length + (generalCriteres ? 1 : 0) > 1 ? (
                     <>
                       <div className="flex flex-wrap gap-x-3 gap-y-1 mb-2">
-                        {critereRecordsBySecteur.map((rec) => (
-                          <div key={rec.secteur} className="flex items-center gap-1.5 text-xs text-slate-600">
-                            <span
-                              className="inline-block w-2.5 h-2.5 rounded-full"
-                              style={{ backgroundColor: secteurColor(rec.secteur) }}
-                            />
-                            {rec.secteur} {rec.annee}
-                          </div>
-                        ))}
-                        {generalCriteres && (
-                          <div className="flex items-center gap-1.5 text-xs text-slate-600">
-                            <span
-                              className="inline-block w-2.5 h-2.5 rounded-full"
-                              style={{ backgroundColor: secteurColor('Général') }}
-                            />
-                            Général (moyenne tous secteurs)
-                          </div>
-                        )}
+                        {critereRecordsBySecteur.map((rec) => {
+                          const key = `${rec.secteur} ${rec.annee}`
+                          const dimmed = critereHighlight != null && critereHighlight !== key
+                          return (
+                            <button
+                              key={rec.secteur}
+                              type="button"
+                              onClick={() => setCritereHighlight((cur) => (cur === key ? null : key))}
+                              className={`flex items-center gap-1.5 text-xs rounded px-1 -mx-1 hover:bg-slate-100 ${dimmed ? 'opacity-40' : 'text-slate-600'}`}
+                              title="Cliquer pour isoler cette entité"
+                            >
+                              <span
+                                className="inline-block w-2.5 h-2.5 rounded-full"
+                                style={{ backgroundColor: secteurColor(rec.secteur) }}
+                              />
+                              {key}
+                            </button>
+                          )
+                        })}
+                        {generalCriteres &&
+                          (() => {
+                            const dimmed = critereHighlight != null && critereHighlight !== 'Général'
+                            return (
+                              <button
+                                type="button"
+                                onClick={() => setCritereHighlight((cur) => (cur === 'Général' ? null : 'Général'))}
+                                className={`flex items-center gap-1.5 text-xs rounded px-1 -mx-1 hover:bg-slate-100 ${dimmed ? 'opacity-40' : 'text-slate-600'}`}
+                                title="Cliquer pour isoler cette entité"
+                              >
+                                <span
+                                  className="inline-block w-2.5 h-2.5 rounded-full"
+                                  style={{ backgroundColor: secteurColor('Général') }}
+                                />
+                                Général (moyenne tous secteurs)
+                              </button>
+                            )
+                          })()}
                       </div>
                       <PairedCriteriaChart
                         series={[
@@ -609,6 +649,7 @@ export default function SupplierZoom({
                             ? [{ label: 'Général', color: secteurColor('Général'), criteres: generalCriteres }]
                             : []),
                         ]}
+                        highlighted={critereHighlight}
                       />
                     </>
                   ) : (

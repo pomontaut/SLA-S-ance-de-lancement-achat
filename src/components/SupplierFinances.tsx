@@ -1,7 +1,32 @@
 import { useMemo, useState } from 'react'
-import type { DepenseFournisseur, GroupeDetail, LiensDirigeantsEntry } from '../data/depenses'
+import type { DepenseBucketStats, DepenseFournisseur, GroupeDetail, LiensDirigeantsEntry } from '../data/depenses'
 import { chantierColor, chantierLabel, computeTranches, formatCurrency, pct } from '../data/depenses'
 import { secteurColor, noteColor } from '../data/palette'
+
+/** Montant chantier Induni / consortium pour une année donnée — calculé à la volée depuis
+ * `documents` (pas précalculé dans parAnnee, qui ne distingue pas par Aff.). */
+function yearAffSplit(fournisseur: DepenseFournisseur, annee: string): { chantier: number; consortium: number } {
+  const docs = fournisseur.documents.filter((d) => d.dateDoc?.startsWith(annee))
+  const chantier = docs.filter((d) => d.aff === 'CHANTIER INDUNI').reduce((s, d) => s + (d.montant ?? 0), 0)
+  const consortium = docs.filter((d) => d.aff === 'CONSORTIUM').reduce((s, d) => s + (d.montant ?? 0), 0)
+  return { chantier: Math.round(chantier * 100) / 100, consortium: Math.round(consortium * 100) / 100 }
+}
+
+function evolutionPct(latest: number, prev: number): number | null {
+  if (!prev) return null
+  return Math.round(((latest - prev) / Math.abs(prev)) * 1000) / 10
+}
+
+function EvolutionBadge({ pctValue }: { pctValue: number | null }) {
+  if (pctValue == null) return <span className="text-slate-400">—</span>
+  const up = pctValue >= 0
+  return (
+    <span className={up ? 'text-green-600' : 'text-red-600'}>
+      {up ? '▲' : '▼'} {up ? '+' : ''}
+      {pctValue}%
+    </span>
+  )
+}
 
 export interface NotesRecentes {
   yLatest: number
@@ -53,12 +78,16 @@ export default function SupplierFinances({
   fournisseur,
   loading,
   notesRecentes,
+  anneesDepense,
   groupeDetails,
   liensReseau,
 }: {
   fournisseur: DepenseFournisseur | null
   loading: boolean
   notesRecentes?: NotesRecentes | null
+  /** 3 dernières années de dépense disponibles pour ce fournisseur (décroissant), ex. ["2025",
+   * "2024", "2023"] — voir `anneesRecentesDepense`. */
+  anneesDepense?: string[]
   /** Un fournisseur peut appartenir à plusieurs groupes à la fois (ex. participation croisée). */
   groupeDetails?: GroupeDetail[]
   /** Réseau de dirigeants/liens entre sociétés (cartographie externe) — informatif uniquement. */
@@ -66,6 +95,12 @@ export default function SupplierFinances({
 }) {
   const [showAllDocs, setShowAllDocs] = useState(false)
   const trancheData = useMemo(() => (fournisseur ? computeTranches(fournisseur.documents) : null), [fournisseur])
+
+  const [yLatest, yPrev] = anneesDepense ?? []
+  const bucketLatest: DepenseBucketStats | null = fournisseur && yLatest ? fournisseur.parAnnee[yLatest] ?? null : null
+  const bucketPrev: DepenseBucketStats | null = fournisseur && yPrev ? fournisseur.parAnnee[yPrev] ?? null : null
+  const splitLatest = fournisseur && yLatest ? yearAffSplit(fournisseur, yLatest) : null
+  const splitPrev = fournisseur && yPrev ? yearAffSplit(fournisseur, yPrev) : null
 
   if (loading) {
     return <p className="text-xs text-slate-400">Chargement des données de dépense…</p>
@@ -82,7 +117,9 @@ export default function SupplierFinances({
     )
   }
 
-  const g = fournisseur.global
+  const g = bucketLatest ?? fournisseur.global
+  const chantierMontant = splitLatest?.chantier ?? fournisseur.chantierMontant
+  const consortiumMontant = splitLatest?.consortium ?? fournisseur.consortiumMontant
   const paiementConnu = g.nbATemps + g.nbEnRetard
   const notesCredit = fournisseur.documents.filter((d) => d.genre.toLowerCase().includes('crédit'))
   const docs = showAllDocs ? fournisseur.documents : fournisseur.documents.slice(0, 30)
@@ -90,7 +127,9 @@ export default function SupplierFinances({
   return (
     <div className="bg-slate-50 rounded-lg p-3 space-y-3">
       <div className="flex items-center justify-between flex-wrap gap-2">
-        <h4 className="text-xs uppercase text-slate-500">💰 Dépenses &amp; paiements (Journal COFI)</h4>
+        <h4 className="text-xs uppercase text-slate-500">
+          💰 Dépenses &amp; paiements (Journal COFI){yLatest ? ` — ${yLatest}` : ''}
+        </h4>
         {fournisseur.familleAchat ? (
           <span className="text-[10px] font-medium uppercase bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded">
             Famille d'achat : {fournisseur.familleAchat}
@@ -103,12 +142,12 @@ export default function SupplierFinances({
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
         {notesRecentes &&
           (() => {
-            const { yLatest, noteLatest, yPrev, notePrev } = notesRecentes
+            const { yLatest: yNoteLatest, noteLatest, yPrev: yNotePrev, notePrev } = notesRecentes
             let sub: string | undefined
             let subClass: string | undefined
-            if (yPrev != null) {
+            if (yNotePrev != null) {
               if (notePrev != null) {
-                sub = `Note ${yPrev} : ${notePrev} / 5`
+                sub = `Note ${yNotePrev} : ${notePrev} / 5`
                 if (noteLatest != null) {
                   const diff = Math.round((noteLatest - notePrev) * 100) / 100
                   const badge = noteVariationBadge(diff)
@@ -116,12 +155,12 @@ export default function SupplierFinances({
                   subClass = badge.className
                 }
               } else {
-                sub = `Note ${yPrev} : —`
+                sub = `Note ${yNotePrev} : —`
               }
             }
             return (
               <KpiTile
-                label={`Note ${yLatest}`}
+                label={`Note ${yNoteLatest}`}
                 value={noteLatest != null ? `${noteLatest} / 5` : '—'}
                 color={noteLatest != null ? noteColor(noteLatest) : undefined}
                 big
@@ -132,13 +171,13 @@ export default function SupplierFinances({
           })()}
         <KpiTile
           label="CA Chantier Induni"
-          value={formatCurrency(fournisseur.chantierMontant)}
-          sub={g.montantTotal ? `${pct(fournisseur.chantierMontant, g.montantTotal)}% du total` : undefined}
+          value={formatCurrency(chantierMontant)}
+          sub={g.montantTotal ? `${pct(chantierMontant, g.montantTotal)}% du total` : undefined}
         />
         <KpiTile
           label="CA Consortium"
-          value={formatCurrency(fournisseur.consortiumMontant)}
-          sub={g.montantTotal ? `${pct(fournisseur.consortiumMontant, g.montantTotal)}% du total` : undefined}
+          value={formatCurrency(consortiumMontant)}
+          sub={g.montantTotal ? `${pct(consortiumMontant, g.montantTotal)}% du total` : undefined}
         />
         <KpiTile label="Total" value={formatCurrency(g.montantTotal)} sub={`${g.nbDocuments} document(s)`} />
         <KpiTile
@@ -172,6 +211,27 @@ export default function SupplierFinances({
         <KpiTile label="Conditions de paiement" value={fournisseur.conditions.length ? fournisseur.conditions[0] : '—'} sub={fournisseur.conditions.length > 1 ? `+${fournisseur.conditions.length - 1} autre(s)` : undefined} />
       </div>
 
+      {yPrev && bucketPrev && (
+        <div className="bg-white rounded-lg border border-slate-200 p-2.5">
+          <h5 className="text-[10px] uppercase text-slate-400 mb-1.5">{yPrev} (année précédente)</h5>
+          <div className="flex flex-wrap gap-x-6 gap-y-1 text-xs">
+            <span>
+              Chantier Induni : <strong>{formatCurrency(splitPrev?.chantier ?? 0)}</strong>{' '}
+              <EvolutionBadge pctValue={evolutionPct(chantierMontant, splitPrev?.chantier ?? 0)} />
+            </span>
+            <span>
+              Consortium : <strong>{formatCurrency(splitPrev?.consortium ?? 0)}</strong>{' '}
+              <EvolutionBadge pctValue={evolutionPct(consortiumMontant, splitPrev?.consortium ?? 0)} />
+            </span>
+            <span>
+              Total : <strong>{formatCurrency(bucketPrev.montantTotal)}</strong>{' '}
+              <EvolutionBadge pctValue={evolutionPct(g.montantTotal, bucketPrev.montantTotal)} />
+              <span className="text-slate-400"> ({bucketPrev.nbDocuments} document(s))</span>
+            </span>
+          </div>
+        </div>
+      )}
+
       {groupeDetails && groupeDetails.length > 0 && (
         <div className="space-y-2">
           {groupeDetails.map((groupeDetail) => (
@@ -179,7 +239,8 @@ export default function SupplierFinances({
               <h5 className="text-[11px] uppercase text-indigo-700 mb-1">
                 🏢 {groupeDetail.nom}
                 {groupeDetail.parent && <span className="normal-case text-indigo-400"> (filiale du {groupeDetail.parent})</span>} —{' '}
-                {formatCurrency(groupeDetail.montantTotal)} au total ({groupeDetail.entites.length} entités)
+                {formatCurrency(groupeDetail.montantTotal)}
+                {groupeDetail.annee ? ` en ${groupeDetail.annee}` : ''} ({groupeDetail.entites.length} entités)
               </h5>
               <p className="text-[10px] text-indigo-400 mb-2">
                 Groupe validé manuellement (similarité de nom + recherche web) — voir le fichier de détection de doublons/groupes.
@@ -190,7 +251,9 @@ export default function SupplierFinances({
                   <thead>
                     <tr className="text-left text-indigo-500 border-b border-indigo-200">
                       <th className="py-1 pr-2">Entité</th>
-                      <th className="py-1 pr-2">Montant</th>
+                      <th className="py-1 pr-2">Montant {groupeDetail.annee ?? ''}</th>
+                      <th className="py-1 pr-2">Montant {groupeDetail.anneePrecedente ?? ''}</th>
+                      <th className="py-1 pr-2">Évolution</th>
                       <th className="py-1">% du groupe</th>
                     </tr>
                   </thead>
@@ -206,12 +269,45 @@ export default function SupplierFinances({
                           {e.note && <span className="text-indigo-400 font-normal italic"> — {e.note}</span>}
                         </td>
                         <td className="py-1 pr-2">{formatCurrency(e.montantTotal)}</td>
+                        <td className="py-1 pr-2 text-indigo-400">{formatCurrency(e.montantAnneePrecedente)}</td>
+                        <td className="py-1 pr-2">
+                          <EvolutionBadge pctValue={e.evolutionPct} />
+                        </td>
                         <td className="py-1">{pct(e.montantTotal, groupeDetail.montantTotal)}%</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
+
+              {groupeDetail.montantParAnnee.length > 1 && (
+                <div className="mt-3">
+                  <h6 className="text-[10px] uppercase text-indigo-400 mb-1">
+                    Évolution du groupe sur {groupeDetail.montantParAnnee.length} ans
+                  </h6>
+                  <div className="space-y-1.5">
+                    {[...groupeDetail.montantParAnnee].reverse().map((p, i, arr) => {
+                      const prev = i > 0 ? arr[i - 1].montant : null
+                      const maxMontant = Math.max(...arr.map((x) => x.montant), 1)
+                      return (
+                        <div key={p.annee} className="flex items-center gap-2 text-xs">
+                          <span className="w-10 shrink-0 font-medium text-indigo-700">{p.annee}</span>
+                          <div className="flex-1 bg-white rounded-full h-3.5 relative overflow-hidden border border-indigo-100">
+                            <div
+                              className="h-full rounded-full bg-indigo-400"
+                              style={{ width: `${Math.max(2, (p.montant / maxMontant) * 100)}%` }}
+                            />
+                          </div>
+                          <span className="w-24 shrink-0 text-right font-medium text-indigo-900">{formatCurrency(p.montant)}</span>
+                          <span className="w-20 shrink-0">
+                            {prev != null ? <EvolutionBadge pctValue={evolutionPct(p.montant, prev)} /> : <span className="text-slate-300">—</span>}
+                          </span>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
           ))}
         </div>
