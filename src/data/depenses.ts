@@ -376,6 +376,68 @@ export function pct(part: number, total: number): number | null {
   return Math.round((part / total) * 1000) / 10
 }
 
+/** Recalcule un DepenseBucketStats à partir d'une liste de documents bruts — même formule que le
+ * pipeline Python qui a produit `depensesGlobal.json`/`depensesFournisseurs.json` (revalidée au
+ * centime sur les 1488 fournisseurs déjà en place avant tout nouvel import) : montantTotal/
+ * montantPayees/montantEnAttente/montantATemps/montantEnRetard en valeur signée, montantFactures
+ * en valeur absolue uniquement quand `absFactures` est vrai (vues par chantier/famille), signée
+ * sinon (vues globales/par entité/par année). Ne calcule pas `nbFournisseurs` (les documents
+ * bruts ne portent pas le N° fournisseur) — à ajouter par l'appelant si besoin. */
+export function computeBucketStats(documents: DepenseDocument[], absFactures = false): DepenseBucketStats {
+  const montantTotal = Math.round(documents.reduce((s, d) => s + (d.montant ?? 0), 0) * 100) / 100
+  const factures = documents.filter((d) => d.genre === 'Facture')
+  const facturesConnues = factures.filter((d) => d.montant != null)
+  const montantFactures =
+    Math.round(facturesConnues.reduce((s, d) => s + (absFactures ? Math.abs(d.montant!) : d.montant!), 0) * 100) / 100
+  const notesCredit = documents.filter((d) => d.genre !== 'Facture')
+  const montantNotesCredit = Math.round(notesCredit.reduce((s, d) => s + (d.montant ?? 0), 0) * 100) / 100
+  const payees = documents.filter((d) => d.datePaiement != null)
+  const montantPayees = Math.round(payees.reduce((s, d) => s + (d.montant ?? 0), 0) * 100) / 100
+  const enAttente = documents.filter((d) => d.datePaiement == null)
+  const montantEnAttente = Math.round(enAttente.reduce((s, d) => s + (d.montant ?? 0), 0) * 100) / 100
+  const avecEcheance = documents.filter((d) => d.dateEcheance != null)
+  const aTemps = avecEcheance.filter((d) => d.enRetard === false && d.datePaiement != null)
+  const montantATemps = Math.round(aTemps.reduce((s, d) => s + (d.montant ?? 0), 0) * 100) / 100
+  const enRetard = avecEcheance.filter((d) => d.enRetard === true)
+  const montantEnRetard = Math.round(enRetard.reduce((s, d) => s + (d.montant ?? 0), 0) * 100) / 100
+  const retards = enRetard
+    .filter((d) => d.dateEcheance)
+    .map((d) => {
+      const eff = d.datePaiement ?? new Date().toISOString().slice(0, 10)
+      return (new Date(eff).getTime() - new Date(d.dateEcheance!).getTime()) / 86400000
+    })
+  const retardMoyenJours = retards.length ? Math.round((retards.reduce((a, b) => a + b, 0) / retards.length) * 10) / 10 : null
+  return {
+    montantTotal,
+    nbDocuments: documents.length,
+    nbFactures: factures.length,
+    montantFactures,
+    nbNotesCredit: notesCredit.length,
+    montantNotesCredit,
+    nbPayees: payees.length,
+    montantPayees,
+    nbEnAttente: enAttente.length,
+    montantEnAttente,
+    nbATemps: aTemps.length,
+    montantATemps,
+    nbEnRetard: enRetard.length,
+    montantEnRetard,
+    retardMoyenJours,
+  }
+}
+
+/** Années de `parAnnee` à afficher — exclut les années avec un volume négligeable de documents
+ * (entrées isolées/placeholder, ex. 2019-2022 avec 1 à 5 documents chacune dans ce jeu de
+ * données) pour ne pas polluer les tableaux "par année" avec des lignes non représentatives.
+ * Seuil choisi pour couper nettement sous le volume des vraies années (~25 000+ documents). */
+const ANNEE_MIN_DOCUMENTS = 50
+
+export function anneesSignificatives(parAnnee: Record<string, DepenseBucketStats>): string[] {
+  return Object.keys(parAnnee)
+    .filter((a) => /^\d{4}$/.test(a) && parAnnee[a].nbDocuments >= ANNEE_MIN_DOCUMENTS)
+    .sort((a, b) => a.localeCompare(b))
+}
+
 /** Bornes des 5 tranches de montant de facture — identiques à celles utilisées côté Python pour
  * `depensesGlobal.json.tranches`, afin que la répartition par fournisseur (calculée ici côté
  * client à partir de `documents`) reste comparable à la répartition globale. */

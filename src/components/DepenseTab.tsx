@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { DepenseBucketStats, DepenseChantierStats, DepenseFournisseur, DepensesGlobal, DepenseTranche, GroupeFournisseur, GroupeTotal } from '../data/depenses'
 import {
+  anneesSignificatives,
   chantierColor,
   chantierLabel,
+  computeBucketStats,
   computeGroupesTotals,
   formatCurrency,
   loadDepensesFournisseurs,
@@ -82,7 +84,10 @@ function EntiteTable({ parEntite }: { parEntite: Record<string, DepenseBucketSta
 }
 
 function AnneeTable({ parAnnee }: { parAnnee: Record<string, DepenseBucketStats> }) {
-  const rows = Object.entries(parAnnee).sort((a, b) => a[0].localeCompare(b[0]))
+  // Masque les années à volume négligeable (ex. une poignée de documents isolés en 2019-2022
+  // dans ce jeu de données) — polluaient le tableau sans être représentatives.
+  const anneesAffichees = anneesSignificatives(parAnnee)
+  const rows = anneesAffichees.map((a) => [a, parAnnee[a]] as const)
   const total = rows.reduce((s, [, v]) => s + v.montantTotal, 0)
   return (
     <div className="overflow-x-auto">
@@ -349,6 +354,7 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
   const [groupes, setGroupes] = useState<GroupeFournisseur[] | null>(null)
   const [fournisseurs, setFournisseurs] = useState<DepenseFournisseur[] | null>(null)
   const [selectedEntite, setSelectedEntite] = useState<string | null>(null)
+  const [selectedAnnee, setSelectedAnnee] = useState<string | null>(null)
 
   useEffect(() => {
     loadDepensesGlobal().then(setData)
@@ -356,32 +362,69 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
     loadDepensesFournisseurs().then(setFournisseurs)
   }, [])
 
+  const anneesDisponibles = useMemo(() => (data ? anneesSignificatives(data.parAnnee) : []), [data])
+
   const groupesTotals = useMemo(
     () => (groupes && fournisseurs ? computeGroupesTotals(groupes, fournisseurs, selectedEntite) : null),
     [groupes, fournisseurs, selectedEntite],
   )
 
-  // Le filtre par entité s'applique aux tuiles d'analyse achat (agrégats déjà précalculés dans
-  // data.parEntite) ainsi qu'aux Top 20 fournisseurs/groupes (recalculés côté client à partir du
-  // détail par fournisseur, cf. top20ForEntite ci-dessous) — mais pas au détail par chantier ni
-  // aux tranches, qui restent "toutes entités confondues".
-  const g = selectedEntite ? data?.parEntite[selectedEntite] : data?.global
+  // Le filtre par entité et/ou par année s'applique aux tuiles d'analyse achat et au Top 20
+  // fournisseurs/groupes — mais pas au détail par chantier ni aux tranches, qui restent "toutes
+  // entités/années confondues". Un seul filtre actif : on réutilise directement les agrégats déjà
+  // précalculés et légers (data.parEntite / data.parAnnee), chargés indépendamment de
+  // `fournisseurs` (depensesFournisseurs.json, 50+ Mo, bien plus long à charger) — sinon les tuiles
+  // retomberaient silencieusement sur le total non filtré tant que ce gros fichier n'est pas prêt.
+  // Les deux filtres combinés à la fois sont le seul cas qui a besoin de recalculer depuis les
+  // documents bruts (aucune table précalculée entité × année).
+  const filtered = useMemo(() => {
+    if (!fournisseurs || !selectedEntite || !selectedAnnee) return null
+    const docs: typeof fournisseurs[number]['documents'] = []
+    let nbFournisseurs = 0
+    for (const f of fournisseurs) {
+      let has = false
+      for (const d of f.documents) {
+        if (d.entite !== selectedEntite) continue
+        if (!d.dateDoc?.startsWith(selectedAnnee)) continue
+        docs.push(d)
+        has = true
+      }
+      if (has) nbFournisseurs++
+    }
+    return { docs, nbFournisseurs }
+  }, [fournisseurs, selectedEntite, selectedAnnee])
+
+  const g = useMemo(() => {
+    if (selectedEntite && selectedAnnee) {
+      if (!filtered) return undefined // encore en cours de chargement de fournisseurs
+      return { ...computeBucketStats(filtered.docs, false), nbFournisseurs: filtered.nbFournisseurs }
+    }
+    if (selectedAnnee) return data?.parAnnee[selectedAnnee]
+    if (selectedEntite) return data?.parEntite[selectedEntite]
+    return data?.global
+  }, [filtered, data, selectedEntite, selectedAnnee])
+
   const top20ForEntite = useMemo(() => {
-    if (!selectedEntite) return data?.top20Fournisseurs ?? null
+    if (!selectedEntite && !selectedAnnee) return data?.top20Fournisseurs ?? null
     if (!fournisseurs) return null
     return fournisseurs
-      .map((f) => ({ nfr: f.nfr, nom: f.nom, montant: f.parEntite[selectedEntite]?.montantTotal ?? 0 }))
+      .map((f) => {
+        const docs = f.documents.filter(
+          (d) => (!selectedEntite || d.entite === selectedEntite) && (!selectedAnnee || d.dateDoc?.startsWith(selectedAnnee)),
+        )
+        return { nfr: f.nfr, nom: f.nom, montant: Math.round(docs.reduce((s, d) => s + (d.montant ?? 0), 0) * 100) / 100 }
+      })
       .filter((f) => f.montant > 0)
       .sort((a, b) => b.montant - a.montant)
       .slice(0, 20)
-  }, [data, fournisseurs, selectedEntite])
+  }, [data, fournisseurs, selectedEntite, selectedAnnee])
   const chantierPct = useMemo(
-    () => (data && !selectedEntite ? pct(data.chantier.montantTotal, data.global.montantTotal) : null),
-    [data, selectedEntite],
+    () => (data && !selectedEntite && !selectedAnnee ? pct(data.chantier.montantTotal, data.global.montantTotal) : null),
+    [data, selectedEntite, selectedAnnee],
   )
   const consortiumPct = useMemo(
-    () => (data && !selectedEntite ? pct(data.consortium.montantTotal, data.global.montantTotal) : null),
-    [data, selectedEntite],
+    () => (data && !selectedEntite && !selectedAnnee ? pct(data.consortium.montantTotal, data.global.montantTotal) : null),
+    [data, selectedEntite, selectedAnnee],
   )
   const ncPct = useMemo(() => (g ? pct(Math.abs(g.montantNotesCredit), g.montantFactures) : null), [g])
   const paiementConnuPct = useMemo(
@@ -438,6 +481,35 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
         ))}
       </div>
 
+      <div className="flex flex-wrap items-center gap-1.5">
+        <span className="text-xs uppercase text-slate-500 mr-1">Analyse achat — année</span>
+        <button
+          className="px-2 py-0.5 rounded-full text-xs font-medium border transition-colors"
+          style={
+            !selectedAnnee
+              ? { backgroundColor: '#4f46e5', borderColor: '#4f46e5', color: 'white' }
+              : { backgroundColor: 'white', borderColor: '#e2e8f0', color: '#475569' }
+          }
+          onClick={() => setSelectedAnnee(null)}
+        >
+          Toutes années
+        </button>
+        {anneesDisponibles.map((annee) => (
+          <button
+            key={annee}
+            className="px-2 py-0.5 rounded-full text-xs font-medium border transition-colors"
+            style={
+              selectedAnnee === annee
+                ? { backgroundColor: '#4f46e5', borderColor: '#4f46e5', color: 'white' }
+                : { backgroundColor: 'white', borderColor: '#e2e8f0', color: '#475569' }
+            }
+            onClick={() => setSelectedAnnee(annee)}
+          >
+            {annee}
+          </button>
+        ))}
+      </div>
+
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <StatTile
           label="Dépense totale (montant pos.)"
@@ -448,7 +520,7 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
               : undefined
           }
         />
-        {!selectedEntite && (
+        {!selectedEntite && !selectedAnnee && (
           <>
             <StatTile
               label="Chantier Induni"
