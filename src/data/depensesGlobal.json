@@ -1,21 +1,21 @@
 {
   "global": {
-    "montantTotal": 549056294.06,
-    "nbDocuments": 85365,
-    "nbFactures": 80480,
-    "montantFactures": 591094357.58,
-    "nbNotesCredit": 4885,
-    "montantNotesCredit": -42038063.52,
-    "nbPayees": 78434,
-    "montantPayees": 524408327.4,
-    "nbEnAttente": 6931,
-    "montantEnAttente": 24647966.66,
-    "nbATemps": 7099,
-    "montantATemps": 58884060.61,
-    "nbEnRetard": 71894,
-    "montantEnRetard": 465618832.19,
-    "retardMoyenJours": 55.8,
-    "nbFournisseurs": 2410
+    "montantTotal": 565879747.73,
+    "nbDocuments": 86639,
+    "nbFactures": 81676,
+    "montantFactures": 608317568.8,
+    "nbNotesCredit": 4963,
+    "montantNotesCredit": -42437821.07,
+    "nbPayees": 79681,
+    "montantPayees": 541222920.12,
+    "nbEnAttente": 6958,
+    "montantEnAttente": 24656827.61,
+    "nbATemps": 7340,
+    "montantATemps": 62342275.11,
+    "nbEnRetard": 72926,
+    "montantEnRetard": 478983430.56,
+    "retardMoyenJours": 56.3,
+    "nbFournisseurs": 2442
   },
   "chantier": {
     "montantTotal": 506335618.91,
@@ -36,22 +36,22 @@
     "nbFournisseurs": 2314
   },
   "consortium": {
-    "montantTotal": 42720675.15,
-    "nbDocuments": 3661,
-    "nbFactures": 3484,
-    "montantFactures": 43486737.99,
-    "nbNotesCredit": 177,
-    "montantNotesCredit": -766062.84,
-    "nbPayees": 3240,
-    "montantPayees": 40477317.92,
-    "nbEnAttente": 421,
-    "montantEnAttente": 2243357.23,
-    "nbATemps": 884,
-    "montantATemps": 11338947.6,
-    "nbEnRetard": 2393,
-    "montantEnRetard": 29201338.47,
-    "retardMoyenJours": 51.1,
-    "nbFournisseurs": 309
+    "montantTotal": 59544128.82,
+    "nbDocuments": 4935,
+    "nbFactures": 4680,
+    "montantFactures": 60709949.21,
+    "nbNotesCredit": 255,
+    "montantNotesCredit": -1165820.39,
+    "nbPayees": 4487,
+    "montantPayees": 57291910.64,
+    "nbEnAttente": 448,
+    "montantEnAttente": 2252218.18,
+    "nbATemps": 1125,
+    "montantATemps": 14797162.1,
+    "nbEnRetard": 3425,
+    "montantEnRetard": 42565936.84,
+    "retardMoyenJours": 63.0,
+    "nbFournisseurs": 401
   },
   "parEntite": {
     "BAT GE TRANSFO RENO": {
@@ -237,147 +237,147 @@
   },
   "parFamilleAchat": {
     "MARCHANDS": {
-      "montantTotal": 33483089.66,
-      "nbDocuments": 6059,
-      "nbFactures": 5510,
-      "montantFactures": 34797131.96,
-      "nbNotesCredit": 549,
-      "montantNotesCredit": -1307620.4,
-      "nbPayees": 5706,
-      "montantPayees": 32979395.96,
-      "nbEnAttente": 353,
+      "montantTotal": 33925868.91,
+      "nbDocuments": 6204,
+      "nbFactures": 5641,
+      "montantFactures": 35248209.91,
+      "nbNotesCredit": 563,
+      "montantNotesCredit": -1315919.1,
+      "nbPayees": 5848,
+      "montantPayees": 33422175.21,
+      "nbEnAttente": 356,
       "montantEnAttente": 503693.7,
-      "nbATemps": 753,
-      "montantATemps": 2468528.35,
-      "nbEnRetard": 4958,
-      "montantEnRetard": 30510219.01,
-      "retardMoyenJours": 42.8,
+      "nbATemps": 822,
+      "montantATemps": 2729768.8,
+      "nbEnRetard": 5034,
+      "montantEnRetard": 30691757.81,
+      "retardMoyenJours": 43.3,
       "nbFournisseurs": 5
     },
     "SOUS-TRAITANTS": {
-      "montantTotal": 118115218.79,
-      "nbDocuments": 7147,
-      "nbFactures": 6895,
-      "montantFactures": 126651552.79,
-      "nbNotesCredit": 252,
-      "montantNotesCredit": -8142167.4,
-      "nbPayees": 6304,
-      "montantPayees": 106876231.94,
-      "nbEnAttente": 843,
-      "montantEnAttente": 11238986.85,
-      "nbATemps": 483,
-      "montantATemps": 11239241.6,
-      "nbEnRetard": 5863,
-      "montantEnRetard": 95700660.74,
-      "retardMoyenJours": 53.9,
-      "nbFournisseurs": 95
+      "montantTotal": 125599784.59,
+      "nbDocuments": 7465,
+      "nbFactures": 7201,
+      "montantFactures": 134337071.84,
+      "nbNotesCredit": 264,
+      "montantNotesCredit": -8343120.65,
+      "nbPayees": 6613,
+      "montantPayees": 114351936.79,
+      "nbEnAttente": 852,
+      "montantEnAttente": 11247847.8,
+      "nbATemps": 505,
+      "montantATemps": 11976351.0,
+      "nbEnRetard": 6159,
+      "montantEnRetard": 102448117.14,
+      "retardMoyenJours": 56.2,
+      "nbFournisseurs": 96
     },
     "Fournisseur de matériaux": {
-      "montantTotal": 155955875.99,
-      "nbDocuments": 27355,
-      "nbFactures": 25565,
-      "montantFactures": 175601891.04,
-      "nbNotesCredit": 1790,
-      "montantNotesCredit": -17381950.75,
-      "nbPayees": 24761,
-      "montantPayees": 147274503.94,
-      "nbEnAttente": 2594,
+      "montantTotal": 157020777.69,
+      "nbDocuments": 27579,
+      "nbFactures": 25764,
+      "montantFactures": 176837334.54,
+      "nbNotesCredit": 1815,
+      "montantNotesCredit": -17552492.55,
+      "nbPayees": 24981,
+      "montantPayees": 148339405.64,
+      "nbEnAttente": 2598,
       "montantEnAttente": 8681372.05,
-      "nbATemps": 1370,
-      "montantATemps": 9115897.88,
-      "nbEnRetard": 23491,
-      "montantEnRetard": 138205908.66,
-      "retardMoyenJours": 50.6,
-      "nbFournisseurs": 218
+      "nbATemps": 1412,
+      "montantATemps": 9425208.13,
+      "nbEnRetard": 23673,
+      "montantEnRetard": 138961500.11,
+      "retardMoyenJours": 50.8,
+      "nbFournisseurs": 221
     },
     "INTERIMAIRES": {
-      "montantTotal": 16542860.9,
-      "nbDocuments": 5373,
-      "nbFactures": 5257,
-      "montantFactures": 16924338.85,
+      "montantTotal": 16543370.05,
+      "nbDocuments": 5374,
+      "nbFactures": 5258,
+      "montantFactures": 16924848.0,
       "nbNotesCredit": 116,
       "montantNotesCredit": -381477.95,
-      "nbPayees": 5183,
-      "montantPayees": 16535231.6,
+      "nbPayees": 5184,
+      "montantPayees": 16535740.75,
       "nbEnAttente": 190,
       "montantEnAttente": 7629.3,
       "nbATemps": 254,
       "montantATemps": 589908.65,
-      "nbEnRetard": 4951,
-      "montantEnRetard": 15945322.95,
+      "nbEnRetard": 4952,
+      "montantEnRetard": 15945832.1,
       "retardMoyenJours": 47.1,
       "nbFournisseurs": 6
     },
     "CFC 21 – GROS ŒUVRE 1": {
-      "montantTotal": 10311076.75,
-      "nbDocuments": 210,
-      "nbFactures": 197,
-      "montantFactures": 10613095.0,
+      "montantTotal": 10315654.0,
+      "nbDocuments": 212,
+      "nbFactures": 199,
+      "montantFactures": 10617672.25,
       "nbNotesCredit": 13,
       "montantNotesCredit": -232193.45,
-      "nbPayees": 179,
-      "montantPayees": 9986739.2,
+      "nbPayees": 181,
+      "montantPayees": 9991316.45,
       "nbEnAttente": 31,
       "montantEnAttente": 324337.55,
       "nbATemps": 29,
       "montantATemps": 1238400.5,
-      "nbEnRetard": 160,
-      "montantEnRetard": 8748338.7,
-      "retardMoyenJours": 94.3,
+      "nbEnRetard": 162,
+      "montantEnRetard": 8752915.95,
+      "retardMoyenJours": 93.7,
       "nbFournisseurs": 14
     },
     "Location": {
-      "montantTotal": 12321686.44,
-      "nbDocuments": 5108,
-      "nbFactures": 4771,
-      "montantFactures": 13445689.09,
-      "nbNotesCredit": 337,
-      "montantNotesCredit": -1124002.65,
-      "nbPayees": 4788,
-      "montantPayees": 12155824.99,
-      "nbEnAttente": 320,
+      "montantTotal": 12671999.79,
+      "nbDocuments": 5190,
+      "nbFactures": 4848,
+      "montantFactures": 13800135.19,
+      "nbNotesCredit": 342,
+      "montantNotesCredit": -1128135.4,
+      "nbPayees": 4866,
+      "montantPayees": 12506138.34,
+      "nbEnAttente": 324,
       "montantEnAttente": 165861.45,
-      "nbATemps": 161,
-      "montantATemps": -280794.0,
-      "nbEnRetard": 4652,
-      "montantEnRetard": 12436675.09,
-      "retardMoyenJours": 72.1,
+      "nbATemps": 170,
+      "montantATemps": -254212.15,
+      "nbEnRetard": 4725,
+      "montantEnRetard": 12760406.59,
+      "retardMoyenJours": 72.7,
       "nbFournisseurs": 17
     },
     "Non classé": {
-      "montantTotal": 122582538.63,
-      "nbDocuments": 27631,
-      "nbFactures": 26293,
-      "montantFactures": 132100352.55,
-      "nbNotesCredit": 1338,
-      "montantNotesCredit": -7121873.62,
-      "nbPayees": 25864,
-      "montantPayees": 119767189.72,
-      "nbEnAttente": 1767,
+      "montantTotal": 129867592.8,
+      "nbDocuments": 28085,
+      "nbFactures": 26738,
+      "montantFactures": 139396823.32,
+      "nbNotesCredit": 1347,
+      "montantNotesCredit": -7133290.22,
+      "nbPayees": 26312,
+      "montantPayees": 127052243.89,
+      "nbEnAttente": 1773,
       "montantEnAttente": 2815348.91,
-      "nbATemps": 3299,
-      "montantATemps": 25997469.98,
-      "nbEnRetard": 22740,
-      "montantEnRetard": 93749633.44,
-      "retardMoyenJours": 56.0,
-      "nbFournisseurs": 1854
+      "nbATemps": 3389,
+      "montantATemps": 28102314.33,
+      "nbEnRetard": 23103,
+      "montantEnRetard": 98929202.46,
+      "retardMoyenJours": 56.5,
+      "nbFournisseurs": 1882
     },
     "CFC 28 - AMENAGEMENTS INTERIEURS 2": {
-      "montantTotal": 8658735.0,
-      "nbDocuments": 824,
-      "nbFactures": 764,
-      "montantFactures": 9357868.75,
-      "nbNotesCredit": 60,
-      "montantNotesCredit": -697317.75,
-      "nbPayees": 692,
-      "montantPayees": 8521138.0,
+      "montantTotal": 8664690.0,
+      "nbDocuments": 835,
+      "nbFactures": 774,
+      "montantFactures": 9364289.0,
+      "nbNotesCredit": 61,
+      "montantNotesCredit": -697783.0,
+      "nbPayees": 703,
+      "montantPayees": 8527093.0,
       "nbEnAttente": 132,
       "montantEnAttente": 137597.0,
-      "nbATemps": 160,
-      "montantATemps": 719226.8,
-      "nbEnRetard": 568,
-      "montantEnRetard": 7801911.2,
-      "retardMoyenJours": 97.8,
+      "nbATemps": 162,
+      "montantATemps": 719353.9,
+      "nbEnRetard": 577,
+      "montantEnRetard": 7807739.1,
+      "retardMoyenJours": 96.7,
       "nbFournisseurs": 30
     },
     "CFC 25 - INSTALLATIONS SANITAIRES": {
@@ -399,21 +399,21 @@
       "nbFournisseurs": 20
     },
     "CFC 22 – GROS ŒUVRE 2": {
-      "montantTotal": 11134039.9,
-      "nbDocuments": 299,
-      "nbFactures": 281,
-      "montantFactures": 12066772.05,
+      "montantTotal": 11219085.25,
+      "nbDocuments": 304,
+      "nbFactures": 286,
+      "montantFactures": 12151817.4,
       "nbNotesCredit": 18,
       "montantNotesCredit": -932732.15,
-      "nbPayees": 268,
-      "montantPayees": 11410553.25,
+      "nbPayees": 273,
+      "montantPayees": 11495598.6,
       "nbEnAttente": 31,
       "montantEnAttente": -276513.35,
-      "nbATemps": 60,
-      "montantATemps": 1610975.85,
-      "nbEnRetard": 231,
-      "montantEnRetard": 9799577.4,
-      "retardMoyenJours": 150.7,
+      "nbATemps": 61,
+      "montantATemps": 1621066.9,
+      "nbEnRetard": 235,
+      "montantEnRetard": 9874531.7,
+      "retardMoyenJours": 148.2,
       "nbFournisseurs": 28
     },
     "CFC 23 – INSTALLATIONS ELECTRIQUES": {
@@ -453,20 +453,20 @@
       "nbFournisseurs": 10
     },
     "TRANSPORTEURS": {
-      "montantTotal": 5374677.5,
-      "nbDocuments": 2038,
-      "nbFactures": 1951,
-      "montantFactures": 5640300.65,
+      "montantTotal": 5431462.35,
+      "nbDocuments": 2043,
+      "nbFactures": 1956,
+      "montantFactures": 5697085.5,
       "nbNotesCredit": 87,
       "montantNotesCredit": -264065.65,
-      "nbPayees": 1729,
-      "montantPayees": 5020013.7,
+      "nbPayees": 1734,
+      "montantPayees": 5076798.55,
       "nbEnAttente": 309,
       "montantEnAttente": 354663.8,
       "nbATemps": 56,
       "montantATemps": -101991.55,
-      "nbEnRetard": 1679,
-      "montantEnRetard": 5122005.25,
+      "nbEnRetard": 1684,
+      "montantEnRetard": 5178790.1,
       "retardMoyenJours": 65.3,
       "nbFournisseurs": 11
     },
@@ -597,21 +597,21 @@
       "nbFournisseurs": 1
     },
     "PRESTATAIRES DE SERVICES": {
-      "montantTotal": 1172466.15,
-      "nbDocuments": 905,
-      "nbFactures": 795,
-      "montantFactures": 1263426.9,
-      "nbNotesCredit": 110,
-      "montantNotesCredit": -90549.95,
-      "nbPayees": 785,
-      "montantPayees": 1164840.1,
-      "nbEnAttente": 120,
+      "montantTotal": 1215433.95,
+      "nbDocuments": 932,
+      "nbFactures": 810,
+      "montantFactures": 1310343.9,
+      "nbNotesCredit": 122,
+      "montantNotesCredit": -94499.15,
+      "nbPayees": 811,
+      "montantPayees": 1207807.9,
+      "nbEnAttente": 121,
       "montantEnAttente": 7626.05,
-      "nbATemps": 28,
-      "montantATemps": -5974.8,
-      "nbEnRetard": 763,
-      "montantEnRetard": 1167779.8,
-      "retardMoyenJours": 67.8,
+      "nbATemps": 34,
+      "montantATemps": 2935.25,
+      "nbEnRetard": 784,
+      "montantEnRetard": 1201837.55,
+      "retardMoyenJours": 69.0,
       "nbFournisseurs": 5
     }
   },
@@ -689,22 +689,22 @@
       "nbFournisseurs": 5
     },
     "2023": {
-      "montantTotal": 204204613.25,
-      "nbDocuments": 29238,
-      "nbFactures": 27509,
-      "montantFactures": 221168403.79,
-      "nbNotesCredit": 1729,
-      "montantNotesCredit": -16963790.54,
-      "nbPayees": 28900,
-      "montantPayees": 204187642.05,
-      "nbEnAttente": 338,
-      "montantEnAttente": 16971.2,
-      "nbATemps": 2564,
-      "montantATemps": 12698907.09,
-      "nbEnRetard": 26642,
-      "montantEnRetard": 191462998.01,
-      "retardMoyenJours": 61.4,
-      "nbFournisseurs": 1482
+      "montantTotal": 221028066.92,
+      "nbDocuments": 30512,
+      "nbFactures": 28705,
+      "montantFactures": 238391615.01,
+      "nbNotesCredit": 1807,
+      "montantNotesCredit": -17363548.09,
+      "nbPayees": 30147,
+      "montantPayees": 221002234.77,
+      "nbEnAttente": 365,
+      "montantEnAttente": 25832.15,
+      "nbATemps": 2805,
+      "montantATemps": 16157121.59,
+      "nbEnRetard": 27674,
+      "montantEnRetard": 204827596.38,
+      "retardMoyenJours": 62.5,
+      "nbFournisseurs": 1542
     },
     "2024": {
       "montantTotal": 192696724.77,
@@ -2089,7 +2089,7 @@
     {
       "nfr": 230977,
       "nom": "HG COMMERCIALE",
-      "montant": 31378353.86
+      "montant": 31669270.61
     },
     {
       "nfr": 204995,
@@ -2104,17 +2104,22 @@
     {
       "nfr": 200866,
       "nom": "GENTILE SA",
-      "montant": 15807367.75
+      "montant": 16163154.7
+    },
+    {
+      "nfr": 116346723,
+      "nom": "Orllati (VD) SA",
+      "montant": 13419238.85
     },
     {
       "nfr": 106395559,
       "nom": "ORLLATI (GE) SA",
-      "montant": 11828660.3
+      "montant": 12711286.25
     },
     {
       "nfr": 112930662,
       "nom": "ORLLATI (VD) SA",
-      "montant": 9908001.15
+      "montant": 9958001.15
     },
     {
       "nfr": 113965798,
@@ -2122,14 +2127,9 @@
       "montant": 9871545.15
     },
     {
-      "nfr": 116346723,
-      "nom": "Orllati (VD) SA",
-      "montant": 9406411.45
-    },
-    {
       "nfr": 450085,
       "nom": "BEWETEC AG",
-      "montant": 9188914.6
+      "montant": 9216929.75
     },
     {
       "nfr": 331915,
@@ -2144,7 +2144,7 @@
     {
       "nfr": 101884101,
       "nom": "ABCD21 Construction Sàrl",
-      "montant": 5923210.2
+      "montant": 5942456.2
     },
     {
       "nfr": 271937631,
@@ -2154,17 +2154,17 @@
     {
       "nfr": 144802,
       "nom": "GRAVIERES D'EPEI",
-      "montant": 5479891.36
-    },
-    {
-      "nfr": 145739,
-      "nom": "PRO BETON SA",
-      "montant": 5249246.4
+      "montant": 5482383.11
     },
     {
       "nfr": 464681,
       "nom": "WOLFFKRAN SCHWEI",
-      "montant": 5084328.9
+      "montant": 5306221.55
+    },
+    {
+      "nfr": 145739,
+      "nom": "PRO BETON SA",
+      "montant": 5250024.0
     },
     {
       "nfr": 248383953,
@@ -2174,67 +2174,67 @@
     {
       "nfr": 510564,
       "nom": "PLANET INTERIM",
-      "montant": 4648665.9
+      "montant": 4828210.2
     },
     {
       "nfr": 780751,
       "nom": "NORRAC SARL",
-      "montant": 4641588.07
+      "montant": 4709681.82
     },
     {
       "nfr": 466433389,
       "nom": "ORLLATI GRANULAT",
-      "montant": 4562420.7
+      "montant": 4637969.65
     }
   ],
-  "nbFacturesTotal": 80309,
-  "montantFacturesTotal": 596344241.78,
-  "panierMoyenFacture": 7425.62,
+  "nbFacturesTotal": 81505,
+  "montantFacturesTotal": 613567453.0,
+  "panierMoyenFacture": 7527.97,
   "tranches": [
     {
       "label": "< 2'000 CHF",
-      "nbFactures": 47786,
-      "montantFactures": 28971686.41,
-      "pctNb": 59.5,
-      "pctMontant": 4.9
+      "nbFactures": 48280,
+      "montantFactures": 29363604.54,
+      "pctNb": 59.2,
+      "pctMontant": 4.8
     },
     {
       "label": "2'001 - 5'000 CHF",
-      "nbFactures": 15019,
-      "montantFactures": 45943286.13,
-      "pctNb": 18.7,
-      "pctMontant": 7.7
+      "nbFactures": 15346,
+      "montantFactures": 46930904.13,
+      "pctNb": 18.8,
+      "pctMontant": 7.6
     },
     {
       "label": "5'001 - 10'000 CHF",
-      "nbFactures": 6915,
-      "montantFactures": 49193522.53,
+      "nbFactures": 7038,
+      "montantFactures": 50087367.58,
       "pctNb": 8.6,
       "pctMontant": 8.2
     },
     {
       "label": "10'001 - 50'000 CHF",
-      "nbFactures": 7561,
-      "montantFactures": 163150521.73,
-      "pctNb": 9.4,
-      "pctMontant": 27.4
+      "nbFactures": 7738,
+      "montantFactures": 167311387.97,
+      "pctNb": 9.5,
+      "pctMontant": 27.3
     },
     {
       "label": "> 50'000 CHF",
-      "nbFactures": 2427,
-      "montantFactures": 309085224.98,
+      "nbFactures": 2478,
+      "montantFactures": 319874188.78,
       "pctNb": 3.0,
-      "pctMontant": 51.8
+      "pctMontant": 52.1
     }
   ],
   "exclusions": {
-    "nbLignes": 3453,
-    "montantTotal": 128966694.35,
+    "nbLignes": 3735,
+    "montantTotal": 135360666.35,
     "details": [
       {
         "nfr": 105923668,
         "nom": "INDUNI & CIE S 1",
-        "montant": 63041175.5,
+        "montant": 69435147.5,
         "motif": "Écritures intercompagnie (INDUNI & CIE, l'entreprise qui utilise ce dashboard) — pas un fournisseur externe."
       },
       {
