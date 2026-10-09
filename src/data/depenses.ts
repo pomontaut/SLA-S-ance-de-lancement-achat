@@ -133,6 +133,11 @@ export interface DepenseFournisseur {
   familleAchat: string | null
   conditions: string[]
   documents: DepenseDocument[]
+  /** Fournisseur sous accord-cadre/contrat de ristourne pour l'exercice 2026 — reconstitué
+   * manuellement à partir du fichier "Accords Fournisseurs" (onglet Exercice 2026, liste
+   * principale + section "NOUVEAU 2026", hors prospects/négociations 2027) et rapproché par nom.
+   * Absent (pas `false`) si ce fournisseur n'est pas concerné — pas une donnée calculée. */
+  sousContrat2026?: boolean
 }
 
 let globalCache: DepensesGlobal | null = null

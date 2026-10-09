@@ -130,6 +130,11 @@ export default function SupplierFinances({
         <h4 className="text-xs uppercase text-slate-500">
           💰 Dépenses &amp; paiements (Journal COFI){yLatest ? ` — ${yLatest}` : ''}
         </h4>
+        {fournisseur.sousContrat2026 && (
+          <span className="text-[10px] font-medium uppercase bg-green-100 text-green-700 px-2 py-0.5 rounded">
+            Sous contrat 2026
+          </span>
+        )}
         {fournisseur.familleAchat ? (
           <span className="text-[10px] font-medium uppercase bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded">
             Famille d'achat : {fournisseur.familleAchat}
