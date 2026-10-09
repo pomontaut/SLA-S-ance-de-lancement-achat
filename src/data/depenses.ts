@@ -61,6 +61,10 @@ export interface DepensesGlobal {
   chantier: DepenseBucketStats
   consortium: DepenseBucketStats
   parEntite: Record<string, DepenseBucketStats>
+  /** Dépense par année (année de "Date doc.", clé "AAAA") — permet de distinguer la dépense par
+   * campagne d'import (ex. 2023, 2024 Induni, 2024 Consortium…) au lieu d'un seul total cumulé
+   * toutes périodes confondues. */
+  parAnnee: Record<string, DepenseBucketStats>
   /** Dépense par famille d'achat (FOURNISSEURS/SOUS-TRAITANTS/TRANSPORTEURS/CFC .../"Non classé")
    * — famille reprise de l'historique d'évaluation (EvalRecord.famille) par correspondance de nom,
    * voir DepenseFournisseur.familleAchat. "Non classé" = fournisseur jamais évalué, pas d'erreur. */
@@ -121,6 +125,8 @@ export interface DepenseFournisseur {
   consortiumMontant: number
   parEntite: Record<string, DepenseBucketStats>
   parChantier: Record<string, DepenseChantierBucket>
+  /** Dépense de ce fournisseur par année (année de "Date doc.", clé "AAAA"). */
+  parAnnee: Record<string, DepenseBucketStats>
   /** Famille d'achat (FOURNISSEURS/SOUS-TRAITANTS/TRANSPORTEURS/CFC .../...) reprise de
    * l'historique d'évaluation par correspondance de nom — null si ce fournisseur n'a jamais été
    * évalué (pas de donnée disponible, pas une erreur). Sert au rapprochement CA/fournisseur/famille. */

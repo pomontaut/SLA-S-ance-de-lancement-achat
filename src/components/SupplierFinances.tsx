@@ -74,7 +74,7 @@ export default function SupplierFinances({
     return (
       <div className="bg-slate-50 rounded-lg p-3">
         <p className="text-xs text-slate-500">
-          💰 Aucune donnée financière trouvée pour ce fournisseur dans le journal comptable (Journal COFI 2025) —
+          💰 Aucune donnée financière trouvée pour ce fournisseur dans le journal comptable (Journal COFI) —
           soit il n'y a pas eu de dépense sur la période couverte, soit le nom ne correspond à aucune entrée
           (le journal utilise des noms tronqués SAP à ~20 caractères).
         </p>
@@ -247,6 +247,36 @@ export default function SupplierFinances({
               ))}
             </p>
           )}
+        </div>
+      )}
+
+      {Object.keys(fournisseur.parAnnee).length > 1 && (
+        <div>
+          <h5 className="text-[11px] uppercase text-slate-500 mb-1">Par année</h5>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs border-collapse">
+              <thead>
+                <tr className="text-left text-slate-500 border-b border-slate-200">
+                  <th className="py-1 pr-2">Année</th>
+                  <th className="py-1 pr-2">Montant</th>
+                  <th className="py-1 pr-2">À temps</th>
+                  <th className="py-1">En retard</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.entries(fournisseur.parAnnee)
+                  .sort((a, b) => a[0].localeCompare(b[0]))
+                  .map(([annee, v]) => (
+                    <tr key={annee} className="border-b border-slate-100">
+                      <td className="py-1 pr-2 font-medium">{annee}</td>
+                      <td className="py-1 pr-2">{formatCurrency(v.montantTotal)}</td>
+                      <td className="py-1 pr-2 text-green-600">{v.nbATemps}</td>
+                      <td className="py-1 text-red-600">{v.nbEnRetard}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 

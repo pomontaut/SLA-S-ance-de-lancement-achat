@@ -81,6 +81,43 @@ function EntiteTable({ parEntite }: { parEntite: Record<string, DepenseBucketSta
   )
 }
 
+function AnneeTable({ parAnnee }: { parAnnee: Record<string, DepenseBucketStats> }) {
+  const rows = Object.entries(parAnnee).sort((a, b) => a[0].localeCompare(b[0]))
+  const total = rows.reduce((s, [, v]) => s + v.montantTotal, 0)
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm border-collapse">
+        <thead>
+          <tr className="text-left text-xs uppercase text-slate-500 border-b border-slate-200">
+            <th className="py-2 pr-3">Année</th>
+            <th className="py-2 pr-3">Montant</th>
+            <th className="py-2 pr-3">% du total</th>
+            <th className="py-2 pr-3">Documents</th>
+            <th className="py-2 pr-3">Payé à temps</th>
+            <th className="py-2">Payé en retard</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(([annee, v]) => (
+            <tr key={annee} className="border-b border-slate-100">
+              <td className="py-1.5 pr-3 font-medium">{annee}</td>
+              <td className="py-1.5 pr-3 font-medium">{formatCurrency(v.montantTotal)}</td>
+              <td className="py-1.5 pr-3">{pct(v.montantTotal, total)}%</td>
+              <td className="py-1.5 pr-3">{v.nbDocuments}</td>
+              <td className="py-1.5 pr-3 text-green-600">
+                {v.nbATemps} ({formatCurrency(v.montantATemps)})
+              </td>
+              <td className="py-1.5 text-red-600">
+                {v.nbEnRetard} ({formatCurrency(v.montantEnRetard)})
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
 /** Famille d'achat = classification reprise de l'historique d'évaluation (FOURNISSEURS/
  * SOUS-TRAITANTS/TRANSPORTEURS/codes CFC...) par correspondance de nom — "Non classé" = jamais
  * évalué, pas une erreur. Sert au rapprochement CA/fournisseur/famille. */
@@ -459,6 +496,15 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
           sub={`${g.nbEnAttente} document(s) non soldé(s)`}
           tone="warning"
         />
+      </div>
+
+      <div className="card">
+        <h3 className="font-semibold mb-1">Dépense par année</h3>
+        <p className="text-xs text-slate-500 mb-3">
+          Année de "Date doc." — distingue les différentes campagnes d'import (2023, 2024 chantiers Induni,
+          2024 consortium…) au sein du total cumulé ci-dessus.
+        </p>
+        <AnneeTable parAnnee={data.parAnnee} />
       </div>
 
       <div className="card">
