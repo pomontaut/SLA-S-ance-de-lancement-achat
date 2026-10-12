@@ -6,7 +6,7 @@ import { secteurColor, noteColor } from '../data/palette'
 /** Montant chantier Induni / consortium pour une année donnée — calculé à la volée depuis
  * `documents` (pas précalculé dans parAnnee, qui ne distingue pas par Aff.). */
 function yearAffSplit(fournisseur: DepenseFournisseur, annee: string): { chantier: number; consortium: number } {
-  const docs = fournisseur.documents.filter((d) => d.dateDoc?.startsWith(annee))
+  const docs = fournisseur.documents.filter((d) => (d.anneeAttribution ?? d.dateDoc?.slice(0, 4)) === annee)
   const chantier = docs.filter((d) => d.aff === 'CHANTIER INDUNI').reduce((s, d) => s + (d.montant ?? 0), 0)
   const consortium = docs.filter((d) => d.aff === 'CONSORTIUM').reduce((s, d) => s + (d.montant ?? 0), 0)
   return { chantier: Math.round(chantier * 100) / 100, consortium: Math.round(consortium * 100) / 100 }

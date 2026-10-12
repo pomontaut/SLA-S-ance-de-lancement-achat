@@ -109,6 +109,11 @@ export interface DepenseDocument {
   montant: number | null
   ref: string | null
   enRetard: boolean
+  /** Année de rattachement comptable, quand elle diffère de l'année de `dateDoc` — cas d'une note
+   * de crédit interne postée l'année suivante pour annuler/corriger une facture de l'année
+   * précédente (même référence, montant exactement opposé). Sans ce champ, la correction
+   * "fuiterait" dans la mauvaise année lors d'un filtrage client par année. */
+  anneeAttribution?: string
 }
 
 export interface DepenseChantierBucket extends DepenseBucketStats {

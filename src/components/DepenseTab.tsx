@@ -385,7 +385,7 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
       let has = false
       for (const d of f.documents) {
         if (d.entite !== selectedEntite) continue
-        if (!d.dateDoc?.startsWith(selectedAnnee)) continue
+        if ((d.anneeAttribution ?? d.dateDoc?.slice(0, 4)) !== selectedAnnee) continue
         docs.push(d)
         has = true
       }
@@ -410,7 +410,9 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
     return fournisseurs
       .map((f) => {
         const docs = f.documents.filter(
-          (d) => (!selectedEntite || d.entite === selectedEntite) && (!selectedAnnee || d.dateDoc?.startsWith(selectedAnnee)),
+          (d) =>
+            (!selectedEntite || d.entite === selectedEntite) &&
+            (!selectedAnnee || (d.anneeAttribution ?? d.dateDoc?.slice(0, 4)) === selectedAnnee),
         )
         return { nfr: f.nfr, nom: f.nom, montant: Math.round(docs.reduce((s, d) => s + (d.montant ?? 0), 0) * 100) / 100 }
       })
