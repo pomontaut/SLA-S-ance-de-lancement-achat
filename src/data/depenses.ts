@@ -114,6 +114,20 @@ export interface DepenseDocument {
    * précédente (même référence, montant exactement opposé). Sans ce champ, la correction
    * "fuiterait" dans la mauvaise année lors d'un filtrage client par année. */
   anneeAttribution?: string
+  /** Date de comptabilisation réelle ("Date COFI" de l'export SAP), quand connue — distincte de
+   * `dateDoc` (date de la facture elle-même). Confirmé par rapprochement exact avec la compta
+   * (7 entités Orllati, écart 0 sur chacune) : le CA par année doit se baser sur cette date quand
+   * elle est disponible, pas sur `dateDoc` ni `anneeAttribution` (qui ne reste utile que pour les
+   * documents antérieurs aux imports bruts, où cette date n'a pas pu être récupérée). */
+  dateCofi?: string
+}
+
+/** Année de rattachement comptable d'un document : Date COFI si connue, sinon l'année de
+ * correction manuelle (`anneeAttribution`), sinon l'année de la facture (`dateDoc`). */
+export function anneeComptable(d: Pick<DepenseDocument, 'dateCofi' | 'anneeAttribution' | 'dateDoc'>): string | null {
+  if (d.dateCofi) return d.dateCofi.slice(0, 4)
+  if (d.anneeAttribution) return d.anneeAttribution
+  return d.dateDoc?.slice(0, 4) ?? null
 }
 
 export interface DepenseChantierBucket extends DepenseBucketStats {
