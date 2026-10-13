@@ -120,6 +120,13 @@ export interface DepenseDocument {
    * elle est disponible, pas sur `dateDoc` ni `anneeAttribution` (qui ne reste utile que pour les
    * documents antérieurs aux imports bruts, où cette date n'a pas pu être récupérée). */
   dateCofi?: string
+  /** true si ce document "Note de crédit (interne)" n'est pas une vraie note de crédit mais une
+   * simple correction administrative : il annule à l'identique (même référence, montant
+   * exactement opposé) une facture par ailleurs présente chez ce même fournisseur, généralement
+   * suivie d'une facture "V2" corrigée. Dans ce cas il compte comme une facture (nbFactures /
+   * montantFactures), pas comme une note de crédit, pour que "Notes de crédit" ne reflète que les
+   * vrais avoirs commerciaux (rabais, retours, etc.). */
+  correctionDeFacture?: boolean
 }
 
 /** Année de rattachement comptable d'un document : Date COFI si connue, sinon l'année de
@@ -409,11 +416,11 @@ export function pct(part: number, total: number): number | null {
  * bruts ne portent pas le N° fournisseur) — à ajouter par l'appelant si besoin. */
 export function computeBucketStats(documents: DepenseDocument[], absFactures = false): DepenseBucketStats {
   const montantTotal = Math.round(documents.reduce((s, d) => s + (d.montant ?? 0), 0) * 100) / 100
-  const factures = documents.filter((d) => d.genre === 'Facture')
+  const factures = documents.filter((d) => d.genre === 'Facture' || d.correctionDeFacture)
   const facturesConnues = factures.filter((d) => d.montant != null)
   const montantFactures =
     Math.round(facturesConnues.reduce((s, d) => s + (absFactures ? Math.abs(d.montant!) : d.montant!), 0) * 100) / 100
-  const notesCredit = documents.filter((d) => d.genre !== 'Facture')
+  const notesCredit = documents.filter((d) => d.genre !== 'Facture' && !d.correctionDeFacture)
   const montantNotesCredit = Math.round(notesCredit.reduce((s, d) => s + (d.montant ?? 0), 0) * 100) / 100
   const payees = documents.filter((d) => d.datePaiement != null)
   const montantPayees = Math.round(payees.reduce((s, d) => s + (d.montant ?? 0), 0) * 100) / 100
