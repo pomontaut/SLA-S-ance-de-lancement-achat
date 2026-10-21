@@ -14,6 +14,7 @@ import {
   loadLiensDirigeants,
 } from '../data/depenses'
 import SupplierFinances from './SupplierFinances'
+import { EshopOrdersSection } from './EshopOrdersSection'
 
 function toggle<T>(list: T[], value: T): T[] {
   return list.includes(value) ? list.filter((v) => v !== value) : [...list, value]
@@ -443,6 +444,8 @@ export default function SupplierZoom({
                   liensReseau={liensReseau}
                 />
               )}
+
+              {!evaluationOnly && <EshopOrdersSection fournisseurNom={selected} />}
 
               {secteursDisponibles.length > 0 && (
                 <div className="flex flex-wrap items-center gap-3 bg-slate-50 rounded-lg p-3">

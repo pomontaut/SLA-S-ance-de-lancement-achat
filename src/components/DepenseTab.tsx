@@ -1,3 +1,4 @@
+import { EshopReportingSection } from './EshopOrdersSection'
 import { useEffect, useMemo, useState } from 'react'
 import type { DepenseBucketStats, DepenseChantierStats, DepenseFournisseur, DepensesGlobal, DepenseTranche, GroupeFournisseur, GroupeTotal } from '../data/depenses'
 import {
@@ -648,6 +649,8 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
           <TopGroupesTable groupes={groupesTotals} montantTotal={g.montantTotal} />
         </div>
       )}
+
+      <EshopReportingSection />
     </div>
   )
 }

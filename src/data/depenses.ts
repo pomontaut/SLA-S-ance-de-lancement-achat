@@ -374,7 +374,7 @@ export function computeGroupesTotals(
     .sort((a, b) => b.montantTotal - a.montantTotal)
 }
 
-function normNomDepense(s: string): string {
+export function normNomDepense(s: string): string {
   return s
     .normalize('NFKD')
     .replace(/[̀-ͯ]/g, '')

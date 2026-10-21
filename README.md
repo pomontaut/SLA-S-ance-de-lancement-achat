@@ -119,3 +119,18 @@ npm run build
 Le résultat dans `dist/` est un site statique déployable sur n'importe quel
 hébergeur (Vercel, Netlify, GitHub Pages…) — il continuera à parler à Supabase
 via les variables d'environnement injectées au build.
+
+## Commandes e-shop (reporting articles)
+
+La fiche fournisseur (section « 🛒 Commandes e-shop ») et l'onglet « Analyse de la dépense » affichent les commandes
+passées dans ESHOP-INDUNI : liste des commandes, articles, quantités, montants + indicateurs de fonctionnement de
+l'e-shop. Données lues via l'Edge Function [`eshop-reporting`](supabase/functions/eshop-reporting/index.ts), qui appelle
+`GET {ESHOP_URL}/api/reporting/sla` avec un jeton serveur-à-serveur (jamais envoyé au navigateur) :
+
+```bash
+supabase secrets set ESHOP_URL=https://<url-eshop> ESHOP_REPORTING_TOKEN=<jeton>
+supabase functions deploy eshop-reporting
+```
+
+Côté ESHOP-INDUNI, définir la même valeur dans la variable `SLA_REPORTING_TOKEN`. Ces commandes sont des engagements,
+pas des factures : elles ne s'additionnent pas à la dépense comptable (Journal COFI). Prix confidentiels masqués.
