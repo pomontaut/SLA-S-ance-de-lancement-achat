@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import type { EvaluationFormulaire, NewEvaluationFormulaire } from '../types'
 import { FAMILLES_EVALUATION, NOTE_OPTIONS, criteresPourFamille, moyenneCriteres } from '../data/formulaireEvaluation'
 import { createEvaluationFormulaire, deleteEvaluationFormulaire, listEvaluationsFormulaire, updateEvaluationFormulaire } from '../data/db'
@@ -19,7 +19,7 @@ const EMPTY_FORM: NewEvaluationFormulaire = {
 function NoteSelect({ value, onChange }: { value: number | null; onChange: (v: number | null) => void }) {
   return (
     <select
-      className="input w-24"
+      className="input !w-[4.5rem] !py-1 !px-1.5 text-xs"
       value={value ?? ''}
       onChange={(e) => onChange(e.target.value === '' ? null : Number(e.target.value))}
     >
@@ -182,12 +182,14 @@ export default function FormulaireEvaluationTab() {
                 <span className="normal-case font-normal text-slate-400"> (mêmes critères que Fournisseurs)</span>
               )}
           </h3>
-          <div className="space-y-2">
+          <div className="grid grid-cols-[minmax(0,1fr)_4.5rem] gap-x-3 gap-y-1.5 items-center">
             {criteres.map((label) => (
-              <div key={label} className="flex items-center justify-between gap-3">
-                <span className="text-sm">{label}</span>
+              <Fragment key={label}>
+                <span className="text-sm truncate" title={label}>
+                  {label}
+                </span>
                 <NoteSelect value={form.criteres[label] ?? null} onChange={(v) => setCritere(label, v)} />
-              </div>
+              </Fragment>
             ))}
           </div>
           <div className="mt-3 text-sm font-medium">Moyenne : {form.moyenne != null ? `${form.moyenne} / 4` : '—'}</div>

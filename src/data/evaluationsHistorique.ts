@@ -100,7 +100,7 @@ export function loadBlacklist(): Promise<BlacklistEntry[]> {
   return blacklistPending
 }
 
-function normNom(s: string): string {
+export function normNom(s: string): string {
   return s
     .normalize('NFKD')
     .replace(/[̀-ͯ]/g, '')

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import SupplierFormulaireEvaluations from './SupplierFormulaireEvaluations'
 import type { EvalRecord } from '../data/evaluationsHistorique'
 import { canonicalizeCriteres, listSuppliers, supplierHistory } from '../data/evaluationsHistorique'
 import { secteurColor, noteColor } from '../data/palette'
@@ -443,6 +444,8 @@ export default function SupplierZoom({
                   liensReseau={liensReseau}
                 />
               )}
+
+              <SupplierFormulaireEvaluations nom={selected} />
 
               {secteursDisponibles.length > 0 && (
                 <div className="flex flex-wrap items-center gap-3 bg-slate-50 rounded-lg p-3">
