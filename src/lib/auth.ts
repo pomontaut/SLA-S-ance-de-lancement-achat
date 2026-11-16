@@ -41,6 +41,12 @@ export async function signUp(email: string, password: string, fullName: string):
   if (error) throw error
 }
 
+/** Remplace le mot de passe temporaire et lève l'obligation de le changer (`must_change_password`). */
+export async function setOwnPassword(password: string): Promise<void> {
+  const { error } = await requireClient().auth.updateUser({ password, data: { must_change_password: false } })
+  if (error) throw error
+}
+
 export async function signOut(): Promise<void> {
   const { error } = await requireClient().auth.signOut()
   if (error) throw error

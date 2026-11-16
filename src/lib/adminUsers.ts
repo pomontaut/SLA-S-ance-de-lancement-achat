@@ -24,8 +24,9 @@ export interface CreateUserInput {
   permissions: Partial<Record<PermissionKey, boolean>>
 }
 
-export async function createUserAccount(input: CreateUserInput): Promise<void> {
-  await invoke({
+/** `emailSent` : l'e-mail (lien + mot de passe temporaire) est parti automatiquement. */
+export async function createUserAccount(input: CreateUserInput): Promise<{ emailSent: boolean }> {
+  const result = await invoke<{ emailSent?: boolean }>({
     action: 'create',
     fullName: input.fullName,
     email: input.email,
@@ -34,6 +35,7 @@ export async function createUserAccount(input: CreateUserInput): Promise<void> {
     adminConfirmationCode: input.adminConfirmationCode,
     ...input.permissions,
   })
+  return { emailSent: Boolean(result?.emailSent) }
 }
 
 /** Retourne le nouveau mot de passe généré (affiché à l'administrateur pour le communiquer à la

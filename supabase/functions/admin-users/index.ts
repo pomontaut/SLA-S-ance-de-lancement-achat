@@ -56,6 +56,38 @@ function generatePassword(): string {
   return 'Induni-' + btoa(String.fromCharCode(...bytes)).replace(/[+/=]/g, '').slice(0, 10)
 }
 
+function escapeHtml(s: string): string {
+  return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!))
+}
+
+/** Envoie au nouvel utilisateur le lien de l'app + son mot de passe temporaire (Resend).
+ * Secrets : RESEND_API_KEY, MAIL_FROM (ex. « Induni Achats <achats@induni.ch> »), APP_URL. */
+async function sendCredentialsEmail(to: string, fullName: string, tempPassword: string): Promise<boolean> {
+  const apiKey = Deno.env.get('RESEND_API_KEY')
+  const from = Deno.env.get('MAIL_FROM')
+  const appUrl = Deno.env.get('APP_URL') ?? ''
+  if (!apiKey || !from) return false
+
+  const html = `
+    <p>Bonjour ${escapeHtml(fullName)},</p>
+    <p>Un compte a été créé pour vous.</p>
+    <p><strong>Adresse :</strong> ${escapeHtml(to)}<br>
+       <strong>Mot de passe temporaire :</strong> ${escapeHtml(tempPassword)}</p>
+    ${appUrl ? `<p><a href="${appUrl}">Cliquez ici pour vous connecter</a></p>` : ''}
+    <p>À votre première connexion, il vous sera demandé de choisir votre propre mot de passe.</p>`
+
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from, to: [to], subject: 'Votre accès — Induni', html }),
+    })
+    return res.ok
+  } catch {
+    return false
+  }
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: CORS_HEADERS })
 
@@ -117,7 +149,7 @@ Deno.serve(async (req) => {
       email,
       password,
       email_confirm: true,
-      user_metadata: { full_name: fullName },
+      user_metadata: { full_name: fullName, must_change_password: true },
     })
     if (createError || !created.user) {
       return jsonResponse({ error: createError?.message ?? 'Échec de la création du compte.' }, 400)
@@ -133,14 +165,19 @@ Deno.serve(async (req) => {
       return jsonResponse({ error: `Compte créé mais erreur sur les droits : ${profileError.message}` }, 500)
     }
 
-    return jsonResponse({ ok: true, userId: created.user.id })
+    // Envoi automatique des accès ; un échec d'envoi ne bloque pas la création.
+    const emailSent = await sendCredentialsEmail(email, fullName, password)
+    return jsonResponse({ ok: true, userId: created.user.id, emailSent })
   }
 
   if (action === 'reset_password') {
     const userId = String(payload.userId ?? '')
     if (!userId) return jsonResponse({ error: 'userId manquant.' }, 400)
     const newPassword = generatePassword()
-    const { error } = await admin.auth.admin.updateUserById(userId, { password: newPassword })
+    const { error } = await admin.auth.admin.updateUserById(userId, {
+      password: newPassword,
+      user_metadata: { must_change_password: true },
+    })
     if (error) return jsonResponse({ error: error.message }, 400)
     return jsonResponse({ ok: true, password: newPassword })
   }
