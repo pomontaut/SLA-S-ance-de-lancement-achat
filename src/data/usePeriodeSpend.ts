@@ -27,5 +27,5 @@ export function usePeriodeSpend() {
   const libPrev = comparer ? (partielle ? `janv.–${MOIS_COURTS[moisMax]} ${an1}` : an1) : ''
   const dansCur = (l: LigneSpend) => (comparer ? l.annee === an && l.mois <= moisMax : true)
   const dansPrev = (l: LigneSpend) => comparer && l.annee === an1 && l.mois <= moisMax
-  return { charge: !!fournisseurs, fournisseurs, base, toutes, annees, entite, comparer, an, an1, moisMax, libPeriode, libPrev, dansCur, dansPrev }
+  return { charge: !!fournisseurs, partielles, fournisseurs, base, toutes, annees, entite, comparer, an, an1, moisMax, libPeriode, libPrev, dansCur, dansPrev }
 }

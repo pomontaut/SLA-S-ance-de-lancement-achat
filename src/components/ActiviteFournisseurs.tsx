@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { variation } from '../data/spend'
+import { renouvellementParAnnee } from '../data/renouvellement'
 import { usePeriodeSpend } from '../data/usePeriodeSpend'
 import { dateFichier, exportXlsx } from '../lib/exportExcel'
 
@@ -79,6 +80,10 @@ export default function ActiviteFournisseurs({ onZoom }: { onZoom?: (nom: string
   }
   const refLib = (c: Cat) => (c === 'actifs' || c === 'nouveaux' ? libPeriode : c === 'perdus' ? libPrev : 'toutes années')
   const nbFact = (c: Cat) => r.L[c].reduce((t, x) => t + x.factures, 0)
+  const renouv = useMemo(
+    () => (comparer ? renouvellementParAnnee(base, toutes, P.annees, P.partielles).find((x) => x.annee === an) ?? null : null),
+    [comparer, base, toutes, P.annees, P.partielles, an],
+  )
   const cats: Cat[] = comparer ? ['actifs', 'nouveaux', 'perdus', 'dormants', 'inutilises'] : ['actifs', 'dormants', 'inutilises']
   const catActive = cats.includes(cat) ? cat : 'actifs'
   const vActifs = comparer ? variation(r.L.actifs.length, r.actifsPrev) : null
@@ -113,7 +118,7 @@ export default function ActiviteFournisseurs({ onZoom }: { onZoom?: (nom: string
       <p className="text-xs text-slate-500 mb-3">
         {r.nbBase} fournisseurs dans la base. Cliquez une catégorie pour voir le détail.{comparer ? ` Comparaison à ${libPrev} (période égale).` : ''}
       </p>
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-2 mb-3">
+      <div className={`grid grid-cols-2 gap-2 mb-3 ${renouv ? 'lg:grid-cols-6' : 'lg:grid-cols-5'}`}>
         {cats.map((c) => (
           <button key={c} title={LIBELLES[c].aide} onClick={() => setCat(c)} className={`card !p-3 text-left border-2 ${catActive === c ? 'border-indigo-500' : 'border-transparent'}`}>
             <div className="text-xs text-slate-500">{LIBELLES[c].titre}</div>
@@ -129,6 +134,14 @@ export default function ActiviteFournisseurs({ onZoom }: { onZoom?: (nom: string
             {c === 'actifs' && comparer && <div className="text-[11px] text-slate-400">{libPrev} : {fmt(r.actifsPrev)}</div>}
           </button>
         ))}
+        {renouv && (
+          <div className="card !p-3 border-2 border-transparent" title="(entrants + sortants) ÷ (actifs N-1 + actifs N)">
+            <div className="text-xs text-slate-500">Taux de renouvellement</div>
+            <div className="text-xl font-bold text-indigo-700 tabular-nums">{renouv.taux != null ? `${renouv.taux.toLocaleString('fr-CH', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} %` : '—'}</div>
+            <div className="text-[11px] text-slate-500">{fmt(renouv.entrants)} entrants · {fmt(renouv.sortants)} sortants</div>
+            <div className="text-[11px] text-slate-400">solde {renouv.entrants - renouv.sortants > 0 ? '+' : ''}{fmt(renouv.entrants - renouv.sortants)}</div>
+          </div>
+        )}
       </div>
       <p className="text-xs text-slate-500 mb-2">
         <strong>{LIBELLES[catActive].titre}</strong> — {LIBELLES[catActive].aide}

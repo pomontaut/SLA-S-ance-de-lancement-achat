@@ -4,12 +4,13 @@ import { loadDepensesFournisseurs, loadDepensesGlobal } from '../data/depenses'
 import { MOIS_COURTS, SEUIL_QUEUE_CHF, dernierMois, lignesSpend, variation } from '../data/spend'
 import { entiteLabel } from '../data/palette'
 import { dateFichier, exportXlsx } from '../lib/exportExcel'
-import { BarresH, EvolutionChart } from './DepenseCharts'
+import { EvolutionChart } from './DepenseCharts'
 import type { LigneDetailChantier } from './DetailChantierEntite'
-import DetailChantierEntite from './DetailChantierEntite'
+import DetailChantierEntite, { MatriceEntiteAnnee } from './DetailChantierEntite'
 import { useFiltresSpend } from './FiltresSpend'
 import Top50Fournisseurs from './Top50Fournisseurs'
 import ActiviteFournisseurs from './ActiviteFournisseurs'
+import RenouvellementPanel from './RenouvellementPanel'
 import DepenseSousContrat from './DepenseSousContrat'
 import { contratDe, sousContrat } from '../data/sousContrat'
 
@@ -151,37 +152,34 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
     for (const l of base) if (l.nfr === sel) m.set(l.annee, (m.get(l.annee) ?? 0) + l.montant)
     return [...m.keys()].sort().map((a) => ({ annee: a, valeur: Math.round(m.get(a)! * 100) / 100, partielle: partielles.includes(a) }))
   }, [sel, base, partielles])
-  const repEntites = useMemo(() => {
-    if (sel == null) return []
-    const m = new Map<string, number>()
-    for (const l of base) if (l.nfr === sel && (!comparer || (l.annee === an && l.mois <= moisMax))) m.set(l.entite ?? 'AUTRES', (m.get(l.entite ?? 'AUTRES') ?? 0) + l.montant)
-    return [...m.entries()].sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ label: entiteLabel(k), valeur: v }))
-  }, [sel, base, comparer, an, moisMax])
-  // Détail par chantier du fournisseur sélectionné (entité + comparaison à la période précédente).
-  const detailChantiers = useMemo<LigneDetailChantier[]>(() => {
-    if (sel == null) return []
+  // Détail du fournisseur sélectionné : par entité et par chantier, une colonne par année.
+  const detailAnnees = useMemo(() => {
+    if (sel == null) return null
+    const anSet = new Set<string>()
+    const entA = new Map<string, Record<string, number>>()
     const m = new Map<string, LigneDetailChantier & { ent: Map<string, number> }>()
     for (const l of base) {
       if (l.nfr !== sel) continue
-      const dansCur = comparer ? l.annee === an && l.mois <= moisMax : true
-      const dansPrev = comparer && l.annee === an1 && l.mois <= moisMax
-      if (!dansCur && !dansPrev) continue
+      anSet.add(l.annee)
       const code = l.chantier ?? 'NON RENSEIGNE'
-      const e = m.get(code) ?? { code, nom: null, entites: [], cur: 0, prev: 0, ent: new Map<string, number>() }
+      const k = l.entite ?? 'AUTRES'
+      const e = m.get(code) ?? { code, nom: null, entites: [], cur: 0, prev: 0, parAnnee: {}, ent: new Map<string, number>() }
       if (l.chantierNom) e.nom = l.chantierNom
-      if (dansCur) {
-        e.cur += l.montant
-        const k = l.entite ?? 'AUTRES'
-        e.ent.set(k, (e.ent.get(k) ?? 0) + l.montant)
-      }
-      if (dansPrev) e.prev += l.montant
+      e.cur += l.montant
+      e.parAnnee![l.annee] = (e.parAnnee![l.annee] ?? 0) + l.montant
+      e.ent.set(k, (e.ent.get(k) ?? 0) + l.montant)
       m.set(code, e)
+      const ea = entA.get(k) ?? {}
+      ea[l.annee] = (ea[l.annee] ?? 0) + l.montant
+      entA.set(k, ea)
     }
-    return [...m.values()]
-      .map((e) => ({ code: e.code, nom: e.nom, cur: e.cur, prev: e.prev, entites: [...e.ent.entries()].sort((a, b) => b[1] - a[1]).map(([k]) => k) }))
-      .filter((e) => e.cur !== 0 || e.prev !== 0)
+    const rows: LigneDetailChantier[] = [...m.values()]
+      .map((e) => ({ code: e.code, nom: e.nom, cur: e.cur, prev: 0, parAnnee: e.parAnnee, entites: [...e.ent.entries()].sort((a, b) => b[1] - a[1]).map(([k]) => k) }))
+      .filter((e) => e.cur !== 0)
       .sort((a, b) => b.cur - a.cur)
-  }, [sel, base, comparer, an, an1, moisMax])
+    const tot = (r: Record<string, number>) => Object.values(r).reduce((t, v) => t + v, 0)
+    return { annees: [...anSet].sort(), rows, entites: [...entA.entries()].map(([entite, parAnnee]) => ({ entite, parAnnee })).sort((a, b) => tot(b.parAnnee) - tot(a.parAnnee)) }
+  }, [sel, base])
 
   function exporter() {
     exportXlsx(`analyse_fournisseurs_${dateFichier()}`, [
@@ -213,6 +211,8 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
       </p>
 
       <ActiviteFournisseurs onZoom={onZoom} />
+
+      <RenouvellementPanel />
 
       <DepenseSousContrat onZoom={onZoom} />
 
@@ -287,14 +287,15 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
                 <div className="text-xs font-semibold text-slate-600 mb-1">Évolution année après année (HT)</div>
                 <EvolutionChart points={evolution} />
               </div>
-              <div className="space-y-3">
-                <div>
-                  <div className="text-xs font-semibold text-slate-600 mb-1">Par entité ({libPeriode})</div>
-                  <BarresH lignes={repEntites} couleur="#7c3aed" />
-                </div>
+              <div>
+                {detailAnnees && <MatriceEntiteAnnee titre="Par entité et par année" rows={detailAnnees.entites} annees={detailAnnees.annees} partielles={partielles} />}
               </div>
             </div>
-            <DetailChantierEntite rows={detailChantiers} libPeriode={libPeriode} libPrev={comparer ? libPrev : null} />
+            {detailAnnees && (
+              <>
+                <DetailChantierEntite rows={detailAnnees.rows} libPeriode="Toutes années" libPrev={null} annees={detailAnnees.annees} partielles={partielles} />
+              </>
+            )}
           </div>
         )}
 

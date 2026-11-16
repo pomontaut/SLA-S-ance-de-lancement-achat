@@ -7,7 +7,7 @@ import { Anneau, BarresH, EvolutionChart, MoisChart, ParetoChart } from './Depen
 import { MOIS_COURTS } from '../data/spend'
 import { useFiltresSpend } from './FiltresSpend'
 import type { LigneDetailChantier } from './DetailChantierEntite'
-import DetailChantierEntite from './DetailChantierEntite'
+import DetailChantierEntite, { MatriceEntiteAnnee } from './DetailChantierEntite'
 
 // Onglet « Chantiers » : dépense (montant pos., charges d'achat — voir CLAUDE.md) par chantier, par
 // mois et par année ; par fournisseur (année, trimestre, % de l'année) ; Pareto, Top 20, typologie
@@ -296,43 +296,37 @@ export default function ChantiersTab() {
     exportXlsx(`depense_par_fournisseur_${vueFourn}_${dateFichier()}`, [{ nom: `Par fournisseur (${vueFourn})`, lignes: [[contexte], ...lignesX] }])
   }
 
-  // Panneau du fournisseur cliqué : mêmes filtres entité / chantier ; période = année choisie (avec N-1 à période égale).
+  // Panneau du fournisseur cliqué : mêmes filtres entité / chantier ; une colonne par année (par entité et par chantier).
   const panneauFourn = useMemo(() => {
     if (!fournSel) return null
-    const comparer = !!annee && /^\d{4}$/.test(annee)
-    const an1 = comparer ? String(Number(annee) - 1) : ''
-    const moisMax = comparer && partielles.includes(annee)
-      ? Math.max(-1, ...lignes.filter((l) => l.annee === annee).map((l) => l.mois))
-      : 11
-    const ent = new Map<string, number>()
+    const entA = new Map<string, Record<string, number>>()
     const m = new Map<string, LigneDetailChantier & { ent: Map<string, number> }>()
+    const anSet = new Set<string>()
     for (const l of lignes) {
-      if (l.fournisseur !== fournSel) continue
+      if (l.fournisseur !== fournSel || !/^\d{4}$/.test(l.annee)) continue
       if (chantier && l.doc.chantier !== chantier) continue
       if (!chantier && entite && l.doc.entite !== entite) continue
-      const dansCur = comparer ? l.annee === annee && l.mois <= moisMax : true
-      const dansPrev = comparer && l.annee === an1 && l.mois <= moisMax
-      if (!dansCur && !dansPrev) continue
+      anSet.add(l.annee)
       const code = l.doc.chantier ?? 'NON RENSEIGNE'
-      const e = m.get(code) ?? { code, nom: null, entites: [], cur: 0, prev: 0, ent: new Map<string, number>() }
-      if (l.doc.chantierNom) e.nom = l.doc.chantierNom
       const k = l.doc.entite ?? 'AUTRES'
-      if (dansCur) {
-        e.cur += l.montant
-        e.ent.set(k, (e.ent.get(k) ?? 0) + l.montant)
-        ent.set(k, (ent.get(k) ?? 0) + l.montant)
-      }
-      if (dansPrev) e.prev += l.montant
+      const e = m.get(code) ?? { code, nom: null, entites: [], cur: 0, prev: 0, parAnnee: {}, ent: new Map<string, number>() }
+      if (l.doc.chantierNom) e.nom = l.doc.chantierNom
+      e.cur += l.montant
+      e.parAnnee![l.annee] = (e.parAnnee![l.annee] ?? 0) + l.montant
+      e.ent.set(k, (e.ent.get(k) ?? 0) + l.montant)
       m.set(code, e)
+      const ea = entA.get(k) ?? {}
+      ea[l.annee] = (ea[l.annee] ?? 0) + l.montant
+      entA.set(k, ea)
     }
+    const annees = [...anSet].sort()
     const rows: LigneDetailChantier[] = [...m.values()]
-      .map((e) => ({ code: e.code, nom: e.nom, cur: e.cur, prev: e.prev, entites: [...e.ent.entries()].sort((a, b) => b[1] - a[1]).map(([k]) => k) }))
-      .filter((e) => e.cur !== 0 || e.prev !== 0)
+      .map((e) => ({ code: e.code, nom: e.nom, cur: e.cur, prev: 0, parAnnee: e.parAnnee, entites: [...e.ent.entries()].sort((a, b) => b[1] - a[1]).map(([k]) => k) }))
+      .filter((e) => e.cur !== 0)
       .sort((a, b) => b.cur - a.cur)
-    const lib = !comparer ? 'Toutes années' : partielles.includes(annee) ? `janv.–${MOIS_COURTS[moisMax]} ${annee}` : annee
-    const libPrev = !comparer ? null : partielles.includes(annee) ? `janv.–${MOIS_COURTS[moisMax]} ${an1}` : an1
-    return { rows, lib, libPrev, entites: [...ent.entries()].sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ label: entiteLabel(k), valeur: v })) }
-  }, [fournSel, lignes, chantier, entite, annee, partielles])
+    const entites = [...entA.entries()].map(([entite, parAnnee]) => ({ entite, parAnnee })).sort((a, b) => Object.values(b.parAnnee).reduce((t, v) => t + v, 0) - Object.values(a.parAnnee).reduce((t, v) => t + v, 0))
+    return { rows, annees, entites }
+  }, [fournSel, lignes, chantier, entite])
 
   // ---- Pareto / Top 20 -----------------------------------------------------------------------------
   const fournPositifs = useMemo(() => lignesFourn.filter((e) => e.total > 0), [lignesFourn])
@@ -591,14 +585,9 @@ export default function ChantiersTab() {
             </div>
             <EvolutionChart points={evolution} />
             {panneauFourn && (
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 pt-2">
-                <div>
-                  <div className="text-xs font-semibold text-slate-600 mb-1">Par entité ({panneauFourn.lib})</div>
-                  <BarresH lignes={panneauFourn.entites} couleur="#7c3aed" />
-                </div>
-                <div className="lg:col-span-2">
-                  <DetailChantierEntite rows={panneauFourn.rows} libPeriode={panneauFourn.lib} libPrev={panneauFourn.libPrev} />
-                </div>
+              <div className="space-y-4 pt-2">
+                <MatriceEntiteAnnee titre="Par entité et par année" rows={panneauFourn.entites} annees={panneauFourn.annees} partielles={partielles} />
+                <DetailChantierEntite rows={panneauFourn.rows} libPeriode="Toutes années" libPrev={null} annees={panneauFourn.annees} partielles={partielles} />
               </div>
             )}
             <p className="text-[11px] text-slate-500">
