@@ -6,6 +6,7 @@ import { MOIS_COURTS, SEUIL_QUEUE_CHF, dernierMois, lignesSpend, sommeParCle, to
 import { entiteLabel } from '../data/palette'
 import { dateFichier, exportXlsx } from '../lib/exportExcel'
 import { BarresH, Camembert, CumulChart } from './DepenseCharts'
+import DepenseSousContrat from './DepenseSousContrat'
 import { useFiltresSpend } from './FiltresSpend'
 
 // Synthèse : « où en est-on ? » — la dépense de l'année choisie comparée à la même période de l'année précédente
@@ -186,6 +187,8 @@ export default function SyntheseTab({ onZoom }: { onZoom?: (nom: string) => void
         <Tuile label="Factures" valeur={fmt(tCur.nbFactures)} delta={<Delta cur={tCur.nbFactures} prev={tPrev.nbFactures} />} prec={`facture moyenne ${fmt(tCur.factureMoyenne ?? 0)} CHF (${libPrev} : ${fmt(tPrev.factureMoyenne ?? 0)})`} />
         <Tuile label="Part des 20 plus gros fournisseurs" valeur={tCur.top20Pct != null ? `${fmt1(tCur.top20Pct)} %` : '—'} prec={tPrev.top20Pct != null ? `${libPrev} : ${fmt1(tPrev.top20Pct)} %` : undefined} sous={`${tCur.n80} fournisseurs font 80 % de la dépense`} />
       </div>
+
+      <DepenseSousContrat onZoom={onZoom} />
 
       <Section titre="Dépense cumulée mois par mois" aide="Cumul de la dépense HT depuis janvier. L'année en cours (trait plein) est comparée aux années précédentes au même mois.">
         {cumul.length ? <CumulChart mois={MOIS_COURTS} series={cumul} /> : <p className="text-sm text-slate-500">Aucune donnée.</p>}

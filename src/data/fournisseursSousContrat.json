@@ -1,0 +1,376 @@
+{
+ "fournisseurs": [
+  {
+   "contrat": "CHALLANDE",
+   "nfr": [
+    203835
+   ]
+  },
+  {
+   "contrat": "CREABETON",
+   "nfr": [
+    422012,
+    641070,
+    394799174
+   ]
+  },
+  {
+   "contrat": "LEVIAT",
+   "nfr": [
+    108128957
+   ]
+  },
+  {
+   "contrat": "ACO",
+   "nfr": [
+    150180
+   ]
+  },
+  {
+   "contrat": "ALBANESE",
+   "nfr": [
+    767555
+   ]
+  },
+  {
+   "contrat": "ANCOTECH",
+   "nfr": [
+    220149
+   ]
+  },
+  {
+   "contrat": "ARAG",
+   "nfr": [
+    546035
+   ]
+  },
+  {
+   "contrat": "ARVAL",
+   "nfr": [
+    106694453
+   ]
+  },
+  {
+   "contrat": "AVESCO",
+   "nfr": [
+    542927,
+    518572
+   ]
+  },
+  {
+   "contrat": "BETON DU SALEVE",
+   "nfr": [
+    429630661
+   ]
+  },
+  {
+   "contrat": "VOLARE (ex BP)",
+   "nfr": [
+    225845090
+   ]
+  },
+  {
+   "contrat": "CABLOTRAC",
+   "nfr": [
+    414186
+   ]
+  },
+  {
+   "contrat": "CANPLAST",
+   "nfr": [
+    883849
+   ]
+  },
+  {
+   "contrat": "CAP",
+   "nfr": [
+    702464
+   ]
+  },
+  {
+   "contrat": "COPYTREND",
+   "nfr": [
+    198368,
+    143489,
+    543333,
+    305202541
+   ]
+  },
+  {
+   "contrat": "DEBRUNNER",
+   "nfr": [
+    105973005,
+    198389
+   ]
+  },
+  {
+   "contrat": "EATON INDUSTRIES",
+   "nfr": [
+    106067701
+   ]
+  },
+  {
+   "contrat": "EFCO",
+   "nfr": [
+    266306
+   ]
+  },
+  {
+   "contrat": "FAVRE",
+   "nfr": [
+    204995
+   ]
+  },
+  {
+   "contrat": "FIXIT",
+   "nfr": [
+    420908
+   ]
+  },
+  {
+   "contrat": "GETAZ",
+   "nfr": [
+    205800
+   ]
+  },
+  {
+   "contrat": "GYGER",
+   "nfr": [
+    442141,
+    548975
+   ]
+  },
+  {
+   "contrat": "GH",
+   "nfr": [
+    207177,
+    591427
+   ]
+  },
+  {
+   "contrat": "HBT",
+   "nfr": [
+    107138
+   ]
+  },
+  {
+   "contrat": "HGC",
+   "nfr": [
+    230977
+   ]
+  },
+  {
+   "contrat": "HIAG",
+   "nfr": [
+    100123867
+   ]
+  },
+  {
+   "contrat": "HILTI",
+   "nfr": [
+    733090
+   ]
+  },
+  {
+   "contrat": "JAQUET (FAVRE)",
+   "nfr": [
+    204433,
+    142968
+   ]
+  },
+  {
+   "contrat": "JEROME",
+   "nfr": [
+    515770
+   ]
+  },
+  {
+   "contrat": "LCBE",
+   "nfr": [
+    296537
+   ]
+  },
+  {
+   "contrat": "LEVA CORBIERES",
+   "nfr": [
+    442818
+   ]
+  },
+  {
+   "contrat": "LIEBHERR",
+   "nfr": [
+    109001
+   ]
+  },
+  {
+   "contrat": "LOXAM",
+   "nfr": [
+    200787
+   ]
+  },
+  {
+   "contrat": "LYRECO",
+   "nfr": [
+    231014
+   ]
+  },
+  {
+   "contrat": "MANPOWER",
+   "nfr": [
+    252381
+   ]
+  },
+  {
+   "contrat": "MAX FRANK",
+   "nfr": [
+    641468
+   ]
+  },
+  {
+   "contrat": "MULLER STEINAG",
+   "nfr": [
+    840875
+   ]
+  },
+  {
+   "contrat": "NIVELTEC",
+   "nfr": [
+    431944
+   ]
+  },
+  {
+   "contrat": "NOVAKORP TAMMET",
+   "nfr": [
+    11365
+   ]
+  },
+  {
+   "contrat": "NOVELCOUPE",
+   "nfr": [
+    614020
+   ]
+  },
+  {
+   "contrat": "POINT P",
+   "nfr": [
+    10759
+   ]
+  },
+  {
+   "contrat": "PROBST BETONTECHNIK",
+   "nfr": [
+    159138
+   ]
+  },
+  {
+   "contrat": "PROBST MAVEG",
+   "nfr": [
+    441575
+   ]
+  },
+  {
+   "contrat": "PROMERKA",
+   "nfr": [
+    856863
+   ]
+  },
+  {
+   "contrat": "RAMAT",
+   "nfr": [
+    704358
+   ]
+  },
+  {
+   "contrat": "RIMEBAT",
+   "nfr": [
+    507183
+   ]
+  },
+  {
+   "contrat": "SACAC",
+   "nfr": [
+    106991
+   ]
+  },
+  {
+   "contrat": "SCHÖCK",
+   "nfr": [
+    104051
+   ]
+  },
+  {
+   "contrat": "SONEPAR",
+   "nfr": [
+    106829003
+   ]
+  },
+  {
+   "contrat": "SOREVAL",
+   "nfr": [
+    878385
+   ]
+  },
+  {
+   "contrat": "SWISSPOR",
+   "nfr": [
+    143222
+   ]
+  },
+  {
+   "contrat": "VIGIER",
+   "nfr": [
+    142460,
+    182034
+   ]
+  },
+  {
+   "contrat": "WACKER NEUSON",
+   "nfr": [
+    418675
+   ]
+  },
+  {
+   "contrat": "WEBER",
+   "nfr": [
+    106372340
+   ]
+  },
+  {
+   "contrat": "WOLFF",
+   "nfr": [
+    464681
+   ]
+  },
+  {
+   "contrat": "JURACIME",
+   "nfr": [
+    100983918
+   ]
+  },
+  {
+   "contrat": "PRO BETON",
+   "nfr": [
+    145739
+   ]
+  },
+  {
+   "contrat": "GRUYERE METAL",
+   "nfr": [
+    278824979
+   ]
+  },
+  {
+   "contrat": "VISTONA",
+   "nfr": [
+    287791037
+   ]
+  }
+ ],
+ "sansCorrespondance": [
+  "ALIGRO",
+  "BAUWERK",
+  "CRISTALINE",
+  "DIETRICH",
+  "MAPEI"
+ ]
+}

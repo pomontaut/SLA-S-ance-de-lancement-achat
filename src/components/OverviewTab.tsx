@@ -57,7 +57,8 @@ export default function OverviewTab({
     const lignes = cur.map((r) => ({ r, delta: prev.has(cle(r)) ? r.note! - prev.get(cle(r))! : null }))
     const prioritaires = lignes.filter((l) => l.r.note! < 3).sort((a, b) => (b.r.ca ?? 0) - (a.r.ca ?? 0)).slice(0, 8)
     const baisses = lignes.filter((l) => l.delta != null && l.delta <= -0.3).sort((a, b) => a.delta! - b.delta!).slice(0, 8)
-    return { an, prioritaires, baisses }
+    const hausses = lignes.filter((l) => l.delta != null && l.delta >= 0.3).sort((a, b) => b.delta! - a.delta!).slice(0, 8)
+    return { an, prioritaires, baisses, hausses }
   }, [all, filters])
 
   return (
@@ -71,7 +72,7 @@ export default function OverviewTab({
         cfcList={cfcList}
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <AttentionTable
           titre={`Fournisseurs à traiter en priorité — ${attention.an}`}
           sous="Note inférieure à 3, classés par montant (CA)."
@@ -85,6 +86,13 @@ export default function OverviewTab({
           lignes={attention.baisses}
           onZoom={onZoom}
           vide="Aucune baisse notable."
+        />
+        <AttentionTable
+          titre={`Plus fortes hausses de note — ${attention.an}`}
+          sous={`Hausse d'au moins 0,3 point par rapport à ${attention.an - 1}.`}
+          lignes={attention.hausses}
+          onZoom={onZoom}
+          vide="Aucune hausse notable."
         />
       </div>
 
@@ -180,7 +188,7 @@ function AttentionTable({
                     {r.ca != null ? ` · ${formatCurrency(r.ca)}` : ''}
                   </div>
                 </td>
-                <td className="py-1.5 text-right tabular-nums font-semibold" style={{ color: r.note! < 2 ? '#b91c1c' : '#c2410c' }}>
+                <td className="py-1.5 text-right tabular-nums font-semibold" style={{ color: r.note! < 2 ? '#b91c1c' : r.note! < 3 ? '#c2410c' : r.note! >= 3.5 ? '#15803d' : '#475569' }}>
                   {fmt2(r.note!)}
                 </td>
                 <td className="py-1.5 pl-2 text-right tabular-nums text-xs w-14" style={{ color: delta == null ? '#94a3b8' : delta < 0 ? '#b91c1c' : '#15803d' }}>

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import type { DepenseBucketStats, DepenseFournisseur, GroupeDetail, LiensDirigeantsEntry } from '../data/depenses'
 import { anneeComptable, chantierColor, chantierLabel, computeTranches, formatCurrency, pct } from '../data/depenses'
+import { contratDe, sousContrat } from '../data/sousContrat'
 import { entiteLabel, secteurColor, noteColor } from '../data/palette'
 
 /** Montant chantier Induni / consortium pour une année donnée — calculé à la volée depuis
@@ -214,9 +215,9 @@ export default function SupplierFinances({
         <h4 className="text-xs uppercase text-slate-500">
           💰 Dépenses &amp; paiements (Journal COFI){yLatest ? ` — ${yLatest}` : ''}
         </h4>
-        {fournisseur.sousContrat2026 && (
+        {sousContrat(fournisseur.nfr) && (
           <span className="text-[10px] font-medium uppercase bg-green-100 text-green-700 px-2 py-0.5 rounded">
-            Sous contrat 2026
+            Sous contrat · {contratDe(fournisseur.nfr)}
           </span>
         )}
         {fournisseur.familleAchat ? (

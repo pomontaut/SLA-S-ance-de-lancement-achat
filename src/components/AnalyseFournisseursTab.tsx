@@ -9,6 +9,9 @@ import type { LigneDetailChantier } from './DetailChantierEntite'
 import DetailChantierEntite from './DetailChantierEntite'
 import { useFiltresSpend } from './FiltresSpend'
 import Top50Fournisseurs from './Top50Fournisseurs'
+import ActiviteFournisseurs from './ActiviteFournisseurs'
+import DepenseSousContrat from './DepenseSousContrat'
+import { contratDe, sousContrat } from '../data/sousContrat'
 
 // Analyse fournisseurs : qui sont nos fournisseurs, combien, et que se passe-t-il (nouveaux, perdus, hausses,
 // baisses, petits fournisseurs à regrouper, fournisseurs communs à plusieurs entités = levier de négociation groupe).
@@ -46,6 +49,7 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
   const [partielles, setPartielles] = useState<string[]>([])
   const [recherche, setRecherche] = useState('')
   const [famille, setFamille] = useState('')
+  const [contratFiltre, setContratFiltre] = useState<'' | 'oui' | 'non'>('')
   const [filtreEtiquette, setFiltreEtiquette] = useState<Etiquette | ''>('')
   const [tri, setTri] = useState<{ col: 'nom' | 'cur' | 'prev' | 'evol' | 'part'; asc: boolean }>({ col: 'cur', asc: false })
   const [nbAffiche, setNbAffiche] = useState(50)
@@ -113,6 +117,13 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
     return arr
   }, [base, comparer, an, an1, moisMax])
 
+  // Poids de chaque fournisseur dans les achats de sa famille d'achat (période courante).
+  const totalFamille = useMemo(() => {
+    const m = new Map<string, number>()
+    for (const l of lignes) m.set(l.famille, (m.get(l.famille) ?? 0) + Math.max(0, l.cur))
+    return m
+  }, [lignes])
+
   const familles = useMemo(() => [...new Set(lignes.map((l) => l.famille))].sort(), [lignes])
   const compteurs = useMemo(() => {
     const c: Record<Etiquette, { nb: number; montant: number }> = { nouveau: { nb: 0, montant: 0 }, perdu: { nb: 0, montant: 0 }, hausse: { nb: 0, montant: 0 }, baisse: { nb: 0, montant: 0 }, queue: { nb: 0, montant: 0 }, multi: { nb: 0, montant: 0 } }
@@ -125,13 +136,13 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
 
   const filtrees = useMemo(() => {
     const q = recherche.trim().toLowerCase()
-    const l = lignes.filter((x) => (!q || x.nom.toLowerCase().includes(q)) && (!famille || x.famille === famille) && (!filtreEtiquette || x.etiquettes.includes(filtreEtiquette)))
+    const l = lignes.filter((x) => (!q || x.nom.toLowerCase().includes(q)) && (!famille || x.famille === famille) && (!contratFiltre || (contratFiltre === 'oui') === sousContrat(x.nfr)) && (!filtreEtiquette || x.etiquettes.includes(filtreEtiquette)))
     const cle = (x: Ligne) => (tri.col === 'nom' ? x.nom.toLowerCase() : tri.col === 'cur' ? x.cur : tri.col === 'prev' ? x.prev : tri.col === 'part' ? x.part : variation(x.cur, x.prev) ?? -1e9)
     return [...l].sort((a, b) => {
       const va = cle(a), vb = cle(b)
       return (va < vb ? -1 : va > vb ? 1 : 0) * (tri.asc ? 1 : -1)
     })
-  }, [lignes, recherche, famille, filtreEtiquette, tri])
+  }, [lignes, recherche, famille, contratFiltre, filtreEtiquette, tri])
 
   const detail = sel != null ? lignes.find((l) => l.nfr === sel) ?? null : null
   const evolution = useMemo(() => {
@@ -178,8 +189,8 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
         nom: 'Fournisseurs',
         lignes: [
           [`${entite ? entiteLabel(entite) : 'Toutes entités'} · ${libPeriode}${comparer ? ` vs ${libPrev}` : ''} · CHF HT`],
-          ['Fournisseur', 'N° fournisseur', "Famille d'achat", 'Entités', 'Nb chantiers', comparer ? libPrev : '', libPeriode, 'Évolution %', 'Part %', 'Étiquettes'],
-          ...filtrees.map((l) => [l.nom, l.nfr, l.famille, l.entites.map(entiteLabel).join(', '), l.nbChantiers, comparer ? Math.round(l.prev) : null, Math.round(l.cur), comparer && variation(l.cur, l.prev) != null ? Math.round(variation(l.cur, l.prev)! * 10) / 10 : null, Math.round(l.part * 10) / 10, l.etiquettes.map((e) => ETIQUETTES[e].label).join(' · ')] as (string | number | null)[]),
+          ['Fournisseur', 'N° fournisseur', "Famille d'achat", 'Sous contrat', 'Entités', 'Chantiers servis', comparer ? libPrev : '', libPeriode, 'Évolution %', 'Part %', 'Étiquettes'],
+          ...filtrees.map((l) => [l.nom, l.nfr, l.famille, sousContrat(l.nfr) ? 'oui' : 'non', l.entites.map(entiteLabel).join(', '), l.nbChantiers, comparer ? Math.round(l.prev) : null, Math.round(l.cur), comparer && variation(l.cur, l.prev) != null ? Math.round(variation(l.cur, l.prev)! * 10) / 10 : null, Math.round(l.part * 10) / 10, l.etiquettes.map((e) => ETIQUETTES[e].label).join(' · ')] as (string | number | null)[]),
         ],
       },
     ])
@@ -200,6 +211,10 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
         <strong>{libPeriode}</strong>
         {comparer ? ` comparé à ${libPrev} (même période)` : ''} — {entite ? entiteLabel(entite) : 'toutes entités'} — montants HT — {fmt(lignes.length)} fournisseurs.
       </p>
+
+      <ActiviteFournisseurs onZoom={onZoom} />
+
+      <DepenseSousContrat onZoom={onZoom} />
 
       <Top50Fournisseurs onZoom={onZoom} />
 
@@ -226,6 +241,11 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
       <div className="card space-y-3">
         <div className="flex flex-wrap items-center gap-2">
           <input className="input !w-56" placeholder="Rechercher un fournisseur…" value={recherche} onChange={(e) => { setRecherche(e.target.value); setNbAffiche(50) }} />
+          <select className="input !w-auto" value={contratFiltre} onChange={(e) => { setContratFiltre(e.target.value as '' | 'oui' | 'non'); setNbAffiche(50) }}>
+            <option value="">Sous contrat et hors contrat</option>
+            <option value="oui">Sous contrat uniquement</option>
+            <option value="non">Hors contrat uniquement</option>
+          </select>
           <select className="input !w-auto" value={famille} onChange={(e) => { setFamille(e.target.value); setNbAffiche(50) }}>
             <option value="">Toutes les familles d'achat</option>
             {familles.map((x) => (
@@ -284,8 +304,9 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
               <tr className="text-left text-slate-500 border-b border-slate-200">
                 {th('nom', 'Fournisseur', false)}
                 <th className="py-1.5 px-2">Famille d'achat</th>
+                <th className="py-1.5 px-2 text-right">Part de la famille</th>
                 <th className="py-1.5 px-2 text-right">Entités</th>
-                <th className="py-1.5 px-2 text-right">Chantiers</th>
+                <th className="py-1.5 px-2 text-right">Chantiers servis</th>
                 {comparer && th('prev', libPrev)}
                 {th('cur', libPeriode)}
                 {comparer && th('evol', 'Évolution')}
@@ -300,6 +321,9 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
                   <tr key={l.nfr} className={`border-b border-slate-100 cursor-pointer hover:bg-slate-50 ${sel === l.nfr ? 'bg-indigo-50' : ''}`} onClick={() => setSel(sel === l.nfr ? null : l.nfr)}>
                     <td className="py-1 px-2 font-medium whitespace-nowrap">{l.nom}</td>
                     <td className="py-1 px-2 text-slate-500">{l.famille}</td>
+                    <td className="py-1 px-2 text-right tabular-nums text-slate-500">
+                      {totalFamille.get(l.famille) ? `${fmt1((Math.max(0, l.cur) / totalFamille.get(l.famille)!) * 100)} %` : '—'}
+                    </td>
                     <td className="py-1 px-2 text-right tabular-nums" title={l.entites.map(entiteLabel).join(', ')}>
                       {l.entites.length}
                     </td>
@@ -316,6 +340,11 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
                     </td>
                     <td className="py-1 px-2">
                       <div className="flex flex-wrap gap-1">
+                        {sousContrat(l.nfr) && (
+                          <span title={`Contrat ${contratDe(l.nfr)}`} className="text-[10px] font-semibold rounded px-1.5 py-0.5 bg-green-100 text-green-700">
+                            Sous contrat
+                          </span>
+                        )}
                         {l.etiquettes.map((e) => (
                           <span key={e} title={ETIQUETTES[e].aide} className={`text-[10px] font-semibold rounded px-1.5 py-0.5 ${ETIQUETTES[e].classe}`}>
                             {ETIQUETTES[e].label}
