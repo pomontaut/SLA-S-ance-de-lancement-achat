@@ -76,33 +76,50 @@ function noteVariationBadge(diff: number): { emoji: string; className: string } 
 
 function DetailChantiers({ fournisseur }: { fournisseur: DepenseFournisseur }) {
   const [entite, setEntite] = useState('')
-  // Entités portant la dépense de chaque chantier (d'après les documents du fournisseur).
-  const lignes = useMemo(() => {
-    const ent = new Map<string, Map<string, number>>()
-    for (const d of fournisseur.documents) {
-      const code = d.chantier ?? 'NON RENSEIGNE'
-      const k = d.entite ?? 'AUTRES'
-      const m = ent.get(code) ?? new Map<string, number>()
-      m.set(k, (m.get(k) ?? 0) + (d.montant ?? 0))
-      ent.set(code, m)
-    }
-    return Object.entries(fournisseur.parChantier)
-      .map(([code, v]) => {
-        const m = ent.get(code)
-        const entites = m ? [...m.entries()].sort((x, y) => y[1] - x[1]).map(([k]) => k) : []
-        return { code, v, entites, montant: entite ? (m?.get(entite) ?? 0) : v.montantTotal }
-      })
-      .filter((l) => !entite || l.entites.includes(entite))
-      .sort((x, y) => y.montant - x.montant)
-  }, [fournisseur, entite])
+  const [annee, setAnnee] = useState('')
   const toutesEntites = useMemo(() => [...new Set(fournisseur.documents.map((d) => d.entite ?? 'AUTRES'))].sort(), [fournisseur])
+  const toutesAnnees = useMemo(
+    () => [...new Set(fournisseur.documents.map((d) => anneeComptable(d)).filter((a): a is string => !!a && /^\d{4}$/.test(a)))].sort().reverse(),
+    [fournisseur],
+  )
+  // Montants recalculés depuis les documents selon l'année et l'entité choisies (chantier × entité).
+  const lignes = useMemo(() => {
+    const m = new Map<string, { montant: number; ent: Map<string, number> }>()
+    for (const d of fournisseur.documents) {
+      const k = d.entite ?? 'AUTRES'
+      if (entite && k !== entite) continue
+      if (annee && anneeComptable(d) !== annee) continue
+      const code = d.chantier ?? 'NON RENSEIGNE'
+      const e = m.get(code) ?? { montant: 0, ent: new Map<string, number>() }
+      e.montant += d.montant ?? 0
+      e.ent.set(k, (e.ent.get(k) ?? 0) + (d.montant ?? 0))
+      m.set(code, e)
+    }
+    return [...m.entries()]
+      .map(([code, e]) => ({
+        code,
+        v: fournisseur.parChantier[code] ?? { nom: null, consortium: null },
+        entites: [...e.ent.entries()].sort((x, y) => y[1] - x[1]).map(([k]) => k),
+        montant: e.montant,
+      }))
+      .sort((x, y) => y.montant - x.montant)
+  }, [fournisseur, entite, annee])
   const total = lignes.reduce((t, l) => t + l.montant, 0)
   return (
     <div>
       <div className="flex items-center justify-between gap-2 flex-wrap mb-1.5">
         <h5 className="text-[11px] uppercase text-slate-500">Détail par chantier — {lignes.length}</h5>
+        <div className="flex gap-2">
+        <select className="input !w-32 !py-1 text-xs" value={annee} onChange={(e) => setAnnee(e.target.value)}>
+          <option value="">Toutes années</option>
+          {toutesAnnees.map((a) => (
+            <option key={a} value={a}>
+              {a}
+            </option>
+          ))}
+        </select>
         {toutesEntites.length > 1 && (
-          <select className="input w-44 py-1 text-xs" value={entite} onChange={(e) => setEntite(e.target.value)}>
+          <select className="input !w-44 !py-1 text-xs" value={entite} onChange={(e) => setEntite(e.target.value)}>
             <option value="">Toutes les entités</option>
             {toutesEntites.map((k) => (
               <option key={k} value={k}>
@@ -111,6 +128,7 @@ function DetailChantiers({ fournisseur }: { fournisseur: DepenseFournisseur }) {
             ))}
           </select>
         )}
+        </div>
       </div>
       <div className="overflow-x-auto max-h-96 overflow-y-auto bg-white rounded border border-slate-200">
         <table className="w-full text-sm border-collapse">
