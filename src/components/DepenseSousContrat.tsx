@@ -4,22 +4,26 @@ import { CONTRATS, SANS_CORRESPONDANCE, contratDe, sousContrat } from '../data/s
 import { usePeriodeSpend } from '../data/usePeriodeSpend'
 import { dateFichier, exportXlsx } from '../lib/exportExcel'
 
+const depuisDe = (c: string) => CONTRATS.find((x) => x.contrat === c)?.depuis ?? null
 const fmt = (v: number) => Math.round(v).toLocaleString('fr-CH')
 const pc = (v: number) => `${v.toLocaleString('fr-CH', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} %`
 
 /** Dépense (CA des fournisseurs) sous contrat : montant, part de la dépense, factures, comparaison N-1 à période égale. */
 export default function DepenseSousContrat({ onZoom }: { onZoom?: (nom: string) => void }) {
   const P = usePeriodeSpend()
-  const { base, comparer, libPeriode, libPrev, dansCur, dansPrev } = P
+  const { base, comparer, an, libPeriode, libPrev, dansCur, dansPrev } = P
 
   const r = useMemo(() => {
-    let totCur = 0, totPrev = 0, cCur = 0, cPrev = 0, facCur = 0, facPrev = 0
+    let totCur = 0, totPrev = 0, cCur = 0, cPrev = 0, facCur = 0, facPrev = 0, cPrevConstant = 0
     const m = new Map<string, { contrat: string; nom: string; nfr: Set<number>; cur: number; prev: number; fac: number }>()
     for (const l of base) {
       const cur = dansCur(l), prev = dansPrev(l)
       if (cur) totCur += l.montant
       if (prev) totPrev += l.montant
-      if (!sousContrat(l.nfr) || (!cur && !prev)) continue
+      if (!cur && !prev) continue
+      // Sous contrat = contrat en vigueur l'année de la dépense (CHALLANDE, CREABETON, LEVIAT : 2025 ; JURACIME, VIGIER, PRO BETON, GRUYERE METAL, VISTONA : 2026).
+      if (prev && comparer && sousContrat(l.nfr, an)) cPrevConstant += l.montant // périmètre constant : contrats de la période courante
+      if (!sousContrat(l.nfr, l.annee)) continue
       const k = contratDe(l.nfr)!
       const e = m.get(k) ?? { contrat: k, nom: l.nom, nfr: new Set<number>(), cur: 0, prev: 0, fac: 0 }
       e.nfr.add(l.nfr)
@@ -28,9 +32,11 @@ export default function DepenseSousContrat({ onZoom }: { onZoom?: (nom: string) 
       m.set(k, e)
     }
     const lignes = [...m.values()].sort((a, b) => b.cur - a.cur)
-    return { totCur, totPrev, cCur, cPrev, facCur, facPrev, lignes, actifs: lignes.filter((x) => x.cur > 0).length, actifsPrev: lignes.filter((x) => x.prev > 0).length }
-  }, [base, dansCur, dansPrev])
+    return { totCur, totPrev, cCur, cPrev, cPrevConstant, facCur, facPrev, lignes, actifs: lignes.filter((x) => x.cur > 0).length, actifsPrev: lignes.filter((x) => x.prev > 0).length }
+  }, [base, dansCur, dansPrev, comparer, an])
 
+  const nbContrats = CONTRATS.filter((c) => !comparer || !c.depuis || Number(an) >= c.depuis).length
+  const nbContratsPrev = CONTRATS.filter((c) => !c.depuis || Number(P.an1) >= c.depuis).length
   const ecart = (a: number, b: number) => {
     const v = variation(a, b)
     return v == null ? null : `${v > 0 ? '+' : ''}${v.toLocaleString('fr-CH', { maximumFractionDigits: 1 })} %`
@@ -69,13 +75,13 @@ export default function DepenseSousContrat({ onZoom }: { onZoom?: (nom: string) 
         </button>
       </div>
       <p className="text-xs text-slate-500 mb-3">
-        CA HT des {CONTRATS.length} contrats fournisseurs (un contrat peut couvrir plusieurs numéros fournisseur, chacun n'est compté qu'une fois).
+        CA HT des {nbContrats} contrats fournisseurs en vigueur (CHALLANDE, CREABETON, LEVIAT : depuis 2025 ; JURACIME, VIGIER, PRO BETON, GRUYERE METAL, VISTONA : depuis 2026 ; un contrat peut couvrir plusieurs numéros fournisseur, chacun n'est compté qu'une fois).
         {comparer ? ` Comparé à ${libPrev} (période égale).` : ''}
       </p>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
-        {tuile('Dépense sous contrat', fmt(r.cCur), comparer ? `${libPrev} : ${fmt(r.cPrev)}` : null, comparer ? ecart(r.cCur, r.cPrev) : null)}
+        {tuile('Dépense sous contrat', fmt(r.cCur), comparer ? `${libPrev} : ${fmt(r.cPrev)} · à périmètre constant : ${ecart(r.cCur, r.cPrevConstant) ?? '—'}` : null, comparer ? ecart(r.cCur, r.cPrev) : null)}
         {tuile('Part de la dépense totale', r.totCur ? pc((r.cCur / r.totCur) * 100) : '—', comparer ? `${libPrev} : ${r.totPrev ? pc((r.cPrev / r.totPrev) * 100) : '—'}` : null)}
-        {tuile('Contrats actifs', `${r.actifs} / ${CONTRATS.length}`, comparer ? `${libPrev} : ${r.actifsPrev}` : null)}
+        {tuile('Contrats actifs', `${r.actifs} / ${nbContrats}`, comparer ? `${libPrev} : ${r.actifsPrev} / ${nbContratsPrev}` : null)}
         {tuile('Factures sous contrat', fmt(r.facCur), comparer ? `${libPrev} : ${fmt(r.facPrev)}` : null, comparer ? ecart(r.facCur, r.facPrev) : null)}
       </div>
       <div className="overflow-x-auto max-h-96 overflow-y-auto">
@@ -100,6 +106,7 @@ export default function DepenseSousContrat({ onZoom }: { onZoom?: (nom: string) 
                       <button className="hover:text-indigo-600 hover:underline text-left" onClick={() => onZoom(x.nom)}>{x.contrat}</button>
                     ) : x.contrat}
                     {x.nfr.size > 1 && <span className="text-[10px] text-slate-400"> · {x.nfr.size} n°</span>}
+                    {depuisDe(x.contrat) && <span className="ml-1 text-[10px] font-semibold rounded px-1 py-0.5 bg-amber-100 text-amber-700">nouveau {depuisDe(x.contrat)}</span>}
                   </td>
                   <td className="py-1 px-2 text-right tabular-nums font-medium">{fmt(x.cur)}</td>
                   <td className="py-1 px-2 text-right tabular-nums text-slate-500">{r.totCur ? pc((x.cur / r.totCur) * 100) : '—'}</td>

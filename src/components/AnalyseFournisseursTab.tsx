@@ -136,13 +136,13 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
 
   const filtrees = useMemo(() => {
     const q = recherche.trim().toLowerCase()
-    const l = lignes.filter((x) => (!q || x.nom.toLowerCase().includes(q)) && (!famille || x.famille === famille) && (!contratFiltre || (contratFiltre === 'oui') === sousContrat(x.nfr)) && (!filtreEtiquette || x.etiquettes.includes(filtreEtiquette)))
+    const l = lignes.filter((x) => (!q || x.nom.toLowerCase().includes(q)) && (!famille || x.famille === famille) && (!contratFiltre || (contratFiltre === 'oui') === sousContrat(x.nfr, comparer ? an : undefined)) && (!filtreEtiquette || x.etiquettes.includes(filtreEtiquette)))
     const cle = (x: Ligne) => (tri.col === 'nom' ? x.nom.toLowerCase() : tri.col === 'cur' ? x.cur : tri.col === 'prev' ? x.prev : tri.col === 'part' ? x.part : variation(x.cur, x.prev) ?? -1e9)
     return [...l].sort((a, b) => {
       const va = cle(a), vb = cle(b)
       return (va < vb ? -1 : va > vb ? 1 : 0) * (tri.asc ? 1 : -1)
     })
-  }, [lignes, recherche, famille, contratFiltre, filtreEtiquette, tri])
+  }, [lignes, recherche, famille, contratFiltre, filtreEtiquette, tri, comparer, an])
 
   const detail = sel != null ? lignes.find((l) => l.nfr === sel) ?? null : null
   const evolution = useMemo(() => {
@@ -190,7 +190,7 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
         lignes: [
           [`${entite ? entiteLabel(entite) : 'Toutes entités'} · ${libPeriode}${comparer ? ` vs ${libPrev}` : ''} · CHF HT`],
           ['Fournisseur', 'N° fournisseur', "Famille d'achat", 'Sous contrat', 'Entités', 'Chantiers servis', comparer ? libPrev : '', libPeriode, 'Évolution %', 'Part %', 'Étiquettes'],
-          ...filtrees.map((l) => [l.nom, l.nfr, l.famille, sousContrat(l.nfr) ? 'oui' : 'non', l.entites.map(entiteLabel).join(', '), l.nbChantiers, comparer ? Math.round(l.prev) : null, Math.round(l.cur), comparer && variation(l.cur, l.prev) != null ? Math.round(variation(l.cur, l.prev)! * 10) / 10 : null, Math.round(l.part * 10) / 10, l.etiquettes.map((e) => ETIQUETTES[e].label).join(' · ')] as (string | number | null)[]),
+          ...filtrees.map((l) => [l.nom, l.nfr, l.famille, sousContrat(l.nfr, comparer ? an : undefined) ? 'oui' : 'non', l.entites.map(entiteLabel).join(', '), l.nbChantiers, comparer ? Math.round(l.prev) : null, Math.round(l.cur), comparer && variation(l.cur, l.prev) != null ? Math.round(variation(l.cur, l.prev)! * 10) / 10 : null, Math.round(l.part * 10) / 10, l.etiquettes.map((e) => ETIQUETTES[e].label).join(' · ')] as (string | number | null)[]),
         ],
       },
     ])
@@ -340,7 +340,7 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
                     </td>
                     <td className="py-1 px-2">
                       <div className="flex flex-wrap gap-1">
-                        {sousContrat(l.nfr) && (
+                        {sousContrat(l.nfr, comparer ? an : undefined) && (
                           <span title={`Contrat ${contratDe(l.nfr)}`} className="text-[10px] font-semibold rounded px-1.5 py-0.5 bg-green-100 text-green-700">
                             Sous contrat
                           </span>
