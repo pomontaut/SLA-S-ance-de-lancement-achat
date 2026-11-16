@@ -187,12 +187,12 @@ export default function SyntheseTab({ onZoom }: { onZoom?: (nom: string) => void
         <Tuile label="Part des 20 plus gros fournisseurs" valeur={tCur.top20Pct != null ? `${fmt1(tCur.top20Pct)} %` : '—'} prec={tPrev.top20Pct != null ? `${libPrev} : ${fmt1(tPrev.top20Pct)} %` : undefined} sous={`${tCur.n80} fournisseurs font 80 % de la dépense`} />
       </div>
 
-      <Section titre="Où en est-on ? Dépense cumulée mois par mois" aide="Cumul de la dépense HT depuis janvier. L'année en cours (trait plein) est comparée aux années précédentes au même mois.">
+      <Section titre="Dépense cumulée mois par mois" aide="Cumul de la dépense HT depuis janvier. L'année en cours (trait plein) est comparée aux années précédentes au même mois.">
         {cumul.length ? <CumulChart mois={MOIS_COURTS} series={cumul} /> : <p className="text-sm text-slate-500">Aucune donnée.</p>}
       </Section>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Section titre="D'où vient la dépense ? Par famille d'achat">
+        <Section titre="Par famille d'achat">
           <Camembert lignes={parFamille.map((r) => ({ label: r.k, valeur: r.cur }))} />
           <table className="text-xs w-full">
             <thead>
@@ -246,7 +246,7 @@ export default function SyntheseTab({ onZoom }: { onZoom?: (nom: string) => void
         )}
       </div>
 
-      <Section titre="Avec qui ? Les 20 plus gros fournisseurs" aide={`Ils représentent ${tCur.top20Pct != null ? fmt1(tCur.top20Pct) : '—'} % de la dépense. Cliquez un nom pour ouvrir sa fiche.`}>
+      <Section titre="Les 20 plus gros fournisseurs" aide={`Ils représentent ${tCur.top20Pct != null ? fmt1(tCur.top20Pct) : '—'} % de la dépense. Cliquez un nom pour ouvrir sa fiche.`}>
         <table className="text-xs w-full">
           <thead>
             <tr className="text-left text-slate-500 border-b border-slate-200">
@@ -295,7 +295,7 @@ export default function SyntheseTab({ onZoom }: { onZoom?: (nom: string) => void
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
         <Tuile label="Nouveaux fournisseurs" valeur={fmt(nouveaux.length)} sous={`${fmt(nouveaux.reduce((t, x) => t + x.cur, 0))} CHF HT — jamais utilisés avant ${an}`} />
         <Tuile label={`Fournisseurs perdus (dépense en ${libPrev}, aucune en ${libPeriode})`} valeur={fmt(perdus.length)} sous={`${fmt(perdus.reduce((t, x) => t + x.prev, 0))} CHF HT l'an dernier`} />
-        <Tuile label={`Fournisseurs de « queue » (moins de ${fmt(SEUIL_QUEUE_CHF)} CHF)`} valeur={fmt(tCur.queueNb)} sous={tCur.queuePct != null ? `${fmt1(tCur.queuePct)} % de la dépense — à regrouper ou à rationaliser` : undefined} />
+        <Tuile label={`Fournisseurs de « queue » (moins de ${fmt(SEUIL_QUEUE_CHF)} CHF)`} valeur={fmt(tCur.queueNb)} sous={tCur.queuePct != null ? `${fmt1(tCur.queuePct)} % de la dépense` : undefined} />
       </div>
 
       <Section titre="Données à fiabiliser" aide="Part de la dépense de la période qui n'est pas pleinement qualifiée : plus ces lignes sont basses, plus les analyses sont fiables.">

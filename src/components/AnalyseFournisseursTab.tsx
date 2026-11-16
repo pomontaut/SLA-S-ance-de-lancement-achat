@@ -20,7 +20,7 @@ const ETIQUETTES: Record<Etiquette, { label: string; classe: string; aide: strin
   perdu: { label: 'Perdu', classe: 'bg-slate-200 text-slate-700', aide: "Dépense l'an dernier, aucune cette année" },
   hausse: { label: '▲ Hausse', classe: 'bg-orange-100 text-orange-700', aide: "+30 % et plus (écart d'au moins 10'000 CHF)" },
   baisse: { label: '▼ Baisse', classe: 'bg-teal-100 text-teal-700', aide: "−30 % et plus (écart d'au moins 10'000 CHF)" },
-  queue: { label: 'Petit fournisseur', classe: 'bg-amber-100 text-amber-700', aide: `Moins de ${SEUIL_QUEUE_CHF.toLocaleString('fr-CH')} CHF sur la période : à regrouper ou rationaliser` },
+  queue: { label: 'Petit fournisseur', classe: 'bg-amber-100 text-amber-700', aide: `Moins de ${SEUIL_QUEUE_CHF.toLocaleString('fr-CH')} CHF sur la période` },
   multi: { label: 'Multi-entités', classe: 'bg-violet-100 text-violet-700', aide: 'Utilisé par plusieurs entités : levier de négociation groupe' },
 }
 
