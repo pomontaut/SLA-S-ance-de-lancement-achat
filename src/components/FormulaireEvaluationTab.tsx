@@ -3,10 +3,36 @@ import type { EvaluationFormulaire, NewEvaluationFormulaire } from '../types'
 import { FAMILLES_EVALUATION, NOTE_OPTIONS, criteresPourFamille, moyenneCriteres } from '../data/formulaireEvaluation'
 import { createEvaluationFormulaire, deleteEvaluationFormulaire, listEvaluationsFormulaire, updateEvaluationFormulaire } from '../data/db'
 import SupplierPicker from './SupplierPicker'
+import chantiersJson from '../data/chantiers.json'
 
 // Entités du formulaire : EG est scindée en EG VD et EG GE (le secteur historique « EG GE/VD » des
-// comparaisons n'est volontairement pas modifié ici).
-const ENTITES = ['GC', 'BAT GE', 'BAT VD', 'EG VD', 'EG GE', 'EG VS']
+// comparaisons n'est volontairement pas modifié ici). Les noms « BAT GE TRANSFO RENO » /
+// « BAT VD TRANSFO RENO » sont ceux de l'analyse de dépense.
+const ENTITES = ['GC', 'BAT GE', 'BAT VD', 'BAT GE TRANSFO RENO', 'BAT VD TRANSFO RENO', 'EG VD', 'EG GE', 'EG VS']
+
+interface Chantier {
+  numero: string
+  nom: string
+  entite: string
+}
+const CHANTIERS = chantiersJson as Chantier[]
+const norm = (v: string) => v.trim().toLowerCase()
+
+/** Chantier dont le numéro est exactement `numero`. */
+function chantierParNumero(numero: string): Chantier | undefined {
+  const n = numero.trim()
+  return n ? CHANTIERS.find((c) => c.numero === n) : undefined
+}
+
+/** Chantier dont le nom est exactement `nom` (sans tenir compte de la casse) ; si plusieurs chantiers
+ * portent ce nom, on prend celui de l'entité choisie, sinon aucun (pas de choix arbitraire). */
+function chantierParNom(nom: string, entite: string): Chantier | undefined {
+  const n = norm(nom)
+  if (!n) return undefined
+  const trouves = CHANTIERS.filter((c) => norm(c.nom) === n)
+  if (trouves.length === 1) return trouves[0]
+  return trouves.find((c) => c.entite === entite && entite !== '')
+}
 
 const EMPTY_FORM: NewEvaluationFormulaire = {
   famille: FAMILLES_EVALUATION[0].famille,
@@ -84,6 +110,44 @@ export default function FormulaireEvaluationTab() {
       evaluateur: f.evaluateur,
     }))
     setEditing(null)
+  }
+
+  /** Remet tout le formulaire à zéro (y compris entité, chantier et évaluateur). */
+  function handleReinitialiser() {
+    setForm(EMPTY_FORM)
+    setEditing(null)
+    setError(null)
+  }
+
+  function setNumeroChantier(valeur: string) {
+    const c = chantierParNumero(valeur)
+    setForm((f) => ({
+      ...f,
+      numeroChantier: valeur,
+      ...(c ? { nomChantier: c.nom, entite: c.entite && ENTITES.includes(c.entite) ? c.entite : f.entite } : {}),
+    }))
+  }
+
+  function setNomChantier(valeur: string) {
+    setForm((f) => {
+      const c = chantierParNom(valeur, f.entite)
+      return {
+        ...f,
+        nomChantier: valeur,
+        ...(c ? { numeroChantier: c.numero, entite: c.entite && ENTITES.includes(c.entite) ? c.entite : f.entite } : {}),
+      }
+    })
+  }
+
+  function choisirChantier(numero: string) {
+    const c = chantierParNumero(numero)
+    if (!c) return
+    setForm((f) => ({
+      ...f,
+      numeroChantier: c.numero,
+      nomChantier: c.nom,
+      entite: c.entite && ENTITES.includes(c.entite) ? c.entite : f.entite,
+    }))
   }
 
   function handleEdit(e: EvaluationFormulaire) {
@@ -187,17 +251,58 @@ export default function FormulaireEvaluationTab() {
               ))}
             </select>
           </div>
+          <div>
+            <label className="label">Chantier (liste)</label>
+            <select
+              className="input"
+              value={chantierParNumero(form.numeroChantier)?.nom === form.nomChantier ? form.numeroChantier : ''}
+              onChange={(e) => choisirChantier(e.target.value)}
+            >
+              <option value="">— Choisir un chantier —</option>
+              {[...new Set(CHANTIERS.map((c) => c.entite || 'Autres'))].map((ent) => (
+                <optgroup key={ent} label={ent}>
+                  {CHANTIERS.filter((c) => (c.entite || 'Autres') === ent).map((c) => (
+                    <option key={c.numero} value={c.numero}>
+                      {c.numero} - {c.nom}
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="label">N° chantier</label>
-            <input className="input" value={form.numeroChantier} onChange={(e) => set('numeroChantier', e.target.value)} />
+            <input
+              className="input"
+              list="chantiers-numeros"
+              value={form.numeroChantier}
+              onChange={(e) => setNumeroChantier(e.target.value)}
+              placeholder="Tapez un numéro…"
+            />
           </div>
           <div>
             <label className="label">Nom du chantier</label>
-            <input className="input" value={form.nomChantier} onChange={(e) => set('nomChantier', e.target.value)} />
+            <input
+              className="input"
+              list="chantiers-noms"
+              value={form.nomChantier}
+              onChange={(e) => setNomChantier(e.target.value)}
+              placeholder="Tapez un nom…"
+            />
           </div>
+          <datalist id="chantiers-numeros">
+            {CHANTIERS.map((c) => (
+              <option key={c.numero} value={c.numero} label={c.nom} />
+            ))}
+          </datalist>
+          <datalist id="chantiers-noms">
+            {CHANTIERS.map((c) => (
+              <option key={c.numero} value={c.nom} label={c.numero} />
+            ))}
+          </datalist>
         </div>
 
         <div>
@@ -240,6 +345,9 @@ export default function FormulaireEvaluationTab() {
               Annuler la modification
             </button>
           )}
+          <button className="btn-secondary" disabled={saving} onClick={handleReinitialiser}>
+            Réinitialiser
+          </button>
         </div>
       </div>
 

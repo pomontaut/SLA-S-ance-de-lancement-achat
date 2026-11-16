@@ -130,7 +130,8 @@ prévoyance, comptes transitoires, escomptes, produits… sont retirés (`exclus
 sont rattachés par leur division (`script/chantiers_consortium.json`). Les chantiers des 7 entités (GC, BAT GE, BAT VD,
 BAT GE TRANSFO RENO, EG GE, EG VD, EG VS) prennent leur **nom et leur entité officiels** de
 `script/chantiers_references.json` (dossiers virtuels Induni) ; BAT GE et TRANSFO RENO sont distincts.
-Nouveau chantier : l'ajouter dans ce fichier puis régénérer.
+Nouveau chantier : l'ajouter dans ce fichier, régénérer, puis `python3 script/generer_chantiers.py`
+(liste déroulante du Formulaire d'évaluation, `src/data/chantiers.json`).
 
 Pour régénérer (repartir des JSON d'origine du commit `7e8f070`, puis) :
 `python3 script/appliquer_plan_comptable_depense.py JOURNAL_COMPILE.xlsx --aff INDUNI BRUT.xlsx --aff CONSORTIUM BRUT2.xlsx --nouveaux --aff INDUNI NOUVEAU_INDUNI.xlsx --aff CONSORTIUM NOUVEAU_CONSORTIUM.xlsx`
