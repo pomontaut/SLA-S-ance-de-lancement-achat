@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { DepenseFournisseur } from '../data/depenses'
 import { loadDepensesFournisseurs, loadDepensesGlobal } from '../data/depenses'
 import { MOIS_COURTS, SEUIL_QUEUE_CHF, dernierMois, lignesSpend, variation } from '../data/spend'
+import { chantierLabel } from '../data/depenses'
 import { entiteLabel } from '../data/palette'
 import { dateFichier, exportXlsx } from '../lib/exportExcel'
 import { BarresH, EvolutionChart } from './DepenseCharts'
@@ -143,11 +144,24 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
     for (const l of base) if (l.nfr === sel && (!comparer || (l.annee === an && l.mois <= moisMax))) m.set(l.entite ?? 'AUTRES', (m.get(l.entite ?? 'AUTRES') ?? 0) + l.montant)
     return [...m.entries()].sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ label: entiteLabel(k), valeur: v }))
   }, [sel, base, comparer, an, moisMax])
-  const topChantiers = useMemo(() => {
+  // Détail par chantier du fournisseur sélectionné, avec l'entité qui porte la dépense.
+  const detailChantiers = useMemo(() => {
     if (sel == null) return []
-    const m = new Map<string, number>()
-    for (const l of base) if (l.nfr === sel && l.chantier && (!comparer || (l.annee === an && l.mois <= moisMax))) m.set(l.chantier, (m.get(l.chantier) ?? 0) + l.montant)
-    return [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8).map(([k, v]) => ({ label: k, valeur: v }))
+    const m = new Map<string, { code: string; nom: string | null; montant: number; nb: number; ent: Map<string, number> }>()
+    for (const l of base) {
+      if (l.nfr !== sel || (comparer && !(l.annee === an && l.mois <= moisMax))) continue
+      const code = l.chantier ?? 'NON RENSEIGNE'
+      const e = m.get(code) ?? { code, nom: null, montant: 0, nb: 0, ent: new Map() }
+      if (l.chantierNom) e.nom = l.chantierNom
+      e.montant += l.montant
+      e.nb += 1
+      const k = l.entite ?? 'AUTRES'
+      e.ent.set(k, (e.ent.get(k) ?? 0) + l.montant)
+      m.set(code, e)
+    }
+    return [...m.values()]
+      .map((e) => ({ ...e, entites: [...e.ent.entries()].sort((a, b) => b[1] - a[1]).map(([k]) => entiteLabel(k)).join(', ') }))
+      .sort((a, b) => b.montant - a.montant)
   }, [sel, base, comparer, an, moisMax])
 
   function exporter() {
@@ -248,14 +262,39 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
                   <div className="text-xs font-semibold text-slate-600 mb-1">Par entité ({libPeriode})</div>
                   <BarresH lignes={repEntites} couleur="#7c3aed" />
                 </div>
-                {topChantiers.length > 0 && (
-                  <div>
-                    <div className="text-xs font-semibold text-slate-600 mb-1">Principaux chantiers ({libPeriode})</div>
-                    <BarresH lignes={topChantiers} couleur="#0d9488" />
-                  </div>
-                )}
               </div>
             </div>
+            {detailChantiers.length > 0 && (
+              <div>
+                <div className="text-xs font-semibold text-slate-600 mb-1">
+                  Détail par chantier ({libPeriode}) — {detailChantiers.length} chantier(s)
+                </div>
+                <div className="overflow-x-auto max-h-80 overflow-y-auto bg-white rounded border border-slate-200">
+                  <table className="w-full text-xs">
+                    <thead>
+                      <tr className="text-left text-slate-500 border-b border-slate-200">
+                        <th className="py-1 px-2">Chantier</th>
+                        <th className="py-1 px-2">Entité</th>
+                        <th className="py-1 px-2 text-right">Montant HT</th>
+                        <th className="py-1 px-2 text-right">% du fournisseur</th>
+                        <th className="py-1 px-2 text-right">Documents</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {detailChantiers.map((c) => (
+                        <tr key={c.code} className="border-b border-slate-100">
+                          <td className="py-1 px-2">{chantierLabel(c.code, c.nom)}</td>
+                          <td className="py-1 px-2 text-slate-600">{c.entites}</td>
+                          <td className="py-1 px-2 text-right tabular-nums font-medium">{Math.round(c.montant).toLocaleString('fr-CH')}</td>
+                          <td className="py-1 px-2 text-right tabular-nums text-slate-500">{detail && detail.cur ? Math.round((c.montant / detail.cur) * 1000) / 10 : 0} %</td>
+                          <td className="py-1 px-2 text-right tabular-nums text-slate-500">{c.nb}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
           </div>
         )}
 

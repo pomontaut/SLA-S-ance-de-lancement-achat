@@ -121,7 +121,6 @@ export default function SupplierFinances({
   const chantierMontant = splitLatest?.chantier ?? fournisseur.chantierMontant
   const consortiumMontant = splitLatest?.consortium ?? fournisseur.consortiumMontant
   const paiementConnu = g.nbATemps + g.nbEnRetard
-  const notesCredit = fournisseur.documents.filter((d) => d.genre.toLowerCase().includes('crédit'))
   const docs = showAllDocs ? fournisseur.documents : fournisseur.documents.slice(0, 30)
 
   return (
@@ -189,29 +188,6 @@ export default function SupplierFinances({
           label="Panier moyen"
           value={g.nbDocuments ? formatCurrency(g.montantTotal / g.nbDocuments) : '—'}
           sub="montant total / nb documents"
-        />
-        <KpiTile
-          label="Notes de crédit"
-          value={formatCurrency(g.montantNotesCredit)}
-          sub={`${g.nbNotesCredit} note(s)`}
-        />
-        <KpiTile
-          label="Payé à temps"
-          value={`${g.nbATemps}${paiementConnu ? ` (${pct(g.nbATemps, paiementConnu)}%)` : ''}`}
-          sub={formatCurrency(g.montantATemps)}
-          tone="good"
-        />
-        <KpiTile
-          label="Payé en retard"
-          value={`${g.nbEnRetard}${paiementConnu ? ` (${pct(g.nbEnRetard, paiementConnu)}%)` : ''}`}
-          sub={`${formatCurrency(g.montantEnRetard)}${g.retardMoyenJours != null ? ` — ${g.retardMoyenJours} j. en moy.` : ''}`}
-          tone="critical"
-        />
-        <KpiTile
-          label="En attente de paiement"
-          value={String(g.nbEnAttente)}
-          sub={formatCurrency(g.montantEnAttente)}
-          tone="warning"
         />
         <KpiTile label="Conditions de paiement" value={fournisseur.conditions.length ? fournisseur.conditions[0] : '—'} sub={fournisseur.conditions.length > 1 ? `+${fournisseur.conditions.length - 1} autre(s)` : undefined} />
       </div>
@@ -454,25 +430,6 @@ export default function SupplierFinances({
                       <td className="py-1 text-red-600">{v.nbEnRetard}</td>
                     </tr>
                   ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-
-      {notesCredit.length > 0 && (
-        <div>
-          <h5 className="text-[11px] uppercase text-slate-500 mb-1">Notes de crédit versées ({notesCredit.length})</h5>
-          <div className="overflow-x-auto max-h-40 overflow-y-auto">
-            <table className="w-full text-xs border-collapse">
-              <tbody>
-                {notesCredit.map((d) => (
-                  <tr key={d.docno} className="border-b border-slate-100">
-                    <td className="py-1 pr-2 text-slate-500">{d.dateDoc}</td>
-                    <td className="py-1 pr-2 font-medium text-red-600">{formatCurrency(d.montant)}</td>
-                    <td className="py-1 text-slate-500">{d.ref}</td>
-                  </tr>
-                ))}
               </tbody>
             </table>
           </div>

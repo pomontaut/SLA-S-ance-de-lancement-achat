@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
-import type { DepenseDocument, DepenseFournisseur } from '../data/depenses'
-import { anneeComptable, loadDepensesFournisseurs, loadDepensesGlobal } from '../data/depenses'
+import type { DepenseFournisseur } from '../data/depenses'
+import { loadDepensesFournisseurs, loadDepensesGlobal } from '../data/depenses'
 import { entiteLabel } from '../data/palette'
 import { dateFichier, exportXlsx } from '../lib/exportExcel'
 import { BarresH } from './DepenseCharts'
+import type { FacturePaiement } from '../data/paiement'
+import { SEUIL_TAUX_PAIEMENT, arretsParAnnee, dpoAnnee as dpoDe, facturesPaiement, indicateursPaiement, jours, moy } from '../data/paiement'
 import { useFiltresSpend } from './FiltresSpend'
 
 // Onglet « Paiement » : comment Induni paie ses fournisseurs. Toutes les factures (genre « Facture »)
@@ -15,15 +17,7 @@ import { useFiltresSpend } from './FiltresSpend'
 
 const fmt = (v: number) => Math.round(v).toLocaleString('fr-CH')
 const fmt1 = (v: number) => v.toLocaleString('fr-CH', { minimumFractionDigits: 1, maximumFractionDigits: 1 })
-const jours = (a: string, b: string) => Math.round((Date.UTC(+b.slice(0, 4), +b.slice(5, 7) - 1, +b.slice(8, 10)) - Date.UTC(+a.slice(0, 4), +a.slice(5, 7) - 1, +a.slice(8, 10))) / 86400000)
-const ajouteJours = (iso: string, n: number) => new Date(Date.UTC(+iso.slice(0, 4), +iso.slice(5, 7) - 1, +iso.slice(8, 10)) + n * 86400000).toISOString().slice(0, 10)
-const moy = (l: number[]) => (l.length ? l.reduce((s, v) => s + v, 0) / l.length : null)
-const mediane = (l: number[]) => {
-  if (!l.length) return null
-  const s = [...l].sort((a, b) => a - b)
-  return s[Math.floor(s.length / 2)]
-}
-const SEUIL_TAUX = 90 // objectif du taux de paiement à l'échéance (%)
+const SEUIL_TAUX = SEUIL_TAUX_PAIEMENT
 
 function BoutonExcel({ onClick }: { onClick: () => void }) {
   return (
@@ -57,24 +51,6 @@ function Tuile({ label, valeur, sous, ton }: { label: string; valeur: string; so
   )
 }
 
-interface Facture {
-  nfr: number
-  nom: string
-  entite: string | null
-  annee: string
-  ech: string
-  pay: string | null
-  /** Retard en jours (paiement − échéance) ; null si impayée. */
-  retard: number | null
-  ht: number
-  dispo: string | null
-  doc: string | null
-  /** Escompte prévu par la condition (« 30 JOURS 2% » : 2 % si payé sous 30 jours). */
-  esc: { delai: number; taux: number } | null
-}
-
-const ESCOMPTE = /(\d+)\s*JOURS\s+(\d+(?:[.,]\d+)?)\s*%/i
-
 export default function PaiementTab({ onZoom }: { onZoom?: (nom: string) => void }) {
   const [fournisseurs, setFournisseurs] = useState<DepenseFournisseur[] | null>(null)
   const [comptabilises, setComptabilises] = useState<Record<string, number>>({}) // escomptes comptabilisés (compte 702) par année
@@ -95,52 +71,11 @@ export default function PaiementTab({ onZoom }: { onZoom?: (nom: string) => void
     })
   }, [])
 
-  // Date d'arrêt des paiements de chaque année (percentile 99 des dates de paiement connues).
-  const arret = useMemo(() => {
-    const m = new Map<string, string[]>()
-    for (const f of fournisseurs ?? []) {
-      for (const d of f.documents) {
-        const a = anneeComptable(d)
-        if (a && d.datePaiement) (m.get(a) ?? m.set(a, []).get(a)!).push(d.datePaiement)
-      }
-    }
-    const out: Record<string, string> = {}
-    for (const [a, l] of m) {
-      l.sort()
-      out[a] = l[Math.min(l.length - 1, Math.floor(l.length * 0.99))]
-    }
-    return out
-  }, [fournisseurs])
+  // Date d'arrêt des paiements de chaque année (définition commune : src/data/paiement.ts).
+  const arret = useMemo(() => arretsParAnnee(fournisseurs ?? []), [fournisseurs])
 
   // Toutes les factures et tous les documents (pour achats / dettes TTC), filtrés par entité.
-  const { factures, docsTtc } = useMemo(() => {
-    const factures: Facture[] = []
-    const docsTtc: { annee: string; ttc: number; pay: string | null; doc: DepenseDocument }[] = []
-    for (const f of fournisseurs ?? []) {
-      for (const d of f.documents) {
-        if (entite && d.entite !== entite) continue
-        const a = anneeComptable(d)
-        if (!a || !/^\d{4}$/.test(a)) continue
-        docsTtc.push({ annee: a, ttc: (d.montant ?? 0) + (d.tva ?? 0), pay: d.datePaiement, doc: d })
-        if (d.genre !== 'Facture' || d.montant == null || !d.dateEcheance) continue
-        const m = d.condition ? ESCOMPTE.exec(d.condition) : null
-        factures.push({
-          nfr: f.nfr,
-          nom: f.nom,
-          entite: d.entite,
-          annee: a,
-          ech: d.dateEcheance,
-          pay: d.datePaiement,
-          retard: d.datePaiement ? jours(d.dateEcheance, d.datePaiement) : null,
-          ht: d.montant,
-          dispo: d.dateDispo ?? null,
-          doc: d.dateDoc,
-          esc: m && +m[2].replace(',', '.') > 0 ? { delai: +m[1], taux: +m[2].replace(',', '.') / 100 } : null,
-        })
-      }
-    }
-    return { factures, docsTtc }
-  }, [fournisseurs, entite])
+  const { factures, docsTtc } = useMemo(() => facturesPaiement(fournisseurs ?? [], entite), [fournisseurs, entite])
 
   const entites = useMemo(() => {
     const s = new Set<string>()
@@ -151,44 +86,8 @@ export default function PaiementTab({ onZoom }: { onZoom?: (nom: string) => void
   const anneeSel = annee ?? annees[annees.length - 1] ?? ''
   const toutes = anneeSel === 'toutes'
 
-  /** Indicateurs d'un ensemble de factures (à l'arrêt de chaque facture : celui de son année). */
-  function indicateurs(l: Facture[]) {
-    const payees = l.filter((f) => f.pay)
-    const impayeesEchues = l.filter((f) => !f.pay && f.ech <= (arret[f.annee] ?? '0000'))
-    const aTemps = payees.filter((f) => (f.retard ?? 1) <= 0)
-    const enRetard = payees.filter((f) => (f.retard ?? 0) > 0)
-    const base = payees.length + impayeesEchues.length
-    const escOb = payees.filter((f) => f.esc && f.pay! <= ajouteJours(f.doc ?? f.ech, f.esc.delai)).reduce((t, f) => t + f.ht * f.esc!.taux, 0)
-    const escPerdu = l
-      .filter((f) => f.esc && f.doc && (f.pay ? f.pay > ajouteJours(f.doc, f.esc.delai) : ajouteJours(f.doc, f.esc.delai) <= (arret[f.annee] ?? '0000')))
-      .reduce((t, f) => t + f.ht * f.esc!.taux, 0)
-    const interne = l.filter((f) => f.dispo && f.doc).map((f) => jours(f.doc!, f.dispo!)).filter((v) => v >= 0 && v <= 120)
-    return {
-      nb: l.length,
-      nbPayees: payees.length,
-      nbATemps: aTemps.length,
-      nbRetard: enRetard.length,
-      nbImpayeesEchues: impayeesEchues.length,
-      taux: base ? (aTemps.length / base) * 100 : null,
-      retardMoyen: moy(enRetard.map((f) => f.retard!)),
-      interneMoyen: moy(interne),
-      interneMedian: mediane(interne),
-      escOb,
-      escPerdu,
-    }
-  }
-
-  /** DPO = (dettes fournisseurs TTC / achats TTC de l'année) × jours ; dettes = documents de l'année impayés à la clôture. */
-  function dpoAnnee(a: string): number | null {
-    const l = docsTtc.filter((d) => d.annee === a)
-    const achats = l.reduce((t, d) => t + d.ttc, 0)
-    if (achats <= 0) return null
-    const finAnnee = `${a}-12-31`
-    const cloture = (arret[a] ?? finAnnee) < finAnnee ? arret[a] : finAnnee // année en cours : à la date d'arrêt
-    const dettes = l.filter((d) => d.ttc > 0 && (!d.pay || d.pay > cloture)).reduce((t, d) => t + d.ttc, 0)
-    const nbJours = cloture < finAnnee ? jours(`${a}-01-01`, cloture) + 1 : 365
-    return (dettes / achats) * nbJours
-  }
+  const indicateurs = (l: FacturePaiement[]) => indicateursPaiement(l, arret)
+  const dpoAnnee = (a: string) => dpoDe(docsTtc, arret, a)
 
   const parAnnee = useMemo(
     () => annees.map((a) => ({ annee: a, ...indicateurs(factures.filter((f) => f.annee === a)), dpo: dpoAnnee(a), comptabilise: comptabilises[a] ?? null })),

@@ -10,6 +10,7 @@ export interface LigneSpend {
   famille: string
   entite: string | null
   chantier: string | null
+  chantierNom: string | null
   annee: string
   mois: number // 0-11
   montant: number // HT
@@ -30,6 +31,7 @@ export function lignesSpend(fournisseurs: DepenseFournisseur[]): LigneSpend[] {
         famille: f.familleAchat || 'Non classé',
         entite: d.entite,
         chantier: d.chantier,
+        chantierNom: d.chantierNom ?? null,
         annee: a,
         mois: m >= 0 && m < 12 ? m : 0,
         montant: d.montant ?? 0,

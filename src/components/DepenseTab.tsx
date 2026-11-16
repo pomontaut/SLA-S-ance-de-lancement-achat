@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { Fragment, useEffect, useMemo, useState } from 'react'
 import type { DepenseBucketStats, DepenseChantierStats, DepenseDocument, DepenseFournisseur, DepensesGlobal, DepenseTranche, GroupeFournisseur, GroupeTotal } from '../data/depenses'
 import {
   anneeComptable,
@@ -168,18 +168,24 @@ function FamilleAchatTable({ parFamilleAchat }: { parFamilleAchat: Record<string
   )
 }
 
+type ChantierDetail = DepenseChantierStats & {
+  entites: { entite: string; montant: number }[]
+  fournisseursDetail: { nfr: number; nom: string; montant: number; nbDocuments: number }[]
+}
+
 function ChantierTable({
   parChantier,
   nbChantiers,
   nbChantiersAvecNom,
   montantTotal,
 }: {
-  parChantier: DepenseChantierStats[]
+  parChantier: ChantierDetail[]
   nbChantiers: number
   nbChantiersAvecNom: number
   montantTotal: number
 }) {
   const [showAll, setShowAll] = useState(false)
+  const [ouvert, setOuvert] = useState<string | null>(null)
   const rows = showAll ? parChantier : parChantier.slice(0, 20)
   return (
     <div className="overflow-x-auto">
@@ -201,6 +207,7 @@ function ChantierTable({
         <thead>
           <tr className="text-left text-xs uppercase text-slate-500 border-b border-slate-200">
             <th className="py-2 pr-3">Chantier</th>
+            <th className="py-2 pr-3">Entité</th>
             <th className="py-2 pr-3">Technicien</th>
             <th className="py-2 pr-3">Montant</th>
             <th className="py-2 pr-3">% du total</th>
@@ -210,20 +217,46 @@ function ChantierTable({
         </thead>
         <tbody>
           {rows.map((c) => (
-            <tr key={c.code} className="border-b border-slate-100">
-              <td className="py-1.5 pr-3">
-                <span
-                  className="inline-block w-2 h-2 rounded-full mr-1.5 align-middle"
-                  style={{ backgroundColor: chantierColor(c.consortium) }}
-                />
-                {chantierLabel(c.code, c.nom)}
-              </td>
-              <td className="py-1.5 pr-3 text-slate-500">{c.technicien ?? '—'}</td>
-              <td className="py-1.5 pr-3 font-medium">{formatCurrency(c.montantTotal)}</td>
-              <td className="py-1.5 pr-3">{pct(c.montantTotal, montantTotal)}%</td>
-              <td className="py-1.5 pr-3">{c.nbDocuments}</td>
-              <td className="py-1.5 pr-3">{c.nbFactures}</td>
-            </tr>
+            <Fragment key={c.code}>
+              <tr className="border-b border-slate-100 cursor-pointer hover:bg-slate-50" onClick={() => setOuvert(ouvert === c.code ? null : c.code)}>
+                <td className="py-1.5 pr-3">
+                  <span className="text-slate-400 mr-1">{ouvert === c.code ? '▾' : '▸'}</span>
+                  <span
+                    className="inline-block w-2 h-2 rounded-full mr-1.5 align-middle"
+                    style={{ backgroundColor: chantierColor(c.consortium) }}
+                  />
+                  {chantierLabel(c.code, c.nom)}
+                </td>
+                <td className="py-1.5 pr-3 text-slate-600">{c.entites.map((e) => entiteLabel(e.entite)).join(', ') || '—'}</td>
+                <td className="py-1.5 pr-3 text-slate-500">{c.technicien ?? '—'}</td>
+                <td className="py-1.5 pr-3 font-medium">{formatCurrency(c.montantTotal)}</td>
+                <td className="py-1.5 pr-3">{pct(c.montantTotal, montantTotal)}%</td>
+                <td className="py-1.5 pr-3">{c.nbDocuments}</td>
+                <td className="py-1.5 pr-3">{c.nbFactures}</td>
+              </tr>
+              {ouvert === c.code && (
+                <tr className="bg-slate-50 border-b border-slate-100">
+                  <td colSpan={7} className="px-4 py-2">
+                    <div className="text-xs font-semibold text-slate-600 mb-1">
+                      Fournisseurs du chantier ({c.fournisseursDetail.length}) — entité :{' '}
+                      {c.entites.map((e) => `${entiteLabel(e.entite)} (${formatCurrency(e.montant)})`).join(' · ') || '—'}
+                    </div>
+                    <table className="w-full text-xs">
+                      <tbody>
+                        {c.fournisseursDetail.map((f) => (
+                          <tr key={f.nfr} className="border-b border-slate-200/60">
+                            <td className="py-1 pr-3">{f.nom}</td>
+                            <td className="py-1 pr-3 text-right tabular-nums font-medium">{formatCurrency(f.montant)}</td>
+                            <td className="py-1 pr-3 text-right tabular-nums text-slate-500">{pct(f.montant, c.montantTotal)}%</td>
+                            <td className="py-1 text-right text-slate-500">{f.nbDocuments} doc.</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              )}
+            </Fragment>
           ))}
         </tbody>
       </table>
@@ -489,9 +522,21 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
     if (!entrees) return null
     const techniciens = new Map((data?.parChantier ?? []).map((c) => [c.code, c.technicien]))
     const m = grouper((e) => e.d.chantier ?? 'NON RENSEIGNE')
-    const rows: DepenseChantierStats[] = [...m].map(([code, l]) => {
+    const rows: ChantierDetail[] = [...m].map(([code, l]) => {
       const docs = l.map((e) => e.d)
+      const parEnt = new Map<string, number>()
+      const parFour = new Map<number, { nfr: number; nom: string; montant: number; nbDocuments: number }>()
+      for (const { d, f } of l) {
+        const k = d.entite ?? 'AUTRES'
+        parEnt.set(k, (parEnt.get(k) ?? 0) + (d.montant ?? 0))
+        const x = parFour.get(f.nfr) ?? { nfr: f.nfr, nom: f.nom, montant: 0, nbDocuments: 0 }
+        x.montant += d.montant ?? 0
+        x.nbDocuments += 1
+        parFour.set(f.nfr, x)
+      }
       return {
+        entites: [...parEnt].map(([entite, montant]) => ({ entite, montant })).sort((a, b) => b.montant - a.montant),
+        fournisseursDetail: [...parFour.values()].sort((a, b) => b.montant - a.montant),
         ...computeBucketStats(docs, true),
         nbFournisseurs: new Set(l.map((e) => e.f.nfr)).size,
         code,
@@ -729,8 +774,8 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
                       nom: 'Par chantier',
                       lignes: [
                         [contexteXls],
-                        ['Chantier', 'Technicien', 'Montant CHF HT', '% du total', 'Documents', 'Factures'],
-                        ...chantierEff.rows.map((c) => [chantierLabel(c.code, c.nom), c.technicien, c.montantTotal, pct(c.montantTotal, g.montantTotal), c.nbDocuments, c.nbFactures] as (string | number | null)[]),
+                        ['Chantier', 'Entité', 'Technicien', 'Montant CHF HT', '% du total', 'Documents', 'Factures'],
+                        ...chantierEff.rows.map((c) => [chantierLabel(c.code, c.nom), c.entites.map((e) => entiteLabel(e.entite)).join(', '), c.technicien, c.montantTotal, pct(c.montantTotal, g.montantTotal), c.nbDocuments, c.nbFactures] as (string | number | null)[]),
                       ],
                     },
                   ])

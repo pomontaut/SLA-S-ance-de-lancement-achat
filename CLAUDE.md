@@ -80,3 +80,7 @@ Propriétaire : Pierre-Olivier Montaut (français, direct). Réponses en frança
 - Secteurs en boutons multi-sélection : GC, BAT GE (y c. TRANSFO RENO), BAT VD, « EG GE / EG VD » (UN seul secteur `EG GE/VD` dans l'historique d'évaluation : non séparable), EG VS.
 - « Par année » : boutons 2017→2025 (2020 inclus : il y a des données) + « Période de … à … » ; « Par fournisseur » (recherche) ; « Par type » (menu déroulant). Note/CFC dans « Filtres avancés ».
 - **« Moyenne par critère » masquée** sauf si un type OU un fournisseur est filtré (onglet « Par secteur » inchangé).
+
+## Détail par chantier des fournisseurs (Analyse de la dépense / Analyse fournisseurs)
+- Analyse de la dépense > « Par chantier » : colonne **Entité** ; clic sur un chantier = liste de ses fournisseurs (montant HT, %, nb documents) et répartition par entité. Analyse fournisseurs : fiche d'un fournisseur = tableau « Détail par chantier » (chantier, entité, montant, % du fournisseur). Données : `LigneSpend.chantierNom`.
+- Définitions de paiement communes dans `src/data/paiement.ts` (utilisées par `PaiementTab`). Le zoom fournisseur n'affiche plus notes de crédit / payé à temps / en retard / en attente (retirés comme dans la Dépense). Reste à faire : zoom en pages internes (Résumé/Dépense/Paiement/Évaluation) et titres sobres de la section Évaluation.
