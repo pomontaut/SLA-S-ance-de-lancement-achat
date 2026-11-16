@@ -17,6 +17,7 @@ import { entiteLabel, secteurColor } from '../data/palette'
 import { dateFichier, exportXlsx } from '../lib/exportExcel'
 import { Camembert } from './DepenseCharts'
 import { useFiltresSpend } from './FiltresSpend'
+import ParetoDepense from './ParetoDepense'
 
 function StatTile({
   label,
@@ -823,6 +824,8 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
           <p className="text-sm text-slate-500">Chargement…</p>
         )}
       </div>
+
+      <ParetoDepense onZoom={onZoom} />
 
       <div className="card">
         <CardHead

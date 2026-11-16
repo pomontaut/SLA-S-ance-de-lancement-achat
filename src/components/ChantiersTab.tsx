@@ -4,7 +4,10 @@ import { anneeComptable, formatCurrency, loadDepensesFournisseurs, loadDepensesG
 import { entiteLabel } from '../data/palette'
 import { dateFichier, exportXlsx } from '../lib/exportExcel'
 import { Anneau, BarresH, EvolutionChart, MoisChart, ParetoChart } from './DepenseCharts'
+import { MOIS_COURTS } from '../data/spend'
 import { useFiltresSpend } from './FiltresSpend'
+import type { LigneDetailChantier } from './DetailChantierEntite'
+import DetailChantierEntite from './DetailChantierEntite'
 
 // Onglet « Chantiers » : dépense (montant pos., charges d'achat — voir CLAUDE.md) par chantier, par
 // mois et par année ; par fournisseur (année, trimestre, % de l'année) ; Pareto, Top 20, typologie
@@ -293,6 +296,44 @@ export default function ChantiersTab() {
     exportXlsx(`depense_par_fournisseur_${vueFourn}_${dateFichier()}`, [{ nom: `Par fournisseur (${vueFourn})`, lignes: [[contexte], ...lignesX] }])
   }
 
+  // Panneau du fournisseur cliqué : mêmes filtres entité / chantier ; période = année choisie (avec N-1 à période égale).
+  const panneauFourn = useMemo(() => {
+    if (!fournSel) return null
+    const comparer = !!annee && /^\d{4}$/.test(annee)
+    const an1 = comparer ? String(Number(annee) - 1) : ''
+    const moisMax = comparer && partielles.includes(annee)
+      ? Math.max(-1, ...lignes.filter((l) => l.annee === annee).map((l) => l.mois))
+      : 11
+    const ent = new Map<string, number>()
+    const m = new Map<string, LigneDetailChantier & { ent: Map<string, number> }>()
+    for (const l of lignes) {
+      if (l.fournisseur !== fournSel) continue
+      if (chantier && l.doc.chantier !== chantier) continue
+      if (!chantier && entite && l.doc.entite !== entite) continue
+      const dansCur = comparer ? l.annee === annee && l.mois <= moisMax : true
+      const dansPrev = comparer && l.annee === an1 && l.mois <= moisMax
+      if (!dansCur && !dansPrev) continue
+      const code = l.doc.chantier ?? 'NON RENSEIGNE'
+      const e = m.get(code) ?? { code, nom: null, entites: [], cur: 0, prev: 0, ent: new Map<string, number>() }
+      if (l.doc.chantierNom) e.nom = l.doc.chantierNom
+      const k = l.doc.entite ?? 'AUTRES'
+      if (dansCur) {
+        e.cur += l.montant
+        e.ent.set(k, (e.ent.get(k) ?? 0) + l.montant)
+        ent.set(k, (ent.get(k) ?? 0) + l.montant)
+      }
+      if (dansPrev) e.prev += l.montant
+      m.set(code, e)
+    }
+    const rows: LigneDetailChantier[] = [...m.values()]
+      .map((e) => ({ code: e.code, nom: e.nom, cur: e.cur, prev: e.prev, entites: [...e.ent.entries()].sort((a, b) => b[1] - a[1]).map(([k]) => k) }))
+      .filter((e) => e.cur !== 0 || e.prev !== 0)
+      .sort((a, b) => b.cur - a.cur)
+    const lib = !comparer ? 'Toutes années' : partielles.includes(annee) ? `janv.–${MOIS_COURTS[moisMax]} ${annee}` : annee
+    const libPrev = !comparer ? null : partielles.includes(annee) ? `janv.–${MOIS_COURTS[moisMax]} ${an1}` : an1
+    return { rows, lib, libPrev, entites: [...ent.entries()].sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ label: entiteLabel(k), valeur: v })) }
+  }, [fournSel, lignes, chantier, entite, annee, partielles])
+
   // ---- Pareto / Top 20 -----------------------------------------------------------------------------
   const fournPositifs = useMemo(() => lignesFourn.filter((e) => e.total > 0), [lignesFourn])
   const totalPositif = fournPositifs.reduce((s, e) => s + e.total, 0)
@@ -549,6 +590,17 @@ export default function ChantiersTab() {
               </div>
             </div>
             <EvolutionChart points={evolution} />
+            {panneauFourn && (
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 pt-2">
+                <div>
+                  <div className="text-xs font-semibold text-slate-600 mb-1">Par entité ({panneauFourn.lib})</div>
+                  <BarresH lignes={panneauFourn.entites} couleur="#7c3aed" />
+                </div>
+                <div className="lg:col-span-2">
+                  <DetailChantierEntite rows={panneauFourn.rows} libPeriode={panneauFourn.lib} libPrev={panneauFourn.libPrev} />
+                </div>
+              </div>
+            )}
             <p className="text-[11px] text-slate-500">
               Montants HT, {chantier ? 'sur le chantier choisi' : entite ? `entité ${entiteLabel(entite)}` : 'toutes entités'}, toutes années. Années complètes : variation par rapport à l'année précédente. Année partielle :
               part déjà réalisée de l'année précédente — <span className="text-red-600 font-semibold">en rouge</span> tant que ce n'est pas 100 %, <span className="text-green-600 font-semibold">en vert</span> à partir de 100 %.

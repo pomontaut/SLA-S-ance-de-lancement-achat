@@ -2,11 +2,13 @@ import { useEffect, useMemo, useState } from 'react'
 import type { DepenseFournisseur } from '../data/depenses'
 import { loadDepensesFournisseurs, loadDepensesGlobal } from '../data/depenses'
 import { MOIS_COURTS, SEUIL_QUEUE_CHF, dernierMois, lignesSpend, variation } from '../data/spend'
-import { chantierLabel } from '../data/depenses'
 import { entiteLabel } from '../data/palette'
 import { dateFichier, exportXlsx } from '../lib/exportExcel'
 import { BarresH, EvolutionChart } from './DepenseCharts'
+import type { LigneDetailChantier } from './DetailChantierEntite'
+import DetailChantierEntite from './DetailChantierEntite'
 import { useFiltresSpend } from './FiltresSpend'
+import Top50Fournisseurs from './Top50Fournisseurs'
 
 // Analyse fournisseurs : qui sont nos fournisseurs, combien, et que se passe-t-il (nouveaux, perdus, hausses,
 // baisses, petits fournisseurs à regrouper, fournisseurs communs à plusieurs entités = levier de négociation groupe).
@@ -144,25 +146,31 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
     for (const l of base) if (l.nfr === sel && (!comparer || (l.annee === an && l.mois <= moisMax))) m.set(l.entite ?? 'AUTRES', (m.get(l.entite ?? 'AUTRES') ?? 0) + l.montant)
     return [...m.entries()].sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ label: entiteLabel(k), valeur: v }))
   }, [sel, base, comparer, an, moisMax])
-  // Détail par chantier du fournisseur sélectionné, avec l'entité qui porte la dépense.
-  const detailChantiers = useMemo(() => {
+  // Détail par chantier du fournisseur sélectionné (entité + comparaison à la période précédente).
+  const detailChantiers = useMemo<LigneDetailChantier[]>(() => {
     if (sel == null) return []
-    const m = new Map<string, { code: string; nom: string | null; montant: number; nb: number; ent: Map<string, number> }>()
+    const m = new Map<string, LigneDetailChantier & { ent: Map<string, number> }>()
     for (const l of base) {
-      if (l.nfr !== sel || (comparer && !(l.annee === an && l.mois <= moisMax))) continue
+      if (l.nfr !== sel) continue
+      const dansCur = comparer ? l.annee === an && l.mois <= moisMax : true
+      const dansPrev = comparer && l.annee === an1 && l.mois <= moisMax
+      if (!dansCur && !dansPrev) continue
       const code = l.chantier ?? 'NON RENSEIGNE'
-      const e = m.get(code) ?? { code, nom: null, montant: 0, nb: 0, ent: new Map() }
+      const e = m.get(code) ?? { code, nom: null, entites: [], cur: 0, prev: 0, ent: new Map<string, number>() }
       if (l.chantierNom) e.nom = l.chantierNom
-      e.montant += l.montant
-      e.nb += 1
-      const k = l.entite ?? 'AUTRES'
-      e.ent.set(k, (e.ent.get(k) ?? 0) + l.montant)
+      if (dansCur) {
+        e.cur += l.montant
+        const k = l.entite ?? 'AUTRES'
+        e.ent.set(k, (e.ent.get(k) ?? 0) + l.montant)
+      }
+      if (dansPrev) e.prev += l.montant
       m.set(code, e)
     }
     return [...m.values()]
-      .map((e) => ({ ...e, entites: [...e.ent.entries()].sort((a, b) => b[1] - a[1]).map(([k]) => entiteLabel(k)).join(', ') }))
-      .sort((a, b) => b.montant - a.montant)
-  }, [sel, base, comparer, an, moisMax])
+      .map((e) => ({ code: e.code, nom: e.nom, cur: e.cur, prev: e.prev, entites: [...e.ent.entries()].sort((a, b) => b[1] - a[1]).map(([k]) => k) }))
+      .filter((e) => e.cur !== 0 || e.prev !== 0)
+      .sort((a, b) => b.cur - a.cur)
+  }, [sel, base, comparer, an, an1, moisMax])
 
   function exporter() {
     exportXlsx(`analyse_fournisseurs_${dateFichier()}`, [
@@ -192,6 +200,8 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
         <strong>{libPeriode}</strong>
         {comparer ? ` comparé à ${libPrev} (même période)` : ''} — {entite ? entiteLabel(entite) : 'toutes entités'} — montants HT — {fmt(lignes.length)} fournisseurs.
       </p>
+
+      <Top50Fournisseurs onZoom={onZoom} />
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
         {(Object.keys(ETIQUETTES) as Etiquette[])
@@ -264,37 +274,7 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
                 </div>
               </div>
             </div>
-            {detailChantiers.length > 0 && (
-              <div>
-                <div className="text-xs font-semibold text-slate-600 mb-1">
-                  Détail par chantier ({libPeriode}) — {detailChantiers.length} chantier(s)
-                </div>
-                <div className="overflow-x-auto max-h-80 overflow-y-auto bg-white rounded border border-slate-200">
-                  <table className="w-full text-xs">
-                    <thead>
-                      <tr className="text-left text-slate-500 border-b border-slate-200">
-                        <th className="py-1 px-2">Chantier</th>
-                        <th className="py-1 px-2">Entité</th>
-                        <th className="py-1 px-2 text-right">Montant HT</th>
-                        <th className="py-1 px-2 text-right">% du fournisseur</th>
-                        <th className="py-1 px-2 text-right">Documents</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {detailChantiers.map((c) => (
-                        <tr key={c.code} className="border-b border-slate-100">
-                          <td className="py-1 px-2">{chantierLabel(c.code, c.nom)}</td>
-                          <td className="py-1 px-2 text-slate-600">{c.entites}</td>
-                          <td className="py-1 px-2 text-right tabular-nums font-medium">{Math.round(c.montant).toLocaleString('fr-CH')}</td>
-                          <td className="py-1 px-2 text-right tabular-nums text-slate-500">{detail && detail.cur ? Math.round((c.montant / detail.cur) * 1000) / 10 : 0} %</td>
-                          <td className="py-1 px-2 text-right tabular-nums text-slate-500">{c.nb}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            )}
+            <DetailChantierEntite rows={detailChantiers} libPeriode={libPeriode} libPrev={comparer ? libPrev : null} />
           </div>
         )}
 
