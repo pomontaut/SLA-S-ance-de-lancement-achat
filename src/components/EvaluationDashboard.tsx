@@ -25,6 +25,7 @@ import { BlacklistBadge } from './Blacklist'
 import BlacklistTab from './BlacklistTab'
 import DepenseTab from './DepenseTab'
 import ConsortiumTab from './ConsortiumTab'
+import ChantiersTab from './ChantiersTab'
 
 function formatCurrency(value: number | null): string {
   if (value == null) return 'Non disponible'
@@ -356,13 +357,14 @@ function SecteurTab({
   )
 }
 
-type View = 'overview' | 'secteur' | 'comparaison' | 'blacklist' | 'depense' | 'consortium'
+type View = 'overview' | 'secteur' | 'comparaison' | 'blacklist' | 'depense' | 'chantiers' | 'consortium'
 
 const VIEW_TABS: { key: View; label: string; permission: PermissionKey }[] = [
   { key: 'overview', label: "Vue d'ensemble", permission: 'canViewOverview' },
   { key: 'secteur', label: 'Par secteur', permission: 'canViewSecteur' },
   { key: 'comparaison', label: 'Comparaison secteurs', permission: 'canViewComparaison' },
   { key: 'depense', label: '💰 Analyse de la dépense', permission: 'canViewDepense' },
+  { key: 'chantiers', label: '🏗 Chantiers', permission: 'canViewDepense' },
   { key: 'consortium', label: 'Consortium', permission: 'canViewConsortium' },
   { key: 'blacklist', label: '🚫 Blacklist', permission: 'canViewBlacklist' },
 ]
@@ -463,6 +465,8 @@ export default function EvaluationDashboard({ profile }: { profile: Profile }) {
       {view === 'blacklist' && <BlacklistTab all={allFull ?? all} blacklist={blacklist} onZoom={handleZoom} />}
 
       {view === 'depense' && <DepenseTab onZoom={handleZoom} />}
+
+      {view === 'chantiers' && <ChantiersTab />}
 
       {view === 'consortium' && <ConsortiumTab />}
 
