@@ -58,5 +58,15 @@
   "nfr": 11733,
   "nom": "Admin. féd. des contributions AFC",
   "motif": "Administration fédérale des contributions (TVA/impôts) — organisme public, pas un fournisseur externe."
+ },
+ {
+  "nfr": 11906,
+  "nom": "ETAT DE VAUD - O",
+  "motif": "Alias de l'État de Vaud (nfr 10249, Service de l'emploi) — organisme public, pas un fournisseur externe, exclu sur demande explicite."
+ },
+ {
+  "nfr": 434072,
+  "nom": "ETAT DE VAUD 1",
+  "motif": "Alias de l'État de Vaud (nfr 10249, Service de l'emploi) — organisme public, pas un fournisseur externe, exclu sur demande explicite."
  }
 ]

@@ -75,6 +75,26 @@ def fusionner_alias(F):
     print(f"{n} fiche(s) fournisseur fusionnée(s) par alias")
 
 
+def appliquer_exclusions(F, G):
+    """Retire des données existantes les fournisseurs de fournisseurExclusionsDepense.json (organismes à ne pas
+    compter comme fournisseurs) et le reporte dans G["exclusions"]."""
+    excl = {e["nfr"]: e for e in json.load(open(os.path.join(ROOT, "fournisseurExclusionsDepense.json")))}
+    ex = G.setdefault("exclusions", {"nbLignes": 0, "montantTotal": 0.0, "details": []})
+    n = 0
+    for f in list(F):
+        if f["nfr"] not in excl:
+            continue
+        m = sum(d.get("montant") or 0 for d in f["documents"])
+        ex["nbLignes"] += len(f["documents"]); ex["montantTotal"] = round(ex["montantTotal"] + m, 2)
+        det = next((e for e in ex["details"] if e["nfr"] == f["nfr"]), None)
+        if det:
+            det["montant"] = round(det["montant"] + m, 2)
+        else:
+            ex["details"].append({"nfr": f["nfr"], "nom": f["nom"], "montant": round(m, 2), "motif": excl[f["nfr"]]["motif"]})
+        F.remove(f); n += 1
+    print(f"{n} fiche(s) exclue(s) retirée(s) des données existantes")
+
+
 def importer(F, G, docs_bruts):
     ctx = I.contexte(F)
     excl = {e["nfr"]: e for e in json.load(open(os.path.join(ROOT, "fournisseurExclusionsDepense.json")))}
@@ -149,6 +169,7 @@ def main(argv):
     plan = json.load(open(os.path.join(HERE, "plan_comptable.json")))
     avant = {a: v["montantTotal"] for a, v in G["parAnnee"].items()}
     fusionner_alias(F)
+    appliquer_exclusions(F, G)
     if docs_bruts:
         importer(F, G, docs_bruts)
 
