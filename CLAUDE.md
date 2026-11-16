@@ -88,3 +88,4 @@ Propriétaire : Pierre-Olivier Montaut (français, direct). Réponses en frança
 ## Évaluation : lisibilité (vue secteur, formulaire, blacklist)
 - « Analyse par secteur » : indicateurs en 3 blocs (Résultat / Périmètre / Suivi vs année précédente), notes à 2 décimales (`fmtNote`) ; « Moyenne par critère » = UNE liste par TYPE de fournisseur (les critères dépendent du type, jamais mélangés), libellés complets, orange < 3, vert ≥ 3,5.
 - Blacklist : filtre par entité (secteur de l'historique d'évaluation). Formulaire d'évaluation : 3 étapes (1 Chantier, 2 Fournisseur, 3 Notes), notes 0-4 en boutons colorés (re-clic = effacer), compteur « n / N critères notés », barre d'action collante.
+- Vue d'ensemble : deux blocs « Points d'attention » en tête (fournisseurs à traiter en priorité : note < 3 classés par CA ; plus fortes baisses ≥ 0,3 pt vs N-1), clic = zoom fournisseur. Comparaison : sélecteurs compacts, notes à 2 décimales.

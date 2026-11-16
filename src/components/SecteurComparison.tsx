@@ -89,6 +89,8 @@ function Row({ label, a, b, moy, total }: { label: string; a: string; b: string;
   )
 }
 
+const f2 = (v: number) => v.toLocaleString('fr-CH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+
 export default function SecteurComparison({ all, secteurStats, annee }: { all: EvalRecord[]; secteurStats: SecteurStat[]; annee: number }) {
   const [mode, setMode] = useState<'secteurs' | 'annees' | 'toutes'>('secteurs')
 
@@ -161,7 +163,7 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
 
       {mode === 'secteurs' ? (
         <div className="flex flex-wrap items-center gap-3">
-          <select className="input w-40" value={secteurA} onChange={(e) => setSecteurA(e.target.value)}>
+          <select className="input !w-40" value={secteurA} onChange={(e) => setSecteurA(e.target.value)}>
             {SECTEURS.map((s) => (
               <option key={s} value={s}>
                 {s}
@@ -169,7 +171,7 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
             ))}
           </select>
           <span className="text-slate-400">vs</span>
-          <select className="input w-40" value={secteurB} onChange={(e) => setSecteurB(e.target.value)}>
+          <select className="input !w-40" value={secteurB} onChange={(e) => setSecteurB(e.target.value)}>
             {SECTEURS.map((s) => (
               <option key={s} value={s}>
                 {s}
@@ -181,7 +183,7 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
       ) : (
         <div className="flex flex-wrap items-center gap-3">
           <select
-            className="input w-40"
+            className="input !w-40"
             value={secteurUnique}
             onChange={(e) => setSecteurUnique(e.target.value)}
           >
@@ -191,7 +193,7 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
               </option>
             ))}
           </select>
-          <select className="input w-28" value={anneeA} onChange={(e) => setAnneeA(Number(e.target.value))}>
+          <select className="input !w-28" value={anneeA} onChange={(e) => setAnneeA(Number(e.target.value))}>
             {anneesSecteurUnique.map((a) => (
               <option key={a} value={a}>
                 {a}
@@ -199,7 +201,7 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
             ))}
           </select>
           <span className="text-slate-400">vs</span>
-          <select className="input w-28" value={anneeB} onChange={(e) => setAnneeB(Number(e.target.value))}>
+          <select className="input !w-28" value={anneeB} onChange={(e) => setAnneeB(Number(e.target.value))}>
             {anneesSecteurUnique.map((a) => (
               <option key={a} value={a}>
                 {a}
@@ -212,7 +214,7 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
       {mode === 'toutes' && (
         <div className="flex flex-wrap items-center gap-3">
           <span className="text-sm text-slate-500">Année</span>
-          <select className="input w-28" value={anneeToutes} onChange={(e) => setAnneeToutes(Number(e.target.value))}>
+          <select className="input !w-28" value={anneeToutes} onChange={(e) => setAnneeToutes(Number(e.target.value))}>
             {anneesToutes.map((a) => (
               <option key={a} value={a}>
                 {a}
@@ -328,7 +330,7 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                 <td className="py-1.5 pr-3 text-slate-600">Moyenne globale</td>
                 {kpisToutes.map(({ secteur, kpis }) => (
                   <td key={secteur} className="py-1.5 pr-3 font-medium">
-                    {kpis.moyenneGlobale != null ? `${kpis.moyenneGlobale} / 5` : '—'}
+                    {kpis.moyenneGlobale != null ? `${f2(kpis.moyenneGlobale)} / 5` : '—'}
                   </td>
                 ))}
                 <td className="py-1.5 font-medium text-indigo-600">
@@ -497,8 +499,8 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
             </tr>
             <Row
               label="Moyenne globale"
-              a={cmp.a.moyenneGlobale != null ? `${cmp.a.moyenneGlobale} / 5 (${cellA.annee})` : '—'}
-              b={cmp.b.moyenneGlobale != null ? `${cmp.b.moyenneGlobale} / 5 (${cellB.annee})` : '—'}
+              a={cmp.a.moyenneGlobale != null ? `${f2(cmp.a.moyenneGlobale)} / 5 (${cellA.annee})` : '—'}
+              b={cmp.b.moyenneGlobale != null ? `${f2(cmp.b.moyenneGlobale)} / 5 (${cellB.annee})` : '—'}
               moy={fmtNoteMoy([cmp.a.moyenneGlobale, cmp.b.moyenneGlobale])}
             />
             <Row
@@ -515,8 +517,8 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
             />
             <Row
               label="Moyenne iso-périmètre"
-              a={cmp.a.moyenneIsoPerimetre != null ? `${cmp.a.moyenneIsoPerimetre} / 5` : 'Non disponible'}
-              b={cmp.b.moyenneIsoPerimetre != null ? `${cmp.b.moyenneIsoPerimetre} / 5` : 'Non disponible'}
+              a={cmp.a.moyenneIsoPerimetre != null ? `${f2(cmp.a.moyenneIsoPerimetre)} / 5` : 'Non disponible'}
+              b={cmp.b.moyenneIsoPerimetre != null ? `${f2(cmp.b.moyenneIsoPerimetre)} / 5` : 'Non disponible'}
               moy={fmtNoteMoy([cmp.a.moyenneIsoPerimetre, cmp.b.moyenneIsoPerimetre])}
             />
             <Row
@@ -591,7 +593,7 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
         ) : (
           <>
             <p className="text-sm text-slate-600 mb-3">
-              Moyenne {labelA} : {cmp.moyenneCommuneA ?? '—'} / 5 · Moyenne {labelB} : {cmp.moyenneCommuneB ?? '—'} / 5
+              Moyenne {labelA} : {cmp.moyenneCommuneA != null ? f2(cmp.moyenneCommuneA) : '—'} / 5 · Moyenne {labelB} : {cmp.moyenneCommuneB != null ? f2(cmp.moyenneCommuneB) : '—'} / 5
             </p>
             <h4 className="text-xs uppercase text-slate-500 mb-2">Plus grands écarts de notation</h4>
             <table className="w-full text-sm border-collapse">
@@ -607,8 +609,8 @@ export default function SecteurComparison({ all, secteurStats, annee }: { all: E
                 {cmp.ecartsMax.map((e) => (
                   <tr key={e.nom} className="border-b border-slate-100">
                     <td className="py-1.5 pr-3 font-medium">{e.nom}</td>
-                    <td className="py-1.5 pr-3">{e.noteA} / 5</td>
-                    <td className="py-1.5 pr-3">{e.noteB} / 5</td>
+                    <td className="py-1.5 pr-3">{f2(e.noteA)} / 5</td>
+                    <td className="py-1.5 pr-3">{f2(e.noteB)} / 5</td>
                     <td className="py-1.5 font-medium">{Math.round(e.ecart * 100) / 100}</td>
                   </tr>
                 ))}

@@ -47,6 +47,19 @@ export default function OverviewTab({
   const supplierNames = useMemo(() => Array.from(new Set(all.map((r) => r.nom))).sort((a, b) => a.localeCompare(b)), [all])
   const cfcList = useMemo(() => distinctCfc(all), [all])
 
+  // Points d'attention : année de fin de période, hors filtre de période pour pouvoir comparer à N-1.
+  const attention = useMemo(() => {
+    const an = filters.anneeMax
+    const sansPeriode = applyFilters(all, { ...filters, anneeMin: an - 1, anneeMax: an })
+    const cle = (r: EvalRecord) => `${r.nom.toLowerCase()}|${r.secteur}`
+    const prev = new Map(sansPeriode.filter((r) => r.annee === an - 1).map((r) => [cle(r), r.note!]))
+    const cur = sansPeriode.filter((r) => r.annee === an)
+    const lignes = cur.map((r) => ({ r, delta: prev.has(cle(r)) ? r.note! - prev.get(cle(r))! : null }))
+    const prioritaires = lignes.filter((l) => l.r.note! < 3).sort((a, b) => (b.r.ca ?? 0) - (a.r.ca ?? 0)).slice(0, 8)
+    const baisses = lignes.filter((l) => l.delta != null && l.delta <= -0.3).sort((a, b) => a.delta! - b.delta!).slice(0, 8)
+    return { an, prioritaires, baisses }
+  }, [all, filters])
+
   return (
     <div className="space-y-4">
       <OverviewHeader
@@ -57,6 +70,23 @@ export default function OverviewTab({
         supplierNames={supplierNames}
         cfcList={cfcList}
       />
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <AttentionTable
+          titre={`Fournisseurs à traiter en priorité — ${attention.an}`}
+          sous="Note inférieure à 3, classés par montant (CA)."
+          lignes={attention.prioritaires}
+          onZoom={onZoom}
+          vide="Aucun fournisseur sous 3 sur ce périmètre."
+        />
+        <AttentionTable
+          titre={`Plus fortes baisses de note — ${attention.an}`}
+          sous={`Baisse d'au moins 0,3 point par rapport à ${attention.an - 1}.`}
+          lignes={attention.baisses}
+          onZoom={onZoom}
+          vide="Aucune baisse notable."
+        />
+      </div>
 
       <div className="card">
         <h3 className="font-semibold mb-3">Évolution comparée par secteur</h3>
@@ -76,7 +106,7 @@ export default function OverviewTab({
       </div>
 
       <div className="card">
-        <h3 className="font-semibold mb-3">Moyenne par famille / segment (top 12)</h3>
+        <h3 className="font-semibold mb-3">Moyenne par type de fournisseur</h3>
         {famille.length > 0 ? (
           <BarChart data={famille.map((f) => ({ label: f.famille, value: f.moyenne, sub: `${f.count} éval.` }))} max={5} />
         ) : (
@@ -111,6 +141,56 @@ export default function OverviewTab({
         </p>
         <RiskMatrix records={filtered} onSelect={onZoom} />
       </div>
+    </div>
+  )
+}
+
+const fmt2 = (v: number) => v.toLocaleString('fr-CH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+
+function AttentionTable({
+  titre,
+  sous,
+  lignes,
+  onZoom,
+  vide,
+}: {
+  titre: string
+  sous: string
+  lignes: { r: EvalRecord; delta: number | null }[]
+  onZoom: (nom: string) => void
+  vide: string
+}) {
+  return (
+    <div className="card">
+      <h3 className="font-semibold">{titre}</h3>
+      <p className="text-xs text-slate-500 mb-2">{sous}</p>
+      {lignes.length === 0 ? (
+        <p className="text-sm text-slate-500">{vide}</p>
+      ) : (
+        <table className="w-full text-sm">
+          <tbody>
+            {lignes.map(({ r, delta }) => (
+              <tr key={`${r.nom}|${r.secteur}`} className="border-b border-slate-100">
+                <td className="py-1.5 pr-2">
+                  <button className="text-left hover:text-indigo-600 hover:underline" onClick={() => onZoom(r.nom)}>
+                    {r.nom}
+                  </button>
+                  <div className="text-[11px] text-slate-400">
+                    {r.secteur}
+                    {r.ca != null ? ` · ${formatCurrency(r.ca)}` : ''}
+                  </div>
+                </td>
+                <td className="py-1.5 text-right tabular-nums font-semibold" style={{ color: r.note! < 2 ? '#b91c1c' : '#c2410c' }}>
+                  {fmt2(r.note!)}
+                </td>
+                <td className="py-1.5 pl-2 text-right tabular-nums text-xs w-14" style={{ color: delta == null ? '#94a3b8' : delta < 0 ? '#b91c1c' : '#15803d' }}>
+                  {delta == null ? '—' : `${delta > 0 ? '+' : ''}${fmt2(delta)}`}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   )
 }
