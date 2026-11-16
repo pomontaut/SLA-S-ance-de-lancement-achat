@@ -186,15 +186,6 @@ function SecteurTab({
             </button>
           ))}
         </div>
-        {annees.length > 0 && (
-          <select className="input w-32" value={annee ?? ''} onChange={(e) => setAnnee(Number(e.target.value))}>
-            {annees.map((a) => (
-              <option key={a} value={a}>
-                {a}
-              </option>
-            ))}
-          </select>
-        )}
       </div>
 
       {!kpis || kpis.fournisseursEvalues === 0 ? (
@@ -479,6 +470,18 @@ function EvaluationDashboardInner({ profile, section }: { profile: Profile; sect
         ))}
       </div>
 
+      {section === 'evaluation' && (view === 'secteur' || view === 'comparaison') && annee != null && (
+        <div className="sticky top-0 z-10 bg-white/95 border border-slate-200 rounded-lg px-3 py-2 flex items-center gap-3 text-sm">
+          <span className="text-xs uppercase text-slate-500">Année</span>
+          <select className="input w-28 py-1" value={annee} onChange={(e) => setAnnee(Number(e.target.value))}>
+            {Array.from(new Set(all.map((r) => r.annee))).sort((x, y) => y - x).map((a) => (
+              <option key={a} value={a}>{a}</option>
+            ))}
+          </select>
+          <span className="text-xs text-slate-400">Suivie par « Analyse par secteur » et « Comparaison des secteurs »</span>
+        </div>
+      )}
+
       {section === 'depense' && VUES_AVEC_PERIMETRE.includes(view) && <BarreFiltresSpend />}
 
       {view === 'overview' && <OverviewTab all={all} filters={filters} onFiltersChange={setFilters} onZoom={handleZoom} />}
@@ -498,7 +501,7 @@ function EvaluationDashboardInner({ profile, section }: { profile: Profile; sect
 
       {view === 'comparaison' && annee != null && <SecteurComparison all={all} secteurStats={secteurStats} annee={annee} />}
       {view === 'comparaison' && annee == null && (
-        <p className="text-sm text-slate-500">Choisissez d'abord une année dans l'onglet « Par secteur ».</p>
+        <p className="text-sm text-slate-500">Aucune année disponible.</p>
       )}
 
       {view === 'blacklist' && <BlacklistTab all={allFull ?? all} blacklist={blacklist} onZoom={handleZoom} />}

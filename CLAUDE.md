@@ -44,7 +44,7 @@ Propriétaire : Pierre-Olivier Montaut (français, direct). Réponses en frança
 
 ## Navigation et droits (titre « Dashboard Achats »)
 - Sections du haut (`SECTIONS` dans `src/data/permissions.ts`, une section est visible si au moins une sous-section l'est) :
-  **Évaluation** (Vue d'ensemble, Par secteur, Comparaison par secteur, Blacklist, Zoom fournisseur évaluation, Formulaire d'évaluation) ;
+  **Évaluation** (ordre : 📊 Vue d'ensemble, 🏭 Analyse par secteur, ⚖️ Comparaison des secteurs, 🔍 Zoom fournisseur, 🚫 Blacklist, 📝 Formulaire d'évaluation ; l'**année** de « Analyse par secteur » et « Comparaison des secteurs » est réglée UNE fois dans une barre commune, dernière année évaluée par défaut) ;
   **Analyse Dépense** (Analyse de la dépense, Analyse chantier, Consortium, Paiement, Zoom fournisseur) ; **Suivi BFA** (vide, en attendant les instructions) ; **Administration** (admin seulement).
 - Un droit par sous-section (`profiles.can_view_*`). Administration (`AdminUsersTab`) : case par section (tout/rien/partiel) + case par sous-section + « Tout cocher / décocher » ; fonctionnalités en pause dans un bloc replié.
 - Nouveaux droits (zoom évaluation, chantiers, zoom fournisseur, BFA, paiement) = colonnes ajoutées par `supabase/migration_permissions_sections.sql` (À LANCER à la main). Tant qu'elle n'est pas lancée : repli sur l'ancien droit (zoom évaluation ← vue d'ensemble ; chantier et zoom fournisseur ← analyse de la dépense ; BFA ← admin seulement). L'Edge Function `admin-users` (liste `PERMISSION_FIELDS`) est à redéployer pour que la création de compte prenne ces droits.

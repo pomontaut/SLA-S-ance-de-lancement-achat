@@ -48,12 +48,12 @@ export const SECTIONS: SectionDef[] = [
     key: 'evaluation',
     label: 'Évaluation',
     subs: [
-      { view: 'overview', label: "Vue d'ensemble", permission: 'canViewOverview' },
-      { view: 'secteur', label: 'Par secteur', permission: 'canViewSecteur' },
-      { view: 'comparaison', label: 'Comparaison par secteur', permission: 'canViewComparaison' },
+      { view: 'overview', label: "📊 Vue d'ensemble", permission: 'canViewOverview' },
+      { view: 'secteur', label: '🏭 Analyse par secteur', permission: 'canViewSecteur' },
+      { view: 'comparaison', label: '⚖️ Comparaison des secteurs', permission: 'canViewComparaison' },
+      { view: 'zoomEvaluation', label: '🔍 Zoom fournisseur', permission: 'canViewZoomEvaluation' },
       { view: 'blacklist', label: '🚫 Blacklist', permission: 'canViewBlacklist' },
-      { view: 'zoomEvaluation', label: '🔍 Zoom fournisseur évaluation', permission: 'canViewZoomEvaluation' },
-      { view: 'formulaire', label: "Formulaire d'évaluation", permission: 'canViewFormulaire' },
+      { view: 'formulaire', label: "📝 Formulaire d'évaluation", permission: 'canViewFormulaire' },
     ],
   },
   {
