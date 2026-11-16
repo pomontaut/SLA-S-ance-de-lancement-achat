@@ -1,5 +1,6 @@
 import type { DepenseDocument, DepenseFournisseur } from './depenses'
 import { anneeComptable } from './depenses'
+import conditions from './conditionsFournisseurs.json'
 
 // Définitions de paiement communes à l'onglet « Paiement » et au zoom fournisseur (une seule source de vérité) :
 //  - retard d'une facture = date de paiement − date d'échéance (positif = retard) ;
@@ -89,6 +90,8 @@ export function facturesPaiement(fournisseurs: DepenseFournisseur[], entite = ''
       docsTtc.push({ annee: a, ttc: (d.montant ?? 0) + (d.tva ?? 0), pay: d.datePaiement, doc: d })
       if (d.genre !== 'Facture' || d.montant == null || !d.dateEcheance) continue
       const m = d.condition ? ESCOMPTE.exec(d.condition) : null
+      // Conditions réelles communiquées (ex. PRO BETON : 30 j 2 %, net 60 j) prioritaires sur le texte du journal.
+      const cond = (conditions as Record<string, { escompteJours?: number; taux?: number; netJours?: number }>)[String(f.nfr)]
       let escTtc = 0
       for (const n of [f.nfr, ...(f.nfrAlias ?? [])]) {
         const v = escReels[`${n}:${d.docno}`]
@@ -100,13 +103,13 @@ export function facturesPaiement(fournisseurs: DepenseFournisseur[], entite = ''
         nom: f.nom,
         entite: d.entite,
         annee: a,
-        ech: d.dateEcheance,
+        ech: cond?.netJours && d.dateDoc ? ajouteJours(d.dateDoc, cond.netJours) : d.dateEcheance,
         pay: d.datePaiement,
-        retard: d.datePaiement ? jours(d.dateEcheance, d.datePaiement) : null,
+        retard: d.datePaiement ? jours(cond?.netJours && d.dateDoc ? ajouteJours(d.dateDoc, cond.netJours) : d.dateEcheance, d.datePaiement) : null,
         ht: d.montant,
         dispo: d.dateDispo ?? null,
         doc: d.dateDoc,
-        esc: m && +m[2].replace(',', '.') > 0 ? { delai: +m[1], taux: +m[2].replace(',', '.') / 100 } : null,
+        esc: cond?.escompteJours && cond.taux ? { delai: cond.escompteJours, taux: cond.taux / 100 } : m && +m[2].replace(',', '.') > 0 ? { delai: +m[1], taux: +m[2].replace(',', '.') / 100 } : null,
         escReel: escTtc && ttc ? escTtc * (d.montant / ttc) : 0,
       })
     }

@@ -1,0 +1,4 @@
+{
+  "_aide": "Conditions de paiement RÉELLES communiquées par le propriétaire, prioritaires sur le texte du journal (qui ne donne que « N JOURS p % » ou « N JOURS NET »). netJours = échéance réelle ; escompteJours/taux = escompte si payé dans ce délai.",
+  "145739": { "nom": "PRO BETON SA", "escompteJours": 30, "taux": 2, "netJours": 60 }
+}
