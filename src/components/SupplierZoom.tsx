@@ -197,6 +197,7 @@ export default function SupplierZoom({
   const suppliers = useMemo(() => listSuppliers(all), [all])
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState<string | null>(initialNom ?? null)
+  const [onglet, setOnglet] = useState<'depense' | 'evaluation'>(evaluationOnly ? 'evaluation' : 'depense')
   // Entité (secteur + année) mise en avant dans "Détail par critère" en cliquant sur la légende —
   // réinitialisé à chaque changement de fournisseur.
   const [critereHighlight, setCritereHighlight] = useState<string | null>(null)
@@ -435,6 +436,17 @@ export default function SupplierZoom({
               </div>
 
               {!evaluationOnly && (
+                <div className="border-b border-slate-200 flex gap-1">
+                  <button className={`tab-button ${onglet === 'depense' ? 'active' : ''}`} onClick={() => setOnglet('depense')}>
+                    💰 Dépense & paiement
+                  </button>
+                  <button className={`tab-button ${onglet === 'evaluation' ? 'active' : ''}`} onClick={() => setOnglet('evaluation')}>
+                    ⭐ Évaluation
+                  </button>
+                </div>
+              )}
+
+              {!evaluationOnly && onglet === 'depense' && (
                 <SupplierFinances
                   fournisseur={depenseFournisseur}
                   loading={depenseFournisseurs === null}
@@ -445,6 +457,7 @@ export default function SupplierZoom({
                 />
               )}
 
+              <div hidden={onglet !== 'evaluation'} className="space-y-6">
               <SupplierFormulaireEvaluations nom={selected} />
 
               {secteursDisponibles.length > 0 && (
@@ -703,6 +716,7 @@ export default function SupplierZoom({
                     ))}
                   </tbody>
                 </table>
+              </div>
               </div>
             </div>
           )}

@@ -365,7 +365,7 @@ function SecteurTab({
 
 const SECTION_INTRO: Record<SectionKey, { titre: string; texte: string }> = {
   evaluation: {
-    titre: 'Évaluation des fournisseurs',
+    titre: 'Évaluation fournisseurs',
     texte:
       "Historique 2017-2025 consolidé (import statique). La richesse des données (CA, critères, nombre d'évaluateurs) varie selon secteurs/années : « Non disponible » plutôt qu'une estimation.",
   },
@@ -412,6 +412,10 @@ function EvaluationDashboardInner({ profile, section }: { profile: Profile; sect
   const [blacklist, setBlacklist] = useState<BlacklistEntry[]>([])
   const [secteur, setSecteur] = useState<string>('GC')
   const [annee, setAnnee] = useState<number | null>(null)
+  // Année par défaut = dernière année évaluée : « Comparaison » n'exige plus de passer d'abord par « Par secteur ».
+  useEffect(() => {
+    if (annee == null && all && all.length > 0) setAnnee(Math.max(...all.map((r) => r.annee)))
+  }, [all, annee])
   const visibleTabs = visibleSubs(profile, section)
   const [view, setView] = useState<SousSectionView>(visibleTabs[0]?.view ?? 'overview')
   const [filters, setFilters] = useState<GlobalFilters | null>(null)
