@@ -10,10 +10,11 @@ import Workspace from './components/Workspace'
 import FournisseursAnnuaire from './components/FournisseursAnnuaire'
 import EvaluationDashboard from './components/EvaluationDashboard'
 import FormulaireEvaluationTab from './components/FormulaireEvaluationTab'
+import SuiviBfaTab from './components/SuiviBfaTab'
 import AdminUsersTab from './components/AdminUsersTab'
 import LoginScreen from './components/LoginScreen'
 
-type View = 'dossiers' | 'fournisseurs' | 'dashboard' | 'formulaire' | 'admin'
+type View = 'dossiers' | 'fournisseurs' | 'dashboard' | 'formulaire' | 'bfa' | 'admin'
 
 // Fonctionnalités mises en pause indépendamment des droits par compte (voir historique de
 // l'app) — repasser à true pour les rendre à nouveau accessibles aux comptes qui y ont droit.
@@ -26,6 +27,8 @@ function visibleViews(profile: Profile): View[] {
   if (can(profile, 'canViewFormulaire')) views.push('formulaire')
   if (FEATURE_SEANCE_LANCEMENT_ENABLED && can(profile, 'canViewSeanceLancement')) views.push('dossiers')
   if (FEATURE_FOURNISSEURS_ENABLED && can(profile, 'canViewFournisseurs')) views.push('fournisseurs')
+  // Suivi BFA : onglet vide, réservé aux administrateurs tant que son contenu et ses droits ne sont pas définis.
+  if (isAdminProfile(profile)) views.push('bfa')
   if (isAdminProfile(profile)) views.push('admin')
   return views
 }
@@ -35,6 +38,7 @@ const VIEW_LABELS: Record<View, string> = {
   formulaire: "Formulaire d'évaluation",
   dossiers: 'Séance de lancement achats',
   fournisseurs: 'Fournisseurs',
+  bfa: 'Suivi BFA',
   admin: 'Administration',
 }
 
@@ -178,6 +182,8 @@ export default function App() {
         <EvaluationDashboard profile={profile} />
       ) : view === 'formulaire' ? (
         <FormulaireEvaluationTab />
+      ) : view === 'bfa' ? (
+        <SuiviBfaTab />
       ) : view === 'admin' ? (
         <AdminUsersTab />
       ) : view === 'dossiers' ? (

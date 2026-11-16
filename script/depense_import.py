@@ -11,6 +11,9 @@ from datetime import date, timedelta
 import depense_agregats as A
 
 CONSORTIUM = json.load(open(os.path.join(os.path.dirname(__file__), "chantiers_consortium.json")))
+_REF = json.load(open(os.path.join(os.path.dirname(__file__), "chantiers_references.json")))["entites"]
+NOMS_GC = {c: n for ch in _REF.values() for c, n in ch.items()}  # code chantier -> nom officiel (toutes entités)
+ENTITE_REF = {c: e for e, ch in _REF.items() for c in ch}        # code chantier -> entité
 GB_ENTITE = {100: "DG", 110: "BAT GE", 120: "DEPOT", 130: "GC", 140: "EG VD", 150: "EG GE", 160: "BAT VD", 170: "EG VS"}
 
 
@@ -36,7 +39,7 @@ def consortium_par_division(div):
     if not d:
         return None, "AUTRES", None
     ch = d["chantier"]
-    return ch, d["entite"] or "AUTRES", (CONSORTIUM["chantiers"].get(ch) or {}).get("nom") if ch else None
+    return ch, d["entite"] or "AUTRES", (NOMS_GC.get(ch) or (CONSORTIUM["chantiers"].get(ch) or {}).get("nom")) if ch else None
 
 
 def _condition(details):
@@ -73,7 +76,7 @@ def construire(d, ctx):
         "docno": d["docno"], "dateDoc": d["dateDoc"], "datePaiement": pay, "dateEcheance": ech,
         "genre": "Facture" if d["genre"] == "Facture" else d["genre"],
         "condition": cond, "entite": entite, "chantier": sect,
-        "chantierNom": nom_ch or ctx["nom"].get(sect), "chantierConsortium": ctx["consortium"].get(sect, True if d["aff"] == "CONSORTIUM" and sect else None),
+        "chantierNom": NOMS_GC.get(sect) or nom_ch or ctx["nom"].get(sect), "chantierConsortium": ctx["consortium"].get(sect, True if d["aff"] == "CONSORTIUM" and sect else None),
         "aff": d["aff"], "montant": d.get("montantDoc"),
         "ref": (d.get("details") or "").split("|")[0] or None,
         "enRetard": en_retard, **({"dateCofi": d["cofi"]} if d.get("cofi") else {}),

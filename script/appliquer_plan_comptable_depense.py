@@ -134,6 +134,22 @@ def main(argv):
                 rattaches += 1
     print(f"\n{rattaches} documents consortium rattachés à un chantier/une entité par leur division")
 
+    # Référentiel des chantiers (dossiers virtuels GC / BAT GE / BAT VD) : nom officiel + entité.
+    gc_noms, gc_ent = I.NOMS_GC, I.ENTITE_REF
+    gc_maj = collections.Counter()
+    for f in F:
+        for d in f["documents"]:
+            c = d.get("chantier")
+            if c in gc_noms:
+                e = gc_ent[c]
+                if d.get("chantierNom") != gc_noms[c]:
+                    gc_maj[(e, "noms")] += 1
+                if d.get("entite") != e:
+                    gc_maj[(e, "entite")] += 1
+                d["chantierNom"], d["entite"] = gc_noms[c], e
+    for e in sorted({k[0] for k in gc_maj}):
+        print(f"Chantiers {e} : {gc_maj[(e, 'noms')]} documents renommés, {gc_maj[(e, 'entite')]} rattachés à l'entité {e}")
+
     retires = collections.defaultdict(lambda: [0, 0.0])
     depot = collections.defaultdict(lambda: [0, 0.0])
     inconnus = collections.defaultdict(lambda: [0, 0.0])

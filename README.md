@@ -127,7 +127,10 @@ classes 3 et 4 (hors 400 salaires), plus les immobilisations du dépôt **15x** 
 actifs mais vraies dépenses) rattachées à l'entité **DEPOT**. Créanciers, impôt à la source, AVS,
 prévoyance, comptes transitoires, escomptes, produits… sont retirés (`exclusionsCompte` dans
 `depensesGlobal.json`, visible au survol de « Dépense totale »). Les documents consortium sans chantier
-sont rattachés par leur division (`script/chantiers_consortium.json`).
+sont rattachés par leur division (`script/chantiers_consortium.json`). Les chantiers des 7 entités (GC, BAT GE, BAT VD,
+BAT GE TRANSFO RENO, EG GE, EG VD, EG VS) prennent leur **nom et leur entité officiels** de
+`script/chantiers_references.json` (dossiers virtuels Induni) ; BAT GE et TRANSFO RENO sont distincts.
+Nouveau chantier : l'ajouter dans ce fichier puis régénérer.
 
 Pour régénérer (repartir des JSON d'origine du commit `7e8f070`, puis) :
 `python3 script/appliquer_plan_comptable_depense.py JOURNAL_COMPILE.xlsx --aff INDUNI BRUT.xlsx --aff CONSORTIUM BRUT2.xlsx --nouveaux --aff INDUNI NOUVEAU_INDUNI.xlsx --aff CONSORTIUM NOUVEAU_CONSORTIUM.xlsx`
