@@ -75,7 +75,7 @@ export default function DepenseSousContrat({ onZoom }: { onZoom?: (nom: string) 
         </button>
       </div>
       <p className="text-xs text-slate-500 mb-3">
-        CA HT des {nbContrats} contrats fournisseurs en vigueur (CHALLANDE, CREABETON, LEVIAT : depuis 2025 ; JURACIME, VIGIER, PRO BETON, GRUYERE METAL, VISTONA : depuis 2026 ; un contrat peut couvrir plusieurs numéros fournisseur, chacun n'est compté qu'une fois).
+        CA HT des {nbContrats} contrats fournisseurs en vigueur (CHALLANDE, CREABETON, LEVIAT : depuis 2025 ; tous les autres contrats nouveaux : depuis 2026 (voir pastilles) ; un contrat peut couvrir plusieurs numéros fournisseur, chacun n'est compté qu'une fois).
         {comparer ? ` Comparé à ${libPrev} (période égale).` : ''}
       </p>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
