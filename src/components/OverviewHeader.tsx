@@ -27,14 +27,50 @@ function chf(v: number | null): string {
   return v == null ? 'Non disponible' : v.toLocaleString('fr-CH', { maximumFractionDigits: 0 }) + ' CHF'
 }
 
-function Tuile({ label, value, precedent }: { label: string; value: string; precedent?: string }) {
+/** Évolution signée à côté du chiffre : « +12 » vert, « −48 » rouge, « = » gris. */
+function Evolution({ texte, signe }: { texte: string; signe: number }) {
+  const couleur = signe > 0 ? '#16a34a' : signe < 0 ? '#dc2626' : '#94a3b8'
   return (
-    <div className="card text-center py-4">
-      <div className="text-2xl font-bold text-indigo-600">{value}</div>
+    <span className="text-sm font-semibold ml-2 align-middle whitespace-nowrap" style={{ color: couleur }}>
+      {texte}
+    </span>
+  )
+}
+
+function Tuile({
+  label,
+  value,
+  precedent,
+  evolution,
+}: {
+  label: string
+  value: string
+  precedent?: string
+  evolution?: { texte: string; signe: number } | null
+}) {
+  return (
+    <div className="card text-center py-4 min-h-[120px] flex flex-col justify-center">
+      <div className="text-2xl font-bold text-indigo-600 whitespace-nowrap">
+        {value}
+        {evolution && <Evolution texte={evolution.texte} signe={evolution.signe} />}
+      </div>
       <div className="text-xs text-slate-500 mt-1">{label}</div>
       {precedent !== undefined && <div className="text-[11px] text-slate-400 mt-0.5">{precedent}</div>}
     </div>
   )
+}
+
+/** « +48 » / « −12 » (vrai signe moins) ; null si une des deux valeurs manque. */
+function delta(cur: number | null, prec: number | null, opts: { decimales?: number; unite?: string; compact?: boolean } = {}) {
+  if (cur == null || prec == null) return null
+  const d = cur - prec
+  const signe = Math.abs(d) < 1e-9 ? 0 : d > 0 ? 1 : -1
+  if (signe === 0) return { texte: '=', signe }
+  const abs = Math.abs(d)
+  const nombre = opts.compact
+    ? `${(abs / 1e6).toLocaleString('fr-CH', { maximumFractionDigits: 1 })} M`
+    : abs.toLocaleString('fr-CH', { minimumFractionDigits: opts.decimales ?? 0, maximumFractionDigits: opts.decimales ?? 0 })
+  return { texte: `${signe > 0 ? '+' : '−'}${nombre}${opts.unite ?? ''}`, signe }
 }
 
 export default function OverviewHeader({
@@ -70,8 +106,8 @@ export default function OverviewHeader({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-baseline gap-3 flex-wrap">
-        <h3 className="text-xl font-bold">Dashboard évaluation {annee}</h3>
+      <div className="flex flex-col items-center gap-1 text-center">
+        <h3 className="text-2xl font-bold">Dashboard évaluation {annee}</h3>
         {periodeMultiple && (
           <span className="text-xs text-slate-500">
             Indicateurs de {annee} (comparés à {annee - 1}) — graphiques sur la période {filters.anneeMin} → {filters.anneeMax}
@@ -83,19 +119,27 @@ export default function OverviewHeader({
         <Tuile
           label="Fournisseurs évalués"
           value={String(kpi.fournisseursEvalues)}
+          evolution={precDispo ? delta(kpi.fournisseursEvalues, kpiPrec.fournisseursEvalues) : null}
           precedent={`${annee - 1} : ${precDispo ? kpiPrec.fournisseursEvalues : '—'}`}
         />
         <Tuile
           label="Nombre d'évaluations"
           value={String(kpi.evaluationsTotal)}
+          evolution={precDispo ? delta(kpi.evaluationsTotal, kpiPrec.evaluationsTotal) : null}
           precedent={`${annee - 1} : ${precDispo ? kpiPrec.evaluationsTotal : '—'}`}
         />
         <Tuile
           label="Moyenne globale"
           value={kpi.moyenneGlobale != null ? `${kpi.moyenneGlobale} / 5` : '—'}
+          evolution={delta(kpi.moyenneGlobale, kpiPrec.moyenneGlobale, { decimales: 2 })}
           precedent={`${annee - 1} : ${kpiPrec.moyenneGlobale != null ? `${kpiPrec.moyenneGlobale} / 5` : '—'}`}
         />
-        <Tuile label="Périmètre évalué en CHF" value={chf(kpi.perimetreEvalue)} />
+        <Tuile
+          label="Périmètre évalué en CHF"
+          value={kpi.perimetreEvalue != null ? Math.round(kpi.perimetreEvalue).toLocaleString('fr-CH') : 'Non disponible'}
+          evolution={delta(kpi.perimetreEvalue, kpiPrec.perimetreEvalue, { compact: true })}
+          precedent={`${annee - 1} : ${chf(kpiPrec.perimetreEvalue)}`}
+        />
       </div>
 
       <div className="card space-y-4">
@@ -103,14 +147,14 @@ export default function OverviewHeader({
           <div className="text-xs uppercase text-slate-500 mb-2">
             Analyse par secteurs <span className="normal-case text-slate-400">(plusieurs possibles)</span>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
             {SECTEUR_BOUTONS.map(({ secteur, label, aide }) => {
               const actif = filters.secteurs.includes(secteur)
               return (
                 <button
                   key={secteur}
                   title={aide}
-                  className="px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors"
+                  className="h-14 w-full px-2 rounded-lg text-sm font-medium border transition-colors flex flex-col items-center justify-center leading-tight"
                   style={
                     actif
                       ? { backgroundColor: secteurColor(secteur), borderColor: secteurColor(secteur), color: 'white' }
@@ -119,16 +163,16 @@ export default function OverviewHeader({
                   onClick={() => onChange({ ...filters, secteurs: toggle(filters.secteurs, secteur) })}
                 >
                   {label}
-                  {aide && secteur === 'BAT GE' && <span className="block text-[10px] font-normal opacity-80">(y c. TRANSFO RENO)</span>}
+                  {secteur === 'BAT GE' && <span className="text-[10px] font-normal opacity-80">(y c. TRANSFO RENO)</span>}
                 </button>
               )
             })}
-            {filters.secteurs.length > 0 && (
-              <button className="text-xs text-slate-400 underline" onClick={() => onChange({ ...filters, secteurs: [] })}>
-                Tous les secteurs
-              </button>
-            )}
           </div>
+          {filters.secteurs.length > 0 && (
+            <button className="text-xs text-slate-400 underline mt-2" onClick={() => onChange({ ...filters, secteurs: [] })}>
+              Tous les secteurs
+            </button>
+          )}
         </div>
 
         <div>
