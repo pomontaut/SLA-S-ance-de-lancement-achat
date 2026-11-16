@@ -1,10 +1,11 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import type { EvaluationFormulaire, NewEvaluationFormulaire } from '../types'
 import { FAMILLES_EVALUATION, NOTE_OPTIONS, criteresPourFamille, moyenneCriteres } from '../data/formulaireEvaluation'
 import { createEvaluationFormulaire, deleteEvaluationFormulaire, listEvaluationsFormulaire, updateEvaluationFormulaire } from '../data/db'
 import { loadFournisseurs } from '../data/fournisseurs'
-import type { FournisseurChantier } from '../data/chantierDepense'
-import { SEUIL_EVALUATION_CHF, depenseDuChantier, familleEvaluationProposee } from '../data/chantierDepense'
+import type { FournisseurChantier, PeriodeAnalyse } from '../data/chantierDepense'
+import { SEUIL_EVALUATION_CHF, depenseDuChantier, familleEvaluationProposee, periodeAnneeEnCours } from '../data/chantierDepense'
+import { loadDepensesFournisseurs } from '../data/depenses'
 import SupplierPicker from './SupplierPicker'
 import chantiersJson from '../data/chantiers.json'
 
@@ -77,6 +78,11 @@ export default function FormulaireEvaluationTab() {
   // Série d'évaluations par chantier : liste des fournisseurs du chantier (coche auto >= seuil) puis un par un.
   const [depenseChantier, setDepenseChantier] = useState<{ code: string; lignes: FournisseurChantier[] } | 'chargement' | null>(null)
   const [selection, setSelection] = useState<Record<number, boolean>>({})
+  // Période d'analyse du CA (année en cours par défaut) et fournisseurs ajoutés à la main (ex. consortium).
+  const [periode, setPeriode] = useState<PeriodeAnalyse>(() => periodeAnneeEnCours())
+  const [ajouts, setAjouts] = useState<FournisseurChantier[]>([])
+  const [pickerAjoutOpen, setPickerAjoutOpen] = useState(false)
+  const [nomLibre, setNomLibre] = useState('')
   const [serie, setSerie] = useState<{ liste: FournisseurChantier[]; index: number; termine: boolean; evalues: number } | null>(null)
 
   useEffect(() => {
@@ -85,6 +91,12 @@ export default function FormulaireEvaluationTab() {
 
   // Dès qu'un chantier connu est saisi, on charge ses fournisseurs (dépense réelle) et on coche ceux à évaluer.
   const serieActive = serie !== null
+  const ajoutsRef = useRef<FournisseurChantier[]>([])
+  ajoutsRef.current = ajouts
+  // Changer de chantier repart d'une liste vierge (les ajouts à la main concernent un chantier précis).
+  useEffect(() => {
+    setAjouts([])
+  }, [form.numeroChantier])
   useEffect(() => {
     const c = chantierParNumero(form.numeroChantier)
     if (serieActive) return
@@ -94,22 +106,49 @@ export default function FormulaireEvaluationTab() {
     }
     let annule = false
     setDepenseChantier('chargement')
-    depenseDuChantier(c.numero)
+    depenseDuChantier(c.numero, periode)
       .then((lignes) => {
         if (annule) return
         setDepenseChantier({ code: c.numero, lignes })
-        setSelection(Object.fromEntries(lignes.map((l) => [l.nfr, l.ca >= SEUIL_EVALUATION_CHF])))
+        // Coche automatique (>= seuil) sur la période ; les fournisseurs ajoutés à la main restent cochés comme ils étaient.
+        setSelection((prev) => ({
+          ...Object.fromEntries(lignes.map((l) => [l.nfr, l.ca >= SEUIL_EVALUATION_CHF])),
+          ...Object.fromEntries(ajoutsRef.current.map((a) => [a.nfr, prev[a.nfr] ?? true])),
+        }))
       })
       .catch(() => !annule && setDepenseChantier(null))
     return () => {
       annule = true
     }
-  }, [form.numeroChantier, serieActive, editing])
+  }, [form.numeroChantier, serieActive, editing, periode])
+
+  /** Lignes de la liste : fournisseurs du chantier sur la période + fournisseurs ajoutés à la main. */
+  const lignesListe = useMemo<FournisseurChantier[]>(() => {
+    if (!depenseChantier || depenseChantier === 'chargement') return []
+    const deja = new Set(depenseChantier.lignes.map((l) => l.nfr))
+    return [...depenseChantier.lignes, ...ajouts.filter((a) => !deja.has(a.nfr))]
+  }, [depenseChantier, ajouts])
+
+  /** Ajoute un fournisseur à la main (annuaire ou nom libre) ; famille proposée si on le connaît dans les dépenses. */
+  async function ajouterFournisseur(nom: string, id: number | null) {
+    const propre = nom.trim()
+    if (!propre) return
+    if (id != null && lignesListe.some((l) => l.nfr === id)) {
+      setSelection((sel) => ({ ...sel, [id]: true })) // déjà dans la liste : on le coche simplement
+      return
+    }
+    const connus = id != null ? (await loadDepensesFournisseurs().catch(() => [])).find((f) => f.nfr === id) : undefined
+    const nfr = id ?? -(ajouts.length + 1 + Math.floor(Math.random() * 1e6))
+    const ligne: FournisseurChantier = { nfr, nom: propre, familleAchat: connus?.familleAchat ?? null, ca: 0, nbFactures: 0, panier: null, manuel: true }
+    setAjouts((a) => [...a, ligne])
+    setSelection((sel) => ({ ...sel, [nfr]: true }))
+    setNomLibre('')
+  }
 
   function appliquerFournisseur(l: FournisseurChantier) {
     setForm((f) => ({
       ...f,
-      fournisseurId: l.nfr,
+      fournisseurId: l.nfr > 0 ? l.nfr : null,
       fournisseurNom: l.nom,
       famille: familleEvaluationProposee(l.familleAchat, f.famille),
       criteres: {},
@@ -121,7 +160,7 @@ export default function FormulaireEvaluationTab() {
 
   async function demarrerSerie() {
     if (!depenseChantier || depenseChantier === 'chargement') return
-    const liste = depenseChantier.lignes.filter((l) => selection[l.nfr])
+    const liste = lignesListe.filter((l) => selection[l.nfr])
     if (liste.length === 0) {
       setError('Cochez au moins un fournisseur à évaluer.')
       return
@@ -129,7 +168,7 @@ export default function FormulaireEvaluationTab() {
     setError(null)
     // Nom du fournisseur tel que dans l'annuaire (comme avec le bouton « Choisir… »), sinon nom de la dépense.
     const noms = new Map((await loadFournisseurs().catch(() => [])).map((a) => [a.id, a.nom]))
-    const avecNoms = liste.map((l) => ({ ...l, nom: noms.get(l.nfr) ?? l.nom }))
+    const avecNoms = liste.map((l) => ({ ...l, nom: l.manuel ? l.nom : noms.get(l.nfr) ?? l.nom }))
     setSerie({ liste: avecNoms, index: 0, termine: false, evalues: 0 })
     appliquerFournisseur(avecNoms[0])
   }
@@ -420,65 +459,115 @@ export default function FormulaireEvaluationTab() {
                 Fournisseurs du chantier {depenseChantier.code} - {form.nomChantier}
               </h3>
               <span className="text-xs text-slate-500">
-                Dépense totale : {depenseChantier.lignes.reduce((t, l) => t + l.ca, 0).toLocaleString('fr-CH', { maximumFractionDigits: 0 })} CHF
+                Dépense totale sur la période : {depenseChantier.lignes.reduce((t, l) => t + l.ca, 0).toLocaleString('fr-CH', { maximumFractionDigits: 0 })} CHF
               </span>
             </div>
-            {depenseChantier.lignes.length === 0 ? (
-              <p className="text-sm text-slate-500">Aucune dépense enregistrée sur ce chantier.</p>
+
+            <div className="flex flex-wrap items-center gap-2 text-xs bg-white rounded border border-slate-200 px-2 py-1.5">
+              <span className="font-medium text-slate-600">Période d'analyse</span>
+              <label className="flex items-center gap-1">
+                de <input type="month" className="input !w-auto !py-0.5 text-xs" value={periode.de} onChange={(e) => e.target.value && setPeriode((p) => ({ ...p, de: e.target.value }))} />
+              </label>
+              <label className="flex items-center gap-1">
+                à <input type="month" className="input !w-auto !py-0.5 text-xs" value={periode.a} onChange={(e) => e.target.value && setPeriode((p) => ({ ...p, a: e.target.value }))} />
+              </label>
+              <button type="button" className="text-indigo-600 hover:underline" onClick={() => setPeriode(periodeAnneeEnCours())}>
+                Année en cours
+              </button>
+              <button type="button" className="text-indigo-600 hover:underline" onClick={() => setPeriode(periodeAnneeEnCours(new Date().getFullYear() - 1))}>
+                Année précédente
+              </button>
+              <button type="button" className="text-indigo-600 hover:underline" onClick={() => setPeriode({ de: '2000-01', a: '2099-12' })}>
+                Toutes années
+              </button>
+            </div>
+
+            {lignesListe.length === 0 ? (
+              <p className="text-sm text-slate-500">Aucune dépense enregistrée sur ce chantier pour cette période (vous pouvez ajouter un fournisseur à la main ci-dessous).</p>
             ) : (
-              <>
-                <p className="text-xs text-slate-500">
-                  Coche automatique : fournisseurs ayant dépensé au moins {SEUIL_EVALUATION_CHF.toLocaleString('fr-CH')} CHF sur ce chantier (modifiable).
-                </p>
-                <div className="max-h-80 overflow-auto bg-white rounded border border-slate-200">
-                  <table className="w-full text-xs">
-                    <thead className="sticky top-0 bg-slate-50">
-                      <tr className="text-left text-slate-500 border-b border-slate-200">
-                        <th className="py-1.5 px-2 w-8">À évaluer</th>
-                        <th className="py-1.5 px-2">Fournisseur</th>
-                        <th className="py-1.5 px-2 text-right">Factures</th>
-                        <th className="py-1.5 px-2 text-right">CA (CHF)</th>
-                        <th className="py-1.5 px-2 text-right">Panier moyen</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {depenseChantier.lignes.map((l) => (
-                        <tr key={l.nfr} className={`border-b border-slate-100 ${selection[l.nfr] ? 'bg-indigo-50/60' : ''}`}>
-                          <td className="py-1 px-2 text-center">
-                            <input type="checkbox" checked={!!selection[l.nfr]} onChange={(e) => setSelection((sel) => ({ ...sel, [l.nfr]: e.target.checked }))} />
-                          </td>
-                          <td className="py-1 px-2 font-medium">
-                            {l.nom}
-                            {dejaEvalue(l, depenseChantier.code) && <span className="ml-1.5 text-[10px] font-normal text-green-700 bg-green-100 rounded px-1">déjà évalué</span>}
-                          </td>
-                          <td className="py-1 px-2 text-right tabular-nums">{l.nbFactures.toLocaleString('fr-CH')}</td>
-                          <td className="py-1 px-2 text-right tabular-nums">{l.ca.toLocaleString('fr-CH', { maximumFractionDigits: 0 })}</td>
-                          <td className="py-1 px-2 text-right tabular-nums">{l.panier != null ? l.panier.toLocaleString('fr-CH') : '—'}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-                <div className="flex items-center gap-2 flex-wrap">
-                  <button type="button" className="btn-primary" onClick={demarrerSerie}>
-                    Valider la sélection ({depenseChantier.lignes.filter((l) => selection[l.nfr]).length} fournisseur(s)) →
-                  </button>
-                  <button type="button" className="text-xs text-indigo-600 hover:underline" onClick={() => setSelection(Object.fromEntries(depenseChantier.lignes.map((l) => [l.nfr, true])))}>
-                    Tout cocher
-                  </button>
-                  <button type="button" className="text-xs text-indigo-600 hover:underline" onClick={() => setSelection({})}>
-                    Tout décocher
-                  </button>
-                  <button
-                    type="button"
-                    className="text-xs text-indigo-600 hover:underline"
-                    onClick={() => setSelection(Object.fromEntries(depenseChantier.lignes.map((l) => [l.nfr, l.ca >= SEUIL_EVALUATION_CHF])))}
-                  >
-                    Remettre la coche automatique
-                  </button>
-                </div>
-              </>
+              <p className="text-xs text-slate-500">
+                Coche automatique : fournisseurs ayant dépensé au moins {SEUIL_EVALUATION_CHF.toLocaleString('fr-CH')} CHF sur ce chantier pendant la période (modifiable).
+              </p>
             )}
+            {lignesListe.length > 0 && (
+              <div className="max-h-80 overflow-auto bg-white rounded border border-slate-200">
+                <table className="w-full text-xs">
+                  <thead className="sticky top-0 bg-slate-50">
+                    <tr className="text-left text-slate-500 border-b border-slate-200">
+                      <th className="py-1.5 px-2 w-8">À évaluer</th>
+                      <th className="py-1.5 px-2">Fournisseur</th>
+                      <th className="py-1.5 px-2 text-right">Factures</th>
+                      <th className="py-1.5 px-2 text-right">CA (CHF)</th>
+                      <th className="py-1.5 px-2 text-right">Panier moyen</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {lignesListe.map((l) => (
+                      <tr key={l.nfr} className={`border-b border-slate-100 ${selection[l.nfr] ? 'bg-indigo-50/60' : ''}`}>
+                        <td className="py-1 px-2 text-center">
+                          <input type="checkbox" checked={!!selection[l.nfr]} onChange={(e) => setSelection((sel) => ({ ...sel, [l.nfr]: e.target.checked }))} />
+                        </td>
+                        <td className="py-1 px-2 font-medium">
+                          {l.nom}
+                          {l.manuel && <span className="ml-1.5 text-[10px] font-normal text-amber-700 bg-amber-100 rounded px-1">ajouté à la main</span>}
+                          {dejaEvalue(l, depenseChantier.code) && <span className="ml-1.5 text-[10px] font-normal text-green-700 bg-green-100 rounded px-1">déjà évalué</span>}
+                          {l.manuel && (
+                            <button
+                              type="button"
+                              className="ml-1.5 text-[10px] text-red-600 hover:underline"
+                              onClick={() => {
+                                setAjouts((a) => a.filter((x) => x.nfr !== l.nfr))
+                                setSelection((sel) => {
+                                  const { [l.nfr]: _retire, ...reste } = sel
+                                  return reste
+                                })
+                              }}
+                            >
+                              retirer
+                            </button>
+                          )}
+                        </td>
+                        <td className="py-1 px-2 text-right tabular-nums">{l.nbFactures.toLocaleString('fr-CH')}</td>
+                        <td className="py-1 px-2 text-right tabular-nums">{l.manuel && l.ca === 0 ? '—' : l.ca.toLocaleString('fr-CH', { maximumFractionDigits: 0 })}</td>
+                        <td className="py-1 px-2 text-right tabular-nums">{l.panier != null ? l.panier.toLocaleString('fr-CH') : '—'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+
+            <div className="flex flex-wrap items-center gap-2 text-xs bg-white rounded border border-dashed border-slate-300 px-2 py-1.5">
+              <span className="font-medium text-slate-600">Ajouter un fournisseur à la main</span>
+              <button type="button" className="btn-secondary !py-0.5 text-xs" onClick={() => setPickerAjoutOpen(true)}>
+                Choisir dans l'annuaire…
+              </button>
+              <span className="text-slate-400">ou nom libre</span>
+              <input className="input !w-48 !py-0.5 text-xs" placeholder="Nom du fournisseur" value={nomLibre} onChange={(e) => setNomLibre(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && ajouterFournisseur(nomLibre, null)} />
+              <button type="button" className="btn-secondary !py-0.5 text-xs" disabled={!nomLibre.trim()} onClick={() => ajouterFournisseur(nomLibre, null)}>
+                Ajouter
+              </button>
+              <span className="text-slate-400">(ex. consortium, dépense non rattachée à ce chantier)</span>
+            </div>
+
+            <div className="flex items-center gap-2 flex-wrap">
+              <button type="button" className="btn-primary" onClick={demarrerSerie}>
+                Valider la sélection ({lignesListe.filter((l) => selection[l.nfr]).length} fournisseur(s)) →
+              </button>
+              <button type="button" className="text-xs text-indigo-600 hover:underline" onClick={() => setSelection(Object.fromEntries(lignesListe.map((l) => [l.nfr, true])))}>
+                Tout cocher
+              </button>
+              <button type="button" className="text-xs text-indigo-600 hover:underline" onClick={() => setSelection({})}>
+                Tout décocher
+              </button>
+              <button
+                type="button"
+                className="text-xs text-indigo-600 hover:underline"
+                onClick={() => setSelection(Object.fromEntries(lignesListe.map((l) => [l.nfr, l.manuel || l.ca >= SEUIL_EVALUATION_CHF])))}
+              >
+                Remettre la coche automatique
+              </button>
+            </div>
           </div>
         )}
 
@@ -583,6 +672,16 @@ export default function FormulaireEvaluationTab() {
           </div>
         )}
       </div>
+
+      {pickerAjoutOpen && (
+        <SupplierPicker
+          onSelect={(f) => {
+            ajouterFournisseur(f.nom, f.id)
+            setPickerAjoutOpen(false)
+          }}
+          onClose={() => setPickerAjoutOpen(false)}
+        />
+      )}
 
       {pickerOpen && (
         <SupplierPicker
