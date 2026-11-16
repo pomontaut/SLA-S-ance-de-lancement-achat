@@ -1,0 +1,155 @@
+{
+ "chantiers": {
+  "15310": {
+   "nom": "Step d'Aire",
+   "entite": "BAT GE"
+  },
+  "15015": {
+   "nom": "Parc des crêts",
+   "entite": "BAT GE"
+  },
+  "15108": {
+   "nom": "Rolex Onyx",
+   "entite": "BAT GE"
+  },
+  "35303": {
+   "nom": "ASR lot 3.3",
+   "entite": "GC"
+  },
+  "35304": {
+   "nom": "Tram Carouge",
+   "entite": "GC"
+  },
+  "35308": {
+   "nom": "ASR lot 3.4",
+   "entite": "GC"
+  },
+  "35311": {
+   "nom": "PAV 3",
+   "entite": "GC"
+  },
+  "35312": {
+   "nom": "PAV 4",
+   "entite": "GC"
+  },
+  "35404": {
+   "nom": "Ecole des Vernets",
+   "entite": "GC"
+  },
+  "35502": {
+   "nom": "Amex quai des vernets",
+   "entite": "GC"
+  },
+  "35503": {
+   "nom": "TNGS Lot 1",
+   "entite": "GC"
+  },
+  "35504": {
+   "nom": "Foron étape 3",
+   "entite": "GC"
+  },
+  "35505": {
+   "nom": "TNGS lot 4",
+   "entite": "GC"
+  },
+  "35509": {
+   "nom": "Avenue Wendt",
+   "entite": "GC"
+  },
+  "35510": {
+   "nom": "PAV Jolivet",
+   "entite": "GC"
+  },
+  "35606": {
+   "nom": "Amex Carouge",
+   "entite": "GC"
+  },
+  "35605": {
+   "nom": "Esplanade Vernet",
+   "entite": "GC"
+  },
+  "35805": {
+   "nom": "Gare des Eaux vives",
+   "entite": "GC"
+  },
+  "65506": {
+   "nom": "Rolex B&W",
+   "entite": "BAT VD"
+  }
+ },
+ "divisions": {
+  "122": {
+   "chantier": "35502",
+   "entite": "GC"
+  },
+  "114": {
+   "chantier": "35805",
+   "entite": "GC"
+  },
+  "108": {
+   "chantier": "15108",
+   "entite": "BAT GE"
+  },
+  "123": {
+   "chantier": "35503",
+   "entite": "GC"
+  },
+  "119": {
+   "chantier": "35311",
+   "entite": "GC"
+  },
+  "124": {
+   "chantier": "35509",
+   "entite": "GC"
+  },
+  "501": {
+   "chantier": null,
+   "entite": "AUTRES"
+  },
+  "120": {
+   "chantier": "35312",
+   "entite": "GC"
+  },
+  "101": {
+   "chantier": null,
+   "entite": "AUTRES"
+  },
+  "100": {
+   "chantier": null,
+   "entite": "AUTRES"
+  },
+  "500": {
+   "chantier": null,
+   "entite": "AUTRES"
+  },
+  "112": {
+   "chantier": null,
+   "entite": "AUTRES"
+  },
+  "118": {
+   "chantier": null,
+   "entite": "AUTRES"
+  },
+  "113": {
+   "chantier": null,
+   "entite": "AUTRES"
+  },
+  "121": {
+   "chantier": null,
+   "entite": "AUTRES"
+  },
+  "117": {
+   "chantier": null,
+   "entite": "AUTRES"
+  },
+  "102": {
+   "chantier": null,
+   "entite": "AUTRES"
+  },
+  "116": {
+   "chantier": null,
+   "entite": "AUTRES"
+  }
+ },
+ "source": "Fichier « n° chantier consortium » (Induni) + correspondance division → chantier relevée dans le Journal COFI compilé 2025 ; division inconnue = entité AUTRES, sans chantier."
+}

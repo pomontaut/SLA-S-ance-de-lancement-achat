@@ -505,8 +505,10 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
                 : { backgroundColor: 'white', borderColor: '#e2e8f0', color: '#475569' }
             }
             onClick={() => setSelectedAnnee(annee)}
+            title={data.anneesPartielles?.[annee] ? `Année en cours : données ${data.anneesPartielles[annee]} seulement — ne pas comparer à une année complète.` : undefined}
           >
             {annee}
+            {data.anneesPartielles?.[annee] ? ' (partielle)' : ''}
           </button>
         ))}
       </div>

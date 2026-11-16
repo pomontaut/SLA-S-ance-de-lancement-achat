@@ -89,6 +89,9 @@ export interface DepensesGlobal {
   /** Documents retirés car leur compte débit n'est pas une charge d'achat du plan comptable
    * (créanciers, impôt à la source, AVS, prévoyance, salaires, immobilisations, escomptes…) —
    * voir script/appliquer_plan_comptable_depense.py. */
+  /** Années dont les données sont incomplètes (ex. { "2026": "janv.–sept. 2026" }) — posé par
+   * script/appliquer_plan_comptable_depense.py à l'import d'un journal en cours d'année. */
+  anneesPartielles?: Record<string, string>
   exclusionsCompte?: {
     nbLignes: number
     montantTotal: number

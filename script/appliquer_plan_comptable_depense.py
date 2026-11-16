@@ -1,87 +1,141 @@
 #!/usr/bin/env python3
-"""Applique le plan comptable à l'analyse de dépense : ne garde que les CHARGES d'achat.
+"""Analyse de dépense : plan comptable + import de nouveaux journaux.
 
-Règle (plan comptable Induni) — compte débit du document (journal COFI) :
+Règle (plan comptable Induni) — compte débit des positions du document (journal COFI) :
   * classes 3 (matériel d'exploitation) et 4 (charges d'exploitation) : GARDÉES ;
+  * 15x (immobilisations du dépôt : machines, agencement, bâtiment) : GARDÉES, rattachées à l'entité DEPOT
+    (ce sont des actifs mais de vraies dépenses d'achat) ;
   * 400xxx (salaires) et 52xxx (prestations internes) : retirées ;
-  * classes 1 (actifs), 2 (passifs : créanciers, impôt à la source, prévoyance, AVS…), 5, 6, 7, 9 : retirées.
+  * autres classes 1 (transitoires…), 2 (créanciers, impôt à la source, prévoyance, AVS…), 5, 6, 7, 9 : retirées.
 Les documents sans compte retrouvé (journal manquant) sont CONSERVÉS et comptés dans le rapport.
 
-Usage :
-  python3 script/appliquer_plan_comptable_depense.py JOURNAL.xlsx [JOURNAL.xlsx ...]   # applique
-  ... --a-blanc    # n'écrit rien, affiche le rapport seulement
-Les journaux sont reconnus automatiquement : « Journal COFI Compilé » (1 ligne = 1 document) ou
-export brut ABACUS « kred_16 » (Induni ou consortium : colonne « Aff. » absente → fournir
---aff INDUNI|CONSORTIUM avant chaque fichier brut : `--aff INDUNI brut.xlsx --aff CONSORTIUM brut2.xlsx`).
-Idempotent : relancer avec davantage de journaux (ex. 2023) complète sans rien casser.
+Usage (repartir des JSON d'origine pour un résultat reproductible, voir README) :
+  python3 script/appliquer_plan_comptable_depense.py  JOURNAL_COMPILE.xlsx \\
+      --aff INDUNI brut_induni.xlsx --aff CONSORTIUM brut_consortium.xlsx \\
+      --nouveaux --aff INDUNI brut2026_induni.xlsx --aff CONSORTIUM brut2026_consortium.xlsx
+  --a-blanc   n'écrit rien, affiche le rapport seulement
+  --nouveaux  les fichiers bruts qui SUIVENT sont aussi importés comme nouveaux documents (déjà présents = ignorés).
 """
 import collections, json, os, sys
 import openpyxl
 sys.path.insert(0, os.path.dirname(__file__))
 import depense_agregats as A
+import depense_import as I
+from parse_brut import parse as parse_brut
 
-ROOT = os.path.join(os.path.dirname(__file__), "..", "src", "data")
+HERE = os.path.dirname(__file__)
+ROOT = os.path.join(HERE, "..", "src", "data")
 AFF = {"INDUNI": "CHANTIER INDUNI", "CHANTIER INDUNI": "CHANTIER INDUNI", "CONSORTIUM": "CONSORTIUM"}
 
 
-def est_charge(cpt):
-    c = str(cpt)
-    if c[:3] == "400" or c[:2] == "52":
-        return False
-    return c[:1] in ("3", "4")
+def classer(cpts):
+    """'charge' | 'depot' (immobilisation 15x, gardée) | None (retirée)."""
+    if any(c[:1] in ("3", "4") and c[:3] != "400" for c in cpts):
+        return "charge"
+    if any(c[:2] == "15" for c in cpts):
+        return "depot"
+    if any(c[:1] in ("3", "4") for c in cpts):  # seulement des salaires (400)
+        return None
+    return None
 
 
 def lire_compile(path, comptes):
     ws = openpyxl.load_workbook(path, read_only=True, data_only=True).worksheets[0]
     it = ws.iter_rows(values_only=True)
-    h = next(it)
-    i = {n: k for k, n in enumerate(h)}
+    i = {n: k for k, n in enumerate(next(it))}
     for r in it:
-        if r[i["N° doc"]] is None:
-            continue
-        comptes[(AFF[r[i["Aff."]]], int(r[i["N° doc"]]))] = [str(r[i["Cpt Débit"]])]
+        if r[i["N° doc"]] is not None:
+            comptes[(AFF[r[i["Aff."]]], int(r[i["N° doc"]]))] = [str(r[i["Cpt Débit"]])]
 
 
-def lire_brut(path, aff, comptes):
-    ws = openpyxl.load_workbook(path, read_only=True, data_only=True).worksheets[0]
-    cur = None
-    for n, r in enumerate(ws.iter_rows(values_only=True)):
-        if n < 5:
+def importer(F, G, docs_bruts):
+    ctx = I.contexte(F)
+    excl = {e["nfr"]: e for e in json.load(open(os.path.join(ROOT, "fournisseurExclusionsDepense.json")))}
+    alias = {}
+    for g in json.load(open(os.path.join(ROOT, "fournisseurAliasesDepense.json"))):
+        for n in g["aliasNfrs"]:
+            alias[n] = (g["canonicalNfr"], g["canonicalNom"])
+    par_nfr = {f["nfr"]: f for f in F}
+    deja = {(d["aff"], d["docno"]) for f in F for d in f["documents"]}
+    ajoutes = collections.Counter(); exclus = collections.defaultdict(float); nouveaux_f = set(); sans_chantier = set()
+    for d in docs_bruts:
+        if (d["aff"], d["docno"]) in deja:
             continue
-        r = list(r) + [None] * (15 - len(r))
-        g = str(r[12] or "")
-        if r[0] is None and isinstance(r[1], int) and g.startswith(("Facture", "Note de cr")):
-            cur = (AFF[aff], r[1])
-            comptes[cur] = []
-        elif r[0] == "P" and cur is not None:
-            comptes[cur].append(str(r[2]))
+        nfr, nom = alias.get(d["nfr"], (d["nfr"], d["nom"]))
+        if nfr in excl or d["nfr"] in excl:
+            exclus[nfr] += d.get("montantDoc") or 0; ajoutes["exclus"] += 1; continue
+        doc = I.construire(d, ctx)
+        if doc["chantier"] and doc["chantier"] not in ctx["entite"]:
+            sans_chantier.add(doc["chantier"])
+        f = par_nfr.get(nfr)
+        if f is None:
+            f = {"nfr": nfr, "nom": nom, "conditions": [], "documents": [], "familleAchat": None}
+            F.append(f); par_nfr[nfr] = f; nouveaux_f.add(nfr)
+        f["documents"].append(doc)
+        if doc["condition"] and doc["condition"] not in f["conditions"]:
+            f["conditions"].append(doc["condition"])
+        ajoutes[A.annee_comptable(doc) or "?"] += 1
+    ex = G.get("exclusions")
+    if ex and exclus:
+        for nfr, m in exclus.items():
+            for e in ex["details"]:
+                if e["nfr"] == nfr:
+                    e["montant"] = round(e["montant"] + m, 2)
+        ex["nbLignes"] += ajoutes["exclus"]; ex["montantTotal"] = round(ex["montantTotal"] + sum(exclus.values()), 2)
+    print(f"\n=== Import : documents ajoutés par année : {dict(ajoutes)} ; nouveaux fournisseurs : {len(nouveaux_f)} ; "
+          f"chantiers inconnus (entité par division) : {len(sans_chantier)}")
 
 
 def main(argv):
     a_blanc = "--a-blanc" in argv
     argv = [a for a in argv if a != "--a-blanc"]
-    comptes, aff, k = {}, None, 0
+    comptes, docs_bruts, aff, nouveaux, k = {}, [], None, False, 0
+    divisions = {}
     while k < len(argv):
-        if argv[k] == "--aff":
+        t = argv[k]
+        if t == "--aff":
             aff = argv[k + 1]; k += 2; continue
-        p = argv[k]; k += 1
-        ws = openpyxl.load_workbook(p, read_only=True, data_only=True).worksheets[0]
+        if t == "--nouveaux":
+            nouveaux = True; k += 1; continue
+        k += 1
+        ws = openpyxl.load_workbook(t, read_only=True, data_only=True).worksheets[0]
         entete = next(ws.iter_rows(values_only=True, max_row=1))
-        print("lecture", os.path.basename(p), "...", flush=True)
+        print("lecture", os.path.basename(t), "...", flush=True)
         if entete and entete[0] == "Fournisseur":
-            lire_compile(p, comptes)
+            lire_compile(t, comptes)
         else:
             if not aff:
                 sys.exit("export brut : précisez --aff INDUNI ou --aff CONSORTIUM avant le fichier")
-            lire_brut(p, aff, comptes)
+            docs, _ = parse_brut(t, AFF[aff])
+            for d in docs:
+                comptes[(d["aff"], d["docno"])] = [p["debit"] for p in d["pos"]]
+                if d["aff"] == "CONSORTIUM":
+                    divisions[(d["aff"], d["docno"])] = d.get("gb")
+            if nouveaux:
+                docs_bruts += docs
     print(len(comptes), "documents avec compte")
 
     F = json.load(open(os.path.join(ROOT, "depensesFournisseurs.json")))
     G = json.load(open(os.path.join(ROOT, "depensesGlobal.json")))
-    plan = json.load(open(os.path.join(os.path.dirname(__file__), "plan_comptable.json")))
+    plan = json.load(open(os.path.join(HERE, "plan_comptable.json")))
+    avant = {a: v["montantTotal"] for a, v in G["parAnnee"].items()}
+    if docs_bruts:
+        importer(F, G, docs_bruts)
 
-    rapport = collections.defaultdict(lambda: [0, 0.0])
-    retires = collections.defaultdict(lambda: [0, 0.0, set()])
+    # Documents consortium anciens sans chantier ni entité : rattachés par leur division (fichier consortium).
+    rattaches = 0
+    for f in F:
+        for d in f["documents"]:
+            if d["aff"] == "CONSORTIUM" and d.get("chantier") is None and d.get("entite") is None \
+                    and (d["aff"], d["docno"]) in divisions:
+                ch, ent, nom = I.consortium_par_division(divisions[(d["aff"], d["docno"])])
+                d["chantier"], d["entite"], d["chantierNom"] = ch, ent, nom
+                d["chantierConsortium"] = True if ch else None
+                rattaches += 1
+    print(f"\n{rattaches} documents consortium rattachés à un chantier/une entité par leur division")
+
+    retires = collections.defaultdict(lambda: [0, 0.0])
+    depot = collections.defaultdict(lambda: [0, 0.0])
     inconnus = collections.defaultdict(lambda: [0, 0.0])
     for f in F:
         garde = []
@@ -91,48 +145,62 @@ def main(argv):
             if not cs:
                 inconnus[an][0] += 1; inconnus[an][1] += d.get("montant") or 0
                 garde.append(d); continue
-            # plusieurs positions : le document est retiré seulement si AUCUNE n'est une charge
-            if any(est_charge(c) for c in cs):
-                garde.append(d); continue
-            cle = (an, cs[0][:3])
-            retires[cle][0] += 1; retires[cle][1] += d.get("montant") or 0; retires[cle][2].add(f["nom"])
-        f["_retires"] = len(f["documents"]) - len(garde)
+            cl = classer(cs)
+            if cl == "charge":
+                garde.append(d)
+            elif cl == "depot":
+                d["entite"] = "DEPOT"
+                depot[an][0] += 1; depot[an][1] += d.get("montant") or 0
+                garde.append(d)
+            else:
+                retires[(an, cs[0][:3])][0] += 1; retires[(an, cs[0][:3])][1] += d.get("montant") or 0
         f["documents"] = garde
 
     print("\n=== Retiré (non-charges), par année et compte (3 chiffres) ===")
     par_an = collections.defaultdict(lambda: [0, 0.0])
-    for (an, c), (n, m, _) in sorted(retires.items(), key=lambda x: (x[0][0], -abs(x[1][1]))):
+    for (an, c), (n, m) in sorted(retires.items(), key=lambda x: (x[0][0], -abs(x[1][1]))):
         par_an[an][0] += n; par_an[an][1] += m
         if abs(m) > 50000:
             print(f"{an}  {c}  {plan.get(c + '000', plan.get(c, '?')):45s} {n:6d} doc  {m/1e6:8.2f} M")
     for an, (n, m) in sorted(par_an.items()):
         print(f"TOTAL retiré {an}: {n} documents, {m/1e6:.2f} M CHF")
+    print("\n=== Immobilisations du dépôt (15x) gardées, entité DEPOT ===")
+    for an, (n, m) in sorted(depot.items()):
+        print(f"{an}: {n} documents, {m/1e6:.2f} M CHF")
     print("\n=== Conservés SANS compte connu (journal manquant) ===")
     for an, (n, m) in sorted(inconnus.items()):
         print(f"{an}: {n} documents, {m/1e6:.2f} M CHF")
     if a_blanc:
         return
 
-    avant = {a: G["parAnnee"][a]["montantTotal"] for a in G["parAnnee"]}
-    exclusions_compte = {"nbLignes": sum(v[0] for v in par_an.values()),
-                         "montantTotal": round(sum(v[1] for v in par_an.values()), 2),
-                         "parAnnee": {a: {"nbLignes": v[0], "montantTotal": round(v[1], 2)} for a, v in sorted(par_an.items())},
-                         "details": [{"compte": c, "libelle": plan.get(c + "000", plan.get(c, "")), "annee": an,
-                                      "nbLignes": n, "montant": round(m, 2)}
-                                     for (an, c), (n, m, _) in sorted(retires.items(), key=lambda x: -abs(x[1][1])) if abs(m) > 0][:40],
-                         "regle": "Seuls les comptes de charges d'achat (classes 3 et 4 du plan comptable, hors 400 salaires et 52 prestations internes) comptent comme dépense."}
+    mois = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."]
+    cofi_max = {}
     for f in F:
-        f.pop("_retires", None)
+        for d in f["documents"]:
+            if d.get("dateCofi"):
+                cofi_max[d["dateCofi"][:4]] = max(cofi_max.get(d["dateCofi"][:4], ""), d["dateCofi"])
+    G["anneesPartielles"] = {a: f"janv.–{mois[int(m[5:7]) - 1]} {a}" for a, m in cofi_max.items() if m[5:7] != "12"}
+    G["exclusionsCompte"] = {
+        "nbLignes": sum(v[0] for v in par_an.values()),
+        "montantTotal": round(sum(v[1] for v in par_an.values()), 2),
+        "parAnnee": {a: {"nbLignes": v[0], "montantTotal": round(v[1], 2)} for a, v in sorted(par_an.items())},
+        "details": [{"compte": c, "libelle": plan.get(c + "000", plan.get(c, "")), "annee": an, "nbLignes": n, "montant": round(m, 2)}
+                    for (an, c), (n, m) in sorted(retires.items(), key=lambda x: -abs(x[1][1])) if abs(m) > 0][:60],
+        "regle": "Seuls les comptes de charges d'achat (classes 3 et 4 du plan comptable, hors 400 salaires et 52 prestations "
+                 "internes) comptent comme dépense ; les immobilisations du dépôt (15x) sont gardées sous l'entité DEPOT.",
+    }
+    for f in F:
         if f["documents"]:
+            if f.get("conditions") is None:
+                f["conditions"] = []
             A.recalcule_fournisseur(f)
     F = [f for f in F if f["documents"]]
     A.recalcule_global(F, G)
-    G["exclusionsCompte"] = exclusions_compte
     json.dump(F, open(os.path.join(ROOT, "depensesFournisseurs.json"), "w"), ensure_ascii=False, separators=(",", ":"))
     json.dump(G, open(os.path.join(ROOT, "depensesGlobal.json"), "w"), ensure_ascii=False, separators=(",", ":"))
     print("\nAvant → après (dépense par année) :")
-    for a in sorted(avant):
-        print(f"  {a}: {avant[a]/1e6:8.2f} M → {G['parAnnee'].get(a, {}).get('montantTotal', 0)/1e6:8.2f} M")
+    for a in sorted(set(avant) | set(G["parAnnee"])):
+        print(f"  {a}: {avant.get(a, 0)/1e6:8.2f} M → {G['parAnnee'].get(a, {}).get('montantTotal', 0)/1e6:8.2f} M")
 
 
 if __name__ == "__main__":
