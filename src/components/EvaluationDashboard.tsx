@@ -39,6 +39,8 @@ function formatCurrency(value: number | null): string {
   return value.toLocaleString('fr-CH', { maximumFractionDigits: 0 }) + ' CHF'
 }
 
+const fmtNote = (v: number) => v.toLocaleString('fr-CH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+
 function StatTile({
   label,
   value,
@@ -204,52 +206,63 @@ function SecteurTab({
         <p className="text-sm text-slate-500">Aucune donnée pour ce secteur / cette année.</p>
       ) : (
         <>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <StatTile label="Fournisseurs évalués" value={String(kpis.fournisseursEvalues)} />
-            <StatTile
-              label={`Moyenne globale ${kpis.annee}`}
-              value={kpis.moyenneGlobale != null ? `${kpis.moyenneGlobale} / 5` : '—'}
-              sub={kpis.evolution != null ? `${kpis.evolution >= 0 ? '+' : ''}${kpis.evolution} pt vs ${kpis.annee - 1}` : undefined}
-            />
-            <StatTile
-              label="Couverture d'évaluation"
-              value={
-                kpis.fournisseursCouverturePct != null
-                  ? `${kpis.fournisseursEvalues} / ${kpis.fournisseursCandidats} (${kpis.fournisseursCouverturePct}%)`
-                  : 'Non disponible'
-              }
-              sub={
-                kpis.perimetreCouverturePct != null
-                  ? `${formatCurrency(kpis.perimetreEvalue)} / ${formatCurrency(kpis.perimetrePotentiel)} (${kpis.perimetreCouverturePct}%)`
-                  : undefined
-              }
-            />
-            <StatTile label="Périmètre évalué" value={formatCurrency(kpis.perimetreEvalue)} />
-            <StatTile
-              label="Top 10 (montant)"
-              value={formatCurrency(kpis.top10Montant)}
-              sub={kpis.top10PctPerimetre != null ? `${kpis.top10PctPerimetre}% du périmètre` : undefined}
-            />
-            <StatTile label="Fournisseurs ≥ 3,5" value={String(kpis.excellents)} tone="good" />
-            <StatTile label="Fournisseurs < 3" value={String(kpis.faibles)} tone="warning" />
-            <StatTile label="dont < 2" value={String(kpis.tresFaibles)} tone="critical" />
-            <StatTile label="À une seule évaluation" value={String(kpis.uneEvaluation)} />
-            <StatTile label="Non évalués l'année précédente" value={String(kpis.nonEvaluesAnneePrecedente)} />
-            <StatTile label="Jamais évalués avant" value={String(kpis.jamaisEvaluesAvant)} />
-            <StatTile
-              label="Fournisseurs communs (iso-périmètre)"
-              value={String(kpis.fournisseursCommuns)}
-              sub={
-                kpis.moyenneIsoPerimetre != null
-                  ? `Moyenne iso-périmètre : ${kpis.moyenneIsoPerimetre} / 5${kpis.evolutionIsoPerimetre != null ? ` (${kpis.evolutionIsoPerimetre >= 0 ? '+' : ''}${kpis.evolutionIsoPerimetre} pt)` : ''}`
-                  : undefined
-              }
-            />
-            <StatTile
-              label="Nombre d'évaluateurs"
-              value={stat?.nbEvaluateurs != null ? String(stat.nbEvaluateurs) : 'Non disponible'}
-              sub={kpis.moyenneNbEvaluateurs != null ? `Moyenne ${kpis.moyenneNbEvaluateurs} / fournisseur` : undefined}
-            />
+          <div className="space-y-4">
+            <div>
+              <div className="text-xs uppercase text-slate-500 mb-1.5">Résultat {kpis.annee}</div>
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                <StatTile label="Fournisseurs évalués" value={String(kpis.fournisseursEvalues)} />
+                <StatTile
+                  label="Moyenne globale"
+                  value={kpis.moyenneGlobale != null ? `${fmtNote(kpis.moyenneGlobale)} / 5` : '—'}
+                  sub={kpis.evolution != null ? `${kpis.evolution >= 0 ? '+' : ''}${kpis.evolution} pt vs ${kpis.annee - 1}` : undefined}
+                />
+                <StatTile label="Excellents (≥ 3,5)" value={String(kpis.excellents)} tone="good" />
+                <StatTile label="À surveiller (< 3)" value={String(kpis.faibles)} tone="warning" />
+                <StatTile label="Critiques (< 2)" value={String(kpis.tresFaibles)} tone="critical" />
+              </div>
+            </div>
+            <div>
+              <div className="text-xs uppercase text-slate-500 mb-1.5">Périmètre</div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <StatTile label="Périmètre évalué" value={formatCurrency(kpis.perimetreEvalue)} />
+                <StatTile
+                  label="Couverture d'évaluation"
+                  value={kpis.fournisseursCouverturePct != null ? `${kpis.fournisseursCouverturePct} %` : 'Non disponible'}
+                  sub={
+                    kpis.fournisseursCouverturePct != null
+                      ? `${kpis.fournisseursEvalues} / ${kpis.fournisseursCandidats} fournisseurs${kpis.perimetreCouverturePct != null ? ` · ${kpis.perimetreCouverturePct} % du montant` : ''}`
+                      : undefined
+                  }
+                />
+                <StatTile
+                  label="Poids des 10 premiers"
+                  value={kpis.top10PctPerimetre != null ? `${kpis.top10PctPerimetre} %` : '—'}
+                  sub={`${formatCurrency(kpis.top10Montant)} du périmètre`}
+                />
+                <StatTile
+                  label="Évaluateurs"
+                  value={stat?.nbEvaluateurs != null ? String(stat.nbEvaluateurs) : 'Non disponible'}
+                  sub={kpis.moyenneNbEvaluateurs != null ? `Moyenne ${kpis.moyenneNbEvaluateurs} / fournisseur` : undefined}
+                />
+              </div>
+            </div>
+            <div>
+              <div className="text-xs uppercase text-slate-500 mb-1.5">Suivi par rapport à {kpis.annee - 1}</div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <StatTile
+                  label="Fournisseurs communs"
+                  value={String(kpis.fournisseursCommuns)}
+                  sub={
+                    kpis.moyenneIsoPerimetre != null
+                      ? `Moyenne à périmètre identique : ${fmtNote(kpis.moyenneIsoPerimetre)} / 5${kpis.evolutionIsoPerimetre != null ? ` (${kpis.evolutionIsoPerimetre >= 0 ? '+' : ''}${kpis.evolutionIsoPerimetre} pt)` : ''}`
+                      : undefined
+                  }
+                />
+                <StatTile label="Non évalués l'an dernier" value={String(kpis.nonEvaluesAnneePrecedente)} />
+                <StatTile label="Jamais évalués avant" value={String(kpis.jamaisEvaluesAvant)} />
+                <StatTile label="Une seule évaluation" value={String(kpis.uneEvaluation)} />
+              </div>
+            </div>
           </div>
 
           <div className="card">
@@ -337,7 +350,7 @@ function SecteurTab({
                         </td>
                         <td className="py-1.5 pr-2">{formatCurrency(r.ca)}</td>
                         <td className="py-1.5 pr-2" style={{ color: noteColor(r.note!) }}>
-                          {r.note} / 5
+                          {fmtNote(r.note!)} / 5
                         </td>
                       </tr>
                     ))}
@@ -375,7 +388,7 @@ function SecteurTab({
                       <td className="py-1.5 pr-2 text-slate-500">{r.type}</td>
                       <td className="py-1.5 pr-2">{formatCurrency(r.ca)}</td>
                       <td className="py-1.5 pr-2 font-medium" style={{ color: noteColor(r.note!) }}>
-                        {r.note} / 5
+                        {fmtNote(r.note!)} / 5
                       </td>
                       <td className="py-1.5 pr-2">{r.nbEvaluateurs ?? '—'}</td>
                       <td className="py-1.5 pr-2 text-slate-500 max-w-xs truncate" title={r.remarques}>
@@ -512,7 +525,7 @@ function EvaluationDashboardInner({ profile, section }: { profile: Profile; sect
       {section === 'evaluation' && (view === 'secteur' || view === 'comparaison') && annee != null && (
         <div className="sticky top-0 z-10 bg-white/95 border border-slate-200 rounded-lg px-3 py-2 flex items-center gap-3 text-sm">
           <span className="text-xs uppercase text-slate-500">Année</span>
-          <select className="input w-28 py-1" value={annee} onChange={(e) => setAnnee(Number(e.target.value))}>
+          <select className="input !w-28 !py-1" value={annee} onChange={(e) => setAnnee(Number(e.target.value))}>
             {Array.from(new Set(all.map((r) => r.annee))).sort((x, y) => y - x).map((a) => (
               <option key={a} value={a}>{a}</option>
             ))}
