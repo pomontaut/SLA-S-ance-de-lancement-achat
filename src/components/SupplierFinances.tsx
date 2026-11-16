@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import type { DepenseBucketStats, DepenseFournisseur, GroupeDetail, LiensDirigeantsEntry } from '../data/depenses'
 import { anneeComptable, chantierColor, chantierLabel, computeTranches, formatCurrency, pct } from '../data/depenses'
-import { secteurColor, noteColor } from '../data/palette'
+import { entiteLabel, secteurColor, noteColor } from '../data/palette'
 
 /** Montant chantier Induni / consortium pour une année donnée — calculé à la volée depuis
  * `documents` (pas précalculé dans parAnnee, qui ne distingue pas par Aff.). */
@@ -72,6 +72,73 @@ function noteVariationBadge(diff: number): { emoji: string; className: string } 
   if (diff > 0.1) return { emoji: '😊', className: 'text-green-600' }
   if (diff < -0.1) return { emoji: '😢', className: 'text-red-600' }
   return { emoji: '😐', className: 'text-amber-600' }
+}
+
+function DetailChantiers({ fournisseur }: { fournisseur: DepenseFournisseur }) {
+  const [entite, setEntite] = useState('')
+  // Entités portant la dépense de chaque chantier (d'après les documents du fournisseur).
+  const lignes = useMemo(() => {
+    const ent = new Map<string, Map<string, number>>()
+    for (const d of fournisseur.documents) {
+      const code = d.chantier ?? 'NON RENSEIGNE'
+      const k = d.entite ?? 'AUTRES'
+      const m = ent.get(code) ?? new Map<string, number>()
+      m.set(k, (m.get(k) ?? 0) + (d.montant ?? 0))
+      ent.set(code, m)
+    }
+    return Object.entries(fournisseur.parChantier)
+      .map(([code, v]) => {
+        const m = ent.get(code)
+        const entites = m ? [...m.entries()].sort((x, y) => y[1] - x[1]).map(([k]) => k) : []
+        return { code, v, entites, montant: entite ? (m?.get(entite) ?? 0) : v.montantTotal }
+      })
+      .filter((l) => !entite || l.entites.includes(entite))
+      .sort((x, y) => y.montant - x.montant)
+  }, [fournisseur, entite])
+  const toutesEntites = useMemo(() => [...new Set(fournisseur.documents.map((d) => d.entite ?? 'AUTRES'))].sort(), [fournisseur])
+  const total = lignes.reduce((t, l) => t + l.montant, 0)
+  return (
+    <div>
+      <div className="flex items-center justify-between gap-2 flex-wrap mb-1.5">
+        <h5 className="text-[11px] uppercase text-slate-500">Détail par chantier — {lignes.length}</h5>
+        {toutesEntites.length > 1 && (
+          <select className="input w-44 py-1 text-xs" value={entite} onChange={(e) => setEntite(e.target.value)}>
+            <option value="">Toutes les entités</option>
+            {toutesEntites.map((k) => (
+              <option key={k} value={k}>
+                {entiteLabel(k)}
+              </option>
+            ))}
+          </select>
+        )}
+      </div>
+      <div className="overflow-x-auto max-h-96 overflow-y-auto bg-white rounded border border-slate-200">
+        <table className="w-full text-sm border-collapse">
+          <thead>
+            <tr className="text-left text-xs text-slate-500 border-b border-slate-200 sticky top-0 bg-slate-50">
+              <th className="py-1.5 px-2">Chantier</th>
+              <th className="py-1.5 px-2">Entité</th>
+              <th className="py-1.5 px-2 text-right">Montant HT</th>
+              <th className="py-1.5 px-2 text-right">%</th>
+            </tr>
+          </thead>
+          <tbody>
+            {lignes.map(({ code, v, entites, montant }) => (
+              <tr key={code} className="border-b border-slate-100 hover:bg-slate-50">
+                <td className="py-1.5 px-2">
+                  <span className="inline-block w-2 h-2 rounded-full mr-1.5 align-middle" style={{ backgroundColor: chantierColor(v.consortium) }} />
+                  {chantierLabel(code, v.nom)}
+                </td>
+                <td className="py-1.5 px-2 text-slate-600">{entites.map(entiteLabel).join(', ') || '—'}</td>
+                <td className="py-1.5 px-2 text-right tabular-nums font-medium">{formatCurrency(montant)}</td>
+                <td className="py-1.5 px-2 text-right tabular-nums text-slate-500">{total ? Math.round((montant / total) * 1000) / 10 : 0} %</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
 }
 
 export default function SupplierFinances({
@@ -394,47 +461,7 @@ export default function SupplierFinances({
         </div>
       )}
 
-      {Object.keys(fournisseur.parChantier).length > 0 && (
-        <div>
-          <h5 className="text-[11px] uppercase text-slate-500 mb-1">
-            Détail par chantier — {Object.keys(fournisseur.parChantier).length}
-          </h5>
-          <div className="overflow-x-auto max-h-40 overflow-y-auto">
-            <table className="w-full text-xs border-collapse">
-              <thead>
-                <tr className="text-left text-slate-500 border-b border-slate-200 sticky top-0 bg-slate-50">
-                  <th className="py-1 pr-2">Chantier</th>
-                  <th className="py-1 pr-2">Technicien</th>
-                  <th className="py-1 pr-2">Montant</th>
-                  <th className="py-1 pr-2">Nb factures</th>
-                  <th className="py-1 pr-2">À temps</th>
-                  <th className="py-1">En retard</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Object.entries(fournisseur.parChantier)
-                  .sort((a, b) => b[1].montantTotal - a[1].montantTotal)
-                  .map(([code, v]) => (
-                    <tr key={code} className="border-b border-slate-100">
-                      <td className="py-1 pr-2">
-                        <span
-                          className="inline-block w-2 h-2 rounded-full mr-1.5 align-middle"
-                          style={{ backgroundColor: chantierColor(v.consortium) }}
-                        />
-                        {chantierLabel(code, v.nom)}
-                      </td>
-                      <td className="py-1 pr-2 text-slate-500">{v.technicien ?? '—'}</td>
-                      <td className="py-1 pr-2">{formatCurrency(v.montantTotal)}</td>
-                      <td className="py-1 pr-2">{v.nbFactures}</td>
-                      <td className="py-1 pr-2 text-green-600">{v.nbATemps}</td>
-                      <td className="py-1 text-red-600">{v.nbEnRetard}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
+      {Object.keys(fournisseur.parChantier).length > 0 && <DetailChantiers fournisseur={fournisseur} />}
 
       {trancheData && trancheData.nbFactures > 0 && (
         <div>
