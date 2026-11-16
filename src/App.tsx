@@ -12,6 +12,7 @@ import EvaluationDashboard from './components/EvaluationDashboard'
 import SuiviBfaTab from './components/SuiviBfaTab'
 import AdminUsersTab from './components/AdminUsersTab'
 import LoginScreen from './components/LoginScreen'
+import ChangePasswordScreen from './components/ChangePasswordScreen'
 
 type View = 'dossiers' | 'fournisseurs' | 'evaluation' | 'depense' | 'bfa' | 'admin'
 
@@ -159,6 +160,8 @@ export default function App() {
         <p className="text-sm text-slate-500 text-center mt-10">Chargement…</p>
       ) : !session ? (
         <LoginScreen />
+      ) : session.user.user_metadata?.must_change_password ? (
+        <ChangePasswordScreen email={session.user.email ?? ''} onDone={() => getSession().then(setSession)} />
       ) : profileError ? (
         <div className="max-w-2xl mx-auto mt-10 px-4">
           <div className="card border-red-300 bg-red-50">

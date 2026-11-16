@@ -100,7 +100,7 @@ function CreateUserForm({ onCreated }: { onCreated: () => void }) {
   const [permissions, setPermissions] = useState<Record<PermissionKey, boolean>>({ ...EMPTY_PERMISSIONS })
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [created, setCreated] = useState<{ email: string; password: string } | null>(null)
+  const [created, setCreated] = useState<{ email: string; password: string; emailSent: boolean } | null>(null)
 
   function reset() {
     setFullName('')
@@ -115,8 +115,8 @@ function CreateUserForm({ onCreated }: { onCreated: () => void }) {
     setSaving(true)
     setError(null)
     try {
-      await createUserAccount({ fullName, email, password, isAdmin, adminConfirmationCode: adminCode, permissions })
-      setCreated({ email, password })
+      const { emailSent } = await createUserAccount({ fullName, email, password, isAdmin, adminConfirmationCode: adminCode, permissions })
+      setCreated({ email, password, emailSent })
       reset()
       onCreated()
     } catch (e) {
@@ -145,11 +145,20 @@ function CreateUserForm({ onCreated }: { onCreated: () => void }) {
 
       {created && (
         <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-sm">
-          Compte <strong>{created.email}</strong> créé. Il n'y a pas d'envoi d'e-mail automatique — communique ce mot
-          de passe temporaire à la personne toi-même :
-          <div className="font-mono bg-white border border-green-300 rounded px-2 py-1 mt-1 inline-block">
-            {created.password}
-          </div>
+          {created.emailSent ? (
+            <>
+              Compte <strong>{created.email}</strong> créé. Un e-mail avec le lien de l'application et le mot de passe
+              temporaire lui a été envoyé ; il choisira son propre mot de passe à sa première connexion.
+            </>
+          ) : (
+            <>
+              Compte <strong>{created.email}</strong> créé, mais l'e-mail automatique n'a pas pu être envoyé —
+              communique ce mot de passe temporaire à la personne toi-même :
+              <div className="font-mono bg-white border border-green-300 rounded px-2 py-1 mt-1 inline-block">
+                {created.password}
+              </div>
+            </>
+          )}
         </div>
       )}
 
@@ -346,8 +355,8 @@ export default function AdminUsersTab() {
         <h2 className="text-xl font-bold">Administration — comptes et accès</h2>
         <p className="text-sm text-slate-500 mt-1">
           Crée les comptes directement ici (adresses @induni.ch uniquement) et règle ce que chaque personne peut voir :
-          section entière (case du titre) ou sous-section par sous-section. Pas d'envoi d'e-mail automatique : le mot de passe temporaire s'affiche à l'écran, à toi de le
-          communiquer.
+          section entière (case du titre) ou sous-section par sous-section. À la création, la personne reçoit automatiquement un e-mail avec le lien et son mot de passe
+          temporaire, puis choisit le sien à sa première connexion (le mot de passe s'affiche aussi ici si l'envoi échoue).
         </p>
       </div>
 
