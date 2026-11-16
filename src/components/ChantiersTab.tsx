@@ -65,8 +65,9 @@ export default function ChantiersTab() {
   const [fournisseurs, setFournisseurs] = useState<DepenseFournisseur[] | null>(null)
   const [partielles, setPartielles] = useState<string[]>([])
   const [entite, setEntite] = useState('')
-  const [recherche, setRecherche] = useState('')
-  const [chantier, setChantier] = useState('')
+  const [numeroSaisi, setNumeroSaisi] = useState('')
+  const [nomSaisi, setNomSaisi] = useState('')
+  const [chantier, setChantier] = useState('') // code du chantier reconnu (vide = tous)
   const [fournisseur, setFournisseur] = useState('')
   const [annee, setAnnee] = useState('')
   const [vueFourn, setVueFourn] = useState<'annee' | 'trimestre'>('annee')
@@ -130,10 +131,42 @@ export default function ChantiersTab() {
   const labelChantier = (c: { code: string; nom: string | null }) => (c.nom ? `${c.code} - ${c.nom}` : `${c.code} (nom à renseigner)`)
   const nomChantierDe = useMemo(() => new Map(chantiers.map((c) => [c.code, labelChantier(c)])), [chantiers])
 
-  const chantiersListe = useMemo(() => {
-    const q = recherche.trim().toLowerCase()
-    return chantiers.filter((c) => (!entite || c.entite === entite) && (!q || labelChantier(c).toLowerCase().includes(q)))
-  }, [chantiers, entite, recherche])
+  // Suggestions des champs « N° chantier » / « Nom du chantier » : chantiers de l'entité choisie (tous sinon).
+  const chantiersListe = useMemo(() => chantiers.filter((c) => !entite || c.entite === entite), [chantiers, entite])
+
+  /** Saisie du n° : si un chantier correspond exactement, on remplit le nom (et l'entité) ; sinon plus de filtre chantier. */
+  function saisirNumero(v: string) {
+    setNumeroSaisi(v)
+    const c = chantiers.find((x) => x.code === v.trim())
+    if (c) {
+      setChantier(c.code)
+      setNomSaisi(c.nom ?? '')
+      if (c.entite && c.entite !== 'Sans entité') setEntite(c.entite)
+    } else {
+      setChantier('')
+    }
+  }
+
+  /** Saisie du nom : si un seul chantier porte ce nom (ou un seul dans l'entité choisie), on remplit le n°. */
+  function saisirNom(v: string) {
+    setNomSaisi(v)
+    const q = v.trim().toLowerCase()
+    const trouves = q ? chantiers.filter((x) => x.nom && x.nom.trim().toLowerCase() === q) : []
+    const c = trouves.length === 1 ? trouves[0] : trouves.find((x) => entite !== '' && x.entite === entite)
+    if (c) {
+      setChantier(c.code)
+      setNumeroSaisi(c.code)
+      if (c.entite && c.entite !== 'Sans entité') setEntite(c.entite)
+    } else {
+      setChantier('')
+    }
+  }
+
+  function effacerChantier() {
+    setChantier('')
+    setNumeroSaisi('')
+    setNomSaisi('')
+  }
 
   const nomsFournisseurs = useMemo(
     () => (fournisseurs ? [...new Set(fournisseurs.filter((f) => f.documents.length).map((f) => f.nom))].sort((a, b) => a.localeCompare(b)) : []),
@@ -309,10 +342,10 @@ export default function ChantiersTab() {
     <div className="space-y-4">
       <div className="card space-y-3">
         <h3 className="font-semibold">🏗 Dépense par chantier et par fournisseur</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
           <div>
             <label className="label">Entité</label>
-            <select className="input" value={entite} onChange={(e) => { setEntite(e.target.value); setChantier('') }}>
+            <select className="input" value={entite} onChange={(e) => { setEntite(e.target.value); effacerChantier() }}>
               <option value="">Toutes</option>
               {entites.map((e) => (
                 <option key={e} value={e}>
@@ -321,20 +354,24 @@ export default function ChantiersTab() {
               ))}
             </select>
           </div>
-          <div className="lg:col-span-2">
-            <label className="label">Chantier ({chantiersListe.length})</label>
-            <div className="flex gap-2">
-              <input className="input !w-32" placeholder="Filtrer…" value={recherche} onChange={(e) => setRecherche(e.target.value)} />
-              <select className="input" value={chantier} onChange={(e) => setChantier(e.target.value)}>
-                <option value="">Tous les chantiers</option>
-                {chantiersListe.map((c) => (
-                  <option key={c.code} value={c.code}>
-                    {labelChantier(c)} — {fmt(c.total)} CHF
-                  </option>
-                ))}
-              </select>
-            </div>
+          <div>
+            <label className="label">N° chantier</label>
+            <input className="input" list="chantiers-tab-numeros" placeholder="Tapez un numéro…" value={numeroSaisi} onChange={(e) => saisirNumero(e.target.value)} />
           </div>
+          <div>
+            <label className="label">Nom du chantier</label>
+            <input className="input" list="chantiers-tab-noms" placeholder="Tapez un nom…" value={nomSaisi} onChange={(e) => saisirNom(e.target.value)} />
+          </div>
+          <datalist id="chantiers-tab-numeros">
+            {chantiersListe.map((c) => (
+              <option key={c.code} value={c.code} label={c.nom ?? ''} />
+            ))}
+          </datalist>
+          <datalist id="chantiers-tab-noms">
+            {chantiersListe.filter((c) => c.nom).map((c) => (
+              <option key={c.code} value={c.nom!} label={c.code} />
+            ))}
+          </datalist>
           <div>
             <label className="label">Année</label>
             <select className="input" value={annee} onChange={(e) => setAnnee(e.target.value)}>
@@ -367,7 +404,7 @@ export default function ChantiersTab() {
             </div>
           </div>
           {(chantier || fournisseur || entite || annee) && (
-            <button className="text-xs text-indigo-600 hover:underline" onClick={() => { setChantier(''); setFournisseur(''); setEntite(''); setAnnee(''); setRecherche('') }}>
+            <button className="text-xs text-indigo-600 hover:underline" onClick={() => { effacerChantier(); setFournisseur(''); setEntite(''); setAnnee('') }}>
               Réinitialiser les filtres
             </button>
           )}
