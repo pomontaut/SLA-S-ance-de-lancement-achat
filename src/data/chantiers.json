@@ -10,8 +10,248 @@
 "entite": "BAT GE"
 },
 {
+"numero": "11904",
+"nom": "Quartier de l'Etang - Ilot C",
+"entite": "BAT GE"
+},
+{
+"numero": "11905",
+"nom": "Hugo de Senger",
+"entite": "BAT GE"
+},
+{
+"numero": "11906",
+"nom": "Armée du Salut",
+"entite": "BAT GE"
+},
+{
+"numero": "11907",
+"nom": "Ruth 24",
+"entite": "BAT GE"
+},
+{
+"numero": "11908",
+"nom": "Frontenex 51",
+"entite": "BAT GE"
+},
+{
+"numero": "11909",
+"nom": "Les Adrets",
+"entite": "BAT GE"
+},
+{
+"numero": "11910",
+"nom": "Halte CEVA A2",
+"entite": "BAT GE"
+},
+{
+"numero": "11911",
+"nom": "Hôtel des Bergues",
+"entite": "BAT GE"
+},
+{
+"numero": "11912",
+"nom": "Tir au Canon",
+"entite": "BAT GE"
+},
+{
+"numero": "11913",
+"nom": "Satigny",
+"entite": "BAT GE"
+},
+{
+"numero": "11914",
+"nom": "Servette 93",
+"entite": "BAT GE"
+},
+{
+"numero": "11914.1",
+"nom": "Servette 89",
+"entite": "BAT GE"
+},
+{
+"numero": "11915",
+"nom": "Pré Jérôme 12",
+"entite": "BAT GE"
+},
+{
+"numero": "12001",
+"nom": "Quartier de l'étang îlot A1-A2",
+"entite": "BAT GE"
+},
+{
+"numero": "12002",
+"nom": "Panoramic",
+"entite": "BAT GE"
+},
+{
+"numero": "12003",
+"nom": "MIES",
+"entite": "BAT GE"
+},
+{
+"numero": "12004",
+"nom": "Hive 8",
+"entite": "BAT GE"
+},
+{
+"numero": "12005",
+"nom": "Boisserette 11",
+"entite": "BAT GE"
+},
+{
+"numero": "12006",
+"nom": "Prulay",
+"entite": "BAT GE"
+},
+{
+"numero": "12007",
+"nom": "hôtel Ruby",
+"entite": "BAT GE"
+},
+{
+"numero": "12008",
+"nom": "Châtaigners",
+"entite": "BAT GE"
+},
+{
+"numero": "12009",
+"nom": "Passerelle des Avanchets",
+"entite": "BAT GE"
+},
+{
+"numero": "12010",
+"nom": "Quartier de l'étang îlot A4-A5",
+"entite": "BAT GE"
+},
+{
+"numero": "12011",
+"nom": "A1-Migros",
+"entite": "BAT GE"
+},
+{
+"numero": "12012",
+"nom": "Barilla",
+"entite": "BAT GE"
+},
+{
+"numero": "12013",
+"nom": "Bois-de-la-Chapelle",
+"entite": "BAT GE"
+},
+{
+"numero": "12014",
+"nom": "Pont-Rouge Esplanade 3 - B2",
+"entite": "BAT GE"
+},
+{
+"numero": "12016",
+"nom": "En Sauvy",
+"entite": "BAT GE"
+},
+{
+"numero": "12017",
+"nom": "Route de Lausanne 220",
+"entite": "BAT GE"
+},
+{
+"numero": "12101",
+"nom": "Mission d'Inde",
+"entite": "BAT GE"
+},
+{
+"numero": "12102",
+"nom": "Hôtel des archives",
+"entite": "BAT GE"
+},
+{
+"numero": "12103",
+"nom": "Divers chantiers Arbez",
+"entite": "BAT GE"
+},
+{
+"numero": "12104",
+"nom": "HEAD",
+"entite": "BAT GE"
+},
+{
+"numero": "12105",
+"nom": "Rampe de Chavant",
+"entite": "BAT GE"
+},
+{
+"numero": "12106",
+"nom": "Gilly 17",
+"entite": "BAT GE"
+},
+{
+"numero": "12107",
+"nom": "Contamines 23",
+"entite": "BAT GE"
+},
+{
+"numero": "12109",
+"nom": "François-Lehmann 2-4",
+"entite": "BAT GE"
+},
+{
+"numero": "12110",
+"nom": "Sécheron 2",
+"entite": "BAT GE"
+},
+{
+"numero": "12111",
+"nom": "Pré-Polly 3",
+"entite": "BAT GE"
+},
+{
+"numero": "12112",
+"nom": "Zurich 40",
+"entite": "BAT GE"
+},
+{
+"numero": "12113",
+"nom": "Poste Rive",
+"entite": "BAT GE"
+},
+{
 "numero": "12114",
 "nom": "Patek PPW",
+"entite": "BAT GE"
+},
+{
+"numero": "12115",
+"nom": "les 6 toits",
+"entite": "BAT GE"
+},
+{
+"numero": "12116",
+"nom": "Charvel 9",
+"entite": "BAT GE"
+},
+{
+"numero": "12117",
+"nom": "Fontaine 23",
+"entite": "BAT GE"
+},
+{
+"numero": "12201",
+"nom": "Hôtel Fairmont",
+"entite": "BAT GE"
+},
+{
+"numero": "12202",
+"nom": "EIG",
+"entite": "BAT GE"
+},
+{
+"numero": "12203",
+"nom": "Nant D'Aisy 14",
+"entite": "BAT GE"
+},
+{
+"numero": "12204",
+"nom": "Ruth 43",
 "entite": "BAT GE"
 },
 {
@@ -20,13 +260,88 @@
 "entite": "BAT GE"
 },
 {
+"numero": "12206",
+"nom": "Sous-le-Crêt",
+"entite": "BAT GE"
+},
+{
+"numero": "12207",
+"nom": "La Bâtie",
+"entite": "BAT GE"
+},
+{
+"numero": "12208",
+"nom": "Frémis",
+"entite": "BAT GE"
+},
+{
+"numero": "12209",
+"nom": "Ancien-Péage",
+"entite": "BAT GE"
+},
+{
+"numero": "12210",
+"nom": "Barton",
+"entite": "BAT GE"
+},
+{
+"numero": "12211",
+"nom": "Sacré-Coeur",
+"entite": "BAT GE"
+},
+{
+"numero": "12212",
+"nom": "Prévôté",
+"entite": "BAT GE"
+},
+{
+"numero": "12213",
+"nom": "Campus Biotech",
+"entite": "BAT GE"
+},
+{
+"numero": "12214",
+"nom": "Hôtel de police",
+"entite": "BAT GE"
+},
+{
+"numero": "12215",
+"nom": "Curé-Baud 38",
+"entite": "BAT GE"
+},
+{
+"numero": "12216",
+"nom": "Columbarium",
+"entite": "BAT GE"
+},
+{
+"numero": "12217",
+"nom": "Orubi",
+"entite": "BAT GE"
+},
+{
 "numero": "12218",
 "nom": "La Suettaz",
 "entite": "BAT GE"
 },
 {
+"numero": "12219",
+"nom": "Normandie 14",
+"entite": "BAT GE"
+},
+{
 "numero": "12220",
 "nom": "Grands-Esserts",
+"entite": "BAT GE"
+},
+{
+"numero": "12221",
+"nom": "IIL",
+"entite": "BAT GE"
+},
+{
+"numero": "12222",
+"nom": "Princes 4",
 "entite": "BAT GE"
 },
 {
@@ -40,6 +355,21 @@
 "entite": "BAT GE"
 },
 {
+"numero": "12301",
+"nom": "Piscine de Varembé",
+"entite": "BAT GE"
+},
+{
+"numero": "12302",
+"nom": "Campus Biotech B4",
+"entite": "BAT GE"
+},
+{
+"numero": "12303",
+"nom": "Sortie de secours - TPG",
+"entite": "BAT GE"
+},
+{
 "numero": "12304",
 "nom": "Plaza",
 "entite": "BAT GE"
@@ -47,6 +377,31 @@
 {
 "numero": "12305",
 "nom": "Emma-Kammacher 11",
+"entite": "BAT GE"
+},
+{
+"numero": "12306",
+"nom": "Ernest- Bloch 58",
+"entite": "BAT GE"
+},
+{
+"numero": "12307",
+"nom": "PK 11'000",
+"entite": "BAT GE"
+},
+{
+"numero": "12308",
+"nom": "Amandolier 19",
+"entite": "BAT GE"
+},
+{
+"numero": "12309",
+"nom": "CP ATELIERS",
+"entite": "BAT GE"
+},
+{
+"numero": "12310",
+"nom": "Divers Fremy",
 "entite": "BAT GE"
 },
 {
@@ -175,8 +530,28 @@
 "entite": "BAT GE"
 },
 {
+"numero": "15211",
+"nom": "Rue du Marché",
+"entite": "BAT GE"
+},
+{
 "numero": "15310",
 "nom": "STEP D'AIRE II",
+"entite": "BAT GE"
+},
+{
+"numero": "15407",
+"nom": "Gare des Eaux-Vives",
+"entite": "BAT GE"
+},
+{
+"numero": "15513",
+"nom": "PP6",
+"entite": "BAT GE"
+},
+{
+"numero": "15621",
+"nom": "Stellar 32",
 "entite": "BAT GE"
 },
 {
