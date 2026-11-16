@@ -3,7 +3,7 @@ import type { DepenseDocument, DepenseFournisseur } from '../data/depenses'
 import { anneeComptable, formatCurrency, loadDepensesFournisseurs, loadDepensesGlobal } from '../data/depenses'
 import { entiteLabel } from '../data/palette'
 import { dateFichier, exportXlsx } from '../lib/exportExcel'
-import { Anneau, BarresH, MoisChart, ParetoChart } from './DepenseCharts'
+import { Anneau, BarresH, EvolutionChart, MoisChart, ParetoChart } from './DepenseCharts'
 
 // Onglet « Chantiers » : dépense (montant pos., charges d'achat — voir CLAUDE.md) par chantier, par
 // mois et par année ; par fournisseur (année, trimestre, % de l'année) ; Pareto, Top 20, typologie
@@ -35,13 +35,14 @@ function BoutonExcel({ onClick }: { onClick: () => void }) {
   )
 }
 
-function Cell({ v, max, pct }: { v: number | undefined; max: number; pct?: number | null }) {
+function Cell({ v, max, pct, extra }: { v: number | undefined; max: number; pct?: number | null; extra?: { texte: string; rouge: boolean } | null }) {
   if (v === undefined || Math.abs(v) < 0.5) return <td className="py-1 px-2 text-right text-slate-300">—</td>
   const alpha = max > 0 ? Math.min(0.35, (Math.abs(v) / max) * 0.35) : 0
   return (
     <td className="py-1 px-2 text-right tabular-nums" style={{ backgroundColor: `rgba(79,70,229,${alpha})` }}>
       {fmt(v)}
       {pct != null && <div className="text-[10px] text-slate-500">{fmtPct(pct)}</div>}
+      {extra && <div className={`text-[10px] font-semibold ${extra.rouge ? 'text-red-600' : 'text-green-600'}`}>{extra.texte}</div>}
     </td>
   )
 }
@@ -72,6 +73,7 @@ export default function ChantiersTab() {
   const [annee, setAnnee] = useState('')
   const [vueFourn, setVueFourn] = useState<'annee' | 'trimestre'>('annee')
   const [tousFourn, setTousFourn] = useState(false)
+  const [fournSel, setFournSel] = useState<string | null>(null) // fournisseur dont on affiche l'évolution
   const [anneeIsolee, setAnneeIsolee] = useState<string | null>(null) // zoom sur une année dans l'histogramme
   const [anneeChantier, setAnneeChantier] = useState<string | null>(null) // null = année en cours (la plus récente)
 
@@ -238,6 +240,34 @@ export default function ChantiersTab() {
   }, [retenues, vueFourn])
   const maxFourn = Math.max(0, ...lignesFourn.flatMap((e) => Object.values(e.cols).map(Math.abs)))
   const totalFourn = lignesFourn.reduce((s, e) => s + e.total, 0)
+
+  // Évolution année après année du fournisseur cliqué (mêmes filtres entité / chantier, toutes années).
+  const evolution = useMemo(() => {
+    if (!fournSel) return null
+    const m = new Map<string, number>()
+    for (const l of lignes) {
+      if (l.fournisseur !== fournSel || !/^\d{4}$/.test(l.annee)) continue
+      if (chantier && l.doc.chantier !== chantier) continue
+      if (!chantier && entite && l.doc.entite !== entite) continue
+      m.set(l.annee, (m.get(l.annee) ?? 0) + l.montant)
+    }
+    const ans = [...m.keys()].sort()
+    return ans.map((a) => ({ annee: a, valeur: round2(m.get(a)!), partielle: partielles.includes(a) }))
+  }, [fournSel, lignes, chantier, entite, partielles])
+
+  function exportEvolution() {
+    if (!evolution || !fournSel) return
+    exportXlsx(`evolution_${fournSel.replace(/[^\w]+/g, '_')}_${dateFichier()}`, [
+      {
+        nom: 'Évolution',
+        lignes: [
+          [`${fournSel} — ${contexte}`],
+          ['Année', 'Montant CHF HT', 'Évolution vs année précédente %', 'Année partielle'],
+          ...evolution.map((p, i) => [p.annee, p.valeur, i > 0 && evolution[i - 1].valeur > 0 ? Math.round((p.valeur / evolution[i - 1].valeur) * 1000) / 10 : null, p.partielle ? 'oui' : 'non'] as (string | number | null)[]),
+        ],
+      },
+    ])
+  }
 
   function exportFourn() {
     const entete: (string | number | null)[] = ['Fournisseur']
@@ -497,6 +527,24 @@ export default function ChantiersTab() {
           </div>
         }
       >
+        {fournSel && evolution && (
+          <div className="border border-indigo-200 bg-indigo-50/40 rounded-lg p-3 space-y-2">
+            <div className="flex items-center justify-between gap-2 flex-wrap">
+              <h5 className="font-semibold text-sm">📈 Évolution — {fournSel}</h5>
+              <div className="flex items-center gap-2">
+                <BoutonExcel onClick={exportEvolution} />
+                <button className="text-xs text-slate-500 hover:text-slate-800" onClick={() => setFournSel(null)}>
+                  ✕ Fermer
+                </button>
+              </div>
+            </div>
+            <EvolutionChart points={evolution} />
+            <p className="text-[11px] text-slate-500">
+              Montants HT, {chantier ? 'sur le chantier choisi' : entite ? `entité ${entiteLabel(entite)}` : 'toutes entités'}, toutes années. Années complètes : variation par rapport à l'année précédente. Année partielle :
+              part déjà réalisée de l'année précédente — <span className="text-red-600 font-semibold">en rouge</span> tant que ce n'est pas 100 %, <span className="text-green-600 font-semibold">en vert</span> à partir de 100 %.
+            </p>
+          </div>
+        )}
         {lignesFourn.length === 0 ? (
           <p className="text-sm text-slate-500">Aucune dépense pour cette sélection.</p>
         ) : (
@@ -523,11 +571,29 @@ export default function ChantiersTab() {
                 <td className="py-1 px-2 text-right tabular-nums">{fmt(totalFourn)}</td>
               </tr>
               {lignesFourn.slice(0, tousFourn ? 200 : 25).map((e) => (
-                <tr key={e.nom} className="border-b border-slate-100">
-                  <td className="py-1 px-2 font-medium whitespace-nowrap">{e.nom}</td>
-                  {colonnes.map((c) => (
-                    <Cell key={c.cle} v={e.cols[c.cle]} max={maxFourn} pct={e.cols[c.cle] != null ? pctDe(e.cols[c.cle], totauxCol[c.cle] ?? 0) : null} />
-                  ))}
+                <tr
+                  key={e.nom}
+                  className={`border-b border-slate-100 cursor-pointer hover:bg-slate-50 ${fournSel === e.nom ? 'bg-indigo-50' : ''}`}
+                  title="Cliquer pour voir l'évolution année après année"
+                  onClick={() => setFournSel(fournSel === e.nom ? null : e.nom)}
+                >
+                  <td className="py-1 px-2 font-medium whitespace-nowrap">
+                    <span className="text-slate-400 mr-1">📈</span>
+                    {e.nom}
+                  </td>
+                  {colonnes.map((c) => {
+                    const precedente = vueFourn === 'annee' && partielles.includes(c.cle) ? e.cols[String(Number(c.cle) - 1)] : undefined
+                    const reel = precedente && precedente > 0 && e.cols[c.cle] != null ? (e.cols[c.cle] / precedente) * 100 : null
+                    return (
+                      <Cell
+                        key={c.cle}
+                        v={e.cols[c.cle]}
+                        max={maxFourn}
+                        pct={e.cols[c.cle] != null ? pctDe(e.cols[c.cle], totauxCol[c.cle] ?? 0) : null}
+                        extra={reel != null ? { texte: `${Math.round(reel)} % de ${Number(c.cle) - 1}`, rouge: reel < 100 } : null}
+                      />
+                    )
+                  })}
                   <td className="py-1 px-2 text-right font-semibold tabular-nums">
                     {fmt(e.total)}
                     <div className="text-[10px] font-normal text-slate-500">{fmtPct(pctDe(e.total, totalFourn))}</div>

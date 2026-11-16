@@ -283,3 +283,56 @@ export function Camembert({
     </div>
   )
 }
+
+/** Évolution annuelle (barres + courbe). Pour l'année partielle : « x % de N-1 », rouge si < 100 %. */
+export function EvolutionChart({ points }: { points: { annee: string; valeur: number; partielle: boolean }[] }) {
+  if (points.length === 0) return <p className="text-sm text-slate-500">Aucune donnée.</p>
+  const W = 640, H = 260, P = { t: 52, r: 16, b: 34, l: 52 }
+  const iw = W - P.l - P.r, ih = H - P.t - P.b
+  const max = Math.max(1, ...points.map((p) => p.valeur))
+  const gw = iw / points.length
+  const bw = Math.min(70, gw - 18)
+  const y = (v: number) => P.t + ih - (Math.max(0, v) / max) * ih
+  const cx = (i: number) => P.l + gw * i + gw / 2
+  const ligne = points.map((p, i) => `${cx(i)},${y(p.valeur)}`).join(' ')
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto max-w-2xl" role="img" aria-label="Évolution annuelle">
+      {[0, 0.5, 1].map((t) => (
+        <g key={t}>
+          <line x1={P.l} x2={W - P.r} y1={y(max * t)} y2={y(max * t)} stroke="#e2e8f0" />
+          <text x={P.l - 6} y={y(max * t)} textAnchor="end" dominantBaseline="middle" fontSize={10} fill="#94a3b8">
+            {fmtCompact(max * t)}
+          </text>
+        </g>
+      ))}
+      <polyline points={ligne} fill="none" stroke="#f59e0b" strokeWidth={2} strokeDasharray="4 3" />
+      {points.map((p, i) => (
+        <circle key={p.annee} cx={cx(i)} cy={y(p.valeur)} r={3.5} fill="#f59e0b" />
+      ))}
+      {points.map((p, i) => {
+        const prev = i > 0 ? points[i - 1].valeur : null
+        const pctPrev = prev && prev > 0 ? (p.valeur / prev) * 100 : null
+        // année complète : variation vs N-1 ; année partielle : part déjà réalisée de N-1
+        const texte = pctPrev == null ? '' : p.partielle ? `${Math.round(pctPrev)} % de ${points[i - 1].annee}` : `${pctPrev >= 100 ? '+' : '−'}${Math.abs(Math.round(pctPrev - 100))} %`
+        const couleur = pctPrev == null ? '#94a3b8' : pctPrev >= 100 ? '#16a34a' : '#dc2626'
+        return (
+          <g key={p.annee}>
+            <rect x={cx(i) - bw / 2} y={y(p.valeur)} width={bw} height={P.t + ih - y(p.valeur)} fill={p.partielle ? '#a5b4fc' : '#4f46e5'} rx={2}>
+              <title>{`${p.annee}${p.partielle ? ' (partielle)' : ''} : ${fmt(p.valeur)} CHF HT`}</title>
+            </rect>
+            <text x={cx(i)} y={y(p.valeur) - 28} textAnchor="middle" fontSize={11} fontWeight={600} fill="#1e293b">
+              {fmtCompact(p.valeur)}
+            </text>
+            <text x={cx(i)} y={y(p.valeur) - 14} textAnchor="middle" fontSize={10} fontWeight={600} fill={couleur}>
+              {texte}
+            </text>
+            <text x={cx(i)} y={H - 12} textAnchor="middle" fontSize={11} fill="#475569">
+              {p.annee}
+              {p.partielle ? ' (partielle)' : ''}
+            </text>
+          </g>
+        )
+      })}
+    </svg>
+  )
+}
