@@ -51,20 +51,27 @@ const EMPTY_FORM: NewEvaluationFormulaire = {
   evaluateur: '',
 }
 
+const NOTE_COULEURS: Record<number, string> = { 0: '#b91c1c', 1: '#ea580c', 2: '#ca8a04', 3: '#65a30d', 4: '#15803d' }
+
 function NoteSelect({ value, onChange }: { value: number | null; onChange: (v: number | null) => void }) {
   return (
-    <select
-      className="input !w-[4.5rem] !py-1 !px-1.5 text-xs"
-      value={value ?? ''}
-      onChange={(e) => onChange(e.target.value === '' ? null : Number(e.target.value))}
-    >
-      <option value="">—</option>
-      {NOTE_OPTIONS.map((n) => (
-        <option key={n} value={n}>
-          {n} / 4
-        </option>
-      ))}
-    </select>
+    <div className="inline-flex gap-1" role="group">
+      {NOTE_OPTIONS.map((n) => {
+        const actif = value === n
+        return (
+          <button
+            key={n}
+            type="button"
+            title={actif ? 'Cliquer pour effacer' : `Note ${n} / 4`}
+            className="w-9 h-8 rounded-md border text-sm font-semibold transition-colors"
+            style={actif ? { backgroundColor: NOTE_COULEURS[n], borderColor: NOTE_COULEURS[n], color: 'white' } : { backgroundColor: 'white', borderColor: '#cbd5e1', color: '#475569' }}
+            onClick={() => onChange(actif ? null : n)}
+          >
+            {n}
+          </button>
+        )
+      })}
+    </div>
   )
 }
 
@@ -338,11 +345,7 @@ export default function FormulaireEvaluationTab() {
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-4">
       <div>
         <h2 className="text-xl font-bold">Formulaire d'évaluation</h2>
-        <p className="text-sm text-slate-500 mt-1">
-          Les critères affichés dépendent de la famille choisie (Fournisseurs, Sous-traitants, Transporteurs…), sur le
-          même modèle que l'évaluation annuelle de référence. Vous pouvez enchaîner l'évaluation de plusieurs
-          fournisseurs à la suite.
-        </p>
+        <p className="text-sm text-slate-500 mt-1">Trois étapes : le chantier, le fournisseur, les notes. Pour un chantier connu, tous ses fournisseurs sont proposés et s’enchaînent.</p>
       </div>
 
       {error && <div className="text-sm text-red-600">{error}</div>}
@@ -380,30 +383,7 @@ export default function FormulaireEvaluationTab() {
             </div>
           </div>
         )}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="label">Famille</label>
-            <select className="input" value={form.famille} onChange={(e) => setFamille(e.target.value)}>
-              {FAMILLES_EVALUATION.map((f) => (
-                <option key={f.famille} value={f.famille}>
-                  {f.famille}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="label">Fournisseur</label>
-            <div className="flex gap-2">
-              <input className="input bg-slate-50" readOnly value={form.fournisseurNom} placeholder="Aucun fournisseur choisi" />
-              {!serie && (
-                <button type="button" className="btn-secondary whitespace-nowrap" onClick={() => setPickerOpen(true)}>
-                  Choisir…
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-
+        <h3 className="font-semibold text-sm uppercase text-slate-500">1 · Chantier</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="label">Entité</label>
@@ -571,25 +551,54 @@ export default function FormulaireEvaluationTab() {
           </div>
         )}
 
+        <h3 className="font-semibold text-sm uppercase text-slate-500">2 · Fournisseur</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="label">Famille</label>
+            <select className="input" value={form.famille} onChange={(e) => setFamille(e.target.value)}>
+              {FAMILLES_EVALUATION.map((f) => (
+                <option key={f.famille} value={f.famille}>
+                  {f.famille}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="label">Fournisseur</label>
+            <div className="flex gap-2">
+              <input className="input bg-slate-50" readOnly value={form.fournisseurNom} placeholder="Aucun fournisseur choisi" />
+              {!serie && (
+                <button type="button" className="btn-secondary whitespace-nowrap" onClick={() => setPickerOpen(true)}>
+                  Choisir…
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
         <div>
           <h3 className="font-semibold mb-3 text-sm uppercase text-slate-500">
-            Critères — {form.famille}
+            3 · Notes — {form.famille}
             {form.famille !== 'FOURNISSEURS' &&
               (form.famille === 'FOURNISSEURS (SANS FACTURATION DIRECTE)' || form.famille === 'MARCHANDS') && (
                 <span className="normal-case font-normal text-slate-400"> (mêmes critères que Fournisseurs)</span>
               )}
           </h3>
-          <div className="grid grid-cols-[minmax(0,1fr)_4.5rem] gap-x-3 gap-y-1.5 items-center">
+          <p className="text-xs text-slate-500 mb-2">0 = très insuffisant · 4 = excellent. Un critère non concerné peut rester vide.</p>
+          <div className="divide-y divide-slate-100 border border-slate-200 rounded-lg">
             {criteres.map((label) => (
-              <Fragment key={label}>
-                <span className="text-sm truncate" title={label}>
-                  {label}
-                </span>
+              <div key={label} className="flex items-center justify-between gap-3 px-3 py-2 flex-wrap">
+                <span className="text-sm flex-1 min-w-[220px]">{label}</span>
                 <NoteSelect value={form.criteres[label] ?? null} onChange={(v) => setCritere(label, v)} />
-              </Fragment>
+              </div>
             ))}
           </div>
-          <div className="mt-3 text-sm font-medium">Moyenne : {form.moyenne != null ? `${form.moyenne} / 4` : '—'}</div>
+          <div className="mt-3 flex items-center gap-4 text-sm">
+            <span className="font-semibold">Moyenne : {form.moyenne != null ? `${form.moyenne.toLocaleString('fr-CH', { minimumFractionDigits: 1, maximumFractionDigits: 2 })} / 4` : '—'}</span>
+            <span className="text-slate-500">
+              {criteres.filter((c) => form.criteres[c] != null).length} / {criteres.length} critères notés
+            </span>
+          </div>
         </div>
 
         <div>
@@ -602,7 +611,7 @@ export default function FormulaireEvaluationTab() {
           <input className="input" value={form.evaluateur} onChange={(e) => set('evaluateur', e.target.value)} />
         </div>
 
-        <div className="flex flex-wrap gap-2 pt-2 border-t border-slate-200">
+        <div className="flex flex-wrap gap-2 pt-3 pb-2 border-t border-slate-200 sticky bottom-0 bg-white z-10">
           {serie ? (
             <>
               <button className="btn-primary" disabled={saving} onClick={enregistrerEtSuivant}>
