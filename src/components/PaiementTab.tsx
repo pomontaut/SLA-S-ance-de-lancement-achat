@@ -40,10 +40,11 @@ function Section({ titre, onExcel, children, aide }: { titre: string; onExcel?: 
   )
 }
 
-function Tuile({ label, valeur, sous, ton }: { label: string; valeur: string; sous?: string; ton?: 'bon' | 'moyen' | 'mauvais' }) {
+function Tuile({ label, valeur, sous, ton, periode }: { label: string; valeur: string; sous?: string; ton?: 'bon' | 'moyen' | 'mauvais'; periode?: string }) {
   const couleur = ton === 'bon' ? 'text-green-600' : ton === 'mauvais' ? 'text-red-600' : ton === 'moyen' ? 'text-amber-600' : 'text-indigo-600'
   return (
     <div className="card text-center py-4">
+      {periode && <div className="inline-block text-[10px] font-semibold uppercase tracking-wide rounded bg-slate-100 text-slate-600 px-1.5 py-0.5 mb-1">{periode}</div>}
       <div className={`text-2xl font-bold ${couleur}`}>{valeur}</div>
       <div className="text-xs text-slate-500 mt-1">{label}</div>
       {sous && <div className="text-[11px] text-slate-400 mt-0.5">{sous}</div>}
@@ -54,6 +55,7 @@ function Tuile({ label, valeur, sous, ton }: { label: string; valeur: string; so
 export default function PaiementTab({ onZoom }: { onZoom?: (nom: string) => void }) {
   const [fournisseurs, setFournisseurs] = useState<DepenseFournisseur[] | null>(null)
   const [comptabilises, setComptabilises] = useState<Record<string, number>>({}) // escomptes comptabilisés (compte 702) par année
+  const [partielles, setPartielles] = useState<string[]>([])
   const [escReels, setEscReels] = useState<Record<string, number>>({})
   const partage = useFiltresSpend()
   const [localEntite, setLocalEntite] = useState('')
@@ -70,6 +72,7 @@ export default function PaiementTab({ onZoom }: { onZoom?: (nom: string) => void
       const m: Record<string, number> = {}
       for (const d of g.exclusionsCompte?.details ?? []) if (d.compte === '702') m[d.annee] = (m[d.annee] ?? 0) + d.montant
       setComptabilises(m)
+      setPartielles(Object.keys(g.anneesPartielles ?? {}))
     })
   }, [])
 
@@ -180,6 +183,7 @@ export default function PaiementTab({ onZoom }: { onZoom?: (nom: string) => void
     return { mieux: [...l].sort((a, b) => a.moyen - b.moyen).slice(0, 20), pire: [...l].sort((a, b) => b.moyen - a.moyen).slice(0, 20), nb: l.length }
   }, [selection])
 
+  const libAn = toutes ? 'Toutes années' : partielles.includes(anneeSel) ? `${anneeSel} (partielle)` : anneeSel
   const contexte = [entite ? entiteLabel(entite) : 'Toutes entités', toutes ? 'Toutes années' : anneeSel].join(' · ')
 
   function exporterAnnees() {
@@ -199,7 +203,7 @@ export default function PaiementTab({ onZoom }: { onZoom?: (nom: string) => void
   return (
     <div className="space-y-4">
       <div className="card space-y-3">
-        <h3 className="font-semibold">💳 Paiement des fournisseurs</h3>
+        <h3 className="font-semibold">💳 Paiement des fournisseurs — {libAn}</h3>
         {!partage && (
           <>
         <div className="flex flex-wrap items-center gap-1.5">
@@ -227,19 +231,19 @@ export default function PaiementTab({ onZoom }: { onZoom?: (nom: string) => void
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <Tuile label={`Taux de paiement à l'échéance (objectif ≥ ${SEUIL_TAUX} %)`} valeur={kpi.taux != null ? `${fmt1(kpi.taux)} %` : '—'} sous={`${fmt(kpi.nbATemps)} à temps / ${fmt(kpi.nbPayees + kpi.nbImpayeesEchues)} factures`} ton={tonTaux} />
-        <Tuile label="Retard moyen (factures payées en retard)" valeur={kpi.retardMoyen != null ? `${fmt1(kpi.retardMoyen)} j` : '—'} sous={`${fmt(kpi.nbRetard)} factures en retard`} ton="mauvais" />
-        <Tuile label="Délai moyen de paiement (DPO, TTC)" valeur={!toutes && ligneAnnee?.dpo != null ? `${fmt1(ligneAnnee.dpo)} j` : '—'} sous={toutes ? 'voir le tableau par année' : '(dettes ÷ achats) × jours'} />
-        <Tuile label="Délai de traitement interne (indicatif)" valeur={kpi.interneMoyen != null ? `${fmt1(kpi.interneMoyen)} j` : '—'} sous={kpi.interneMedian != null ? `médiane ${kpi.interneMedian} j · mise à disposition − date facture` : undefined} />
-        <Tuile
+        <Tuile periode={libAn} label={`Taux de paiement à l'échéance (objectif ≥ ${SEUIL_TAUX} %)`} valeur={kpi.taux != null ? `${fmt1(kpi.taux)} %` : '—'} sous={`${fmt(kpi.nbATemps)} à temps / ${fmt(kpi.nbPayees + kpi.nbImpayeesEchues)} factures`} ton={tonTaux} />
+        <Tuile periode={libAn} label="Retard moyen (factures payées en retard)" valeur={kpi.retardMoyen != null ? `${fmt1(kpi.retardMoyen)} j` : '—'} sous={`${fmt(kpi.nbRetard)} factures en retard`} ton="mauvais" />
+        <Tuile periode={libAn} label="Délai moyen de paiement (DPO, TTC)" valeur={!toutes && ligneAnnee?.dpo != null ? `${fmt1(ligneAnnee.dpo)} j` : '—'} sous={toutes ? 'voir le tableau par année' : '(dettes ÷ achats) × jours'} />
+        <Tuile periode={libAn} label="Délai de traitement interne (indicatif)" valeur={kpi.interneMoyen != null ? `${fmt1(kpi.interneMoyen)} j` : '—'} sous={kpi.interneMedian != null ? `médiane ${kpi.interneMedian} j · mise à disposition − date facture` : undefined} />
+        <Tuile periode={libAn}
           label="Escomptes réalisés (pris au paiement, HT)"
           valeur={`${fmt(kpi.escOb)} CHF`}
           ton="bon"
           sous={`écart réel facture − montant payé · ${fmt(selection.filter((f) => f.escReel > 0).length)} factures`}
         />
-        <Tuile label="Escomptes perdus (HT)" valeur={`${fmt(kpi.escPerdu)} CHF`} ton="mauvais" sous={`non pris alors que la condition le prévoit (payé hors délai ou pas encore payé) — possible au total : ${fmt(kpi.escOb + kpi.escPerdu)} CHF`} />
-        <Tuile label="Montant échu non payé (HT)" valeur={`${fmt(totalEchu)} CHF`} ton="moyen" sous={`${fmt(balance.reduce((t, b) => t + b.nb, 0))} factures`} />
-        <Tuile label="Factures analysées" valeur={fmt(kpi.nb)} sous={contexte} />
+        <Tuile periode={libAn} label="Escomptes perdus (HT)" valeur={`${fmt(kpi.escPerdu)} CHF`} ton="mauvais" sous={`non pris alors que la condition le prévoit (payé hors délai ou pas encore payé) — possible au total : ${fmt(kpi.escOb + kpi.escPerdu)} CHF`} />
+        <Tuile periode={libAn} label="Montant échu non payé (HT)" valeur={`${fmt(totalEchu)} CHF`} ton="moyen" sous={`${fmt(balance.reduce((t, b) => t + b.nb, 0))} factures`} />
+        <Tuile periode={libAn} label="Factures analysées" valeur={fmt(kpi.nb)} sous={contexte} />
       </div>
 
       <Section titre="Indicateurs par année" onExcel={exporterAnnees} aide="Le DPO retient les factures de l'année impayées à la clôture (31.12, ou la date d'arrêt pour l'année en cours). Le délai interne est indicatif : les journaux ne contiennent pas la date de validation ni de réception, seulement la mise à disposition au paiement.">
