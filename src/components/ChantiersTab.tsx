@@ -263,7 +263,7 @@ export default function ChantiersTab() {
 
   function exportPareto() {
     let cum = 0
-    const lignesX: (string | number | null)[][] = [['Rang', 'Fournisseur', 'Montant CHF', '% de la dépense', '% cumulé', 'Classe (A ≤ 80 %, B ≤ 95 %, C)']]
+    const lignesX: (string | number | null)[][] = [['Rang', 'Fournisseur', 'Montant CHF HT', '% de la dépense', '% cumulé', 'Classe (A ≤ 80 %, B ≤ 95 %, C)']]
     fournPositifs.forEach((e, i) => {
       cum += e.total
       const pc = (cum / totalPositif) * 100
@@ -276,7 +276,7 @@ export default function ChantiersTab() {
   const top20 = fournPositifs.slice(0, 20)
   function exportTop20() {
     let cum = 0
-    const lignesX: (string | number | null)[][] = [['Rang', 'Fournisseur', 'Montant CHF', '% de la dépense', '% cumulé']]
+    const lignesX: (string | number | null)[][] = [['Rang', 'Fournisseur', 'Montant CHF HT', '% de la dépense', '% cumulé']]
     top20.forEach((e, i) => {
       cum += e.total
       lignesX.push([i + 1, e.nom, round2(e.total), pctDe(e.total, totalPositif), pctDe(cum, totalPositif)])
@@ -302,7 +302,7 @@ export default function ChantiersTab() {
     exportXlsx(`typologie_fournisseurs_${dateFichier()}`, [
       {
         nom: 'Typologie',
-        lignes: [[contexte], ['Typologie (famille d\'achat)', 'Montant CHF', '% de la dépense', 'Fournisseurs', 'Documents'], ...typologie.map((e) => [e.famille, round2(e.total), pctDe(e.total, totalTypo), e.fournisseurs.size, e.nb] as (string | number | null)[])],
+        lignes: [[contexte], ['Typologie (famille d\'achat)', 'Montant CHF HT', '% de la dépense', 'Fournisseurs', 'Documents'], ...typologie.map((e) => [e.famille, round2(e.total), pctDe(e.total, totalTypo), e.fournisseurs.size, e.nb] as (string | number | null)[])],
       },
     ])
   }
@@ -329,7 +329,7 @@ export default function ChantiersTab() {
     exportXlsx(`depense_par_chantier_${anneeSection}_${dateFichier()}`, [
       {
         nom: `Chantiers ${anneeSection}`,
-        lignes: [[`${contexte} — chantiers ${anneeSection}`], ['Chantier', 'Montant CHF', '% de la dépense', 'Documents'], ...parChantier.map((e) => [e.label, round2(e.total), pctDe(e.total, totalChantiers), e.nb] as (string | number | null)[])],
+        lignes: [[`${contexte} — chantiers ${anneeSection}`], ['Chantier', 'Montant CHF HT', '% de la dépense', 'Documents'], ...parChantier.map((e) => [e.label, round2(e.total), pctDe(e.total, totalChantiers), e.nb] as (string | number | null)[])],
       },
     ])
   }
@@ -411,7 +411,7 @@ export default function ChantiersTab() {
         </div>
       </div>
 
-      <Section titre="Par mois et par année (CHF)" onExcel={matriceMois.length ? exportMois : undefined}>
+      <Section titre="Par mois et par année (CHF HT)" onExcel={matriceMois.length ? exportMois : undefined}>
         {matriceMois.length === 0 ? (
           <p className="text-sm text-slate-500">Aucune dépense pour cette sélection.</p>
         ) : (
@@ -480,7 +480,7 @@ export default function ChantiersTab() {
       </Section>
 
       <Section
-        titre="Par fournisseur (CHF et % de la période)"
+        titre="Par fournisseur (CHF HT et % de la période)"
         onExcel={lignesFourn.length ? exportFourn : undefined}
         aide={
           <div className="flex gap-1">
@@ -570,7 +570,7 @@ export default function ChantiersTab() {
               <thead>
                 <tr className="text-left text-slate-500 border-b border-slate-200">
                   <th className="py-1 px-2">Typologie (famille d'achat)</th>
-                  <th className="py-1 px-2 text-right">Montant (CHF)</th>
+                  <th className="py-1 px-2 text-right">Montant HT (CHF)</th>
                   <th className="py-1 px-2 text-right">%</th>
                   <th className="py-1 px-2 text-right">Fournisseurs</th>
                 </tr>

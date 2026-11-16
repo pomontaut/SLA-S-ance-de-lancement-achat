@@ -374,9 +374,9 @@ export default function FormulaireEvaluationTab() {
               <div className="h-full bg-indigo-500" style={{ width: `${(serie.index / serie.liste.length) * 100}%` }} />
             </div>
             <div className="text-xs text-slate-600">
-              <span className="font-medium">{serie.liste[serie.index].nom}</span> · dépense {serie.liste[serie.index].ca.toLocaleString('fr-CH', { maximumFractionDigits: 0 })} CHF ·{' '}
+              <span className="font-medium">{serie.liste[serie.index].nom}</span> · dépense HT {serie.liste[serie.index].ca.toLocaleString('fr-CH', { maximumFractionDigits: 0 })} CHF ·{' '}
               {serie.liste[serie.index].nbFactures} facture(s)
-              {serie.liste[serie.index].panier != null && <> · panier moyen {serie.liste[serie.index].panier!.toLocaleString('fr-CH')} CHF</>}
+              {serie.liste[serie.index].panier != null && <> · panier moyen HT {serie.liste[serie.index].panier!.toLocaleString('fr-CH')} CHF</>}
             </div>
           </div>
         )}
@@ -459,7 +459,7 @@ export default function FormulaireEvaluationTab() {
                 Fournisseurs du chantier {depenseChantier.code} - {form.nomChantier}
               </h3>
               <span className="text-xs text-slate-500">
-                Dépense totale sur la période : {depenseChantier.lignes.reduce((t, l) => t + l.ca, 0).toLocaleString('fr-CH', { maximumFractionDigits: 0 })} CHF
+                Dépense totale HT sur la période : {depenseChantier.lignes.reduce((t, l) => t + l.ca, 0).toLocaleString('fr-CH', { maximumFractionDigits: 0 })} CHF
               </span>
             </div>
 
@@ -497,8 +497,8 @@ export default function FormulaireEvaluationTab() {
                       <th className="py-1.5 px-2 w-8">À évaluer</th>
                       <th className="py-1.5 px-2">Fournisseur</th>
                       <th className="py-1.5 px-2 text-right">Factures</th>
-                      <th className="py-1.5 px-2 text-right">CA (CHF)</th>
-                      <th className="py-1.5 px-2 text-right">Panier moyen</th>
+                      <th className="py-1.5 px-2 text-right">CA HT (CHF)</th>
+                      <th className="py-1.5 px-2 text-right">Panier moyen HT</th>
                     </tr>
                   </thead>
                   <tbody>

@@ -559,7 +559,7 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
         nom,
         lignes: [
           [contexteXls],
-          [colonne, 'Montant CHF', '% du total', 'Documents', 'Payés à temps (nb)', 'Payés à temps (CHF)', 'En retard (nb)', 'En retard (CHF)'],
+          [colonne, 'Montant CHF HT', '% du total', 'Documents', 'Payés à temps (nb)', 'Payés à temps (CHF HT)', 'En retard (nb)', 'En retard (CHF HT)'],
           ...rows.map(([k, v]) => [k, v.montantTotal, pct(v.montantTotal, total), v.nbDocuments, v.nbATemps, v.montantATemps, v.nbEnRetard, v.montantEnRetard] as (string | number | null)[]),
         ],
       },
@@ -576,8 +576,8 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
     <div className="space-y-4">
       <div className="card bg-amber-50 border border-amber-200">
         <p className="text-xs text-amber-800">
-          <strong>Méthodologie :</strong> tous les montants ci-dessous utilisent la colonne « Montant pos. » du
-          journal comptable (et non le montant brut du document, qui peut différer d'une allocation). L'échéance
+          <strong>Méthodologie :</strong> tous les montants ci-dessous sont <strong>HT (hors TVA)</strong> : montant du journal
+          comptable moins l'impôt préalable (TVA) de chaque document — notes de crédit comprises. L'échéance
           de paiement est estimée par <em>Date doc. + nombre de jours de la condition de paiement</em> (ex. « 30
           JOURS NET » → 30 jours) : les conditions avec escompte n'indiquent pas toujours le délai net réel dans ce
           fichier. Le taux de retard constaté ci-dessous est élevé (délai médian observé ≈ 73 jours pour un délai
@@ -648,11 +648,11 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <StatTile
-          label="Dépense totale (montant pos.)"
+          label="Dépense totale HT (hors TVA)"
           value={formatCurrency(g.montantTotal)}
           title={[
             data.exclusions
-              ? `${formatCurrency(data.exclusions.montantTotal)} exclus (${data.exclusions.nbLignes} ligne(s)) : ${data.exclusions.details.map((e) => `${e.nom} (${formatCurrency(e.montant)}) — ${e.motif}`).join(' · ')}`
+              ? `${formatCurrency(data.exclusions.montantTotal)} exclus (${data.exclusions.nbLignes} ligne(s), montants TTC) : ${data.exclusions.details.map((e) => `${e.nom} (${formatCurrency(e.montant)}) — ${e.motif}`).join(' · ')}`
               : null,
             data.exclusionsCompte
               ? `Plan comptable : ${formatCurrency(data.exclusionsCompte.montantTotal)} retirés (${data.exclusionsCompte.nbLignes} document(s) hors charges d'achat — ${data.exclusionsCompte.details.slice(0, 6).map((e) => `${e.compte} ${e.libelle || ''} ${e.annee}: ${formatCurrency(e.montant)}`).join(' · ')}). ${data.exclusionsCompte.regle}`
@@ -773,7 +773,7 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
                       nom: 'Par chantier',
                       lignes: [
                         [contexteXls],
-                        ['Chantier', 'Technicien', 'Montant CHF', '% du total', 'Documents', 'Factures', 'Payés à temps (CHF)', 'En retard (CHF)'],
+                        ['Chantier', 'Technicien', 'Montant CHF HT', '% du total', 'Documents', 'Factures', 'Payés à temps (CHF HT)', 'En retard (CHF HT)'],
                         ...chantierEff.rows.map((c) => [chantierLabel(c.code, c.nom), c.technicien, c.montantTotal, pct(c.montantTotal, g.montantTotal), c.nbDocuments, c.nbFactures, c.montantATemps, c.montantEnRetard] as (string | number | null)[]),
                       ],
                     },
@@ -803,7 +803,7 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
                   exportXlsx(`repartition_factures_${dateFichier()}`, [
                     {
                       nom: 'Tranches',
-                      lignes: [[contexteXls], ['Tranche', 'Nb factures', '% du nombre', 'Montant CHF', '% du montant'], ...tranchesEff.tranches.map((t) => [t.label, t.nbFactures, t.pctNb, t.montantFactures, t.pctMontant] as (string | number | null)[])],
+                      lignes: [[contexteXls], ['Tranche', 'Nb factures', '% du nombre', 'Montant CHF HT', '% du montant'], ...tranchesEff.tranches.map((t) => [t.label, t.nbFactures, t.pctNb, t.montantFactures, t.pctMontant] as (string | number | null)[])],
                     },
                   ])
               : undefined
@@ -833,7 +833,7 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
                   exportXlsx(`top20_fournisseurs_${dateFichier()}`, [
                     {
                       nom: 'Top 20',
-                      lignes: [[contexteXls], ['Rang', 'Fournisseur', 'Montant CHF', '% du total', '% cumulé'], ...top20ForEntite.map((f, i) => { cum += f.montant; return [i + 1, f.nom, f.montant, pct(f.montant, g.montantTotal), pct(cum, g.montantTotal)] as (string | number | null)[] })],
+                      lignes: [[contexteXls], ['Rang', 'Fournisseur', 'Montant CHF HT', '% du total', '% cumulé'], ...top20ForEntite.map((f, i) => { cum += f.montant; return [i + 1, f.nom, f.montant, pct(f.montant, g.montantTotal), pct(cum, g.montantTotal)] as (string | number | null)[] })],
                     },
                   ])
                 }
@@ -867,7 +867,7 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
               exportXlsx(`top20_groupes_${dateFichier()}`, [
                 {
                   nom: 'Top 20 groupes',
-                  lignes: [[contexteXls], ['Rang', 'Groupe', 'Filiale du', 'Fournisseurs du groupe', 'Montant CHF', '% du total', '% cumulé'], ...groupesEff.slice(0, 20).map((gr, i) => { cum += gr.montantTotal; return [i + 1, gr.nom, gr.parent ?? null, gr.membres.join(' ; '), gr.montantTotal, pct(gr.montantTotal, g.montantTotal), pct(cum, g.montantTotal)] as (string | number | null)[] })],
+                  lignes: [[contexteXls], ['Rang', 'Groupe', 'Filiale du', 'Fournisseurs du groupe', 'Montant CHF HT', '% du total', '% cumulé'], ...groupesEff.slice(0, 20).map((gr, i) => { cum += gr.montantTotal; return [i + 1, gr.nom, gr.parent ?? null, gr.membres.join(' ; '), gr.montantTotal, pct(gr.montantTotal, g.montantTotal), pct(cum, g.montantTotal)] as (string | number | null)[] })],
                 },
               ])
             }}

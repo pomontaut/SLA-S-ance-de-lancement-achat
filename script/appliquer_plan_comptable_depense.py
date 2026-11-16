@@ -40,13 +40,18 @@ def classer(cpts):
     return None
 
 
-def lire_compile(path, comptes):
+def lire_compile(path, comptes, taux):
     ws = openpyxl.load_workbook(path, read_only=True, data_only=True).worksheets[0]
     it = ws.iter_rows(values_only=True)
     i = {n: k for k, n in enumerate(next(it))}
     for r in it:
         if r[i["N° doc"]] is not None:
-            comptes[(AFF[r[i["Aff."]]], int(r[i["N° doc"]]))] = [str(r[i["Cpt Débit"]])]
+            cle = (AFF[r[i["Aff."]]], int(r[i["N° doc"]]))
+            comptes[cle] = [str(r[i["Cpt Débit"]])]
+            try:
+                taux[cle] = float(r[i["%TVA"]] or 0)
+            except (TypeError, ValueError):
+                taux[cle] = 0.0
 
 
 def fusionner_alias(F):
@@ -73,6 +78,39 @@ def fusionner_alias(F):
             par_nfr.pop(a, None)
             n += 1
     print(f"{n} fiche(s) fournisseur fusionnée(s) par alias")
+
+
+def convertir_ht(F, tva_docs, taux):
+    """Passe tous les montants de TTC en HT (hors TVA). TVA réelle du document quand l'export brut est
+    disponible (HT = montant + ligne d'impôt préalable), sinon taux du journal compilé
+    (HT = TTC / (1 + taux)). Le montant de TVA est gardé dans `tva` (positif sur une facture)."""
+    n = collections.Counter()
+    tot_ttc = tot_ht = 0.0
+    introuvables = [0, 0.0]
+    for f in F:
+        for d in f["documents"]:
+            m = d.get("montant")
+            if m is None:
+                continue
+            k = (d["aff"], d["docno"])
+            if k in tva_docs:
+                delta, src = tva_docs[k], "journal brut"
+            elif k in taux:
+                if not taux[k]:
+                    n["TVA nulle (0 %)"] += 1
+                    continue
+                delta, src = -round(m * taux[k] / (100 + taux[k]), 2), "taux du journal compilé"
+            else:
+                n["INTROUVABLE dans les journaux (gardé tel quel)"] += 1
+                introuvables[0] += 1; introuvables[1] += m
+                continue
+            d["montant"] = round(m + delta, 2)
+            if abs(delta) >= 0.005:
+                d["tva"] = round(-delta, 2)
+            n[src] += 1
+            tot_ttc += m; tot_ht += d["montant"]
+    print(f"Documents introuvables dans les journaux (montant laissé tel quel) : {introuvables[0]}, {introuvables[1]/1e6:.2f} M CHF")
+    print(f"\n=== Passage en HT : {dict(n)} ; TTC {tot_ttc/1e6:.1f} M → HT {tot_ht/1e6:.1f} M (TVA {(tot_ttc-tot_ht)/1e6:.1f} M, {100*(tot_ttc-tot_ht)/tot_ttc:.1f} %)")
 
 
 def appliquer_exclusions(F, G):
@@ -110,7 +148,7 @@ def importer(F, G, docs_bruts):
             continue
         nfr, nom = alias.get(d["nfr"], (d["nfr"], d["nom"]))
         if nfr in excl or d["nfr"] in excl:
-            exclus[nfr] += d.get("montantDoc") or 0; ajoutes["exclus"] += 1; continue
+            exclus[nfr] += (d.get("montantDoc") or 0) + (d.get("tva") or 0); ajoutes["exclus"] += 1; continue
         doc = I.construire(d, ctx)
         if doc["chantier"] and doc["chantier"] not in ctx["entite"]:
             sans_chantier.add(doc["chantier"])
@@ -139,6 +177,7 @@ def main(argv):
     a_blanc = "--a-blanc" in argv
     argv = [a for a in argv if a != "--a-blanc"]
     comptes, docs_bruts, aff, nouveaux, k = {}, [], None, False, 0
+    taux, tva_docs = {}, {}  # TVA : taux par document (journal compilé) ou montant réel (exports bruts)
     divisions = {}
     while k < len(argv):
         t = argv[k]
@@ -151,13 +190,14 @@ def main(argv):
         entete = next(ws.iter_rows(values_only=True, max_row=1))
         print("lecture", os.path.basename(t), "...", flush=True)
         if entete and entete[0] == "Fournisseur":
-            lire_compile(t, comptes)
+            lire_compile(t, comptes, taux)
         else:
             if not aff:
                 sys.exit("export brut : précisez --aff INDUNI ou --aff CONSORTIUM avant le fichier")
             docs, _ = parse_brut(t, AFF[aff])
             for d in docs:
                 comptes[(d["aff"], d["docno"])] = [p["debit"] for p in d["pos"]]
+                tva_docs[(d["aff"], d["docno"])] = round(d["tva"], 2)
                 if d["aff"] == "CONSORTIUM":
                     divisions[(d["aff"], d["docno"])] = d.get("gb")
             if nouveaux:
@@ -200,6 +240,8 @@ def main(argv):
                 d["chantierNom"], d["entite"] = gc_noms[c], e
     for e in sorted({k[0] for k in gc_maj}):
         print(f"Chantiers {e} : {gc_maj[(e, 'noms')]} documents renommés, {gc_maj[(e, 'entite')]} rattachés à l'entité {e}")
+
+    convertir_ht(F, tva_docs, taux)
 
     retires = collections.defaultdict(lambda: [0, 0.0])
     depot = collections.defaultdict(lambda: [0, 0.0])

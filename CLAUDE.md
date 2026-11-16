@@ -10,6 +10,7 @@ Propriétaire : Pierre-Olivier Montaut (français, direct). Réponses en frança
   En attente : `alter table evaluations_formulaire add column if not exists entite text not null default ''; notify pgrst, 'reload schema';`
 
 ## Analyse de la dépense (règles décidées avec le propriétaire)
+- **TOUS les montants de dépense sont HT (hors TVA)** — décision du propriétaire, y compris payé / en retard / en attente. Les journaux sont TTC : le script retire la TVA (`convertir_ht` dans `appliquer_plan_comptable_depense.py` : montant + ligne d'impôt préalable des exports bruts ; sinon montant / (1 + taux) pour le journal compilé 2025). La TVA du document est gardée dans `doc.tva`. Seules les exclusions d'origine du tooltip « Dépense totale » restent TTC. Le seuil 10'000 CHF du formulaire d'évaluation s'applique donc au CA HT.
 - La dépense = **charges d'achat du plan comptable** (compte débit du journal COFI) : classes 3 et 4 hors 400 (salaires) ;
   **immobilisations 15x gardées, entité DEPOT** ; tout le reste retiré (créanciers 200, impôt à la source, AVS, prévoyance, transitoires, 52x internes, 6xx/7xx, escomptes).
 - Année de rattachement = année de la **Date COFI** (`anneeComptable`). 2026 = janv.–sept. (« partielle », `anneesPartielles`).

@@ -18,7 +18,7 @@ export interface FournisseurChantier {
   nfr: number
   nom: string
   familleAchat: string | null
-  /** Dépense nette sur le chantier, toutes années (factures moins notes de crédit), en CHF. */
+  /** Dépense nette HT (hors TVA) sur le chantier et la période (factures moins notes de crédit), en CHF. */
   ca: number
   nbFactures: number
   /** Montant moyen d'une facture (CHF), null s'il n'y a aucune facture. */
