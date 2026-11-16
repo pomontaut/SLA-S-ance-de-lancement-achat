@@ -54,8 +54,8 @@ export interface Totaux {
   nbFournisseurs: number
   nbFactures: number
   factureMoyenne: number | null
-  /** Part des 10 plus gros fournisseurs (%). */
-  top10Pct: number | null
+  /** Part des 20 plus gros fournisseurs (%). */
+  top20Pct: number | null
   /** Nombre de fournisseurs qui font 80 % de la dépense. */
   n80: number
   /** Fournisseurs de « queue » (< seuil) : nombre et part de la dépense (%). */
@@ -93,7 +93,7 @@ export function totaux(l: LigneSpend[]): Totaux {
     nbFournisseurs: montants.length,
     nbFactures: nbF,
     factureMoyenne: nbF ? sommeFactures / nbF : null,
-    top10Pct: base > 0 ? (montants.slice(0, 10).reduce((s, v) => s + v, 0) / base) * 100 : null,
+    top20Pct: base > 0 ? (montants.slice(0, 20).reduce((s, v) => s + v, 0) / base) * 100 : null,
     n80: base > 0 ? n80 : 0,
     queueNb: queue.length,
     queuePct: base > 0 ? (queue.reduce((s, v) => s + v, 0) / base) * 100 : null,

@@ -111,7 +111,7 @@ export default function SyntheseTab({ onZoom }: { onZoom?: (nom: string) => void
   const parFamille = useMemo(() => tableau((l) => l.famille), [cur, prev]) // eslint-disable-line react-hooks/exhaustive-deps
   const parEntite = useMemo(() => tableau((l) => l.entite ?? 'AUTRES'), [cur, prev]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Top 10 fournisseurs + mouvements
+  // Top 20 fournisseurs + mouvements
   const fourn = useMemo(() => {
     const a = new Map<number, { nom: string; cur: number; prev: number }>()
     for (const l of cur) {
@@ -130,7 +130,7 @@ export default function SyntheseTab({ onZoom }: { onZoom?: (nom: string) => void
     const lignes = [...a.entries()].map(([nfr, v]) => ({ nfr, ...v, nouveau: v.cur > 0 && !avant.has(nfr) && v.prev <= 0 }))
     return lignes
   }, [cur, prev, base, an])
-  const top10 = useMemo(() => [...fourn].sort((x, y) => y.cur - x.cur).slice(0, 10), [fourn])
+  const top20 = useMemo(() => [...fourn].sort((x, y) => y.cur - x.cur).slice(0, 20), [fourn])
   const nouveaux = useMemo(() => fourn.filter((x) => x.nouveau), [fourn])
   const perdus = useMemo(() => fourn.filter((x) => x.prev > 0 && x.cur <= 0), [fourn])
   const hausses = useMemo(() => fourn.filter((x) => x.cur > 0 && x.prev > 0).map((x) => ({ ...x, ecart: x.cur - x.prev })).sort((x, y) => y.ecart - x.ecart).slice(0, 8), [fourn])
@@ -164,9 +164,9 @@ export default function SyntheseTab({ onZoom }: { onZoom?: (nom: string) => void
   const contexte = `${entite ? entiteLabel(entite) : 'Toutes entités'} · ${libPeriode} vs ${libPrev}`
   const exportTout = () =>
     exportXlsx(`synthese_depense_${dateFichier()}`, [
-      { nom: 'Indicateurs', lignes: [[contexte], ['Indicateur', libPeriode, libPrev], ['Dépense HT', Math.round(tCur.total), Math.round(tPrev.total)], ['Fournisseurs actifs', tCur.nbFournisseurs, tPrev.nbFournisseurs], ['Factures', tCur.nbFactures, tPrev.nbFactures], ['Facture moyenne HT', Math.round(tCur.factureMoyenne ?? 0), Math.round(tPrev.factureMoyenne ?? 0)], ['Part du top 10 %', tCur.top10Pct != null ? Math.round(tCur.top10Pct * 10) / 10 : null, tPrev.top10Pct != null ? Math.round(tPrev.top10Pct * 10) / 10 : null], ['Fournisseurs pour 80 % de la dépense', tCur.n80, tPrev.n80], [`Fournisseurs < ${SEUIL_QUEUE_CHF} CHF`, tCur.queueNb, tPrev.queueNb]] },
+      { nom: 'Indicateurs', lignes: [[contexte], ['Indicateur', libPeriode, libPrev], ['Dépense HT', Math.round(tCur.total), Math.round(tPrev.total)], ['Fournisseurs actifs', tCur.nbFournisseurs, tPrev.nbFournisseurs], ['Factures', tCur.nbFactures, tPrev.nbFactures], ['Facture moyenne HT', Math.round(tCur.factureMoyenne ?? 0), Math.round(tPrev.factureMoyenne ?? 0)], ['Part du top 20 %', tCur.top20Pct != null ? Math.round(tCur.top20Pct * 10) / 10 : null, tPrev.top20Pct != null ? Math.round(tPrev.top20Pct * 10) / 10 : null], ['Fournisseurs pour 80 % de la dépense', tCur.n80, tPrev.n80], [`Fournisseurs < ${SEUIL_QUEUE_CHF} CHF`, tCur.queueNb, tPrev.queueNb]] },
       { nom: 'Familles', lignes: [[contexte], ["Famille d'achat", `${libPeriode} CHF HT`, `${libPrev} CHF HT`], ...parFamille.map((r) => [r.k, Math.round(r.cur), Math.round(r.prev)] as (string | number)[])] },
-      { nom: 'Top 10 fournisseurs', lignes: [[contexte], ['Fournisseur', `${libPeriode} CHF HT`, `${libPrev} CHF HT`], ...top10.map((r) => [r.nom, Math.round(r.cur), Math.round(r.prev)] as (string | number)[])] },
+      { nom: 'Top 20 fournisseurs', lignes: [[contexte], ['Fournisseur', `${libPeriode} CHF HT`, `${libPrev} CHF HT`], ...top20.map((r) => [r.nom, Math.round(r.cur), Math.round(r.prev)] as (string | number)[])] },
     ])
 
   return (
@@ -184,7 +184,7 @@ export default function SyntheseTab({ onZoom }: { onZoom?: (nom: string) => void
         <Tuile label="Dépense HT" valeur={`${fmt(tCur.total)}`} delta={<Delta cur={tCur.total} prev={tPrev.total} />} prec={`${libPrev} : ${fmt(tPrev.total)} CHF`} />
         <Tuile label="Fournisseurs actifs" valeur={fmt(tCur.nbFournisseurs)} delta={<Delta cur={tCur.nbFournisseurs} prev={tPrev.nbFournisseurs} />} prec={`${libPrev} : ${fmt(tPrev.nbFournisseurs)}`} />
         <Tuile label="Factures" valeur={fmt(tCur.nbFactures)} delta={<Delta cur={tCur.nbFactures} prev={tPrev.nbFactures} />} prec={`facture moyenne ${fmt(tCur.factureMoyenne ?? 0)} CHF (${libPrev} : ${fmt(tPrev.factureMoyenne ?? 0)})`} />
-        <Tuile label="Part des 10 plus gros fournisseurs" valeur={tCur.top10Pct != null ? `${fmt1(tCur.top10Pct)} %` : '—'} prec={tPrev.top10Pct != null ? `${libPrev} : ${fmt1(tPrev.top10Pct)} %` : undefined} sous={`${tCur.n80} fournisseurs font 80 % de la dépense`} />
+        <Tuile label="Part des 20 plus gros fournisseurs" valeur={tCur.top20Pct != null ? `${fmt1(tCur.top20Pct)} %` : '—'} prec={tPrev.top20Pct != null ? `${libPrev} : ${fmt1(tPrev.top20Pct)} %` : undefined} sous={`${tCur.n80} fournisseurs font 80 % de la dépense`} />
       </div>
 
       <Section titre="Où en est-on ? Dépense cumulée mois par mois" aide="Cumul de la dépense HT depuis janvier. L'année en cours (trait plein) est comparée aux années précédentes au même mois.">
@@ -246,7 +246,7 @@ export default function SyntheseTab({ onZoom }: { onZoom?: (nom: string) => void
         )}
       </div>
 
-      <Section titre="Avec qui ? Les 10 plus gros fournisseurs" aide={`Ils représentent ${tCur.top10Pct != null ? fmt1(tCur.top10Pct) : '—'} % de la dépense. Cliquez un nom pour ouvrir sa fiche.`}>
+      <Section titre="Avec qui ? Les 20 plus gros fournisseurs" aide={`Ils représentent ${tCur.top20Pct != null ? fmt1(tCur.top20Pct) : '—'} % de la dépense. Cliquez un nom pour ouvrir sa fiche.`}>
         <table className="text-xs w-full">
           <thead>
             <tr className="text-left text-slate-500 border-b border-slate-200">
@@ -259,7 +259,7 @@ export default function SyntheseTab({ onZoom }: { onZoom?: (nom: string) => void
             </tr>
           </thead>
           <tbody>
-            {top10.map((r, i) => (
+            {top20.map((r, i) => (
               <tr key={r.nfr} className="border-b border-slate-100">
                 <td className="py-1 px-1 text-slate-400">{i + 1}</td>
                 <td className="py-1 px-1 font-medium">
