@@ -30,3 +30,10 @@ Propriétaire : Pierre-Olivier Montaut (français, direct). Réponses en frança
 ## Onglets
 - **Suivi BFA** : onglet vide (admin seulement) en attendant les instructions du propriétaire.
 - **Chantiers** (sous-onglet du Dashboard, droit `canViewDepense`) : dépense par chantier (mois, année) et par fournisseur (année, trimestre).
+
+## Dashboard évaluation — Vue d'ensemble (`OverviewHeader.tsx`, maquette papier du propriétaire)
+- En-tête « Dashboard évaluation <année> » : 4 tuiles (fournisseurs évalués, nombre d'évaluations, moyenne globale — avec « <année-1> : … » dessous —, périmètre évalué en CHF).
+  L'année = fin de période (`anneeMax`) ; par défaut la dernière année (2025) ; tuiles calculées à filtres identiques hors période.
+- Secteurs en boutons multi-sélection : GC, BAT GE (y c. TRANSFO RENO), BAT VD, « EG GE / EG VD » (UN seul secteur `EG GE/VD` dans l'historique d'évaluation : non séparable), EG VS.
+- « Par année » : boutons 2017→2025 (2020 inclus : il y a des données) + « Période de … à … » ; « Par fournisseur » (recherche) ; « Par type » (menu déroulant). Note/CFC dans « Filtres avancés ».
+- **« Moyenne par critère » masquée** sauf si un type OU un fournisseur est filtré (onglet « Par secteur » inchangé).

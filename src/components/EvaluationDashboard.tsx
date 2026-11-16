@@ -393,7 +393,9 @@ export default function EvaluationDashboard({ profile }: { profile: Profile }) {
   useEffect(() => {
     loadEvaluationsHistorique().then((data) => {
       setAll(data)
-      setFilters(defaultFilters(data))
+      // Vue d'ensemble : on démarre sur la dernière année (ex. 2025) comparée à l'année précédente.
+      const d = defaultFilters(data)
+      setFilters({ ...d, anneeMin: d.anneeMax })
     })
     loadEvaluationsHistoriqueFull().then(setAllFull)
     loadSecteurStats().then(setSecteurStats)

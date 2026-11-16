@@ -5,12 +5,11 @@ import {
   applyFilters,
   distinctCfc,
   distinctTypes,
-  globalKpis,
   multiSecteurTrend,
   montantDistribution,
   noteDistribution,
 } from '../data/evaluationsHistorique'
-import FilterBar from './FilterBar'
+import OverviewHeader from './OverviewHeader'
 import MultiLineChart from './MultiLineChart'
 import Histogram from './Histogram'
 import RiskMatrix from './RiskMatrix'
@@ -19,16 +18,6 @@ import { familleBreakdown, critereMoyennes } from '../data/evaluationsHistorique
 
 function formatCurrency(v: number | null): string {
   return v == null ? 'Non disponible' : v.toLocaleString('fr-CH', { maximumFractionDigits: 0 }) + ' CHF'
-}
-
-function StatTile({ label, value, sub }: { label: string; value: string; sub?: string }) {
-  return (
-    <div className="card text-center py-4">
-      <div className="text-2xl font-bold text-indigo-600">{value}</div>
-      <div className="text-xs text-slate-500 mt-1">{label}</div>
-      {sub && <div className="text-[11px] text-slate-400 mt-0.5">{sub}</div>}
-    </div>
-  )
 }
 
 export default function OverviewTab({
@@ -49,7 +38,6 @@ export default function OverviewTab({
   }, [all])
 
   const filtered = useMemo(() => applyFilters(all, filters), [all, filters])
-  const kpis = useMemo(() => globalKpis(filtered), [filtered])
   const secteursForTrend = filters.secteurs.length > 0 ? filters.secteurs : [...SECTEURS]
   const trend = useMemo(() => multiSecteurTrend(all, secteursForTrend), [all, secteursForTrend])
   const distribution = useMemo(() => noteDistribution(filtered), [filtered])
@@ -61,22 +49,14 @@ export default function OverviewTab({
 
   return (
     <div className="space-y-4">
-      <FilterBar
+      <OverviewHeader
+        all={all}
         filters={filters}
         onChange={onFiltersChange}
         types={types}
-        anneeBounds={anneeBounds}
         supplierNames={supplierNames}
         cfcList={cfcList}
       />
-
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-        <StatTile label="Fournisseurs évalués" value={String(kpis.fournisseursEvalues)} />
-        <StatTile label="Évaluations" value={String(kpis.evaluationsTotal)} />
-        <StatTile label="Moyenne globale" value={kpis.moyenneGlobale != null ? `${kpis.moyenneGlobale} / 5` : '—'} />
-        <StatTile label="Périmètre (montants connus)" value={formatCurrency(kpis.perimetreEvalue)} />
-        <StatTile label="Secteurs / années couverts" value={`${kpis.secteursCouverts} / ${kpis.anneesCouvertes}`} />
-      </div>
 
       <div className="card">
         <h3 className="font-semibold mb-3">Évolution comparée par secteur</h3>
@@ -104,17 +84,24 @@ export default function OverviewTab({
         )}
       </div>
 
-      <div className="card">
-        <h3 className="font-semibold mb-3">Moyenne par critère</h3>
-        {criteres.length > 0 ? (
-          <BarChart
-            data={criteres.map((c) => ({ label: c.label, value: c.moyenne, sub: `${c.nbFournisseurs} note(s)` }))}
-            max={5}
-          />
-        ) : (
-          <p className="text-sm text-slate-500">Aucun détail par critère disponible pour ces filtres.</p>
-        )}
-      </div>
+      {/* Moyenne par critère : uniquement quand on filtre par type ou par fournisseur. */}
+      {(filters.types.length > 0 || filters.search.trim() !== '') && (
+        <div className="card">
+          <h3 className="font-semibold mb-3">
+            Moyenne par critère
+            {filters.types.length > 0 ? ` — ${filters.types.join(', ')}` : ''}
+            {filters.search.trim() ? ` — ${filters.search.trim()}` : ''}
+          </h3>
+          {criteres.length > 0 ? (
+            <BarChart
+              data={criteres.map((c) => ({ label: c.label, value: c.moyenne, sub: `${c.nbFournisseurs} note(s)` }))}
+              max={5}
+            />
+          ) : (
+            <p className="text-sm text-slate-500">Aucun détail par critère disponible pour ces filtres.</p>
+          )}
+        </div>
+      )}
 
       <div className="card">
         <h3 className="font-semibold mb-1">Matrice risque — montant vs performance</h3>
