@@ -20,7 +20,7 @@ Propriétaire : Pierre-Olivier Montaut (français, direct). Réponses en frança
   **BAT GE et TRANSFO RENO sont dissociés** (BAT VD TRANSFO RENO : pas encore de chantiers). Nouveau chantier : l'ajouter là, régénérer,
   puis `python3 script/generer_chantiers.py` (liste du formulaire, `src/data/chantiers.json`).
 - Documents consortium sans chantier : rattachés par leur division (`script/chantiers_consortium.json`) ; division inconnue = entité AUTRES.
-- ~143 chantiers sans nom restants (liste dans `chantiers_sans_nom.csv`, ex. 62210, 62209, 52102, 100, 230) : le propriétaire doit fournir leurs noms. BAT GE complété avec 75 chantiers (11904-15621).
+- 105 chantiers sans nom restants (liste dans `chantiers_sans_nom.csv` : codes internes 100/130/215/230/231, EG GE 52xxx, EG VD 42xxx…) : le propriétaire doit fournir leurs noms. Référentiel : 442 chantiers (BAT GE 110, BAT VD 136, GC 119, EG VS 23…). Conflit à trancher : 35605 = « Esplanade des Vernets » (1re liste) ou « Renaturation La Plaine » (2e liste).
 
 ## Formulaire d'évaluation (`FormulaireEvaluationTab.tsx`)
 - Champ **Entité** : GC, BAT GE, BAT VD, BAT GE TRANSFO RENO, BAT VD TRANSFO RENO, EG VD, EG GE, EG VS (colonne `entite`).

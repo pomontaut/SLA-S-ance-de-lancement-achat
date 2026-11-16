@@ -700,8 +700,178 @@
 "entite": "GC"
 },
 {
+"numero": "31404",
+"nom": "CAD - ZIPLO",
+"entite": "GC"
+},
+{
+"numero": "31502",
+"nom": "Megaron",
+"entite": "GC"
+},
+{
+"numero": "31604",
+"nom": "Vengeron - Lot 1 et 2",
+"entite": "GC"
+},
+{
+"numero": "31701",
+"nom": "EMS Belle Saison",
+"entite": "GC"
+},
+{
+"numero": "31701.1",
+"nom": "HIAG",
+"entite": "GC"
+},
+{
+"numero": "31703",
+"nom": "Ecoquartier Jonction",
+"entite": "GC"
+},
+{
+"numero": "31703.1",
+"nom": "CEVA-CGEC",
+"entite": "GC"
+},
+{
+"numero": "31705",
+"nom": "Valpraxys",
+"entite": "GC"
+},
+{
+"numero": "31706",
+"nom": "Fondation Eck Vandoeuvres",
+"entite": "GC"
+},
+{
+"numero": "31801",
+"nom": "WESTPARK",
+"entite": "GC"
+},
+{
+"numero": "31803",
+"nom": "Terre Bonne",
+"entite": "GC"
+},
+{
+"numero": "31803.1",
+"nom": "TERRE BONNE AMEXT",
+"entite": "GC"
+},
+{
+"numero": "31806",
+"nom": "Mur antibruit Rte de St-Julien",
+"entite": "GC"
+},
+{
+"numero": "31810",
+"nom": "EMS Chataigniers",
+"entite": "GC"
+},
+{
+"numero": "31901",
+"nom": "Feeder Pipeline (saraco)",
+"entite": "GC"
+},
+{
+"numero": "32001",
+"nom": "HUG-MEA",
+"entite": "GC"
+},
+{
+"numero": "32002",
+"nom": "NEMACO Signy",
+"entite": "GC"
+},
+{
+"numero": "32005",
+"nom": "Villa Dully",
+"entite": "GC"
+},
+{
+"numero": "32006",
+"nom": "CURE BAUD",
+"entite": "GC"
+},
+{
+"numero": "32008",
+"nom": "Immeuble En Sauvy - Phase 1",
+"entite": "GC"
+},
+{
+"numero": "32009",
+"nom": "SIG Presinge",
+"entite": "GC"
+},
+{
+"numero": "32010",
+"nom": "SIG Beau-Séjour",
+"entite": "GC"
+},
+{
+"numero": "32011",
+"nom": "Pont-Céard",
+"entite": "GC"
+},
+{
+"numero": "32012",
+"nom": "Villa Jones",
+"entite": "GC"
+},
+{
+"numero": "32013",
+"nom": "Arsenal",
+"entite": "GC"
+},
+{
+"numero": "32101",
+"nom": "Collecteur Lancy",
+"entite": "GC"
+},
+{
+"numero": "32102",
+"nom": "Villa de L'or",
+"entite": "GC"
+},
+{
+"numero": "32103",
+"nom": "SIG Genève",
+"entite": "GC"
+},
+{
+"numero": "32104",
+"nom": "Bassin Firmenich",
+"entite": "GC"
+},
+{
+"numero": "32108",
+"nom": "Centre Scolaire Bellevue",
+"entite": "GC"
+},
+{
 "numero": "32110",
 "nom": "Patek GC",
+"entite": "GC"
+},
+{
+"numero": "32111",
+"nom": "Pré-Poly",
+"entite": "GC"
+},
+{
+"numero": "32112",
+"nom": "Hive 08 Amex",
+"entite": "GC"
+},
+{
+"numero": "32113",
+"nom": "Coq d'Inde",
+"entite": "GC"
+},
+{
+"numero": "32114",
+"nom": "Fontaine 23",
 "entite": "GC"
 },
 {
@@ -710,13 +880,53 @@
 "entite": "GC"
 },
 {
+"numero": "32202",
+"nom": "Prévôté 20",
+"entite": "GC"
+},
+{
+"numero": "32203",
+"nom": "Petite Prairie",
+"entite": "GC"
+},
+{
+"numero": "32204",
+"nom": "Curé-Baud 38",
+"entite": "GC"
+},
+{
+"numero": "32205",
+"nom": "Amex Clair-Val",
+"entite": "GC"
+},
+{
+"numero": "32206",
+"nom": "Pont-Rouge Esplanade 3",
+"entite": "GC"
+},
+{
 "numero": "32207",
 "nom": "Quai des Vernets",
 "entite": "GC"
 },
 {
+"numero": "32208",
+"nom": "Dallage Jaquenoud",
+"entite": "GC"
+},
+{
 "numero": "32209",
 "nom": "Institut International de Lancy",
+"entite": "GC"
+},
+{
+"numero": "32301",
+"nom": "SIG Small City",
+"entite": "GC"
+},
+{
+"numero": "32302",
+"nom": "Nemaco Route Centrale II",
 "entite": "GC"
 },
 {
@@ -747,6 +957,11 @@
 {
 "numero": "32401",
 "nom": "CAD Louis Aubert",
+"entite": "GC"
+},
+{
+"numero": "32402",
+"nom": "Vandoeuvres 77",
 "entite": "GC"
 },
 {
@@ -855,6 +1070,41 @@
 "entite": "GC"
 },
 {
+"numero": "35007",
+"nom": "Rue de Carouge",
+"entite": "GC"
+},
+{
+"numero": "35105",
+"nom": "Aire IV",
+"entite": "GC"
+},
+{
+"numero": "35106",
+"nom": "CAD Bernex",
+"entite": "GC"
+},
+{
+"numero": "35107",
+"nom": "ASR Genilac Lot 3.5",
+"entite": "GC"
+},
+{
+"numero": "35109",
+"nom": "RC75 Route de Peney",
+"entite": "GC"
+},
+{
+"numero": "35201",
+"nom": "Collecteurs Boudines",
+"entite": "GC"
+},
+{
+"numero": "35216",
+"nom": "Aire - 3ème Etape",
+"entite": "GC"
+},
+{
 "numero": "35303",
 "nom": "ASR Lot 3.3",
 "entite": "GC"
@@ -890,6 +1140,16 @@
 "entite": "GC"
 },
 {
+"numero": "35408",
+"nom": "Grand-Salève 2",
+"entite": "GC"
+},
+{
+"numero": "35413",
+"nom": "Lac des Vernes",
+"entite": "GC"
+},
+{
 "numero": "35502",
 "nom": "Amext Quai des Vernets",
 "entite": "GC"
@@ -910,6 +1170,16 @@
 "entite": "GC"
 },
 {
+"numero": "35506",
+"nom": "PLQ Meyrin",
+"entite": "GC"
+},
+{
+"numero": "35507",
+"nom": "Puits sorties de secours CEVA",
+"entite": "GC"
+},
+{
 "numero": "35509",
 "nom": "Avenue Wendt",
 "entite": "GC"
@@ -917,6 +1187,21 @@
 {
 "numero": "35510",
 "nom": "PAV Jolivet",
+"entite": "GC"
+},
+{
+"numero": "35601",
+"nom": "AIG Ailes Est",
+"entite": "GC"
+},
+{
+"numero": "35602",
+"nom": "Renaturation du Nant d'Avril",
+"entite": "GC"
+},
+{
+"numero": "35603",
+"nom": "Position 50",
 "entite": "GC"
 },
 {
@@ -930,13 +1215,53 @@
 "entite": "GC"
 },
 {
+"numero": "35702",
+"nom": "RC 08 - Route de Suisse - Versoix",
+"entite": "GC"
+},
+{
+"numero": "35704",
+"nom": "Genève Plage",
+"entite": "GC"
+},
+{
+"numero": "35802",
+"nom": "Traversée de Satigny",
+"entite": "GC"
+},
+{
+"numero": "35804",
+"nom": "Parking P48",
+"entite": "GC"
+},
+{
 "numero": "35805",
 "nom": "Gare des Eaux-Vives",
 "entite": "GC"
 },
 {
+"numero": "35807",
+"nom": "CFF Lignes 15kV lot 1",
+"entite": "GC"
+},
+{
 "numero": "35808",
 "nom": "Renaturation Foron",
+"entite": "GC"
+},
+{
+"numero": "35809",
+"nom": "Centre Epeisses Induni - Scrasa",
+"entite": "GC"
+},
+{
+"numero": "35902",
+"nom": "Tram Route de Chêne",
+"entite": "GC"
+},
+{
+"numero": "35930",
+"nom": "Plaine de Plainpalais",
 "entite": "GC"
 },
 {
@@ -1120,13 +1445,388 @@
 "entite": "BAT VD"
 },
 {
+"numero": "61322",
+"nom": "La Petite Corniche",
+"entite": "BAT VD"
+},
+{
+"numero": "61406",
+"nom": "Immolife",
+"entite": "BAT VD"
+},
+{
+"numero": "61408",
+"nom": "Domaine de Chamblandes",
+"entite": "BAT VD"
+},
+{
+"numero": "61410",
+"nom": "SAFE HOST",
+"entite": "BAT VD"
+},
+{
+"numero": "61512",
+"nom": "Immeuble Rentimmo Gland",
+"entite": "BAT VD"
+},
+{
+"numero": "61513",
+"nom": "En Jonchet Bussigny",
+"entite": "BAT VD"
+},
+{
+"numero": "61601",
+"nom": "Corminjoz - Les Logis de Prilly",
+"entite": "BAT VD"
+},
+{
+"numero": "61602",
+"nom": "AGROSCOPE II",
+"entite": "BAT VD"
+},
+{
+"numero": "61603",
+"nom": "Les Clos des Tilleuls",
+"entite": "BAT VD"
+},
+{
+"numero": "61604",
+"nom": "Les Pâquis Morges",
+"entite": "BAT VD"
+},
+{
+"numero": "61605",
+"nom": "Rue des Creuses - Gilly",
+"entite": "BAT VD"
+},
+{
+"numero": "61606",
+"nom": "Résidence Dominos",
+"entite": "BAT VD"
+},
+{
+"numero": "61607",
+"nom": "Swisshaus",
+"entite": "BAT VD"
+},
+{
+"numero": "61608",
+"nom": "Lutry Plaisance",
+"entite": "BAT VD"
+},
+{
+"numero": "61609",
+"nom": "Hôpital Riviera Chablais",
+"entite": "BAT VD"
+},
+{
+"numero": "61610",
+"nom": "Villa Grufo",
+"entite": "BAT VD"
+},
+{
+"numero": "61611",
+"nom": "Bâtiment Thury",
+"entite": "BAT VD"
+},
+{
+"numero": "61612",
+"nom": "Musée Audemars Piguet",
+"entite": "BAT VD"
+},
+{
+"numero": "61701",
+"nom": "Les Saules à Borex",
+"entite": "BAT VD"
+},
+{
+"numero": "61702",
+"nom": "Crèche de Chavannes-des-Bois",
+"entite": "BAT VD"
+},
+{
+"numero": "61703",
+"nom": "Les Perles du Lac",
+"entite": "BAT VD"
+},
+{
+"numero": "61704",
+"nom": "Bourgogne",
+"entite": "BAT VD"
+},
+{
+"numero": "61705",
+"nom": "Centre sportif de Malley",
+"entite": "BAT VD"
+},
+{
+"numero": "61706",
+"nom": "Croset Parc",
+"entite": "BAT VD"
+},
+{
+"numero": "61707",
+"nom": "Eysins",
+"entite": "BAT VD"
+},
+{
+"numero": "61708",
+"nom": "Chemin des Plantaz",
+"entite": "BAT VD"
+},
+{
+"numero": "61709",
+"nom": "La Petite Forge",
+"entite": "BAT VD"
+},
+{
+"numero": "61710",
+"nom": "Chemin du Levant",
+"entite": "BAT VD"
+},
+{
+"numero": "61711",
+"nom": "La Petite Bassire",
+"entite": "BAT VD"
+},
+{
+"numero": "61712",
+"nom": "Les Tuileries de Grandson",
+"entite": "BAT VD"
+},
+{
+"numero": "61713",
+"nom": "Villa Orbemont 6 - Nyon",
+"entite": "BAT VD"
+},
+{
+"numero": "61714",
+"nom": "Le Maupas Rolle",
+"entite": "BAT VD"
+},
+{
+"numero": "61715",
+"nom": "All Suites",
+"entite": "BAT VD"
+},
+{
+"numero": "61716",
+"nom": "Test",
+"entite": "BAT VD"
+},
+{
+"numero": "61801",
+"nom": "ECAVENIR (ECA)",
+"entite": "BAT VD"
+},
+{
+"numero": "61802",
+"nom": "Quartier des Halles",
+"entite": "BAT VD"
+},
+{
+"numero": "61803",
+"nom": "Villa Gilliéron",
+"entite": "BAT VD"
+},
+{
+"numero": "61804",
+"nom": "Transfo Romande Energie",
+"entite": "BAT VD"
+},
+{
+"numero": "61805",
+"nom": "Réservoir de la Chataigneraie",
+"entite": "BAT VD"
+},
+{
+"numero": "61806",
+"nom": "NEMACO - Terre-Bonne - Z0",
+"entite": "BAT VD"
+},
+{
+"numero": "61807",
+"nom": "Saint-Germain Nord",
+"entite": "BAT VD"
+},
+{
+"numero": "61808",
+"nom": "Villa ASD",
+"entite": "BAT VD"
+},
+{
+"numero": "61809",
+"nom": "Petite Fontaine",
+"entite": "BAT VD"
+},
+{
+"numero": "61810",
+"nom": "Emil Frey",
+"entite": "BAT VD"
+},
+{
+"numero": "61811",
+"nom": "Villa Macherettes",
+"entite": "BAT VD"
+},
+{
+"numero": "61812",
+"nom": "Shenouda",
+"entite": "BAT VD"
+},
+{
+"numero": "61813",
+"nom": "Quai Ouest",
+"entite": "BAT VD"
+},
+{
+"numero": "61814",
+"nom": "En Gruvatiez - Orbe",
+"entite": "BAT VD"
+},
+{
+"numero": "61815",
+"nom": "LIDL",
+"entite": "BAT VD"
+},
+{
+"numero": "61816",
+"nom": "Vy Marguerite",
+"entite": "BAT VD"
+},
+{
+"numero": "61817",
+"nom": "Kharites",
+"entite": "BAT VD"
+},
+{
+"numero": "61818",
+"nom": "PASTA GALA",
+"entite": "BAT VD"
+},
+{
+"numero": "61819",
+"nom": "Swisshaus Phase 2",
+"entite": "BAT VD"
+},
+{
+"numero": "61901",
+"nom": "CFF - ABB - Foretaille - Genève",
+"entite": "BAT VD"
+},
+{
+"numero": "61902",
+"nom": "Square Bellefontaine",
+"entite": "BAT VD"
+},
+{
+"numero": "61903",
+"nom": "EMS Lonay",
+"entite": "BAT VD"
+},
+{
+"numero": "61904",
+"nom": "Aile Sud Beaulieu",
+"entite": "BAT VD"
+},
+{
+"numero": "61905",
+"nom": "Résidence du Greny",
+"entite": "BAT VD"
+},
+{
+"numero": "61906",
+"nom": "HGC FOUNEX",
+"entite": "BAT VD"
+},
+{
+"numero": "61907",
+"nom": "Les Hauts-de-Cossy",
+"entite": "BAT VD"
+},
+{
+"numero": "61908",
+"nom": "UNIMED",
+"entite": "BAT VD"
+},
+{
+"numero": "62001",
+"nom": "Alta Vista",
+"entite": "BAT VD"
+},
+{
+"numero": "62002",
+"nom": "Parking Brassus Gare",
+"entite": "BAT VD"
+},
+{
 "numero": "62003",
 "nom": "Campus RTS - Ecublens",
 "entite": "BAT VD"
 },
 {
+"numero": "62004",
+"nom": "Extension du Collège d'Oron-la-Ville",
+"entite": "BAT VD"
+},
+{
+"numero": "62005",
+"nom": "Les Plaines-du-Loup - Pièce urbaine E",
+"entite": "BAT VD"
+},
+{
+"numero": "62005.1",
+"nom": "CIEPP - Construction d'un bâtiment de logements",
+"entite": "BAT VD"
+},
+{
+"numero": "62005.2",
+"nom": "LE BLED - Construction d'un bâtiment de logements",
+"entite": "BAT VD"
+},
+{
+"numero": "62006",
+"nom": "Les Lisières - PPA La Combaz",
+"entite": "BAT VD"
+},
+{
+"numero": "62007",
+"nom": "NEMACO - SIGNY",
+"entite": "BAT VD"
+},
+{
+"numero": "62008",
+"nom": "Levant 14",
+"entite": "BAT VD"
+},
+{
+"numero": "62009",
+"nom": "En Crépon Est - STRATE 2",
+"entite": "BAT VD"
+},
+{
+"numero": "62101",
+"nom": "Résidence de l'Or",
+"entite": "BAT VD"
+},
+{
+"numero": "62102",
+"nom": "Villas Grasset",
+"entite": "BAT VD"
+},
+{
 "numero": "62103",
 "nom": "Campus Audemars-Piguet",
+"entite": "BAT VD"
+},
+{
+"numero": "62104",
+"nom": "Cinéma Capitole",
+"entite": "BAT VD"
+},
+{
+"numero": "62201",
+"nom": "PANORAMA",
 "entite": "BAT VD"
 },
 {
@@ -1145,8 +1845,53 @@
 "entite": "BAT VD"
 },
 {
+"numero": "62205",
+"nom": "STANDUP",
+"entite": "BAT VD"
+},
+{
+"numero": "62206",
+"nom": "Trimaran",
+"entite": "BAT VD"
+},
+{
+"numero": "62207",
+"nom": "Levratte - Nyon",
+"entite": "BAT VD"
+},
+{
+"numero": "62208",
+"nom": "Plantaz 34-36-38",
+"entite": "BAT VD"
+},
+{
+"numero": "62209",
+"nom": "QHD - Lot A",
+"entite": "BAT VD"
+},
+{
+"numero": "62210",
+"nom": "QHD LOT B - HRS SA",
+"entite": "BAT VD"
+},
+{
+"numero": "62211",
+"nom": "Station de pompage - Montalègre",
+"entite": "BAT VD"
+},
+{
 "numero": "62212",
 "nom": "Clendy - Yverdon",
+"entite": "BAT VD"
+},
+{
+"numero": "62213",
+"nom": "Eighty five",
+"entite": "BAT VD"
+},
+{
+"numero": "62301",
+"nom": "PKE FRIBOURG",
 "entite": "BAT VD"
 },
 {
@@ -1380,6 +2125,16 @@
 "entite": "EG VS"
 },
 {
+"numero": "71204",
+"nom": "Les Terrasses du Caro (Ancien)",
+"entite": "EG VS"
+},
+{
+"numero": "71601",
+"nom": "Le Billionaire B - Ardon",
+"entite": "EG VS"
+},
+{
 "numero": "71904",
 "nom": "Les Mayens de Saxon",
 "entite": "EG VS"
@@ -1477,6 +2232,11 @@
 {
 "numero": "72604",
 "nom": "L'Orée à Sierre",
+"entite": "EG VS"
+},
+{
+"numero": "75001",
+"nom": "Thermes - Parc",
 "entite": "EG VS"
 }
 ]
