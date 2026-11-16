@@ -2,6 +2,9 @@ import { Fragment, useEffect, useState } from 'react'
 import type { EvaluationFormulaire, NewEvaluationFormulaire } from '../types'
 import { FAMILLES_EVALUATION, NOTE_OPTIONS, criteresPourFamille, moyenneCriteres } from '../data/formulaireEvaluation'
 import { createEvaluationFormulaire, deleteEvaluationFormulaire, listEvaluationsFormulaire, updateEvaluationFormulaire } from '../data/db'
+import { loadFournisseurs } from '../data/fournisseurs'
+import type { FournisseurChantier } from '../data/chantierDepense'
+import { SEUIL_EVALUATION_CHF, depenseDuChantier, familleEvaluationProposee } from '../data/chantierDepense'
 import SupplierPicker from './SupplierPicker'
 import chantiersJson from '../data/chantiers.json'
 
@@ -71,10 +74,108 @@ export default function FormulaireEvaluationTab() {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [evaluations, setEvaluations] = useState<EvaluationFormulaire[] | null>(null)
+  // Série d'évaluations par chantier : liste des fournisseurs du chantier (coche auto >= seuil) puis un par un.
+  const [depenseChantier, setDepenseChantier] = useState<{ code: string; lignes: FournisseurChantier[] } | 'chargement' | null>(null)
+  const [selection, setSelection] = useState<Record<number, boolean>>({})
+  const [serie, setSerie] = useState<{ liste: FournisseurChantier[]; index: number; termine: boolean; evalues: number } | null>(null)
 
   useEffect(() => {
     refresh()
   }, [])
+
+  // Dès qu'un chantier connu est saisi, on charge ses fournisseurs (dépense réelle) et on coche ceux à évaluer.
+  const serieActive = serie !== null
+  useEffect(() => {
+    const c = chantierParNumero(form.numeroChantier)
+    if (serieActive) return
+    if (!c || editing) {
+      setDepenseChantier(null)
+      return
+    }
+    let annule = false
+    setDepenseChantier('chargement')
+    depenseDuChantier(c.numero)
+      .then((lignes) => {
+        if (annule) return
+        setDepenseChantier({ code: c.numero, lignes })
+        setSelection(Object.fromEntries(lignes.map((l) => [l.nfr, l.ca >= SEUIL_EVALUATION_CHF])))
+      })
+      .catch(() => !annule && setDepenseChantier(null))
+    return () => {
+      annule = true
+    }
+  }, [form.numeroChantier, serieActive, editing])
+
+  function appliquerFournisseur(l: FournisseurChantier) {
+    setForm((f) => ({
+      ...f,
+      fournisseurId: l.nfr,
+      fournisseurNom: l.nom,
+      famille: familleEvaluationProposee(l.familleAchat, f.famille),
+      criteres: {},
+      moyenne: null,
+      remarques: '',
+    }))
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  async function demarrerSerie() {
+    if (!depenseChantier || depenseChantier === 'chargement') return
+    const liste = depenseChantier.lignes.filter((l) => selection[l.nfr])
+    if (liste.length === 0) {
+      setError('Cochez au moins un fournisseur à évaluer.')
+      return
+    }
+    setError(null)
+    // Nom du fournisseur tel que dans l'annuaire (comme avec le bouton « Choisir… »), sinon nom de la dépense.
+    const noms = new Map((await loadFournisseurs().catch(() => [])).map((a) => [a.id, a.nom]))
+    const avecNoms = liste.map((l) => ({ ...l, nom: noms.get(l.nfr) ?? l.nom }))
+    setSerie({ liste: avecNoms, index: 0, termine: false, evalues: 0 })
+    appliquerFournisseur(avecNoms[0])
+  }
+
+  function avancer(evalues: number) {
+    if (!serie) return
+    const suivant = serie.index + 1
+    if (suivant >= serie.liste.length) {
+      setSerie({ ...serie, termine: true, evalues })
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } else {
+      setSerie({ ...serie, index: suivant, evalues })
+      appliquerFournisseur(serie.liste[suivant])
+    }
+  }
+
+  async function enregistrerEtSuivant() {
+    if (!serie) return
+    const aDesNotes = Object.values(form.criteres).some((v) => v != null)
+    if (!aDesNotes && !confirm('Aucune note saisie pour ce fournisseur. Passer au suivant sans l’enregistrer ?')) return
+    setSaving(true)
+    setError(null)
+    try {
+      let evalues = serie.evalues
+      if (aDesNotes) {
+        const created = await createEvaluationFormulaire(form)
+        setEvaluations((prev) => (prev ? [created, ...prev] : [created]))
+        evalues++
+      }
+      avancer(evalues)
+    } catch (e) {
+      setError((e as Error).message)
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  /** Série terminée : on repart sur un autre chantier (entité et évaluateur conservés). */
+  function autreChantier() {
+    setSerie(null)
+    setDepenseChantier(null)
+    setForm((f) => ({ ...EMPTY_FORM, entite: f.entite, evaluateur: f.evaluateur }))
+  }
+
+  const dejaEvalue = (l: FournisseurChantier, code: string) =>
+    !!evaluations?.some((e) => e.numeroChantier === code && (e.fournisseurId === l.nfr || e.fournisseurNom.toLowerCase() === l.nom.toLowerCase()))
 
   async function refresh() {
     try {
@@ -114,6 +215,8 @@ export default function FormulaireEvaluationTab() {
 
   /** Remet tout le formulaire à zéro (y compris entité, chantier et évaluateur). */
   function handleReinitialiser() {
+    setSerie(null)
+    setDepenseChantier(null)
     setForm(EMPTY_FORM)
     setEditing(null)
     setError(null)
@@ -205,7 +308,39 @@ export default function FormulaireEvaluationTab() {
 
       {error && <div className="text-sm text-red-600">{error}</div>}
 
+      {serie?.termine ? (
+        <div className="card text-center py-10 space-y-3 border-green-300 bg-green-50">
+          <div className="text-3xl">✅</div>
+          <p className="text-lg font-semibold text-green-800">Vous avez terminé l’évaluation fournisseur pour ce chantier.</p>
+          <p className="text-sm text-slate-600">
+            {form.numeroChantier} - {form.nomChantier} : {serie.evalues} évaluation(s) enregistrée(s) sur {serie.liste.length} fournisseur(s) sélectionné(s).
+          </p>
+          <button className="btn-primary" onClick={autreChantier}>
+            Évaluer un autre chantier
+          </button>
+        </div>
+      ) : (
       <div className="card space-y-5">
+        {serie && (
+          <div className="rounded-lg border border-indigo-200 bg-indigo-50 p-3 space-y-1.5">
+            <div className="flex items-center justify-between gap-2 flex-wrap text-sm font-semibold">
+              <span>
+                Évaluation du chantier {form.numeroChantier} - {form.nomChantier}
+              </span>
+              <span className="text-indigo-700">
+                Fournisseur {serie.index + 1} / {serie.liste.length}
+              </span>
+            </div>
+            <div className="h-2 bg-white rounded overflow-hidden">
+              <div className="h-full bg-indigo-500" style={{ width: `${(serie.index / serie.liste.length) * 100}%` }} />
+            </div>
+            <div className="text-xs text-slate-600">
+              <span className="font-medium">{serie.liste[serie.index].nom}</span> · dépense {serie.liste[serie.index].ca.toLocaleString('fr-CH', { maximumFractionDigits: 0 })} CHF ·{' '}
+              {serie.liste[serie.index].nbFactures} facture(s)
+              {serie.liste[serie.index].panier != null && <> · panier moyen {serie.liste[serie.index].panier!.toLocaleString('fr-CH')} CHF</>}
+            </div>
+          </div>
+        )}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="label">Famille</label>
@@ -221,9 +356,11 @@ export default function FormulaireEvaluationTab() {
             <label className="label">Fournisseur</label>
             <div className="flex gap-2">
               <input className="input bg-slate-50" readOnly value={form.fournisseurNom} placeholder="Aucun fournisseur choisi" />
-              <button type="button" className="btn-secondary whitespace-nowrap" onClick={() => setPickerOpen(true)}>
-                Choisir…
-              </button>
+              {!serie && (
+                <button type="button" className="btn-secondary whitespace-nowrap" onClick={() => setPickerOpen(true)}>
+                  Choisir…
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -275,6 +412,76 @@ export default function FormulaireEvaluationTab() {
           </datalist>
         </div>
 
+        {!serie && !editing && depenseChantier === 'chargement' && <p className="text-xs text-slate-500">Chargement des dépenses du chantier…</p>}
+        {!serie && !editing && depenseChantier && depenseChantier !== 'chargement' && (
+          <div className="border border-indigo-200 bg-indigo-50/40 rounded-lg p-3 space-y-2">
+            <div className="flex items-center justify-between gap-2 flex-wrap">
+              <h3 className="font-semibold text-sm">
+                Fournisseurs du chantier {depenseChantier.code} - {form.nomChantier}
+              </h3>
+              <span className="text-xs text-slate-500">
+                Dépense totale : {depenseChantier.lignes.reduce((t, l) => t + l.ca, 0).toLocaleString('fr-CH', { maximumFractionDigits: 0 })} CHF
+              </span>
+            </div>
+            {depenseChantier.lignes.length === 0 ? (
+              <p className="text-sm text-slate-500">Aucune dépense enregistrée sur ce chantier.</p>
+            ) : (
+              <>
+                <p className="text-xs text-slate-500">
+                  Coche automatique : fournisseurs ayant dépensé au moins {SEUIL_EVALUATION_CHF.toLocaleString('fr-CH')} CHF sur ce chantier (modifiable).
+                </p>
+                <div className="max-h-80 overflow-auto bg-white rounded border border-slate-200">
+                  <table className="w-full text-xs">
+                    <thead className="sticky top-0 bg-slate-50">
+                      <tr className="text-left text-slate-500 border-b border-slate-200">
+                        <th className="py-1.5 px-2 w-8">À évaluer</th>
+                        <th className="py-1.5 px-2">Fournisseur</th>
+                        <th className="py-1.5 px-2 text-right">Factures</th>
+                        <th className="py-1.5 px-2 text-right">CA (CHF)</th>
+                        <th className="py-1.5 px-2 text-right">Panier moyen</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {depenseChantier.lignes.map((l) => (
+                        <tr key={l.nfr} className={`border-b border-slate-100 ${selection[l.nfr] ? 'bg-indigo-50/60' : ''}`}>
+                          <td className="py-1 px-2 text-center">
+                            <input type="checkbox" checked={!!selection[l.nfr]} onChange={(e) => setSelection((sel) => ({ ...sel, [l.nfr]: e.target.checked }))} />
+                          </td>
+                          <td className="py-1 px-2 font-medium">
+                            {l.nom}
+                            {dejaEvalue(l, depenseChantier.code) && <span className="ml-1.5 text-[10px] font-normal text-green-700 bg-green-100 rounded px-1">déjà évalué</span>}
+                          </td>
+                          <td className="py-1 px-2 text-right tabular-nums">{l.nbFactures.toLocaleString('fr-CH')}</td>
+                          <td className="py-1 px-2 text-right tabular-nums">{l.ca.toLocaleString('fr-CH', { maximumFractionDigits: 0 })}</td>
+                          <td className="py-1 px-2 text-right tabular-nums">{l.panier != null ? l.panier.toLocaleString('fr-CH') : '—'}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <button type="button" className="btn-primary" onClick={demarrerSerie}>
+                    Valider la sélection ({depenseChantier.lignes.filter((l) => selection[l.nfr]).length} fournisseur(s)) →
+                  </button>
+                  <button type="button" className="text-xs text-indigo-600 hover:underline" onClick={() => setSelection(Object.fromEntries(depenseChantier.lignes.map((l) => [l.nfr, true])))}>
+                    Tout cocher
+                  </button>
+                  <button type="button" className="text-xs text-indigo-600 hover:underline" onClick={() => setSelection({})}>
+                    Tout décocher
+                  </button>
+                  <button
+                    type="button"
+                    className="text-xs text-indigo-600 hover:underline"
+                    onClick={() => setSelection(Object.fromEntries(depenseChantier.lignes.map((l) => [l.nfr, l.ca >= SEUIL_EVALUATION_CHF])))}
+                  >
+                    Remettre la coche automatique
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
         <div>
           <h3 className="font-semibold mb-3 text-sm uppercase text-slate-500">
             Critères — {form.famille}
@@ -307,19 +514,36 @@ export default function FormulaireEvaluationTab() {
         </div>
 
         <div className="flex flex-wrap gap-2 pt-2 border-t border-slate-200">
-          <button className="btn-primary" disabled={saving} onClick={handleSubmit}>
-            {saving ? 'Enregistrement…' : editing ? 'Mettre à jour cette évaluation' : 'Enregistrer et évaluer un autre fournisseur'}
-          </button>
-          {editing && (
-            <button className="btn-secondary" disabled={saving} onClick={resetForm}>
-              Annuler la modification
-            </button>
+          {serie ? (
+            <>
+              <button className="btn-primary" disabled={saving} onClick={enregistrerEtSuivant}>
+                {saving ? 'Enregistrement…' : serie.index + 1 >= serie.liste.length ? 'Enregistrer et terminer ✓' : 'Enregistrer et suivant →'}
+              </button>
+              <button className="btn-secondary" disabled={saving} onClick={() => avancer(serie.evalues)}>
+                Passer ce fournisseur
+              </button>
+              <button className="btn-secondary" disabled={saving} onClick={() => setSerie(null)}>
+                Arrêter la série
+              </button>
+            </>
+          ) : (
+            <>
+              <button className="btn-primary" disabled={saving} onClick={handleSubmit}>
+                {saving ? 'Enregistrement…' : editing ? 'Mettre à jour cette évaluation' : 'Enregistrer et évaluer un autre fournisseur'}
+              </button>
+              {editing && (
+                <button className="btn-secondary" disabled={saving} onClick={resetForm}>
+                  Annuler la modification
+                </button>
+              )}
+            </>
           )}
           <button className="btn-secondary" disabled={saving} onClick={handleReinitialiser}>
             Réinitialiser
           </button>
         </div>
       </div>
+      )}
 
       <div className="card">
         <h3 className="font-semibold mb-3">Évaluations enregistrées{evaluations ? ` (${evaluations.length})` : ''}</h3>
