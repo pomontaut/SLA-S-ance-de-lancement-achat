@@ -362,7 +362,7 @@ export default function ChantiersTab() {
             <div className="text-xs text-slate-500">
               {chantierChoisi ? labelChantier(chantierChoisi) : entite ? entiteLabel(entite) : 'Tous les chantiers'}
               {fournisseur ? ` · ${fournisseur}` : ''}
-              {annee ? ` · ${annee}` : ''} — {retenues.length} document(s)
+              {annee ? ` · ${annee}` : ''} — {fmt(retenues.length)} document(s)
             </div>
           </div>
           {(chantier || fournisseur || entite || annee) && (
@@ -499,7 +499,7 @@ export default function ChantiersTab() {
             <button className="text-indigo-600 hover:underline text-xs" onClick={() => setTousFourn((v) => !v)}>
               {tousFourn ? 'Réduire à 25 fournisseurs' : `Voir les ${Math.min(200, lignesFourn.length)} premiers fournisseurs`}
             </button>
-            <span>{lignesFourn.length} fournisseurs au total — l'export Excel les contient tous.</span>
+            <span>{fmt(lignesFourn.length)} fournisseurs au total — l'export Excel les contient tous.</span>
           </div>
         )}
         <p className="text-[11px] text-slate-400">% = part du fournisseur dans la dépense totale de la même {vueFourn === 'annee' ? 'année' : 'période (trimestre)'}.</p>
@@ -538,7 +538,7 @@ export default function ChantiersTab() {
                     <td className="py-1 px-2 font-medium">{e.famille}</td>
                     <td className="py-1 px-2 text-right tabular-nums">{fmt(e.total)}</td>
                     <td className="py-1 px-2 text-right tabular-nums">{fmtPct(pctDe(e.total, totalTypo))}</td>
-                    <td className="py-1 px-2 text-right tabular-nums">{e.fournisseurs.size}</td>
+                    <td className="py-1 px-2 text-right tabular-nums">{fmt(e.fournisseurs.size)}</td>
                   </tr>
                 ))}
               </tbody>

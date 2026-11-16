@@ -23,6 +23,8 @@ function toggle<T>(list: T[], value: T): T[] {
   return list.includes(value) ? list.filter((v) => v !== value) : [...list, value]
 }
 
+const chiffre = (v: number) => v.toLocaleString('fr-CH')
+
 function chf(v: number | null): string {
   return v == null ? 'Non disponible' : v.toLocaleString('fr-CH', { maximumFractionDigits: 0 }) + ' CHF'
 }
@@ -118,15 +120,15 @@ export default function OverviewHeader({
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <Tuile
           label="Fournisseurs évalués"
-          value={String(kpi.fournisseursEvalues)}
+          value={chiffre(kpi.fournisseursEvalues)}
           evolution={precDispo ? delta(kpi.fournisseursEvalues, kpiPrec.fournisseursEvalues) : null}
-          precedent={`${annee - 1} : ${precDispo ? kpiPrec.fournisseursEvalues : '—'}`}
+          precedent={`${annee - 1} : ${precDispo ? chiffre(kpiPrec.fournisseursEvalues) : '—'}`}
         />
         <Tuile
           label="Nombre d'évaluations"
-          value={String(kpi.evaluationsTotal)}
+          value={chiffre(kpi.evaluationsTotal)}
           evolution={precDispo ? delta(kpi.evaluationsTotal, kpiPrec.evaluationsTotal) : null}
-          precedent={`${annee - 1} : ${precDispo ? kpiPrec.evaluationsTotal : '—'}`}
+          precedent={`${annee - 1} : ${precDispo ? chiffre(kpiPrec.evaluationsTotal) : '—'}`}
         />
         <Tuile
           label="Moyenne globale"

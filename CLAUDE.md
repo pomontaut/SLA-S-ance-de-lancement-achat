@@ -32,6 +32,9 @@ Propriétaire : Pierre-Olivier Montaut (français, direct). Réponses en frança
 - Les AUTRES groupes d'alias du fichier (28) NE sont PAS fusionnés dans les données existantes (seulement pour les nouveaux documents) : validation du propriétaire requise avant.
 - `fournisseurExclusionsDepense.json` doit rester COMPLET (11 nfr dont INEG Management 637079, AVS des entrepreneurs 331915, État de Vaud Emploi 10249, AFC 11733) : sinon un nouvel import les compte comme dépense.
 
+## Format des nombres
+- Séparateur de milliers = apostrophe (137'782'841), décimale = virgule : `src/lib/format.ts` (importé dans `main.tsx`) remplace l'espace fine de `toLocaleString('fr-CH')` par « ' ». Toujours utiliser `toLocaleString('fr-CH', …)` pour afficher un nombre.
+
 ## Formulaire d'évaluation (`FormulaireEvaluationTab.tsx`)
 - Champ **Entité** : GC, BAT GE, BAT VD, BAT GE TRANSFO RENO, BAT VD TRANSFO RENO, EG VD, EG GE, EG VS (colonne `entite`).
 - PAS de menu « Chantier (liste) » (retiré à la demande du propriétaire) : champs N° chantier et Nom avec auto-complétion (datalist) sur tous les chantiers ; saisir un n° remplit le nom et inversement (entité aussi).
