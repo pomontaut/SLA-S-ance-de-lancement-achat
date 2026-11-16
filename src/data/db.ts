@@ -466,6 +466,7 @@ export async function ensureEvaluationForLot(lot: Lot): Promise<Evaluation | nul
 interface EvaluationFormulaireRow {
   id: string
   famille: string
+  entite: string | null
   fournisseur_id: number | null
   fournisseur_nom: string
   numero_chantier: string
@@ -481,6 +482,7 @@ function evaluationFormulaireFromRow(row: EvaluationFormulaireRow): EvaluationFo
   return {
     id: row.id,
     famille: row.famille,
+    entite: row.entite ?? '',
     fournisseurId: row.fournisseur_id,
     fournisseurNom: row.fournisseur_nom,
     numeroChantier: row.numero_chantier,
@@ -496,6 +498,7 @@ function evaluationFormulaireFromRow(row: EvaluationFormulaireRow): EvaluationFo
 function evaluationFormulaireToRow(e: NewEvaluationFormulaire | EvaluationFormulaire) {
   return {
     famille: e.famille,
+    entite: e.entite,
     fournisseur_id: e.fournisseurId,
     fournisseur_nom: e.fournisseurNom,
     numero_chantier: e.numeroChantier,

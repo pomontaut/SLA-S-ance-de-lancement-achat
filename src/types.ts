@@ -143,6 +143,8 @@ export function noteGlobale(evaluation: Evaluation): number | null {
 export interface EvaluationFormulaire {
   id: string
   famille: string
+  /** Entité du groupe (GC, BAT GE, BAT VD, EG VD, EG GE, EG VS) — chaîne vide si non renseignée. */
+  entite: string
   fournisseurId: number | null
   fournisseurNom: string
   numeroChantier: string

@@ -95,6 +95,7 @@ create table evaluations (
 create table evaluations_formulaire (
   id uuid primary key default gen_random_uuid(),
   famille text not null default '',
+  entite text not null default '',
   fournisseur_id bigint,
   fournisseur_nom text not null default '',
   numero_chantier text not null default '',

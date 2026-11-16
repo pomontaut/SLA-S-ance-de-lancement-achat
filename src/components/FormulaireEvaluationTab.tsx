@@ -4,8 +4,13 @@ import { FAMILLES_EVALUATION, NOTE_OPTIONS, criteresPourFamille, moyenneCriteres
 import { createEvaluationFormulaire, deleteEvaluationFormulaire, listEvaluationsFormulaire, updateEvaluationFormulaire } from '../data/db'
 import SupplierPicker from './SupplierPicker'
 
+// Entités du formulaire : EG est scindée en EG VD et EG GE (le secteur historique « EG GE/VD » des
+// comparaisons n'est volontairement pas modifié ici).
+const ENTITES = ['GC', 'BAT GE', 'BAT VD', 'EG VD', 'EG GE', 'EG VS']
+
 const EMPTY_FORM: NewEvaluationFormulaire = {
   famille: FAMILLES_EVALUATION[0].famille,
+  entite: '',
   fournisseurId: null,
   fournisseurNom: '',
   numeroChantier: '',
@@ -71,13 +76,20 @@ export default function FormulaireEvaluationTab() {
   }
 
   function resetForm() {
-    setForm((f) => ({ ...EMPTY_FORM, numeroChantier: f.numeroChantier, nomChantier: f.nomChantier, evaluateur: f.evaluateur }))
+    setForm((f) => ({
+      ...EMPTY_FORM,
+      entite: f.entite,
+      numeroChantier: f.numeroChantier,
+      nomChantier: f.nomChantier,
+      evaluateur: f.evaluateur,
+    }))
     setEditing(null)
   }
 
   function handleEdit(e: EvaluationFormulaire) {
     setForm({
       famille: e.famille,
+      entite: e.entite,
       fournisseurId: e.fournisseurId,
       fournisseurNom: e.fournisseurNom,
       numeroChantier: e.numeroChantier,
@@ -165,6 +177,20 @@ export default function FormulaireEvaluationTab() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
+            <label className="label">Entité</label>
+            <select className="input" value={form.entite} onChange={(e) => set('entite', e.target.value)}>
+              <option value="">— Choisir une entité —</option>
+              {ENTITES.map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
             <label className="label">N° chantier</label>
             <input className="input" value={form.numeroChantier} onChange={(e) => set('numeroChantier', e.target.value)} />
           </div>
@@ -229,7 +255,11 @@ export default function FormulaireEvaluationTab() {
               <div key={e.id} className="py-3 flex items-start justify-between gap-3">
                 <div>
                   <div className="font-medium text-sm">
-                    {e.fournisseurNom} <span className="text-xs text-slate-400 font-normal">— {e.famille}</span>
+                    {e.fournisseurNom}{' '}
+                    <span className="text-xs text-slate-400 font-normal">
+                      — {e.famille}
+                      {e.entite ? ` · ${e.entite}` : ''}
+                    </span>
                   </div>
                   <div className="text-xs text-slate-500">
                     {[e.numeroChantier, e.nomChantier].filter(Boolean).join(' — ') || 'Chantier non renseigné'}
