@@ -37,7 +37,8 @@
   ],
   "aliasNoms": [
    "SINEF"
-  ]
+  ],
+  "fusionner": true
  },
  {
   "canonicalNfr": 146607785,
@@ -67,7 +68,8 @@
   ],
   "aliasNoms": [
    "ROMANDE ENERGIE"
-  ]
+  ],
+  "fusionner": true
  },
  {
   "canonicalNfr": 10006,

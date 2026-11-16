@@ -24,8 +24,12 @@ Propriétaire : Pierre-Olivier Montaut (français, direct). Réponses en frança
 - 105 chantiers sans nom restants (liste dans `chantiers_sans_nom.csv` : codes internes 100/130/215/230/231, EG GE 52xxx, EG VD 42xxx…) : le propriétaire doit fournir leurs noms. Référentiel : 442 chantiers (BAT GE 110, BAT VD 136, GC 119, EG VS 23…). Conflit à trancher : 35605 = « Esplanade des Vernets » (1re liste) ou « Renaturation La Plaine » (2e liste).
 
 ## Fournisseurs : numéros multiples et exclusions
-- **HGC a DEUX numéros de fournisseur, à garder ensemble** : `230977` (« HG COMMERCIALE », jusqu'à début 2026) et `106535292` (« HGC HANDEL AG », depuis 2026). Ils sont fusionnés sous la fiche 230977 (`fournisseurAliasesDepense.json`, `"fusionner": true`) ; l'autre numéro est conservé dans `nfrAlias` de la fiche. Si un fournisseur change de numéro, l'ajouter dans ce fichier.
-- Les 31 autres groupes d'alias du fichier (ex. SINEF / SINEF SA) NE sont PAS fusionnés dans les données existantes (seulement pour les nouveaux documents) : à valider avec le propriétaire avant (`"fusionner": true`).
+- **TROIS fournisseurs ont DEUX numéros (codes) fournisseur chacun, à garder ensemble** (fusion validée par le propriétaire ; `fournisseurAliasesDepense.json`, `"fusionner": true` ; l'autre numéro est gardé dans `nfrAlias` de la fiche) :
+  1. **HGC** : `230977` « HG COMMERCIALE » (jusqu'à début 2026) + `106535292` « HGC HANDEL AG » (depuis 2026) → fiche 230977.
+  2. **SINEF** : `441135527` « SINEF SA » + `411135527` « SINEF » → fiche 441135527.
+  3. **Romande Energie** : `109492986` « ROMANDE ENERGI 4 » + `198271` « Romande Energie SA » → fiche 109492986.
+  Si un fournisseur change de numéro, l'ajouter dans ce fichier avec `"fusionner": true`.
+- Les AUTRES groupes d'alias du fichier (28) NE sont PAS fusionnés dans les données existantes (seulement pour les nouveaux documents) : validation du propriétaire requise avant.
 - `fournisseurExclusionsDepense.json` doit rester COMPLET (11 nfr dont INEG Management 637079, AVS des entrepreneurs 331915, État de Vaud Emploi 10249, AFC 11733) : sinon un nouvel import les compte comme dépense.
 
 ## Formulaire d'évaluation (`FormulaireEvaluationTab.tsx`)
