@@ -628,10 +628,11 @@ export function supplierHistoryFuzzy(all: EvalRecord[], nom: string): EvalRecord
 
 /** Type + familles/CFC observés dans l'historique pour un fournisseur (par nom normalisé) —
  * sert à filtrer la liste blacklist "par nature de fournisseur". */
-export function supplierClassifications(all: EvalRecord[], nom: string): { types: string[]; cfc: string[] } {
+export function supplierClassifications(all: EvalRecord[], nom: string): { types: string[]; cfc: string[]; secteurs: string[] } {
   const n = normNom(nom)
   const recs = all.filter((r) => normNom(r.nom) === n)
   const types = Array.from(new Set(recs.map((r) => normalizeType(r.type)).filter(Boolean)))
   const cfc = Array.from(new Set(recs.map((r) => r.famille).filter((f) => f && f.toUpperCase().startsWith('CFC'))))
-  return { types, cfc }
+  const secteurs = Array.from(new Set(recs.map((r) => r.secteur).filter((x) => x && x !== 'Général')))
+  return { types, cfc, secteurs }
 }

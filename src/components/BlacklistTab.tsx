@@ -112,6 +112,8 @@ export default function BlacklistTab({ all, blacklist, onZoom }: { all: EvalReco
     [enriched],
   )
 
+  const secteurOptions = useMemo(() => Array.from(new Set(enriched.flatMap((e) => e.classifications.secteurs))).sort(), [enriched])
+  const [secteurSel, setSecteurSel] = useState('')
   const [selectedFilters, setSelectedFilters] = useState<string[]>([])
   const [search, setSearch] = useState('')
 
@@ -119,15 +121,16 @@ export default function BlacklistTab({ all, blacklist, onZoom }: { all: EvalReco
     const q = search.trim().toLowerCase()
     return enriched.filter((e) => {
       if (q && !e.entry.nom.toLowerCase().includes(q)) return false
+      if (secteurSel && !e.classifications.secteurs.includes(secteurSel)) return false
       if (selectedFilters.length === 0) return true
       return selectedFilters.includes(e.type) || e.classifications.cfc.some((c) => selectedFilters.includes(c))
     })
-  }, [enriched, selectedFilters, search])
+  }, [enriched, selectedFilters, search, secteurSel])
 
   return (
     <div className="space-y-4">
       <div className="card">
-        <h3 className="font-semibold mb-1 text-red-700">🚫 Fournisseurs blacklistés ({blacklist.length})</h3>
+        <h3 className="font-semibold mb-1 text-red-700">🚫 Fournisseurs blacklistés ({filtered.length}{filtered.length !== blacklist.length ? ` / ${blacklist.length}` : ''})</h3>
         <p className="text-xs text-slate-500 mb-3">
           Identifiés dans l'historique 2008-2025 (colonne Remarques) comme à ne plus consulter. Les remarques
           n'étant pas datées individuellement dans le fichier source, elles sont listées dans leur ordre
@@ -153,6 +156,17 @@ export default function BlacklistTab({ all, blacklist, onZoom }: { all: EvalReco
           )}
         </div>
         <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-xs uppercase text-slate-500 mr-1">Entité</span>
+            <button className={!secteurSel ? 'btn-primary text-xs py-1' : 'btn-secondary text-xs py-1'} onClick={() => setSecteurSel('')}>
+              Toutes
+            </button>
+            {secteurOptions.map((x) => (
+              <button key={x} className={secteurSel === x ? 'btn-primary text-xs py-1' : 'btn-secondary text-xs py-1'} onClick={() => setSecteurSel(secteurSel === x ? '' : x)}>
+                {x}
+              </button>
+            ))}
+          </div>
           <div className="flex flex-wrap items-center gap-1.5">
             <span className="text-xs uppercase text-slate-500 mr-1">Type</span>
             {typeOptions.map((t) => {
@@ -185,8 +199,8 @@ export default function BlacklistTab({ all, blacklist, onZoom }: { all: EvalReco
               })}
             </div>
           )}
-          {selectedFilters.length > 0 && (
-            <button className="text-xs text-slate-400 underline" onClick={() => setSelectedFilters([])}>
+          {(selectedFilters.length > 0 || secteurSel) && (
+            <button className="text-xs text-slate-400 underline" onClick={() => { setSelectedFilters([]); setSecteurSel('') }}>
               Réinitialiser
             </button>
           )}

@@ -8,6 +8,7 @@ import {
   anneesDisponibles,
   computeKpis,
   critereMoyennes,
+  normalizeType,
   defaultFilters,
   familleBreakdown,
   findSecteurStat,
@@ -163,7 +164,18 @@ function SecteurTab({
       .sort((a, b) => (b.ca ?? -1) - (a.ca ?? -1) || (b.note ?? 0) - (a.note ?? 0))
   }, [all, secteur, annee])
 
-  const critereData = useMemo(() => critereMoyennes(currentRows), [currentRows])
+  // Les critères dépendent du type de fournisseur : on ne les moyenne jamais tous ensemble.
+  const [typeCritere, setTypeCritere] = useState('')
+  const typesCritere = useMemo(() => {
+    const m = new Map<string, number>()
+    for (const r of currentRows) if (r.criteres && Object.keys(r.criteres).length > 0) m.set(normalizeType(r.type || 'Non classé'), (m.get(normalizeType(r.type || 'Non classé')) ?? 0) + 1)
+    return [...m.entries()].sort((a, b) => b[1] - a[1])
+  }, [currentRows])
+  const typeActif = typesCritere.some(([t]) => t === typeCritere) ? typeCritere : (typesCritere[0]?.[0] ?? '')
+  const critereData = useMemo(
+    () => critereMoyennes(currentRows.filter((r) => normalizeType(r.type || 'Non classé') === typeActif)),
+    [currentRows, typeActif],
+  )
   const familleData = useMemo(() => familleBreakdown(currentRows), [currentRows])
   const stat = useMemo(() => (annee != null ? findSecteurStat(secteurStats, secteur, annee) : null), [secteurStats, secteur, annee])
 
@@ -247,11 +259,38 @@ function SecteurTab({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="card">
-              <h3 className="font-semibold mb-3">
+              <h3 className="font-semibold mb-2">
                 Moyenne par critère — {secteur} {annee}
               </h3>
-              {critereData.length > 0 ? (
-                <BarChart data={critereData.map((c) => ({ label: c.label, value: c.moyenne, sub: `${c.nbFournisseurs} fournisseurs` }))} max={5} />
+              {typesCritere.length > 0 ? (
+                <>
+                  <div className="flex flex-wrap gap-1.5 mb-3">
+                    {typesCritere.map(([t, n]) => (
+                      <button key={t} className={t === typeActif ? 'btn-primary text-xs py-1' : 'btn-secondary text-xs py-1'} onClick={() => setTypeCritere(t)}>
+                        {t} ({n})
+                      </button>
+                    ))}
+                  </div>
+                  <ul className="space-y-2">
+                    {critereData.map((c) => (
+                      <li key={c.label}>
+                        <div className="flex items-baseline justify-between gap-3 text-sm">
+                          <span className="text-slate-700">{c.label}</span>
+                          <span className="font-semibold tabular-nums shrink-0" style={{ color: c.moyenne < 3 ? '#c2410c' : c.moyenne < 3.5 ? '#475569' : '#15803d' }}>
+                            {c.moyenne.toLocaleString('fr-CH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          </span>
+                        </div>
+                        <div className="h-1.5 rounded bg-slate-100 mt-0.5">
+                          <div className="h-1.5 rounded" style={{ width: `${(c.moyenne / 5) * 100}%`, backgroundColor: c.moyenne < 3 ? '#ea580c' : c.moyenne < 3.5 ? '#94a3b8' : '#16a34a' }} />
+                        </div>
+                        <div className="text-[11px] text-slate-400">{c.nbFournisseurs} fournisseur(s) noté(s)</div>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="text-[11px] text-slate-400 mt-3">
+                    Critères propres au type « {typeActif} », triés du plus faible au plus fort. Orange : moyenne &lt; 3 · vert : ≥ 3,5.
+                  </p>
+                </>
               ) : (
                 <p className="text-sm text-slate-500">Détail par critère non disponible pour ce secteur/année.</p>
               )}
