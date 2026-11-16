@@ -28,6 +28,7 @@ export interface Profile {
   canViewFormulaire: boolean
   canViewZoomEvaluation: boolean
   canViewChantiers: boolean
+  canViewPaiement: boolean
   canViewZoomFournisseur: boolean
   canViewBfa: boolean
   canViewSeanceLancement: boolean

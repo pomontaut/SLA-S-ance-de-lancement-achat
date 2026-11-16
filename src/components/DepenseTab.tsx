@@ -77,8 +77,6 @@ function EntiteTable({ parEntite }: { parEntite: Record<string, DepenseBucketSta
             <th className="py-2 pr-3">Montant</th>
             <th className="py-2 pr-3">% du total</th>
             <th className="py-2 pr-3">Documents</th>
-            <th className="py-2 pr-3">Payé à temps</th>
-            <th className="py-2">Payé en retard</th>
           </tr>
         </thead>
         <tbody>
@@ -95,12 +93,6 @@ function EntiteTable({ parEntite }: { parEntite: Record<string, DepenseBucketSta
               <td className="py-1.5 pr-3 font-medium">{formatCurrency(v.montantTotal)}</td>
               <td className="py-1.5 pr-3">{pct(v.montantTotal, total)}%</td>
               <td className="py-1.5 pr-3">{v.nbDocuments}</td>
-              <td className="py-1.5 pr-3 text-green-600">
-                {v.nbATemps} ({formatCurrency(v.montantATemps)})
-              </td>
-              <td className="py-1.5 text-red-600">
-                {v.nbEnRetard} ({formatCurrency(v.montantEnRetard)})
-              </td>
             </tr>
           ))}
         </tbody>
@@ -124,8 +116,6 @@ function AnneeTable({ parAnnee }: { parAnnee: Record<string, DepenseBucketStats>
             <th className="py-2 pr-3">Montant</th>
             <th className="py-2 pr-3">% du total</th>
             <th className="py-2 pr-3">Documents</th>
-            <th className="py-2 pr-3">Payé à temps</th>
-            <th className="py-2">Payé en retard</th>
           </tr>
         </thead>
         <tbody>
@@ -135,12 +125,6 @@ function AnneeTable({ parAnnee }: { parAnnee: Record<string, DepenseBucketStats>
               <td className="py-1.5 pr-3 font-medium">{formatCurrency(v.montantTotal)}</td>
               <td className="py-1.5 pr-3">{pct(v.montantTotal, total)}%</td>
               <td className="py-1.5 pr-3">{v.nbDocuments}</td>
-              <td className="py-1.5 pr-3 text-green-600">
-                {v.nbATemps} ({formatCurrency(v.montantATemps)})
-              </td>
-              <td className="py-1.5 text-red-600">
-                {v.nbEnRetard} ({formatCurrency(v.montantEnRetard)})
-              </td>
             </tr>
           ))}
         </tbody>
@@ -221,8 +205,6 @@ function ChantierTable({
             <th className="py-2 pr-3">% du total</th>
             <th className="py-2 pr-3">Documents</th>
             <th className="py-2 pr-3">Nb factures</th>
-            <th className="py-2 pr-3">Payé à temps</th>
-            <th className="py-2">Payé en retard</th>
           </tr>
         </thead>
         <tbody>
@@ -240,12 +222,6 @@ function ChantierTable({
               <td className="py-1.5 pr-3">{pct(c.montantTotal, montantTotal)}%</td>
               <td className="py-1.5 pr-3">{c.nbDocuments}</td>
               <td className="py-1.5 pr-3">{c.nbFactures}</td>
-              <td className="py-1.5 pr-3 text-green-600">
-                {c.nbATemps} ({formatCurrency(c.montantATemps)})
-              </td>
-              <td className="py-1.5 text-red-600">
-                {c.nbEnRetard} ({formatCurrency(c.montantEnRetard)})
-              </td>
             </tr>
           ))}
         </tbody>
@@ -448,11 +424,6 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
     () => (data && !selectedEntite && !selectedAnnee ? pct(data.consortium.montantTotal, data.global.montantTotal) : null),
     [data, selectedEntite, selectedAnnee],
   )
-  const ncPct = useMemo(() => (g ? pct(Math.abs(g.montantNotesCredit), g.montantFactures) : null), [g])
-  const paiementConnuPct = useMemo(
-    () => (g ? pct(g.nbATemps, g.nbATemps + g.nbEnRetard) : null),
-    [g],
-  )
 
   // ---- Périmètre commun à toutes les sections : entité ET année choisies (calculé depuis les documents) ----
   const entrees = useMemo(() => {
@@ -559,8 +530,8 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
         nom,
         lignes: [
           [contexteXls],
-          [colonne, 'Montant CHF HT', '% du total', 'Documents', 'Payés à temps (nb)', 'Payés à temps (CHF HT)', 'En retard (nb)', 'En retard (CHF HT)'],
-          ...rows.map(([k, v]) => [k, v.montantTotal, pct(v.montantTotal, total), v.nbDocuments, v.nbATemps, v.montantATemps, v.nbEnRetard, v.montantEnRetard] as (string | number | null)[]),
+          [colonne, 'Montant CHF HT', '% du total', 'Documents'],
+          ...rows.map(([k, v]) => [k, v.montantTotal, pct(v.montantTotal, total), v.nbDocuments] as (string | number | null)[]),
         ],
       },
     ])
@@ -577,12 +548,8 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
       <div className="card bg-amber-50 border border-amber-200">
         <p className="text-xs text-amber-800">
           <strong>Méthodologie :</strong> tous les montants ci-dessous sont <strong>HT (hors TVA)</strong> : montant du journal
-          comptable moins l'impôt préalable (TVA) de chaque document — notes de crédit comprises. L'échéance
-          de paiement est estimée par <em>Date doc. + nombre de jours de la condition de paiement</em> (ex. « 30
-          JOURS NET » → 30 jours) : les conditions avec escompte n'indiquent pas toujours le délai net réel dans ce
-          fichier. Le taux de retard constaté ci-dessous est élevé (délai médian observé ≈ 73 jours pour un délai
-          « 30 JOURS NET ») — à valider avec la comptabilité avant diffusion, ça peut aussi être révélateur d'une
-          vraie pratique de paiement différé.
+          comptable moins l'impôt préalable (TVA) de chaque document. Seules les charges d'achat du plan comptable sont comptées.
+          Les délais et retards de paiement sont dans l'onglet « Paiement ».
         </p>
       </div>
 
@@ -686,29 +653,6 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
           value={String(g.nbFactures)}
           sub={`Facture moyenne : ${formatCurrency(g.montantFactures / g.nbFactures)}`}
         />
-        <StatTile
-          label="Notes de crédit"
-          value={formatCurrency(g.montantNotesCredit)}
-          sub={ncPct != null ? `${ncPct}% du montant facturé — ${g.nbNotesCredit} note(s)` : `${g.nbNotesCredit} note(s)`}
-        />
-        <StatTile
-          label="Payé à temps"
-          value={`${g.nbATemps} doc.`}
-          sub={`${formatCurrency(g.montantATemps)}${paiementConnuPct != null ? ` — ${paiementConnuPct}%` : ''}`}
-          tone="good"
-        />
-        <StatTile
-          label="Payé en retard"
-          value={`${g.nbEnRetard} doc.`}
-          sub={`${formatCurrency(g.montantEnRetard)} — retard moyen ${g.retardMoyenJours ?? '—'} j.`}
-          tone="critical"
-        />
-        <StatTile
-          label="En attente de paiement"
-          value={formatCurrency(g.montantEnAttente)}
-          sub={`${g.nbEnAttente} document(s) non soldé(s)`}
-          tone="warning"
-        />
       </div>
 
       {/* Dépense par année : masquée quand une seule année est choisie (il n'y a plus qu'elle). */}
@@ -773,8 +717,8 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
                       nom: 'Par chantier',
                       lignes: [
                         [contexteXls],
-                        ['Chantier', 'Technicien', 'Montant CHF HT', '% du total', 'Documents', 'Factures', 'Payés à temps (CHF HT)', 'En retard (CHF HT)'],
-                        ...chantierEff.rows.map((c) => [chantierLabel(c.code, c.nom), c.technicien, c.montantTotal, pct(c.montantTotal, g.montantTotal), c.nbDocuments, c.nbFactures, c.montantATemps, c.montantEnRetard] as (string | number | null)[]),
+                        ['Chantier', 'Technicien', 'Montant CHF HT', '% du total', 'Documents', 'Factures'],
+                        ...chantierEff.rows.map((c) => [chantierLabel(c.code, c.nom), c.technicien, c.montantTotal, pct(c.montantTotal, g.montantTotal), c.nbDocuments, c.nbFactures] as (string | number | null)[]),
                       ],
                     },
                   ])

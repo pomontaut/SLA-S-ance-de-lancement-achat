@@ -92,6 +92,8 @@ export interface DepensesGlobal {
   /** Années dont les données sont incomplètes (ex. { "2026": "janv.–sept. 2026" }) — posé par
    * script/appliquer_plan_comptable_depense.py à l'import d'un journal en cours d'année. */
   anneesPartielles?: Record<string, string>
+  /** Date d'arrêté des paiements (AAAA-MM-JJ) : un document impayé est jugé en retard à cette date. */
+  dateReference?: string
   exclusionsCompte?: {
     nbLignes: number
     montantTotal: number
@@ -120,6 +122,10 @@ export interface DepenseDocument {
   chantierConsortium: boolean | null
   aff: 'CHANTIER INDUNI' | 'CONSORTIUM'
   montant: number | null
+  /** TVA du document (CHF, positive sur une facture) — `montant` est HT. */
+  tva?: number
+  /** Date de mise à disposition au paiement (fin du circuit de validation interne). */
+  dateDispo?: string
   ref: string | null
   enRetard: boolean
   /** Année de rattachement comptable, quand elle diffère de l'année de `dateDoc` — cas d'une note

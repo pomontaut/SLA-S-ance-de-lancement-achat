@@ -40,7 +40,7 @@ def classer(cpts):
     return None
 
 
-def lire_compile(path, comptes, taux):
+def lire_compile(path, comptes, taux, dispo):
     ws = openpyxl.load_workbook(path, read_only=True, data_only=True).worksheets[0]
     it = ws.iter_rows(values_only=True)
     i = {n: k for k, n in enumerate(next(it))}
@@ -48,6 +48,9 @@ def lire_compile(path, comptes, taux):
         if r[i["N° doc"]] is not None:
             cle = (AFF[r[i["Aff."]]], int(r[i["N° doc"]]))
             comptes[cle] = [str(r[i["Cpt Débit"]])]
+            dd = str(r[i["Date dispo"]] or "")
+            if len(dd) == 10 and dd[2] == "." and dd[5] == ".":
+                dispo[cle] = f"{dd[6:]}-{dd[3:5]}-{dd[:2]}"
             try:
                 taux[cle] = float(r[i["%TVA"]] or 0)
             except (TypeError, ValueError):
@@ -177,6 +180,7 @@ def main(argv):
     a_blanc = "--a-blanc" in argv
     argv = [a for a in argv if a != "--a-blanc"]
     comptes, docs_bruts, aff, nouveaux, k = {}, [], None, False, 0
+    dispo = {}  # date de mise à disposition au paiement (fin du circuit de validation)
     taux, tva_docs = {}, {}  # TVA : taux par document (journal compilé) ou montant réel (exports bruts)
     divisions = {}
     while k < len(argv):
@@ -190,7 +194,7 @@ def main(argv):
         entete = next(ws.iter_rows(values_only=True, max_row=1))
         print("lecture", os.path.basename(t), "...", flush=True)
         if entete and entete[0] == "Fournisseur":
-            lire_compile(t, comptes, taux)
+            lire_compile(t, comptes, taux, dispo)
         else:
             if not aff:
                 sys.exit("export brut : précisez --aff INDUNI ou --aff CONSORTIUM avant le fichier")
@@ -198,6 +202,8 @@ def main(argv):
             for d in docs:
                 comptes[(d["aff"], d["docno"])] = [p["debit"] for p in d["pos"]]
                 tva_docs[(d["aff"], d["docno"])] = round(d["tva"], 2)
+                if d.get("dispo"):
+                    dispo[(d["aff"], d["docno"])] = d["dispo"]
                 if d["aff"] == "CONSORTIUM":
                     divisions[(d["aff"], d["docno"])] = d.get("gb")
             if nouveaux:
@@ -242,6 +248,11 @@ def main(argv):
         print(f"Chantiers {e} : {gc_maj[(e, 'noms')]} documents renommés, {gc_maj[(e, 'entite')]} rattachés à l'entité {e}")
 
     convertir_ht(F, tva_docs, taux)
+    for f in F:
+        for d in f["documents"]:
+            dd = dispo.get((d["aff"], d["docno"]))
+            if dd:
+                d["dateDispo"] = dd
 
     retires = collections.defaultdict(lambda: [0, 0.0])
     depot = collections.defaultdict(lambda: [0, 0.0])
@@ -289,6 +300,7 @@ def main(argv):
             if d.get("dateCofi"):
                 cofi_max[d["dateCofi"][:4]] = max(cofi_max.get(d["dateCofi"][:4], ""), d["dateCofi"])
     G["anneesPartielles"] = {a: f"janv.–{mois[int(m[5:7]) - 1]} {a}" for a, m in cofi_max.items() if m[5:7] != "12"}
+    G["dateReference"] = A.TODAY_REF  # date d'arrêté des paiements (documents impayés = en retard à cette date)
     G["exclusionsCompte"] = {
         "nbLignes": sum(v[0] for v in par_an.values()),
         "montantTotal": round(sum(v[1] for v in par_an.values()), 2),

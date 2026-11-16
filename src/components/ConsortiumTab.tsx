@@ -13,17 +13,11 @@ function Row({ label, a, b }: { label: string; a: string; b: string }) {
 }
 
 function bucketRows(v: DepenseBucketStats) {
-  const paiementConnu = v.nbATemps + v.nbEnRetard
   return {
     montant: formatCurrency(v.montantTotal),
     nbDocuments: String(v.nbDocuments),
     nbFournisseurs: v.nbFournisseurs != null ? String(v.nbFournisseurs) : '—',
     factureMoyenne: v.nbFactures ? formatCurrency(v.montantFactures / v.nbFactures) : '—',
-    notesCredit: `${formatCurrency(v.montantNotesCredit)} (${v.nbNotesCredit})`,
-    aTemps: `${v.nbATemps} (${formatCurrency(v.montantATemps)})${paiementConnu ? ` — ${pct(v.nbATemps, paiementConnu)}%` : ''}`,
-    enRetard: `${v.nbEnRetard} (${formatCurrency(v.montantEnRetard)})${paiementConnu ? ` — ${pct(v.nbEnRetard, paiementConnu)}%` : ''}`,
-    retardMoyen: v.retardMoyenJours != null ? `${v.retardMoyenJours} j.` : '—',
-    enAttente: `${v.nbEnAttente} (${formatCurrency(v.montantEnAttente)})`,
   }
 }
 
@@ -64,11 +58,6 @@ export default function ConsortiumTab() {
             <Row label="Nombre de documents" a={chantier.nbDocuments} b={consortium.nbDocuments} />
             <Row label="Fournisseurs distincts" a={chantier.nbFournisseurs} b={consortium.nbFournisseurs} />
             <Row label="Facture moyenne" a={chantier.factureMoyenne} b={consortium.factureMoyenne} />
-            <Row label="Notes de crédit" a={chantier.notesCredit} b={consortium.notesCredit} />
-            <Row label="Payé à temps" a={chantier.aTemps} b={consortium.aTemps} />
-            <Row label="Payé en retard" a={chantier.enRetard} b={consortium.enRetard} />
-            <Row label="Retard moyen" a={chantier.retardMoyen} b={consortium.retardMoyen} />
-            <Row label="En attente de paiement" a={chantier.enAttente} b={consortium.enAttente} />
           </tbody>
         </table>
       </div>

@@ -25,6 +25,7 @@ export type SousSectionView =
   | 'depense'
   | 'chantiers'
   | 'consortium'
+  | 'paiement'
   | 'zoomFournisseur'
   | 'bfa'
 
@@ -60,6 +61,7 @@ export const SECTIONS: SectionDef[] = [
       { view: 'depense', label: '💰 Analyse de la dépense', permission: 'canViewDepense' },
       { view: 'chantiers', label: '🏗 Analyse chantier', permission: 'canViewChantiers' },
       { view: 'consortium', label: 'Consortium', permission: 'canViewConsortium' },
+      { view: 'paiement', label: '💳 Paiement', permission: 'canViewPaiement' },
       { view: 'zoomFournisseur', label: '🔍 Zoom fournisseur', permission: 'canViewZoomFournisseur' },
     ],
   },

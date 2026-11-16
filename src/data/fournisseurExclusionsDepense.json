@@ -68,5 +68,10 @@
   "nfr": 434072,
   "nom": "ETAT DE VAUD 1",
   "motif": "Alias de l'État de Vaud (nfr 10249, Service de l'emploi) — organisme public, pas un fournisseur externe, exclu sur demande explicite."
+ },
+ {
+  "nfr": 279186532,
+  "nom": "GROUPE INDUNI SA",
+  "motif": "Société du groupe INDUNI (écritures intercompagnie) — pas un fournisseur externe, exclue sur demande explicite."
  }
 ]

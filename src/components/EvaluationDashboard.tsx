@@ -27,6 +27,7 @@ import BlacklistTab from './BlacklistTab'
 import DepenseTab from './DepenseTab'
 import ConsortiumTab from './ConsortiumTab'
 import ChantiersTab from './ChantiersTab'
+import PaiementTab from './PaiementTab'
 import FormulaireEvaluationTab from './FormulaireEvaluationTab'
 
 function formatCurrency(value: number | null): string {
@@ -483,6 +484,8 @@ export default function EvaluationDashboard({ profile, section }: { profile: Pro
       {view === 'depense' && <DepenseTab onZoom={handleZoom} />}
 
       {view === 'chantiers' && <ChantiersTab />}
+
+      {view === 'paiement' && <PaiementTab onZoom={handleZoom} />}
 
       {view === 'formulaire' && <FormulaireEvaluationTab />}
 
