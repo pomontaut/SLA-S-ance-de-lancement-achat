@@ -29,7 +29,10 @@ Propriétaire : Pierre-Olivier Montaut (français, direct). Réponses en frança
 
 ## Onglets
 - **Suivi BFA** : onglet vide (admin seulement) en attendant les instructions du propriétaire.
-- **Chantiers** (sous-onglet du Dashboard, droit `canViewDepense`) : dépense par chantier (mois, année) et par fournisseur (année, trimestre).
+- **Chantiers** (`ChantiersTab.tsx` + `DepenseCharts.tsx`, sous-onglet du Dashboard, droit `canViewDepense`) : filtres entité / chantier / année / fournisseur ;
+  sections : par mois et par année (+ ligne « % par mois » sur les ANNÉES PLEINES seulement, 2026 exclu), par fournisseur (année ou trimestre, avec % de l'année/du trimestre),
+  Pareto, Top 20, typologie de fournisseurs (famille d'achat), par chantier (année en cours par défaut). Graphiques SVG ; **chaque tableau a un bouton « ⬇ Excel »** (`src/lib/exportExcel.ts`, lib `xlsx`, chargée à la demande).
+  Entités affichées via `entiteLabel` (DG = « Direction Générale », DEPOT = « Dépôt », AUTRES = « Autres ») dans l'onglet Chantiers et l'analyse de dépense.
 
 ## Dashboard évaluation — Vue d'ensemble (`OverviewHeader.tsx`, maquette papier du propriétaire)
 - En-tête « Dashboard évaluation <année> » (titre centré) : 4 tuiles de même taille (fournisseurs évalués, nombre d'évaluations, moyenne globale, périmètre évalué en CHF) ; chacune avec « <année-1> : … » dessous ET l'évolution signée (+/−, vert/rouge) à côté du chiffre. Boutons de secteurs tous de même taille.

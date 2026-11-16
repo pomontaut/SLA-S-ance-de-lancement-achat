@@ -13,7 +13,7 @@ import {
   loadGroupesFournisseurs,
   pct,
 } from '../data/depenses'
-import { secteurColor } from '../data/palette'
+import { entiteLabel, secteurColor } from '../data/palette'
 
 function StatTile({
   label,
@@ -64,7 +64,7 @@ function EntiteTable({ parEntite }: { parEntite: Record<string, DepenseBucketSta
                   className="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium text-white"
                   style={{ backgroundColor: secteurColor(entite) }}
                 >
-                  {entite}
+                  {entiteLabel(entite)}
                 </span>
               </td>
               <td className="py-1.5 pr-3 font-medium">{formatCurrency(v.montantTotal)}</td>
@@ -477,7 +477,7 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
             }
             onClick={() => setSelectedEntite(entite)}
           >
-            {entite}
+            {entiteLabel(entite)}
           </button>
         ))}
       </div>
