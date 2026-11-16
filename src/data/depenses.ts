@@ -86,6 +86,16 @@ export interface DepensesGlobal {
   /** Fournisseurs exclus du reporting car ce ne sont pas de vrais fournisseurs externes
    * (écritures intercompagnie, caisses sociales, etc.) — voir fournisseurExclusionsDepense.json.
    * Sert à documenter au survol ce qui a été retiré du montant "Dépense totale". */
+  /** Documents retirés car leur compte débit n'est pas une charge d'achat du plan comptable
+   * (créanciers, impôt à la source, AVS, prévoyance, salaires, immobilisations, escomptes…) —
+   * voir script/appliquer_plan_comptable_depense.py. */
+  exclusionsCompte?: {
+    nbLignes: number
+    montantTotal: number
+    parAnnee: Record<string, { nbLignes: number; montantTotal: number }>
+    details: { compte: string; libelle: string; annee: string; nbLignes: number; montant: number }[]
+    regle: string
+  }
   exclusions?: {
     nbLignes: number
     montantTotal: number

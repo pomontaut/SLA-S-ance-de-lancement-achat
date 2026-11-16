@@ -119,3 +119,12 @@ npm run build
 Le résultat dans `dist/` est un site statique déployable sur n'importe quel
 hébergeur (Vercel, Netlify, GitHub Pages…) — il continuera à parler à Supabase
 via les variables d'environnement injectées au build.
+
+## Analyse de dépense : plan comptable
+
+La dépense ne compte que les **charges d'achat** du plan comptable (compte débit du journal COFI en
+classes 3 et 4, hors 400 salaires et 52 prestations internes) ; créanciers, impôt à la source, AVS,
+prévoyance, immobilisations, escomptes, produits… sont retirés (`exclusionsCompte` dans
+`depensesGlobal.json`, visible au survol de « Dépense totale »). Pour (re)appliquer la règle à de nouveaux
+journaux : `python3 script/appliquer_plan_comptable_depense.py JOURNAL_COMPILE.xlsx --aff INDUNI BRUT.xlsx --aff CONSORTIUM BRUT2.xlsx`
+(`--a-blanc` = rapport sans rien écrire). Libellés : `script/plan_comptable.json` (Plan_comptable.xlsx).

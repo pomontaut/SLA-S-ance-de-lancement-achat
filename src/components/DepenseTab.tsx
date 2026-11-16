@@ -515,11 +515,16 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
         <StatTile
           label="Dépense totale (montant pos.)"
           value={formatCurrency(g.montantTotal)}
-          title={
+          title={[
             data.exclusions
               ? `${formatCurrency(data.exclusions.montantTotal)} exclus (${data.exclusions.nbLignes} ligne(s)) : ${data.exclusions.details.map((e) => `${e.nom} (${formatCurrency(e.montant)}) — ${e.motif}`).join(' · ')}`
-              : undefined
-          }
+              : null,
+            data.exclusionsCompte
+              ? `Plan comptable : ${formatCurrency(data.exclusionsCompte.montantTotal)} retirés (${data.exclusionsCompte.nbLignes} document(s) hors charges d'achat — ${data.exclusionsCompte.details.slice(0, 6).map((e) => `${e.compte} ${e.libelle || ''} ${e.annee}: ${formatCurrency(e.montant)}`).join(' · ')}). ${data.exclusionsCompte.regle}`
+              : null,
+          ]
+            .filter(Boolean)
+            .join('\n\n') || undefined}
         />
         {!selectedEntite && !selectedAnnee && (
           <>
