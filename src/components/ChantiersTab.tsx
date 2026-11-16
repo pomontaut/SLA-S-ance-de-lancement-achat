@@ -4,6 +4,7 @@ import { anneeComptable, formatCurrency, loadDepensesFournisseurs, loadDepensesG
 import { entiteLabel } from '../data/palette'
 import { dateFichier, exportXlsx } from '../lib/exportExcel'
 import { Anneau, BarresH, EvolutionChart, MoisChart, ParetoChart } from './DepenseCharts'
+import { useFiltresSpend } from './FiltresSpend'
 
 // Onglet « Chantiers » : dépense (montant pos., charges d'achat — voir CLAUDE.md) par chantier, par
 // mois et par année ; par fournisseur (année, trimestre, % de l'année) ; Pareto, Top 20, typologie
@@ -65,12 +66,17 @@ function Section({ titre, onExcel, children, aide }: { titre: string; onExcel?: 
 export default function ChantiersTab() {
   const [fournisseurs, setFournisseurs] = useState<DepenseFournisseur[] | null>(null)
   const [partielles, setPartielles] = useState<string[]>([])
-  const [entite, setEntite] = useState('')
+  const partage = useFiltresSpend()
+  const [localEntite, setLocalEntite] = useState('')
+  const entite = partage ? partage.entite : localEntite
+  const setEntite = (v: string) => (partage ? partage.setEntite(v) : setLocalEntite(v))
   const [numeroSaisi, setNumeroSaisi] = useState('')
   const [nomSaisi, setNomSaisi] = useState('')
   const [chantier, setChantier] = useState('') // code du chantier reconnu (vide = tous)
   const [fournisseur, setFournisseur] = useState('')
-  const [annee, setAnnee] = useState('')
+  const [localAnnee, setLocalAnnee] = useState('')
+  const annee = partage ? (partage.annee === 'toutes' ? '' : partage.annee) : localAnnee
+  const setAnnee = (v: string) => (partage ? partage.setAnnee(v || 'toutes') : setLocalAnnee(v))
   const [vueFourn, setVueFourn] = useState<'annee' | 'trimestre'>('annee')
   const [tousFourn, setTousFourn] = useState(false)
   const [fournSel, setFournSel] = useState<string | null>(null) // fournisseur dont on affiche l'évolution
@@ -373,6 +379,7 @@ export default function ChantiersTab() {
       <div className="card space-y-3">
         <h3 className="font-semibold">🏗 Dépense par chantier et par fournisseur</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+          {!partage && (
           <div>
             <label className="label">Entité</label>
             <select className="input" value={entite} onChange={(e) => { setEntite(e.target.value); effacerChantier() }}>
@@ -384,6 +391,7 @@ export default function ChantiersTab() {
               ))}
             </select>
           </div>
+          )}
           <div>
             <label className="label">N° chantier</label>
             <input className="input" list="chantiers-tab-numeros" placeholder="Tapez un numéro…" value={numeroSaisi} onChange={(e) => saisirNumero(e.target.value)} />
@@ -402,6 +410,7 @@ export default function ChantiersTab() {
               <option key={c.code} value={c.nom!} label={c.code} />
             ))}
           </datalist>
+          {!partage && (
           <div>
             <label className="label">Année</label>
             <select className="input" value={annee} onChange={(e) => setAnnee(e.target.value)}>
@@ -414,6 +423,7 @@ export default function ChantiersTab() {
               ))}
             </select>
           </div>
+          )}
         </div>
         <div>
           <label className="label">Fournisseur</label>

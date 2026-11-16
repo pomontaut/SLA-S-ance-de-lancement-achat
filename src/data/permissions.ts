@@ -25,6 +25,8 @@ export type SousSectionView =
   | 'depense'
   | 'chantiers'
   | 'consortium'
+  | 'synthese'
+  | 'analyseFournisseurs'
   | 'paiement'
   | 'zoomFournisseur'
   | 'bfa'
@@ -57,11 +59,14 @@ export const SECTIONS: SectionDef[] = [
   {
     key: 'depense',
     label: 'Analyse Dépense',
+    // Ordre logique : où en est-on ? (synthèse) > d'où vient la dépense ? > avec qui ? > sur quels chantiers ? > comment paie-t-on ? > détail.
     subs: [
+      { view: 'synthese', label: '📊 Synthèse', permission: 'canViewSynthese' },
       { view: 'depense', label: '💰 Analyse de la dépense', permission: 'canViewDepense' },
+      { view: 'analyseFournisseurs', label: '🏢 Analyse fournisseurs', permission: 'canViewAnalyseFournisseurs' },
       { view: 'chantiers', label: '🏗 Analyse chantier', permission: 'canViewChantiers' },
-      { view: 'consortium', label: 'Consortium', permission: 'canViewConsortium' },
       { view: 'paiement', label: '💳 Paiement', permission: 'canViewPaiement' },
+      { view: 'consortium', label: 'Consortium', permission: 'canViewConsortium' },
       { view: 'zoomFournisseur', label: '🔍 Zoom fournisseur', permission: 'canViewZoomFournisseur' },
     ],
   },

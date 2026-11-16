@@ -28,6 +28,9 @@ import DepenseTab from './DepenseTab'
 import ConsortiumTab from './ConsortiumTab'
 import ChantiersTab from './ChantiersTab'
 import PaiementTab from './PaiementTab'
+import SyntheseTab from './SyntheseTab'
+import AnalyseFournisseursTab from './AnalyseFournisseursTab'
+import { BarreFiltresSpend, FiltresSpendProvider } from './FiltresSpend'
 import FormulaireEvaluationTab from './FormulaireEvaluationTab'
 
 function formatCurrency(value: number | null): string {
@@ -367,8 +370,8 @@ const SECTION_INTRO: Record<SectionKey, { titre: string; texte: string }> = {
       "Historique 2017-2025 consolidé (import statique). La richesse des données (CA, critères, nombre d'évaluateurs) varie selon secteurs/années : « Non disponible » plutôt qu'une estimation.",
   },
   depense: {
-    titre: 'Analyse de la dépense',
-    texte: "Charges d'achat du plan comptable (journal COFI), par fournisseur, chantier, entité et année.",
+    titre: 'Analyse Dépense',
+    texte: "Charges d'achat du plan comptable (journal COFI), montants HT. Parcours : Synthèse → répartition → fournisseurs → chantiers → paiement.",
   },
   bfa: { titre: 'Suivi BFA', texte: '' },
 }
@@ -389,7 +392,20 @@ function ZoomLanding({ evaluationOnly, onOpen }: { evaluationOnly: boolean; onOp
   )
 }
 
+/** Section « Analyse Dépense » : un périmètre commun (entité + année) pour tous ses onglets. */
 export default function EvaluationDashboard({ profile, section }: { profile: Profile; section: SectionKey }) {
+  return section === 'depense' ? (
+    <FiltresSpendProvider>
+      <EvaluationDashboardInner profile={profile} section={section} />
+    </FiltresSpendProvider>
+  ) : (
+    <EvaluationDashboardInner profile={profile} section={section} />
+  )
+}
+
+const VUES_AVEC_PERIMETRE: SousSectionView[] = ['synthese', 'depense', 'analyseFournisseurs', 'chantiers', 'paiement']
+
+function EvaluationDashboardInner({ profile, section }: { profile: Profile; section: SectionKey }) {
   const [all, setAll] = useState<EvalRecord[] | null>(null)
   const [allFull, setAllFull] = useState<EvalRecord[] | null>(null)
   const [secteurStats, setSecteurStats] = useState<SecteurStat[]>([])
@@ -459,6 +475,8 @@ export default function EvaluationDashboard({ profile, section }: { profile: Pro
         ))}
       </div>
 
+      {section === 'depense' && VUES_AVEC_PERIMETRE.includes(view) && <BarreFiltresSpend />}
+
       {view === 'overview' && <OverviewTab all={all} filters={filters} onFiltersChange={setFilters} onZoom={handleZoom} />}
 
       {view === 'secteur' && (
@@ -482,6 +500,10 @@ export default function EvaluationDashboard({ profile, section }: { profile: Pro
       {view === 'blacklist' && <BlacklistTab all={allFull ?? all} blacklist={blacklist} onZoom={handleZoom} />}
 
       {view === 'depense' && <DepenseTab onZoom={handleZoom} />}
+
+      {view === 'synthese' && <SyntheseTab onZoom={handleZoom} />}
+
+      {view === 'analyseFournisseurs' && <AnalyseFournisseursTab onZoom={handleZoom} />}
 
       {view === 'chantiers' && <ChantiersTab />}
 

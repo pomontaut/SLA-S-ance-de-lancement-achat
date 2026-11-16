@@ -336,3 +336,59 @@ export function EvolutionChart({ points }: { points: { annee: string; valeur: nu
     </svg>
   )
 }
+
+/** Cumul mensuel de plusieurs années (une courbe par année) : « où en est-on par rapport aux années précédentes ». */
+export function CumulChart({ series, mois }: { series: { label: string; valeurs: (number | null)[]; couleur?: string }[]; mois: string[] }) {
+  const W = 760, H = 250, P = { t: 16, r: 70, b: 28, l: 56 }
+  const iw = W - P.l - P.r, ih = H - P.t - P.b
+  const max = Math.max(1, ...series.flatMap((s2) => s2.valeurs.filter((v): v is number => v != null)))
+  const x = (i: number) => P.l + (i / 11) * iw
+  const y = (v: number) => P.t + ih - (v / max) * ih
+  return (
+    <div>
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto" role="img" aria-label="Cumul mensuel">
+        {[0, 0.25, 0.5, 0.75, 1].map((t) => (
+          <g key={t}>
+            <line x1={P.l} x2={W - P.r} y1={y(max * t)} y2={y(max * t)} stroke="#e2e8f0" />
+            <text x={P.l - 6} y={y(max * t)} textAnchor="end" dominantBaseline="middle" fontSize={10} fill="#94a3b8">
+              {fmtCompact(max * t)}
+            </text>
+          </g>
+        ))}
+        {mois.map((m, i) => (
+          <text key={m} x={x(i)} y={H - 10} textAnchor="middle" fontSize={10} fill="#64748b">
+            {m}
+          </text>
+        ))}
+        {series.map((s2, k) => {
+          const couleur = s2.couleur ?? couleurN(k)
+          const pts = s2.valeurs.map((v, i) => (v == null ? null : ([x(i), y(v)] as const)))
+          const reels = pts.filter((p): p is readonly [number, number] => p != null)
+          const dernier = reels[reels.length - 1]
+          const dv = [...s2.valeurs].reverse().find((v) => v != null)
+          return (
+            <g key={s2.label}>
+              <polyline points={reels.map((p) => p.join(',')).join(' ')} fill="none" stroke={couleur} strokeWidth={k === 0 ? 3 : 2} strokeDasharray={k === 0 ? undefined : '5 3'} />
+              {dernier && (
+                <>
+                  <circle cx={dernier[0]} cy={dernier[1]} r={4} fill={couleur} />
+                  <text x={dernier[0] + 6} y={dernier[1] + 3} fontSize={10} fontWeight={600} fill={couleur}>
+                    {fmtCompact(dv ?? 0)}
+                  </text>
+                </>
+              )}
+            </g>
+          )
+        })}
+      </svg>
+      <div className="flex flex-wrap gap-3 text-xs text-slate-600 mt-1">
+        {series.map((s2, k) => (
+          <span key={s2.label} className="inline-flex items-center gap-1">
+            <span className="inline-block w-4 h-0.5" style={{ backgroundColor: s2.couleur ?? couleurN(k) }} />
+            {s2.label}
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}

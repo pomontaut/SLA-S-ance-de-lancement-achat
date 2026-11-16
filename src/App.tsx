@@ -89,6 +89,8 @@ export default function App() {
           canViewFormulaire: false,
           canViewZoomEvaluation: false,
           canViewChantiers: false,
+          canViewSynthese: false,
+          canViewAnalyseFournisseurs: false,
           canViewPaiement: false,
           canViewZoomFournisseur: false,
           canViewBfa: false,

@@ -31,6 +31,8 @@ const PERMISSION_FIELDS = [
   'canViewFormulaire',
   'canViewZoomEvaluation',
   'canViewChantiers',
+  'canViewSynthese',
+  'canViewAnalyseFournisseurs',
   'canViewPaiement',
   'canViewZoomFournisseur',
   'canViewBfa',

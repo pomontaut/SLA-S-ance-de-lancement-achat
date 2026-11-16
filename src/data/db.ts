@@ -560,6 +560,8 @@ interface ProfileRow {
   // Colonnes ajoutées par migration_permissions_sections.sql (absentes tant que ce script n'est pas lancé)
   can_view_zoom_evaluation?: boolean | null
   can_view_chantiers?: boolean | null
+  can_view_synthese?: boolean | null
+  can_view_analyse_fournisseurs?: boolean | null
   can_view_paiement?: boolean | null
   can_view_zoom_fournisseur?: boolean | null
   can_view_bfa?: boolean | null
@@ -584,6 +586,8 @@ function profileFromRow(row: ProfileRow): Profile {
     // Repli tant que la migration n'est pas lancée : ces sous-sections héritent du droit de leur ancien onglet.
     canViewZoomEvaluation: row.can_view_zoom_evaluation ?? row.can_view_overview,
     canViewChantiers: row.can_view_chantiers ?? row.can_view_depense,
+    canViewSynthese: row.can_view_synthese ?? row.can_view_depense,
+    canViewAnalyseFournisseurs: row.can_view_analyse_fournisseurs ?? row.can_view_depense,
     canViewPaiement: row.can_view_paiement ?? row.can_view_depense,
     canViewZoomFournisseur: row.can_view_zoom_fournisseur ?? row.can_view_depense,
     canViewBfa: row.can_view_bfa ?? false,
@@ -623,6 +627,8 @@ export async function updateProfilePermissions(id: string, patch: NewProfilePatc
   if (patch.canViewFormulaire !== undefined) row.can_view_formulaire = patch.canViewFormulaire
   if (patch.canViewZoomEvaluation !== undefined) row.can_view_zoom_evaluation = patch.canViewZoomEvaluation
   if (patch.canViewChantiers !== undefined) row.can_view_chantiers = patch.canViewChantiers
+  if (patch.canViewSynthese !== undefined) row.can_view_synthese = patch.canViewSynthese
+  if (patch.canViewAnalyseFournisseurs !== undefined) row.can_view_analyse_fournisseurs = patch.canViewAnalyseFournisseurs
   if (patch.canViewPaiement !== undefined) row.can_view_paiement = patch.canViewPaiement
   if (patch.canViewZoomFournisseur !== undefined) row.can_view_zoom_fournisseur = patch.canViewZoomFournisseur
   if (patch.canViewBfa !== undefined) row.can_view_bfa = patch.canViewBfa

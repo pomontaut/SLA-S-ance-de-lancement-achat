@@ -16,6 +16,7 @@ import {
 import { entiteLabel, secteurColor } from '../data/palette'
 import { dateFichier, exportXlsx } from '../lib/exportExcel'
 import { Camembert } from './DepenseCharts'
+import { useFiltresSpend } from './FiltresSpend'
 
 function StatTile({
   label,
@@ -355,8 +356,14 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
   const [data, setData] = useState<DepensesGlobal | null>(null)
   const [groupes, setGroupes] = useState<GroupeFournisseur[] | null>(null)
   const [fournisseurs, setFournisseurs] = useState<DepenseFournisseur[] | null>(null)
-  const [selectedEntite, setSelectedEntite] = useState<string | null>(null)
-  const [selectedAnnee, setSelectedAnnee] = useState<string | null>(null)
+  // Périmètre commun à la section (barre du haut) ; repli sur un état local hors de la section.
+  const partage = useFiltresSpend()
+  const [localEntite, setLocalEntite] = useState<string | null>(null)
+  const [localAnnee, setLocalAnnee] = useState<string | null>(null)
+  const selectedEntite = partage ? partage.entite || null : localEntite
+  const selectedAnnee = partage ? (partage.annee === 'toutes' ? null : partage.annee || null) : localAnnee
+  const setSelectedEntite = (v: string | null) => (partage ? partage.setEntite(v ?? '') : setLocalEntite(v))
+  const setSelectedAnnee = (v: string | null) => (partage ? partage.setAnnee(v ?? 'toutes') : setLocalAnnee(v))
 
   useEffect(() => {
     loadDepensesGlobal().then(setData)
@@ -553,6 +560,8 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
         </p>
       </div>
 
+      {!partage && (
+        <>
       <div className="flex flex-wrap items-center gap-1.5">
         <span className="text-xs uppercase text-slate-500 mr-1">Analyse achat — entité</span>
         <button
@@ -612,6 +621,9 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
           </button>
         ))}
       </div>
+
+        </>
+      )}
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <StatTile

@@ -4,6 +4,7 @@ import { anneeComptable, loadDepensesFournisseurs, loadDepensesGlobal } from '..
 import { entiteLabel } from '../data/palette'
 import { dateFichier, exportXlsx } from '../lib/exportExcel'
 import { BarresH } from './DepenseCharts'
+import { useFiltresSpend } from './FiltresSpend'
 
 // Onglet « Paiement » : comment Induni paie ses fournisseurs. Toutes les factures (genre « Facture »)
 // avec une échéance ; montants HT, sauf le DPO (TTC, comme sa définition).
@@ -77,8 +78,13 @@ const ESCOMPTE = /(\d+)\s*JOURS\s+(\d+(?:[.,]\d+)?)\s*%/i
 export default function PaiementTab({ onZoom }: { onZoom?: (nom: string) => void }) {
   const [fournisseurs, setFournisseurs] = useState<DepenseFournisseur[] | null>(null)
   const [comptabilises, setComptabilises] = useState<Record<string, number>>({}) // escomptes comptabilisés (compte 702) par année
-  const [entite, setEntite] = useState('')
-  const [annee, setAnnee] = useState<string | null>(null) // null = dernière année
+  const partage = useFiltresSpend()
+  const [localEntite, setLocalEntite] = useState('')
+  const [localAnnee, setLocalAnnee] = useState<string | null>(null) // null = dernière année
+  const entite = partage ? partage.entite : localEntite
+  const setEntite = (v: string) => (partage ? partage.setEntite(v) : setLocalEntite(v))
+  const annee = partage ? partage.annee || null : localAnnee
+  const setAnnee = (v: string) => (partage ? partage.setAnnee(v) : setLocalAnnee(v))
 
   useEffect(() => {
     loadDepensesFournisseurs().then(setFournisseurs)
@@ -272,6 +278,8 @@ export default function PaiementTab({ onZoom }: { onZoom?: (nom: string) => void
     <div className="space-y-4">
       <div className="card space-y-3">
         <h3 className="font-semibold">💳 Paiement des fournisseurs</h3>
+        {!partage && (
+          <>
         <div className="flex flex-wrap items-center gap-1.5">
           <span className="text-xs uppercase text-slate-500 mr-1">Entité</span>
           {['', ...entites].map((e) => (
@@ -288,6 +296,8 @@ export default function PaiementTab({ onZoom }: { onZoom?: (nom: string) => void
             </button>
           ))}
         </div>
+          </>
+        )}
         <p className="text-[11px] text-slate-400">
           Montants HT (le DPO est en TTC). Retard de paiement = date de paiement − date d'échéance (positif = retard, négatif = paiement anticipé). Paiements connus
           jusqu'au : {annees.map((a) => `${a} → ${arret[a]?.split('-').reverse().join('.')}`).join(' · ')} — une facture impayée est jugée à cette date.
