@@ -5,7 +5,7 @@ import { entiteLabel } from '../data/palette'
 import { dateFichier, exportXlsx } from '../lib/exportExcel'
 import { BarresH } from './DepenseCharts'
 import type { FacturePaiement } from '../data/paiement'
-import { SEUIL_TAUX_PAIEMENT, arretsParAnnee, dpoAnnee as dpoDe, facturesPaiement, indicateursPaiement, jours, moy } from '../data/paiement'
+import { SEUIL_TAUX_PAIEMENT, ajouteJours, arretsParAnnee, loadEscomptesReels, dpoAnnee as dpoDe, facturesPaiement, indicateursPaiement, jours, moy } from '../data/paiement'
 import { useFiltresSpend } from './FiltresSpend'
 
 // Onglet « Paiement » : comment Induni paie ses fournisseurs. Toutes les factures (genre « Facture »)
@@ -54,6 +54,7 @@ function Tuile({ label, valeur, sous, ton }: { label: string; valeur: string; so
 export default function PaiementTab({ onZoom }: { onZoom?: (nom: string) => void }) {
   const [fournisseurs, setFournisseurs] = useState<DepenseFournisseur[] | null>(null)
   const [comptabilises, setComptabilises] = useState<Record<string, number>>({}) // escomptes comptabilisés (compte 702) par année
+  const [escReels, setEscReels] = useState<Record<string, number>>({})
   const partage = useFiltresSpend()
   const [localEntite, setLocalEntite] = useState('')
   const [localAnnee, setLocalAnnee] = useState<string | null>(null) // null = dernière année
@@ -64,6 +65,7 @@ export default function PaiementTab({ onZoom }: { onZoom?: (nom: string) => void
 
   useEffect(() => {
     loadDepensesFournisseurs().then(setFournisseurs)
+    loadEscomptesReels().then(setEscReels)
     loadDepensesGlobal().then((g) => {
       const m: Record<string, number> = {}
       for (const d of g.exclusionsCompte?.details ?? []) if (d.compte === '702') m[d.annee] = (m[d.annee] ?? 0) + d.montant
@@ -75,7 +77,7 @@ export default function PaiementTab({ onZoom }: { onZoom?: (nom: string) => void
   const arret = useMemo(() => arretsParAnnee(fournisseurs ?? []), [fournisseurs])
 
   // Toutes les factures et tous les documents (pour achats / dettes TTC), filtrés par entité.
-  const { factures, docsTtc } = useMemo(() => facturesPaiement(fournisseurs ?? [], entite), [fournisseurs, entite])
+  const { factures, docsTtc } = useMemo(() => facturesPaiement(fournisseurs ?? [], entite, escReels), [fournisseurs, entite, escReels])
 
   const entites = useMemo(() => {
     const s = new Set<string>()
@@ -105,6 +107,27 @@ export default function PaiementTab({ onZoom }: { onZoom?: (nom: string) => void
     const l = toutes ? Object.values(comptabilises) : comptabilises[anneeSel] != null ? [comptabilises[anneeSel]] : []
     return l.length ? Math.abs(l.reduce((t, v) => t + v, 0)) : null
   }, [entite, toutes, anneeSel, comptabilises])
+
+  // Contrôle des escomptes : couverture (part des factures qui portent une condition d'escompte) et détail par fournisseur.
+  const escControle = useMemo(() => {
+    const m = new Map<number, { nom: string; nb: number; base: number; taux: Set<string>; possible: number; realise: number; perdu: number; nbATemps: number }>()
+    let nbEsc = 0, baseEsc = 0
+    const totalHt = selection.reduce((t, f) => t + f.ht, 0)
+    for (const f of selection) {
+      if (!f.esc && f.escReel <= 0) continue
+      nbEsc++
+      baseEsc += f.ht
+      const e = m.get(f.nfr) ?? { nom: f.nom, nb: 0, base: 0, taux: new Set<string>(), possible: 0, realise: 0, perdu: 0, nbATemps: 0 }
+      e.nb++
+      e.base += f.ht
+      if (f.esc) e.taux.add(`${f.esc.delai} j ${Math.round(f.esc.taux * 1000) / 10} %`)
+      if (f.escReel > 0) { e.realise += f.escReel; e.possible += f.escReel; e.nbATemps++ }
+      else if (f.esc && f.doc && (f.pay ? true : ajouteJours(f.doc, f.esc.delai) <= (arret[f.annee] ?? '0000'))) { const v = f.ht * f.esc.taux; e.perdu += v; e.possible += v }
+      m.set(f.nfr, e)
+    }
+    const lignes = [...m.values()].sort((a, b) => b.possible - a.possible)
+    return { lignes, nbEsc, baseEsc, totalHt, nbFactures: selection.length, possible: lignes.reduce((t, x) => t + x.possible, 0) }
+  }, [selection, arret])
 
   // Répartition des retards (factures payées)
   const classes: { label: string; test: (r: number) => boolean }[] = [
@@ -209,12 +232,12 @@ export default function PaiementTab({ onZoom }: { onZoom?: (nom: string) => void
         <Tuile label="Délai moyen de paiement (DPO, TTC)" valeur={!toutes && ligneAnnee?.dpo != null ? `${fmt1(ligneAnnee.dpo)} j` : '—'} sous={toutes ? 'voir le tableau par année' : '(dettes ÷ achats) × jours'} />
         <Tuile label="Délai de traitement interne (indicatif)" valeur={kpi.interneMoyen != null ? `${fmt1(kpi.interneMoyen)} j` : '—'} sous={kpi.interneMedian != null ? `médiane ${kpi.interneMedian} j · mise à disposition − date facture` : undefined} />
         <Tuile
-          label={escComptabilise != null ? 'Escomptes réalisés (comptabilisés, compte 702)' : 'Escomptes réalisés (estimation HT)'}
-          valeur={`${fmt(escComptabilise ?? kpi.escOb)} CHF`}
+          label="Escomptes réalisés (pris au paiement, HT)"
+          valeur={`${fmt(kpi.escOb)} CHF`}
           ton="bon"
-          sous={escComptabilise != null ? `réellement pris, selon la comptabilité — estimation d'après les conditions de paiement : ${fmt(kpi.escOb)} CHF` : "estimation : factures payées dans le délai d'escompte"}
+          sous={`écart réel facture − montant payé · ${fmt(selection.filter((f) => f.escReel > 0).length)} factures`}
         />
-        <Tuile label="Escomptes perdus (estimation HT)" valeur={`${fmt(kpi.escPerdu)} CHF`} ton="mauvais" sous={`non pris : payé après le délai d'escompte ou pas encore payé — possible au total : ${fmt(kpi.escOb + kpi.escPerdu)} CHF`} />
+        <Tuile label="Escomptes perdus (HT)" valeur={`${fmt(kpi.escPerdu)} CHF`} ton="mauvais" sous={`non pris alors que la condition le prévoit (payé hors délai ou pas encore payé) — possible au total : ${fmt(kpi.escOb + kpi.escPerdu)} CHF`} />
         <Tuile label="Montant échu non payé (HT)" valeur={`${fmt(totalEchu)} CHF`} ton="moyen" sous={`${fmt(balance.reduce((t, b) => t + b.nb, 0))} factures`} />
         <Tuile label="Factures analysées" valeur={fmt(kpi.nb)} sous={contexte} />
       </div>
@@ -254,17 +277,71 @@ export default function PaiementTab({ onZoom }: { onZoom?: (nom: string) => void
         </table>
         <div className="text-[11px] text-slate-500 space-y-1">
           <p>
-            <strong>Escomptes réalisés</strong> = factures à condition d'escompte (ex. « 30 JOURS 2 % ») payées dans le délai d'escompte : taux × montant HT.{' '}
-            <strong>Escomptes perdus</strong> = ce qu'on n'a pas pris : factures payées après ce délai ou pas encore payées. <strong>Escomptes possibles</strong> = réalisés + perdus.
-            Ces trois chiffres sont des <em>estimations</em> d'après les conditions de paiement enregistrées.
+            <strong>Escomptes réalisés</strong> = escompte réellement pris, mesuré par l'écart entre le montant de la facture et le montant payé (journaux, escompte ≤ 6 % de la facture ; HT).{' '}
+            <strong>Escomptes perdus</strong> = taux × montant HT des factures dont la condition prévoit un escompte (ex. « 30 JOURS 2 % ») mais où il n'a pas été pris : payées au-delà du délai (ou sans escompte), ou
+            impayées et délai dépassé. <strong>Escomptes possibles</strong> = réalisés + perdus. Seules les factures dont la condition enregistrée contient un escompte sont éligibles.
           </p>
           {!entite && Object.keys(comptabilises).length > 0 && (
             <p>
-              Escomptes réellement comptabilisés (compte 702, tous fournisseurs) : {annees.filter((a) => comptabilises[a] != null).map((a) => `${a} : ${fmt(Math.abs(comptabilises[a]))} CHF`).join(' · ')}. Ils sont bien supérieurs aux
-              « réalisés » estimés : des escomptes sont probablement déduits même hors délai (ou sur des factures sans condition d'escompte enregistrée).
+              Pour mémoire, le compte comptable 702 « Résultat des escomptes Fournisseurs » (tous fournisseurs) totalise : {annees.filter((a) => comptabilises[a] != null).map((a) => `${a} : ${fmt(Math.abs(comptabilises[a]))} CHF`).join(' · ')}.
+              Ces montants sont très supérieurs aux escomptes retrouvés au niveau des factures (écart facture − paiement) : le 702 contient d'autres écritures (regroupées, hors paiement facture par facture) — à faire expliquer par la comptabilité.
             </p>
           )}
         </div>
+      </Section>
+
+      <Section
+        titre={`Contrôle des escomptes — ${contexte}`}
+        onExcel={() =>
+          exportXlsx(`controle_escomptes_${dateFichier()}`, [
+            {
+              nom: 'Escomptes par fournisseur',
+              lignes: [
+                [contexte],
+                ['Fournisseur', 'Factures avec escompte', 'Base HT', 'Condition(s)', 'Escompte possible HT', 'Réalisé HT (écart facture − paiement)', 'Perdu HT', 'Factures avec escompte pris'],
+                ...escControle.lignes.map((x) => [x.nom, x.nb, Math.round(x.base), [...x.taux].join(' / '), Math.round(x.possible), Math.round(x.realise), Math.round(x.perdu), x.nbATemps] as (string | number | null)[]),
+              ],
+            },
+          ])
+        }
+        aide="Vérification des chiffres d'escompte : seules les factures dont la condition de paiement enregistrée contient un escompte (« N JOURS p % ») sont comptées."
+      >
+        <p className="text-xs text-slate-600">
+          <strong>{fmt(escControle.nbEsc)}</strong> factures sur {fmt(escControle.nbFactures)} ({escControle.nbFactures ? fmt1((escControle.nbEsc / escControle.nbFactures) * 100) : '0'} %) portent une condition d'escompte ou ont bénéficié d'un escompte, soit{' '}
+          <strong>{fmt(escControle.baseEsc)} CHF HT</strong> sur {fmt(escControle.totalHt)} ({escControle.totalHt ? fmt1((escControle.baseEsc / escControle.totalHt) * 100) : '0'} % du montant facturé). Escompte possible (réalisé + perdu) :{' '}
+          <strong>{fmt(escControle.possible)} CHF</strong>.
+        </p>
+        <div className="overflow-x-auto max-h-80 overflow-y-auto">
+          <table className="w-full text-xs border-collapse">
+            <thead>
+              <tr className="text-left text-slate-500 border-b border-slate-200 sticky top-0 bg-white">
+                <th className="py-1 px-2">Fournisseur</th>
+                <th className="py-1 px-2">Condition</th>
+                <th className="py-1 px-2 text-right">Factures</th>
+                <th className="py-1 px-2 text-right">Base HT</th>
+                <th className="py-1 px-2 text-right">Possible</th>
+                <th className="py-1 px-2 text-right">Réalisé</th>
+                <th className="py-1 px-2 text-right">Perdu</th>
+                <th className="py-1 px-2 text-right">Escompte pris</th>
+              </tr>
+            </thead>
+            <tbody>
+              {escControle.lignes.slice(0, 30).map((x) => (
+                <tr key={x.nom} className="border-b border-slate-100">
+                  <td className="py-1 px-2">{x.nom}</td>
+                  <td className="py-1 px-2 text-slate-500">{[...x.taux].join(' · ')}</td>
+                  <td className="py-1 px-2 text-right tabular-nums">{fmt(x.nb)}</td>
+                  <td className="py-1 px-2 text-right tabular-nums text-slate-500">{fmt(x.base)}</td>
+                  <td className="py-1 px-2 text-right tabular-nums font-medium">{fmt(x.possible)}</td>
+                  <td className="py-1 px-2 text-right tabular-nums text-green-700">{fmt(x.realise)}</td>
+                  <td className="py-1 px-2 text-right tabular-nums text-red-600">{fmt(x.perdu)}</td>
+                  <td className="py-1 px-2 text-right tabular-nums text-slate-500">{fmt1(x.nb ? (x.nbATemps / x.nb) * 100 : 0)} %</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="text-[11px] text-slate-400">30 premiers fournisseurs ; l'export Excel les contient tous.</p>
       </Section>
 
       <Section

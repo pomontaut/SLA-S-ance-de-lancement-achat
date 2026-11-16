@@ -13,7 +13,7 @@ import ActiviteFournisseurs from './ActiviteFournisseurs'
 import DepenseSousContrat from './DepenseSousContrat'
 import { contratDe, sousContrat } from '../data/sousContrat'
 
-// Analyse fournisseurs : qui sont nos fournisseurs, combien, et que se passe-t-il (nouveaux, perdus, hausses,
+// Analyse fournisseurs : qui sont nos fournisseurs, combien, et que se passe-t-il (nouveaux, sortis du panel, hausses,
 // baisses, petits fournisseurs à regrouper, fournisseurs communs à plusieurs entités = levier de négociation groupe).
 // Même périmètre que les autres onglets (barre du haut) ; comparaison à période égale quand l'année est partielle.
 
@@ -23,7 +23,7 @@ const fmt1 = (v: number) => v.toLocaleString('fr-CH', { minimumFractionDigits: 1
 type Etiquette = 'nouveau' | 'perdu' | 'hausse' | 'baisse' | 'queue' | 'multi'
 const ETIQUETTES: Record<Etiquette, { label: string; classe: string; aide: string }> = {
   nouveau: { label: 'Nouveau', classe: 'bg-sky-100 text-sky-700', aide: "Jamais utilisé avant la période" },
-  perdu: { label: 'Perdu', classe: 'bg-slate-200 text-slate-700', aide: "Dépense l'an dernier, aucune cette année" },
+  perdu: { label: 'Sorti du panel', classe: 'bg-slate-200 text-slate-700', aide: "Dans le panel l'an dernier (dépense), plus aucune dépense cette année" },
   hausse: { label: '▲ Hausse', classe: 'bg-orange-100 text-orange-700', aide: "+30 % et plus (écart d'au moins 10'000 CHF)" },
   baisse: { label: '▼ Baisse', classe: 'bg-teal-100 text-teal-700', aide: "−30 % et plus (écart d'au moins 10'000 CHF)" },
   queue: { label: 'Petit fournisseur', classe: 'bg-amber-100 text-amber-700', aide: `Moins de ${SEUIL_QUEUE_CHF.toLocaleString('fr-CH')} CHF sur la période` },

@@ -297,7 +297,7 @@ export default function SyntheseTab({ onZoom }: { onZoom?: (nom: string) => void
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
         <Tuile label="Nouveaux fournisseurs" valeur={fmt(nouveaux.length)} sous={`${fmt(nouveaux.reduce((t, x) => t + x.cur, 0))} CHF HT — jamais utilisés avant ${an}`} />
-        <Tuile label={`Fournisseurs perdus (dépense en ${libPrev}, aucune en ${libPeriode})`} valeur={fmt(perdus.length)} sous={`${fmt(perdus.reduce((t, x) => t + x.prev, 0))} CHF HT l'an dernier`} />
+        <Tuile label={`Fournisseurs sortis du panel (dépense en ${libPrev}, aucune en ${libPeriode})`} valeur={fmt(perdus.length)} sous={`${fmt(perdus.reduce((t, x) => t + x.prev, 0))} CHF HT l'an dernier`} />
         <Tuile label={`Fournisseurs de « queue » (moins de ${fmt(SEUIL_QUEUE_CHF)} CHF)`} valeur={fmt(tCur.queueNb)} sous={tCur.queuePct != null ? `${fmt1(tCur.queuePct)} % de la dépense` : undefined} />
       </div>
 

@@ -33,6 +33,22 @@ export interface FacturePaiement {
   doc: string | null
   /** Escompte prévu par la condition (« 30 JOURS 2% » : 2 % si payé sous 30 jours). */
   esc: { delai: number; taux: number } | null
+  /** Escompte RÉELLEMENT pris, HT : écart facture − montant payé (script/escomptes_reels.py). 0 si aucun. */
+  escReel: number
+}
+
+let escReelsCache: Record<string, number> | null = null
+let escReelsPending: Promise<Record<string, number>> | null = null
+/** Escomptes réellement pris par facture (clé « n° fournisseur:n° doc », montant TTC). Vide si le fichier manque. */
+export function loadEscomptesReels(): Promise<Record<string, number>> {
+  if (escReelsCache) return Promise.resolve(escReelsCache)
+  if (!escReelsPending) {
+    escReelsPending = fetch(`${import.meta.env.BASE_URL}data/escomptesReels.json`)
+      .then((r) => (r.ok ? (r.json() as Promise<Record<string, number>>) : {}))
+      .catch(() => ({}))
+      .then((d) => (escReelsCache = d))
+  }
+  return escReelsPending
 }
 
 export interface DocTtc {
@@ -62,7 +78,7 @@ export function arretsParAnnee(fournisseurs: DepenseFournisseur[]): Record<strin
 }
 
 /** Factures (avec échéance) et documents TTC des fournisseurs donnés, filtrés par entité ('' = toutes). */
-export function facturesPaiement(fournisseurs: DepenseFournisseur[], entite = ''): { factures: FacturePaiement[]; docsTtc: DocTtc[] } {
+export function facturesPaiement(fournisseurs: DepenseFournisseur[], entite = '', escReels: Record<string, number> = {}): { factures: FacturePaiement[]; docsTtc: DocTtc[] } {
   const factures: FacturePaiement[] = []
   const docsTtc: DocTtc[] = []
   for (const f of fournisseurs) {
@@ -73,6 +89,12 @@ export function facturesPaiement(fournisseurs: DepenseFournisseur[], entite = ''
       docsTtc.push({ annee: a, ttc: (d.montant ?? 0) + (d.tva ?? 0), pay: d.datePaiement, doc: d })
       if (d.genre !== 'Facture' || d.montant == null || !d.dateEcheance) continue
       const m = d.condition ? ESCOMPTE.exec(d.condition) : null
+      let escTtc = 0
+      for (const n of [f.nfr, ...(f.nfrAlias ?? [])]) {
+        const v = escReels[`${n}:${d.docno}`]
+        if (v) { escTtc = v; break }
+      }
+      const ttc = d.montant + (d.tva ?? 0)
       factures.push({
         nfr: f.nfr,
         nom: f.nom,
@@ -85,6 +107,7 @@ export function facturesPaiement(fournisseurs: DepenseFournisseur[], entite = ''
         dispo: d.dateDispo ?? null,
         doc: d.dateDoc,
         esc: m && +m[2].replace(',', '.') > 0 ? { delai: +m[1], taux: +m[2].replace(',', '.') / 100 } : null,
+        escReel: escTtc && ttc ? escTtc * (d.montant / ttc) : 0,
       })
     }
   }
@@ -98,9 +121,11 @@ export function indicateursPaiement(l: FacturePaiement[], arret: Record<string, 
   const aTemps = payees.filter((f) => (f.retard ?? 1) <= 0)
   const enRetard = payees.filter((f) => (f.retard ?? 0) > 0)
   const base = payees.length + impayeesEchues.length
-  const escOb = payees.filter((f) => f.esc && f.pay! <= ajouteJours(f.doc ?? f.ech, f.esc.delai)).reduce((t, f) => t + f.ht * f.esc!.taux, 0)
+  // Escomptes : « réalisé » = écart réel facture − paiement ; « perdu » = escompte de la condition (taux × HT) des factures
+  // où il n'a PAS été pris alors que le délai est dépassé (payée après le délai) ou expiré à la date d'arrêt (impayée).
+  const escOb = l.reduce((t, f) => t + f.escReel, 0)
   const escPerdu = l
-    .filter((f) => f.esc && f.doc && (f.pay ? f.pay > ajouteJours(f.doc, f.esc.delai) : ajouteJours(f.doc, f.esc.delai) <= (arret[f.annee] ?? '0000')))
+    .filter((f) => f.esc && f.escReel === 0 && f.doc && (f.pay ? true : ajouteJours(f.doc, f.esc.delai) <= (arret[f.annee] ?? '0000')))
     .reduce((t, f) => t + f.ht * f.esc!.taux, 0)
   const interne = l.filter((f) => f.dispo && f.doc).map((f) => jours(f.doc!, f.dispo!)).filter((v) => v >= 0 && v <= 120)
   return {

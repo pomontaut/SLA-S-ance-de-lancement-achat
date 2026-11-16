@@ -20,12 +20,12 @@ interface Ligne {
 const LIBELLES: Record<Cat, { titre: string; aide: string }> = {
   actifs: { titre: 'Actifs', aide: 'Dépense positive sur la période.' },
   nouveaux: { titre: 'Nouveaux', aide: 'Actifs sur la période, sans aucune dépense avant.' },
-  perdus: { titre: 'Perdus', aide: "Dépense l'an dernier (même période), plus rien cette période." },
+  perdus: { titre: 'Sortis du panel', aide: "Dans le panel l'an dernier (dépense sur la même période), plus aucune dépense cette période." },
   dormants: { titre: 'Dormants', aide: "Base fournisseurs : dépense par le passé, rien cette période ni l'an dernier." },
   inutilises: { titre: 'Jamais utilisés', aide: 'Fiche dans la base sans dépense positive sur toutes les années.' },
 }
 
-/** Fournisseurs actifs (variation N-1), nouveaux, perdus, dormants et jamais utilisés, avec factures et part de la dépense. */
+/** Fournisseurs actifs (variation N-1), nouveaux, sortis du panel, dormants et jamais utilisés, avec factures et part de la dépense. */
 export default function ActiviteFournisseurs({ onZoom }: { onZoom?: (nom: string) => void }) {
   const P = usePeriodeSpend()
   const { base, toutes, comparer, libPeriode, libPrev, an, dansCur, dansPrev } = P
