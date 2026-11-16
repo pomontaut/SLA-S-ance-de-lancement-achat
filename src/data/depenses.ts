@@ -171,6 +171,8 @@ export interface DepenseFournisseur {
    * évalué (pas de donnée disponible, pas une erreur). Sert au rapprochement CA/fournisseur/famille. */
   familleAchat: string | null
   conditions: string[]
+  /** Autres numéros de fournisseur regroupés sous cette fiche (ex. HGC : 230977 + 106535292 « HGC HANDEL AG »). */
+  nfrAlias?: number[]
   documents: DepenseDocument[]
   /** Fournisseur sous accord-cadre/contrat de ristourne pour l'exercice 2026 — reconstitué
    * manuellement à partir du fichier "Accords Fournisseurs" (onglet Exercice 2026, liste

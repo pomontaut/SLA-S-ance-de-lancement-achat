@@ -434,5 +434,16 @@
   "aliasNoms": [
    "CREABETON MATERI"
   ]
+ },
+ {
+  "canonicalNfr": 230977,
+  "canonicalNom": "HG COMMERCIALE",
+  "aliasNfrs": [
+   106535292
+  ],
+  "aliasNoms": [
+   "HGC HANDEL AG"
+  ],
+  "fusionner": true
  }
 ]

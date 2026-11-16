@@ -25,6 +25,7 @@ from parse_brut import parse as parse_brut
 
 HERE = os.path.dirname(__file__)
 ROOT = os.path.join(HERE, "..", "src", "data")
+FOURN = os.path.join(HERE, "..", "public", "data", "depensesFournisseurs.json")  # gros fichier : servi par fetch, jamais compilé
 AFF = {"INDUNI": "CHANTIER INDUNI", "CHANTIER INDUNI": "CHANTIER INDUNI", "CONSORTIUM": "CONSORTIUM"}
 
 
@@ -46,6 +47,32 @@ def lire_compile(path, comptes):
     for r in it:
         if r[i["N° doc"]] is not None:
             comptes[(AFF[r[i["Aff."]]], int(r[i["N° doc"]]))] = [str(r[i["Cpt Débit"]])]
+
+
+def fusionner_alias(F):
+    """Regroupe sous le fournisseur canonique les fiches existantes portant un numéro « alias »
+    (fournisseurAliasesDepense.json, groupes marqués "fusionner": true) — ex. HGC HANDEL AG → HG COMMERCIALE."""
+    par_nfr = {f["nfr"]: f for f in F}
+    n = 0
+    for g in json.load(open(os.path.join(ROOT, "fournisseurAliasesDepense.json"))):
+        if not g.get("fusionner"):  # seuls les groupes marqués "fusionner": true (validés par le propriétaire)
+            continue
+        canon = par_nfr.get(g["canonicalNfr"])
+        for a in g["aliasNfrs"]:
+            src = par_nfr.get(a)
+            if src is None or src is canon:
+                continue
+            if canon is None:
+                src["nfr"], src["nom"] = g["canonicalNfr"], g["canonicalNom"]
+                par_nfr[g["canonicalNfr"]] = canon = src
+            else:
+                canon["documents"] += src["documents"]
+                canon["conditions"] = list(dict.fromkeys((canon.get("conditions") or []) + (src.get("conditions") or [])))
+                F.remove(src)
+            canon["nfrAlias"] = sorted(set(canon.get("nfrAlias", [])) | {a})
+            par_nfr.pop(a, None)
+            n += 1
+    print(f"{n} fiche(s) fournisseur fusionnée(s) par alias")
 
 
 def importer(F, G, docs_bruts):
@@ -72,6 +99,8 @@ def importer(F, G, docs_bruts):
             f = {"nfr": nfr, "nom": nom, "conditions": [], "documents": [], "familleAchat": None}
             F.append(f); par_nfr[nfr] = f; nouveaux_f.add(nfr)
         f["documents"].append(doc)
+        if d["nfr"] != nfr:  # numéro alias : on le garde en mémoire sur la fiche canonique
+            f["nfrAlias"] = sorted(set(f.get("nfrAlias", [])) | {d["nfr"]})
         if doc["condition"] and doc["condition"] not in f["conditions"]:
             f["conditions"].append(doc["condition"])
         ajoutes[A.annee_comptable(doc) or "?"] += 1
@@ -119,6 +148,7 @@ def main(argv):
     G = json.load(open(os.path.join(ROOT, "depensesGlobal.json")))
     plan = json.load(open(os.path.join(HERE, "plan_comptable.json")))
     avant = {a: v["montantTotal"] for a, v in G["parAnnee"].items()}
+    fusionner_alias(F)
     if docs_bruts:
         importer(F, G, docs_bruts)
 

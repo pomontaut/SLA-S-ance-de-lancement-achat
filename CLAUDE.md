@@ -23,6 +23,11 @@ Propriétaire : Pierre-Olivier Montaut (français, direct). Réponses en frança
 - Documents consortium sans chantier : rattachés par leur division (`script/chantiers_consortium.json`) ; division inconnue = entité AUTRES.
 - 105 chantiers sans nom restants (liste dans `chantiers_sans_nom.csv` : codes internes 100/130/215/230/231, EG GE 52xxx, EG VD 42xxx…) : le propriétaire doit fournir leurs noms. Référentiel : 442 chantiers (BAT GE 110, BAT VD 136, GC 119, EG VS 23…). Conflit à trancher : 35605 = « Esplanade des Vernets » (1re liste) ou « Renaturation La Plaine » (2e liste).
 
+## Fournisseurs : numéros multiples et exclusions
+- **HGC a DEUX numéros de fournisseur, à garder ensemble** : `230977` (« HG COMMERCIALE », jusqu'à début 2026) et `106535292` (« HGC HANDEL AG », depuis 2026). Ils sont fusionnés sous la fiche 230977 (`fournisseurAliasesDepense.json`, `"fusionner": true`) ; l'autre numéro est conservé dans `nfrAlias` de la fiche. Si un fournisseur change de numéro, l'ajouter dans ce fichier.
+- Les 31 autres groupes d'alias du fichier (ex. SINEF / SINEF SA) NE sont PAS fusionnés dans les données existantes (seulement pour les nouveaux documents) : à valider avec le propriétaire avant (`"fusionner": true`).
+- `fournisseurExclusionsDepense.json` doit rester COMPLET (11 nfr dont INEG Management 637079, AVS des entrepreneurs 331915, État de Vaud Emploi 10249, AFC 11733) : sinon un nouvel import les compte comme dépense.
+
 ## Formulaire d'évaluation (`FormulaireEvaluationTab.tsx`)
 - Champ **Entité** : GC, BAT GE, BAT VD, BAT GE TRANSFO RENO, BAT VD TRANSFO RENO, EG VD, EG GE, EG VS (colonne `entite`).
 - PAS de menu « Chantier (liste) » (retiré à la demande du propriétaire) : champs N° chantier et Nom avec auto-complétion (datalist) sur tous les chantiers ; saisir un n° remplit le nom et inversement (entité aussi).

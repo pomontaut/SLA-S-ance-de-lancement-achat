@@ -38,5 +38,25 @@
   "nfr": 155757,
   "nom": "SUVA",
   "motif": "Assurance-accidents obligatoire (SUVA) — pas un fournisseur externe, exclue sur demande explicite."
+ },
+ {
+  "nfr": 637079,
+  "nom": "INEG Management SA",
+  "motif": "Société de management/holding, pas un fournisseur externe de matériaux/services — à confirmer définitivement avec la comptabilité, exclue sur demande explicite en attendant."
+ },
+ {
+  "nfr": 331915,
+  "nom": "Caisse de compensation AVS des entrepreneurs",
+  "motif": "Caisse de compensation (cotisations sociales AVS) — même nature que le nfr 10053 déjà exclu, pas un fournisseur externe."
+ },
+ {
+  "nfr": 10249,
+  "nom": "ETAT DE VAUD/Service de l'Emploi",
+  "motif": "Service de l'emploi de l'État de Vaud (ex. subventions RHT) — organisme public, pas un fournisseur externe."
+ },
+ {
+  "nfr": 11733,
+  "nom": "Admin. féd. des contributions AFC",
+  "motif": "Administration fédérale des contributions (TVA/impôts) — organisme public, pas un fournisseur externe."
  }
 ]
