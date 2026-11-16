@@ -139,17 +139,6 @@ export default function FormulaireEvaluationTab() {
     })
   }
 
-  function choisirChantier(numero: string) {
-    const c = chantierParNumero(numero)
-    if (!c) return
-    setForm((f) => ({
-      ...f,
-      numeroChantier: c.numero,
-      nomChantier: c.nom,
-      entite: c.entite && ENTITES.includes(c.entite) ? c.entite : f.entite,
-    }))
-  }
-
   function handleEdit(e: EvaluationFormulaire) {
     setForm({
       famille: e.famille,
@@ -248,25 +237,6 @@ export default function FormulaireEvaluationTab() {
                 <option key={s} value={s}>
                   {s}
                 </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="label">Chantier (liste)</label>
-            <select
-              className="input"
-              value={chantierParNumero(form.numeroChantier)?.nom === form.nomChantier ? form.numeroChantier : ''}
-              onChange={(e) => choisirChantier(e.target.value)}
-            >
-              <option value="">— Choisir un chantier —</option>
-              {[...new Set(CHANTIERS.map((c) => c.entite || 'Autres'))].map((ent) => (
-                <optgroup key={ent} label={ent}>
-                  {CHANTIERS.filter((c) => (c.entite || 'Autres') === ent).map((c) => (
-                    <option key={c.numero} value={c.numero}>
-                      {c.numero} - {c.nom}
-                    </option>
-                  ))}
-                </optgroup>
               ))}
             </select>
           </div>

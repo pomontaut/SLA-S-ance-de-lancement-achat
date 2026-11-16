@@ -24,7 +24,7 @@ Propriétaire : Pierre-Olivier Montaut (français, direct). Réponses en frança
 
 ## Formulaire d'évaluation (`FormulaireEvaluationTab.tsx`)
 - Champ **Entité** : GC, BAT GE, BAT VD, BAT GE TRANSFO RENO, BAT VD TRANSFO RENO, EG VD, EG GE, EG VS (colonne `entite`).
-- Liste déroulante de TOUS les chantiers (« numéro - nom », groupés par entité) ; saisir un n° remplit le nom et inversement (entité aussi).
+- PAS de menu « Chantier (liste) » (retiré à la demande du propriétaire) : champs N° chantier et Nom avec auto-complétion (datalist) sur tous les chantiers ; saisir un n° remplit le nom et inversement (entité aussi).
 - Après un enregistrement on garde entité, n° et nom du chantier (et évaluateur) ; bouton **Réinitialiser** = tout remettre à zéro.
 
 ## Onglets
