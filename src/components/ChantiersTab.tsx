@@ -71,6 +71,7 @@ export default function ChantiersTab() {
   const [annee, setAnnee] = useState('')
   const [vueFourn, setVueFourn] = useState<'annee' | 'trimestre'>('annee')
   const [tousFourn, setTousFourn] = useState(false)
+  const [anneeIsolee, setAnneeIsolee] = useState<string | null>(null) // zoom sur une année dans l'histogramme
   const [anneeChantier, setAnneeChantier] = useState<string | null>(null) // null = année en cours (la plus récente)
 
   useEffect(() => {
@@ -378,7 +379,7 @@ export default function ChantiersTab() {
           <p className="text-sm text-slate-500">Aucune dépense pour cette sélection.</p>
         ) : (
           <>
-            <MoisChart mois={MOIS} series={matriceMois.map(([a, v]) => ({ label: partielles.includes(a) ? `${a} (partielle)` : a, valeurs: v }))} />
+            <MoisChart mois={MOIS} isolee={anneeIsolee} onChoisir={setAnneeIsolee} series={matriceMois.map(([a, v]) => ({ cle: a, label: partielles.includes(a) ? `${a} (partielle)` : a, valeurs: v }))} />
             <table className="text-xs w-full">
               <thead>
                 <tr className="text-left text-slate-500 border-b border-slate-200">
@@ -393,7 +394,12 @@ export default function ChantiersTab() {
               </thead>
               <tbody>
                 {matriceMois.map(([a, v]) => (
-                  <tr key={a} className="border-b border-slate-100">
+                  <tr
+                    key={a}
+                    className={`border-b border-slate-100 cursor-pointer hover:bg-slate-50 ${anneeIsolee === a ? 'bg-indigo-50' : ''}`}
+                    title={anneeIsolee === a ? 'Revenir à toutes les années' : `Zoomer sur ${a} dans le graphique`}
+                    onClick={() => setAnneeIsolee(anneeIsolee === a ? null : a)}
+                  >
                     <td className="py-1 px-2 font-medium whitespace-nowrap">
                       {a}
                       {partielles.includes(a) && <span className="text-[10px] text-slate-400"> (partielle)</span>}

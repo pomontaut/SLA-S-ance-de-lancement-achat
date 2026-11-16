@@ -7,13 +7,26 @@ const fmt = (v: number) => Math.round(v).toLocaleString('fr-CH')
 const fmtCompact = (v: number) =>
   Math.abs(v) >= 1e6 ? `${(v / 1e6).toLocaleString('fr-CH', { maximumFractionDigits: 1 })} M` : Math.abs(v) >= 1e3 ? `${Math.round(v / 1e3)} k` : String(Math.round(v))
 
-/** Histogramme groupé : une série par année, 12 mois en abscisse. */
-export function MoisChart({ series, mois }: { series: { label: string; valeurs: number[] }[]; mois: string[] }) {
-  const W = 860, H = 240, P = { t: 14, r: 12, b: 28, l: 52 }
-  const max = Math.max(1, ...series.flatMap((s) => s.valeurs))
+/** Histogramme groupé : une série par année, 12 mois en abscisse. Cliquer une barre ou une année de la
+ * légende isole cette année (zoom : barres larges avec leur montant) ; cliquer à nouveau revient à toutes. */
+export function MoisChart({
+  series,
+  mois,
+  isolee = null,
+  onChoisir,
+}: {
+  series: { cle: string; label: string; valeurs: number[] }[]
+  mois: string[]
+  isolee?: string | null
+  onChoisir?: (cle: string | null) => void
+}) {
+  const W = 860, H = 240, P = { t: 22, r: 12, b: 28, l: 52 }
+  const visibles = isolee ? series.filter((x) => x.cle === isolee) : series
+  const max = Math.max(1, ...visibles.flatMap((x) => x.valeurs))
   const iw = W - P.l - P.r, ih = H - P.t - P.b
-  const gw = iw / 12, bw = Math.max(3, (gw - 8) / Math.max(1, series.length))
+  const gw = iw / 12, bw = Math.max(3, (gw - 8) / Math.max(1, visibles.length))
   const y = (v: number) => P.t + ih - (Math.max(0, v) / max) * ih
+  const toggle = (cle: string) => onChoisir?.(isolee === cle ? null : cle)
   return (
     <div>
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto" role="img" aria-label="Dépense par mois">
@@ -30,21 +43,49 @@ export function MoisChart({ series, mois }: { series: { label: string; valeurs: 
             <text x={P.l + gw * i + gw / 2} y={H - 10} textAnchor="middle" fontSize={10} fill="#64748b">
               {m}
             </text>
-            {series.map((s, k) => (
-              <rect key={s.label} x={P.l + gw * i + 4 + k * bw} y={y(s.valeurs[i])} width={bw - 1} height={P.t + ih - y(s.valeurs[i])} fill={couleurN(k)} rx={1.5}>
-                <title>{`${s.label} — ${m} : ${fmt(s.valeurs[i])} CHF`}</title>
-              </rect>
-            ))}
+            {visibles.map((s2, k) => {
+              const idx = series.findIndex((x) => x.cle === s2.cle)
+              const w = isolee ? gw - 14 : bw - 1
+              const x = isolee ? P.l + gw * i + 7 : P.l + gw * i + 4 + k * bw
+              return (
+                <g key={s2.cle} style={{ cursor: onChoisir ? 'pointer' : undefined }} onClick={() => toggle(s2.cle)}>
+                  <rect x={x} y={y(s2.valeurs[i])} width={w} height={P.t + ih - y(s2.valeurs[i])} fill={couleurN(idx)} rx={1.5}>
+                    <title>{`${s2.label} — ${m} : ${fmt(s2.valeurs[i])} CHF`}</title>
+                  </rect>
+                  {isolee && s2.valeurs[i] > 0 && (
+                    <text x={x + w / 2} y={y(s2.valeurs[i]) - 4} textAnchor="middle" fontSize={9} fill="#475569">
+                      {fmtCompact(s2.valeurs[i])}
+                    </text>
+                  )}
+                </g>
+              )
+            })}
           </g>
         ))}
       </svg>
-      <div className="flex flex-wrap gap-3 text-xs text-slate-600 mt-1">
-        {series.map((s, k) => (
-          <span key={s.label} className="inline-flex items-center gap-1">
-            <span className="inline-block w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: couleurN(k) }} />
-            {s.label}
-          </span>
-        ))}
+      <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600 mt-1">
+        {series.map((s2, k) => {
+          const actif = isolee === s2.cle
+          return (
+            <button
+              key={s2.cle}
+              type="button"
+              disabled={!onChoisir}
+              onClick={() => toggle(s2.cle)}
+              title={isolee ? (actif ? 'Revenir à toutes les années' : `Voir ${s2.label}`) : `Zoomer sur ${s2.label}`}
+              className="inline-flex items-center gap-1 rounded-full border px-2 py-0.5"
+              style={{ borderColor: actif ? couleurN(k) : '#e2e8f0', backgroundColor: actif ? '#eef2ff' : 'white', opacity: isolee && !actif ? 0.5 : 1 }}
+            >
+              <span className="inline-block w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: couleurN(k) }} />
+              {s2.label}
+            </button>
+          )
+        })}
+        {isolee && (
+          <button type="button" className="text-indigo-600 hover:underline" onClick={() => onChoisir?.(null)}>
+            Toutes les années
+          </button>
+        )}
       </div>
     </div>
   )
@@ -165,6 +206,79 @@ export function Anneau({ tranches }: { tranches: { label: string; valeur: number
             <span className="text-slate-400">{Math.round((a.t.valeur / total) * 1000) / 10} %</span>
           </div>
         ))}
+      </div>
+    </div>
+  )
+}
+
+/** Camembert. En mode Pareto (par défaut) on garde les plus gros éléments jusqu'à 80 % du total et on
+ * regroupe le reste dans « Autres ». */
+export function Camembert({
+  lignes,
+  pareto = true,
+  seuil = 0.8,
+  unite = 'CHF',
+}: {
+  lignes: { label: string; valeur: number }[]
+  pareto?: boolean
+  seuil?: number
+  unite?: string
+}) {
+  const pos = lignes.filter((l) => l.valeur > 0).sort((a, b) => b.valeur - a.valeur)
+  const total = pos.reduce((t, l) => t + l.valeur, 0)
+  if (total <= 0) return <p className="text-sm text-slate-500">Aucune donnée.</p>
+  let tranches = pos
+  if (pareto) {
+    let cum = 0
+    let n = 0
+    for (const l of pos) {
+      cum += l.valeur
+      n++
+      if (cum / total >= seuil) break
+    }
+    const reste = pos.slice(n)
+    tranches = reste.length >= 2 ? [...pos.slice(0, n), { label: `Autres (${reste.length})`, valeur: reste.reduce((t, l) => t + l.valeur, 0) }] : pos
+  }
+  const R = 80, c = 90
+  let a0 = -Math.PI / 2
+  const arcs = tranches.map((t, i) => {
+    const part = t.valeur / total
+    const a1 = a0 + part * Math.PI * 2
+    const large = a1 - a0 > Math.PI ? 1 : 0
+    const pt = (rad: number, a: number) => `${c + rad * Math.cos(a)},${c + rad * Math.sin(a)}`
+    const d = tranches.length === 1 ? `M ${c - R},${c} A ${R},${R} 0 1 1 ${c + R},${c} A ${R},${R} 0 1 1 ${c - R},${c} Z` : `M ${c},${c} L ${pt(R, a0)} A ${R},${R} 0 ${large} 1 ${pt(R, a1)} Z`
+    const am = (a0 + a1) / 2
+    a0 = a1
+    const autres = t.label.startsWith('Autres (')
+    return { d, t, part, couleur: autres ? '#94a3b8' : couleurN(i), lx: c + R * 0.62 * Math.cos(am), ly: c + R * 0.62 * Math.sin(am) }
+  })
+  return (
+    <div className="flex flex-wrap items-start gap-5">
+      <svg viewBox="0 0 180 180" className="w-52 h-52 shrink-0" role="img" aria-label="Répartition">
+        {arcs.map((a) => (
+          <path key={a.t.label} d={a.d} fill={a.couleur} stroke="white" strokeWidth={1}>
+            <title>{`${a.t.label} : ${fmt(a.t.valeur)} ${unite} (${Math.round(a.part * 1000) / 10} %)`}</title>
+          </path>
+        ))}
+        {arcs.filter((a) => a.part >= 0.07).map((a) => (
+          <text key={a.t.label} x={a.lx} y={a.ly} textAnchor="middle" dominantBaseline="middle" fontSize={9} fontWeight={600} fill="white">
+            {Math.round(a.part * 100)} %
+          </text>
+        ))}
+      </svg>
+      <div className="text-xs space-y-1 min-w-[220px] flex-1">
+        {arcs.map((a) => (
+          <div key={a.t.label} className="flex items-center gap-1.5">
+            <span className="inline-block w-2.5 h-2.5 rounded-sm shrink-0" style={{ backgroundColor: a.couleur }} />
+            <span className="text-slate-700 truncate" title={a.t.label}>
+              {a.t.label}
+            </span>
+            <span className="ml-auto text-slate-500 tabular-nums whitespace-nowrap">
+              {fmt(a.t.valeur)} · {Math.round(a.part * 1000) / 10} %
+            </span>
+          </div>
+        ))}
+        {pareto && <div className="text-[10px] text-slate-400 pt-1">Mode Pareto : les éléments qui font 80 % du total, le reste regroupé en « Autres ».</div>}
       </div>
     </div>
   )

@@ -53,6 +53,12 @@ Propriétaire : Pierre-Olivier Montaut (français, direct). Réponses en frança
   Pareto, Top 20, typologie de fournisseurs (famille d'achat), par chantier (année en cours par défaut). Graphiques SVG ; **chaque tableau a un bouton « ⬇ Excel »** (`src/lib/exportExcel.ts`, lib `xlsx`, chargée à la demande).
   Entités affichées via `entiteLabel` (DG = « Direction Générale », DEPOT = « Dépôt », AUTRES = « Autres »).
 
+## Analyse de la dépense (`DepenseTab.tsx`) : filtres, camemberts, Excel
+- Les filtres Entité ET Année s'appliquent à TOUTES les sections (par année, par entité, par famille, par chantier, tranches de factures, Top 20, groupes), recalculées depuis les documents (`entrees`).
+- « Dépense par entité » masquée quand une entité est choisie ; « Dépense par année » masquée quand une année est choisie ; « Top 20 groupes » masqué quand une entité est choisie (les fournisseurs de chaque groupe sont écrits en tout petit sous son nom).
+- **Camemberts en mode Pareto** (`Camembert` dans `DepenseCharts.tsx`) : éléments jusqu'à 80 % du total, le reste regroupé en « Autres (n) » ; pas de regroupement pour les tranches de factures. Bouton « ⬇ Excel » sur chaque tableau.
+- Histogramme mensuel (Analyse chantier) : cliquer une barre, une année de la légende ou une ligne du tableau zoome sur cette année ; recliquer ou « Toutes les années » revient.
+
 ## Dashboard évaluation — Vue d'ensemble (`OverviewHeader.tsx`, maquette papier du propriétaire)
 - En-tête « Dashboard évaluation <année> » (titre centré) : 4 tuiles de même taille (fournisseurs évalués, nombre d'évaluations, moyenne globale, périmètre évalué en CHF) ; chacune avec « <année-1> : … » dessous ET l'évolution signée (+/−, vert/rouge) à côté du chiffre. Boutons de secteurs tous de même taille.
   L'année = fin de période (`anneeMax`) ; par défaut la dernière année (2025) ; tuiles calculées à filtres identiques hors période.

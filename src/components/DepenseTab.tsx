@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
-import type { DepenseBucketStats, DepenseChantierStats, DepenseFournisseur, DepensesGlobal, DepenseTranche, GroupeFournisseur, GroupeTotal } from '../data/depenses'
+import type { DepenseBucketStats, DepenseChantierStats, DepenseDocument, DepenseFournisseur, DepensesGlobal, DepenseTranche, GroupeFournisseur, GroupeTotal } from '../data/depenses'
 import {
   anneeComptable,
   anneesSignificatives,
   chantierColor,
   chantierLabel,
   computeBucketStats,
-  computeGroupesTotals,
+  computeTranches,
   formatCurrency,
   loadDepensesFournisseurs,
   loadDepensesGlobal,
@@ -14,6 +14,8 @@ import {
   pct,
 } from '../data/depenses'
 import { entiteLabel, secteurColor } from '../data/palette'
+import { dateFichier, exportXlsx } from '../lib/exportExcel'
+import { Camembert } from './DepenseCharts'
 
 function StatTile({
   label,
@@ -38,6 +40,29 @@ function StatTile({
       {sub && <div className="text-[11px] text-slate-400 mt-0.5">{sub}</div>}
     </div>
   )
+}
+
+function ExcelBtn({ onClick }: { onClick: () => void }) {
+  return (
+    <button className="px-2 py-0.5 rounded-full text-xs font-medium border border-emerald-300 text-emerald-700 bg-emerald-50 hover:bg-emerald-100 whitespace-nowrap" onClick={onClick}>
+      ⬇ Excel
+    </button>
+  )
+}
+
+/** En-tête de carte : titre + bouton d'export Excel. */
+function CardHead({ titre, onExcel }: { titre: string; onExcel?: () => void }) {
+  return (
+    <div className="flex items-center justify-between gap-2 mb-1">
+      <h3 className="font-semibold">{titre}</h3>
+      {onExcel && <ExcelBtn onClick={onExcel} />}
+    </div>
+  )
+}
+
+interface GroupeAvecMembres extends GroupeTotal {
+  /** Noms des fournisseurs du groupe ayant une dépense dans la sélection, du plus gros au plus petit. */
+  membres: string[]
 }
 
 function EntiteTable({ parEntite }: { parEntite: Record<string, DepenseBucketStats> }) {
@@ -227,14 +252,13 @@ function ChantierTable({
       </table>
       {parChantier.length > 20 && (
         <button className="text-xs text-indigo-600 hover:underline mt-2" onClick={() => setShowAll((v) => !v)}>
-          {showAll ? 'Réduire' : `Afficher les ${parChantier.length} chantiers chargés`}
+          {showAll ? 'Réduire' : `Afficher les ${parChantier.length} chantiers`}
         </button>
       )}
       <p className="text-xs text-slate-400 mt-2">
-        {nbChantiers} chantiers distincts au total (60 chargés ici, triés par montant décroissant) — noms et
-        techniciens retrouvés pour {nbChantiersAvecNom} d'entre eux via Chantiers.xlsx. Le code consortium/Induni
-        est celui du chantier (colonne "Chantier consortium" de ce fichier), qui ne coïncide pas toujours avec le
-        champ "Aff." du document (~18% d'écart constaté) — à clarifier avec la comptabilité si besoin.
+        {nbChantiers} chantier(s) pour cette sélection, triés par montant décroissant — noms retrouvés pour {nbChantiersAvecNom} d'entre eux
+        (référentiel des chantiers). Le code consortium/Induni est celui du chantier, qui ne coïncide pas toujours avec le champ « Aff. » du
+        document (~18 % d'écart constaté).
       </p>
     </div>
   )
@@ -307,7 +331,7 @@ function TopFournisseursTable({ top20, montantTotal }: { top20: { nfr: number; n
   )
 }
 
-function TopGroupesTable({ groupes, montantTotal }: { groupes: GroupeTotal[]; montantTotal: number }) {
+function TopGroupesTable({ groupes, montantTotal }: { groupes: GroupeAvecMembres[]; montantTotal: number }) {
   const top20 = groupes.slice(0, 20)
   let cumul = 0
   return (
@@ -332,6 +356,7 @@ function TopGroupesTable({ groupes, montantTotal }: { groupes: GroupeTotal[]; mo
                 <td className="py-1.5 pr-3 font-medium">
                   {g.nom}
                   {g.parent && <span className="ml-1.5 font-normal text-slate-400">(filiale du {g.parent})</span>}
+                  {g.membres.length > 0 && <div className="text-[9px] font-normal leading-tight text-slate-400 mt-0.5 max-w-md">{g.membres.join(' · ')}</div>}
                 </td>
                 <td className="py-1.5 pr-3">{g.nbEntites}</td>
                 <td className="py-1.5 pr-3">{formatCurrency(g.montantTotal)}</td>
@@ -365,10 +390,6 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
 
   const anneesDisponibles = useMemo(() => (data ? anneesSignificatives(data.parAnnee) : []), [data])
 
-  const groupesTotals = useMemo(
-    () => (groupes && fournisseurs ? computeGroupesTotals(groupes, fournisseurs, selectedEntite) : null),
-    [groupes, fournisseurs, selectedEntite],
-  )
 
   // Le filtre par entité et/ou par année s'applique aux tuiles d'analyse achat et au Top 20
   // fournisseurs/groupes — mais pas au détail par chantier ni aux tranches, qui restent "toutes
@@ -432,6 +453,118 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
     () => (g ? pct(g.nbATemps, g.nbATemps + g.nbEnRetard) : null),
     [g],
   )
+
+  // ---- Périmètre commun à toutes les sections : entité ET année choisies (calculé depuis les documents) ----
+  const entrees = useMemo(() => {
+    if (!fournisseurs) return null
+    const out: { d: DepenseDocument; f: DepenseFournisseur }[] = []
+    for (const f of fournisseurs) {
+      for (const d of f.documents) {
+        if (selectedEntite && d.entite !== selectedEntite) continue
+        if (selectedAnnee && anneeComptable(d) !== selectedAnnee) continue
+        out.push({ d, f })
+      }
+    }
+    return out
+  }, [fournisseurs, selectedEntite, selectedAnnee])
+
+  function grouper<K extends string>(cle: (e: { d: DepenseDocument; f: DepenseFournisseur }) => K | null) {
+    const m = new Map<K, { d: DepenseDocument; f: DepenseFournisseur }[]>()
+    for (const e of entrees ?? []) {
+      const k = cle(e)
+      if (k == null) continue
+      const l = m.get(k)
+      if (l) l.push(e)
+      else m.set(k, [e])
+    }
+    return m
+  }
+
+  const parAnneeEff = useMemo<Record<string, DepenseBucketStats> | null>(() => {
+    if (entrees) {
+      const m = grouper((e) => anneeComptable(e.d))
+      return Object.fromEntries([...m].map(([a, l]) => [a, computeBucketStats(l.map((e) => e.d))]))
+    }
+    return !selectedEntite && !selectedAnnee && data ? data.parAnnee : null
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entrees, data])
+
+  const parEntiteEff = useMemo<Record<string, DepenseBucketStats> | null>(() => {
+    if (entrees) {
+      const m = grouper((e) => e.d.entite)
+      return Object.fromEntries([...m].map(([en, l]) => [en, computeBucketStats(l.map((e) => e.d))]))
+    }
+    return !selectedEntite && !selectedAnnee && data ? data.parEntite : null
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entrees, data])
+
+  const parFamilleEff = useMemo<Record<string, DepenseBucketStats> | null>(() => {
+    if (entrees) {
+      const m = grouper((e) => e.f.familleAchat || 'Non classé')
+      return Object.fromEntries([...m].map(([fa, l]) => [fa, { ...computeBucketStats(l.map((e) => e.d), true), nbFournisseurs: new Set(l.map((e) => e.f.nfr)).size }]))
+    }
+    return !selectedEntite && !selectedAnnee && data ? data.parFamilleAchat : null
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entrees, data])
+
+  const chantierEff = useMemo(() => {
+    if (!entrees) return null
+    const techniciens = new Map((data?.parChantier ?? []).map((c) => [c.code, c.technicien]))
+    const m = grouper((e) => e.d.chantier ?? 'NON RENSEIGNE')
+    const rows: DepenseChantierStats[] = [...m].map(([code, l]) => {
+      const docs = l.map((e) => e.d)
+      return {
+        ...computeBucketStats(docs, true),
+        nbFournisseurs: new Set(l.map((e) => e.f.nfr)).size,
+        code,
+        nom: docs.find((d) => d.chantierNom)?.chantierNom ?? null,
+        consortium: docs.find((d) => d.chantierConsortium != null)?.chantierConsortium ?? null,
+        technicien: techniciens.get(code) ?? null,
+      }
+    })
+    rows.sort((a, b) => b.montantTotal - a.montantTotal)
+    return { rows, nbAvecNom: rows.filter((r) => r.nom).length }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entrees, data])
+
+  const tranchesEff = useMemo(() => {
+    if (entrees) return computeTranches(entrees.map((e) => e.d))
+    return null
+  }, [entrees])
+
+  // Groupes de fournisseurs : somme des membres sur la sélection (masqué quand une seule entité est choisie).
+  const groupesEff = useMemo<GroupeAvecMembres[] | null>(() => {
+    if (!groupes || !entrees) return null
+    const parNfr = new Map<number, number>()
+    const noms = new Map<number, string>()
+    for (const { d, f } of entrees) {
+      parNfr.set(f.nfr, (parNfr.get(f.nfr) ?? 0) + (d.montant ?? 0))
+      noms.set(f.nfr, f.nom)
+    }
+    return groupes
+      .map((gr) => {
+        const actifs = gr.membres.filter((m) => (parNfr.get(m.nfr) ?? 0) !== 0).sort((a, b) => (parNfr.get(b.nfr) ?? 0) - (parNfr.get(a.nfr) ?? 0))
+        const montantTotal = Math.round(gr.membres.reduce((t, m) => t + (parNfr.get(m.nfr) ?? 0), 0) * 100) / 100
+        return { nom: gr.nom, parent: gr.parent, montantTotal, nbEntites: gr.membres.length, membres: (actifs.length ? actifs : gr.membres).map((m) => noms.get(m.nfr) ?? m.nom) }
+      })
+      .filter((gr) => gr.montantTotal !== 0)
+      .sort((a, b) => b.montantTotal - a.montantTotal)
+  }, [groupes, entrees])
+
+  // ---- Exports Excel ----
+  const contexteXls = [selectedEntite ? entiteLabel(selectedEntite) : 'Toutes entités', selectedAnnee ?? 'Toutes années'].join(' · ')
+  function exportBuckets(nom: string, colonne: string, rows: [string, DepenseBucketStats][], total: number) {
+    exportXlsx(`depense_${nom}_${dateFichier()}`, [
+      {
+        nom,
+        lignes: [
+          [contexteXls],
+          [colonne, 'Montant CHF', '% du total', 'Documents', 'Payés à temps (nb)', 'Payés à temps (CHF)', 'En retard (nb)', 'En retard (CHF)'],
+          ...rows.map(([k, v]) => [k, v.montantTotal, pct(v.montantTotal, total), v.nbDocuments, v.nbATemps, v.montantATemps, v.nbEnRetard, v.montantEnRetard] as (string | number | null)[]),
+        ],
+      },
+    ])
+  }
 
   if (!data || !g) {
     return <p className="text-sm text-slate-500">Chargement des données de dépense…</p>
@@ -578,57 +711,135 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
         />
       </div>
 
-      <div className="card">
-        <h3 className="font-semibold mb-1">Dépense par année</h3>
-        <p className="text-xs text-slate-500 mb-3">
-          Année de "Date doc." — distingue les différentes campagnes d'import (2023, 2024 chantiers Induni,
-          2024 consortium…) au sein du total cumulé ci-dessus.
-        </p>
-        <AnneeTable parAnnee={data.parAnnee} />
-      </div>
+      {/* Dépense par année : masquée quand une seule année est choisie (il n'y a plus qu'elle). */}
+      {!selectedAnnee && (
+        <div className="card">
+          <CardHead
+            titre="Dépense par année"
+            onExcel={parAnneeEff ? () => exportBuckets('par_annee', 'Année', anneesSignificatives(parAnneeEff).map((a) => [a, parAnneeEff[a]]), Object.values(parAnneeEff).reduce((t, v) => t + v.montantTotal, 0)) : undefined}
+          />
+          <p className="text-xs text-slate-500 mb-3">
+            Année de comptabilisation (date COFI){selectedEntite ? ` — entité ${entiteLabel(selectedEntite)}` : ''}.
+          </p>
+          {parAnneeEff ? <AnneeTable parAnnee={parAnneeEff} /> : <p className="text-sm text-slate-500">Chargement…</p>}
+        </div>
+      )}
+
+      {/* Dépense par entité : masquée quand une seule entité est choisie. */}
+      {!selectedEntite && (
+        <div className="card">
+          <CardHead
+            titre="Dépense par entité"
+            onExcel={parEntiteEff ? () => exportBuckets('par_entite', 'Entité', Object.entries(parEntiteEff).sort((a, b) => b[1].montantTotal - a[1].montantTotal).map(([e, v]) => [entiteLabel(e), v]), Object.values(parEntiteEff).reduce((t, v) => t + v.montantTotal, 0)) : undefined}
+          />
+          {selectedAnnee && <p className="text-xs text-slate-500 mb-2">Année {selectedAnnee}.</p>}
+          {parEntiteEff ? (
+            <div className="space-y-4">
+              <Camembert lignes={Object.entries(parEntiteEff).map(([e, v]) => ({ label: entiteLabel(e), valeur: v.montantTotal }))} />
+              <EntiteTable parEntite={parEntiteEff} />
+            </div>
+          ) : (
+            <p className="text-sm text-slate-500">Chargement…</p>
+          )}
+        </div>
+      )}
 
       <div className="card">
-        <h3 className="font-semibold mb-3">Dépense par entité</h3>
-        <EntiteTable parEntite={data.parEntite} />
-      </div>
-
-      <div className="card">
-        <h3 className="font-semibold mb-1">Dépense par famille d'achat</h3>
-        <p className="text-xs text-slate-500 mb-3">
-          Famille reprise du Dashboard évaluations (par correspondance de nom) — "Non classé" = fournisseur jamais
-          évalué, à utiliser pour les rebouclements CA/fournisseur/famille.
-        </p>
-        <FamilleAchatTable parFamilleAchat={data.parFamilleAchat} />
-      </div>
-
-      <div className="card">
-        <h3 className="font-semibold mb-1">Dépense par chantier</h3>
-        <p className="text-xs text-slate-500 mb-3">
-          "Chantier" = numéro "SECT Débit" du journal comptable, sur indication explicite de la personne qui utilise l'outil.
-        </p>
-        <ChantierTable
-          parChantier={data.parChantier}
-          nbChantiers={data.nbChantiers}
-          nbChantiersAvecNom={data.nbChantiersAvecNom}
-          montantTotal={g.montantTotal}
+        <CardHead
+          titre="Dépense par famille d'achat"
+          onExcel={parFamilleEff ? () => exportBuckets('par_famille', "Famille d'achat", Object.entries(parFamilleEff).sort((a, b) => b[1].montantTotal - a[1].montantTotal), Object.values(parFamilleEff).reduce((t, v) => t + v.montantTotal, 0)) : undefined}
         />
-      </div>
-
-      <div className="card">
-        <h3 className="font-semibold mb-1">Répartition des factures par tranche de montant</h3>
         <p className="text-xs text-slate-500 mb-3">
-          Uniquement les documents de genre "Facture" avec un montant pos. renseigné —{' '}
-          {data.nbFacturesTotal.toLocaleString('fr-CH')} factures ({formatCurrency(data.montantFacturesTotal)}), soit
-          {g.nbFactures - data.nbFacturesTotal > 0
-            ? ` ${g.nbFactures - data.nbFacturesTotal} facture(s) de moins que le total ci-dessus car leur montant pos. n'est pas renseigné`
-            : ''}
-          . Panier moyen sur ce périmètre : {formatCurrency(data.panierMoyenFacture)}.
+          {contexteXls}. Famille reprise du Dashboard évaluations (par correspondance de nom) — « Non classé » = fournisseur jamais évalué.
         </p>
-        <TrancheTable tranches={data.tranches} />
+        {parFamilleEff ? (
+          <div className="space-y-4">
+            <Camembert lignes={Object.entries(parFamilleEff).map(([f2, v]) => ({ label: f2, valeur: v.montantTotal }))} />
+            <FamilleAchatTable parFamilleAchat={parFamilleEff} />
+          </div>
+        ) : (
+          <p className="text-sm text-slate-500">Chargement…</p>
+        )}
       </div>
 
       <div className="card">
-        <h3 className="font-semibold mb-1">Top 20 fournisseurs par dépense</h3>
+        <CardHead
+          titre="Dépense par chantier"
+          onExcel={
+            chantierEff
+              ? () =>
+                  exportXlsx(`depense_par_chantier_${dateFichier()}`, [
+                    {
+                      nom: 'Par chantier',
+                      lignes: [
+                        [contexteXls],
+                        ['Chantier', 'Technicien', 'Montant CHF', '% du total', 'Documents', 'Factures', 'Payés à temps (CHF)', 'En retard (CHF)'],
+                        ...chantierEff.rows.map((c) => [chantierLabel(c.code, c.nom), c.technicien, c.montantTotal, pct(c.montantTotal, g.montantTotal), c.nbDocuments, c.nbFactures, c.montantATemps, c.montantEnRetard] as (string | number | null)[]),
+                      ],
+                    },
+                  ])
+              : undefined
+          }
+        />
+        <p className="text-xs text-slate-500 mb-3">
+          {contexteXls}. « Chantier » = numéro « SECT Débit » du journal comptable.
+        </p>
+        {chantierEff ? (
+          <div className="space-y-4">
+            <Camembert lignes={chantierEff.rows.map((c) => ({ label: chantierLabel(c.code, c.nom), valeur: c.montantTotal }))} />
+            <ChantierTable parChantier={chantierEff.rows} nbChantiers={chantierEff.rows.length} nbChantiersAvecNom={chantierEff.nbAvecNom} montantTotal={g.montantTotal} />
+          </div>
+        ) : (
+          <p className="text-sm text-slate-500">Chargement…</p>
+        )}
+      </div>
+
+      <div className="card">
+        <CardHead
+          titre="Répartition des factures par tranche de montant"
+          onExcel={
+            tranchesEff
+              ? () =>
+                  exportXlsx(`repartition_factures_${dateFichier()}`, [
+                    {
+                      nom: 'Tranches',
+                      lignes: [[contexteXls], ['Tranche', 'Nb factures', '% du nombre', 'Montant CHF', '% du montant'], ...tranchesEff.tranches.map((t) => [t.label, t.nbFactures, t.pctNb, t.montantFactures, t.pctMontant] as (string | number | null)[])],
+                    },
+                  ])
+              : undefined
+          }
+        />
+        <p className="text-xs text-slate-500 mb-3">
+          {contexteXls}. Uniquement les documents de genre « Facture » avec un montant renseigné
+          {tranchesEff ? ` — ${tranchesEff.nbFactures.toLocaleString('fr-CH')} factures (${formatCurrency(tranchesEff.montantFactures)}). Panier moyen : ${formatCurrency(tranchesEff.panierMoyen)}.` : '.'}
+        </p>
+        {tranchesEff ? (
+          <div className="space-y-4">
+            <Camembert pareto={false} lignes={tranchesEff.tranches.map((t) => ({ label: t.label, valeur: t.montantFactures }))} />
+            <TrancheTable tranches={tranchesEff.tranches} />
+          </div>
+        ) : (
+          <p className="text-sm text-slate-500">Chargement…</p>
+        )}
+      </div>
+
+      <div className="card">
+        <CardHead
+          titre="Top 20 fournisseurs par dépense"
+          onExcel={
+            top20ForEntite
+              ? () => {
+                  let cum = 0
+                  exportXlsx(`top20_fournisseurs_${dateFichier()}`, [
+                    {
+                      nom: 'Top 20',
+                      lignes: [[contexteXls], ['Rang', 'Fournisseur', 'Montant CHF', '% du total', '% cumulé'], ...top20ForEntite.map((f, i) => { cum += f.montant; return [i + 1, f.nom, f.montant, pct(f.montant, g.montantTotal), pct(cum, g.montantTotal)] as (string | number | null)[] })],
+                    },
+                  ])
+                }
+              : undefined
+          }
+        />
         <p className="text-xs text-slate-500 mb-3">Cliquez un nom pour ouvrir sa fiche fournisseur.</p>
         {top20ForEntite ? (
           <>
@@ -646,13 +857,25 @@ export default function DepenseTab({ onZoom }: { onZoom: (nom: string) => void }
         )}
       </div>
 
-      {groupesTotals && groupesTotals.length > 0 && (
+      {/* Top 20 groupes : masqué quand on est sur une seule entité. */}
+      {!selectedEntite && groupesEff && groupesEff.length > 0 && (
         <div className="card">
-          <h3 className="font-semibold mb-1">Top 20 groupes fournisseurs par dépense</h3>
+          <CardHead
+            titre="Top 20 groupes fournisseurs par dépense"
+            onExcel={() => {
+              let cum = 0
+              exportXlsx(`top20_groupes_${dateFichier()}`, [
+                {
+                  nom: 'Top 20 groupes',
+                  lignes: [[contexteXls], ['Rang', 'Groupe', 'Filiale du', 'Fournisseurs du groupe', 'Montant CHF', '% du total', '% cumulé'], ...groupesEff.slice(0, 20).map((gr, i) => { cum += gr.montantTotal; return [i + 1, gr.nom, gr.parent ?? null, gr.membres.join(' ; '), gr.montantTotal, pct(gr.montantTotal, g.montantTotal), pct(cum, g.montantTotal)] as (string | number | null)[] })],
+                },
+              ])
+            }}
+          />
           <p className="text-xs text-slate-500 mb-3">
-            Fournisseurs distincts appartenant au même groupe, agrégés — même principe que le Top 20 ci-dessus.
+            Fournisseurs distincts appartenant au même groupe, agrégés — {contexteXls}. Les fournisseurs du groupe sont indiqués en petit sous son nom.
           </p>
-          <TopGroupesTable groupes={groupesTotals} montantTotal={g.montantTotal} />
+          <TopGroupesTable groupes={groupesEff} montantTotal={g.montantTotal} />
         </div>
       )}
     </div>
