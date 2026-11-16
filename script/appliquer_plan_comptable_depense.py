@@ -115,7 +115,7 @@ def main(argv):
                 docs_bruts += docs
     print(len(comptes), "documents avec compte")
 
-    F = json.load(open(os.path.join(ROOT, "depensesFournisseurs.json")))
+    F = json.load(open(FOURN))
     G = json.load(open(os.path.join(ROOT, "depensesGlobal.json")))
     plan = json.load(open(os.path.join(HERE, "plan_comptable.json")))
     avant = {a: v["montantTotal"] for a, v in G["parAnnee"].items()}
@@ -212,7 +212,7 @@ def main(argv):
             A.recalcule_fournisseur(f)
     F = [f for f in F if f["documents"]]
     A.recalcule_global(F, G)
-    json.dump(F, open(os.path.join(ROOT, "depensesFournisseurs.json"), "w"), ensure_ascii=False, separators=(",", ":"))
+    json.dump(F, open(FOURN, "w"), ensure_ascii=False, separators=(",", ":"))
     json.dump(G, open(os.path.join(ROOT, "depensesGlobal.json"), "w"), ensure_ascii=False, separators=(",", ":"))
     print("\nAvant → après (dépense par année) :")
     for a in sorted(set(avant) | set(G["parAnnee"])):

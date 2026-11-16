@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { BlacklistEntry, EvalRecord, GlobalFilters, SecteurKpis, SecteurStat } from '../data/evaluationsHistorique'
-import type { PermissionKey, Profile } from '../types'
-import { can } from '../data/permissions'
+import type { Profile } from '../types'
+import type { SectionKey, SousSectionView } from '../data/permissions'
+import { can, visibleSubs } from '../data/permissions'
 import {
   SECTEURS,
   anneesDisponibles,
@@ -26,6 +27,7 @@ import BlacklistTab from './BlacklistTab'
 import DepenseTab from './DepenseTab'
 import ConsortiumTab from './ConsortiumTab'
 import ChantiersTab from './ChantiersTab'
+import FormulaireEvaluationTab from './FormulaireEvaluationTab'
 
 function formatCurrency(value: number | null): string {
   if (value == null) return 'Non disponible'
@@ -357,27 +359,44 @@ function SecteurTab({
   )
 }
 
-type View = 'overview' | 'secteur' | 'comparaison' | 'blacklist' | 'depense' | 'chantiers' | 'consortium'
+const SECTION_INTRO: Record<SectionKey, { titre: string; texte: string }> = {
+  evaluation: {
+    titre: 'Évaluation des fournisseurs',
+    texte:
+      "Historique 2017-2025 consolidé (import statique). La richesse des données (CA, critères, nombre d'évaluateurs) varie selon secteurs/années : « Non disponible » plutôt qu'une estimation.",
+  },
+  depense: {
+    titre: 'Analyse de la dépense',
+    texte: "Charges d'achat du plan comptable (journal COFI), par fournisseur, chantier, entité et année.",
+  },
+  bfa: { titre: 'Suivi BFA', texte: '' },
+}
 
-const VIEW_TABS: { key: View; label: string; permission: PermissionKey }[] = [
-  { key: 'overview', label: "Vue d'ensemble", permission: 'canViewOverview' },
-  { key: 'secteur', label: 'Par secteur', permission: 'canViewSecteur' },
-  { key: 'comparaison', label: 'Comparaison secteurs', permission: 'canViewComparaison' },
-  { key: 'depense', label: '💰 Analyse de la dépense', permission: 'canViewDepense' },
-  { key: 'chantiers', label: '🏗 Chantiers', permission: 'canViewDepense' },
-  { key: 'consortium', label: 'Consortium', permission: 'canViewConsortium' },
-  { key: 'blacklist', label: '🚫 Blacklist', permission: 'canViewBlacklist' },
-]
+/** Page d'accueil d'un « Zoom fournisseur » : la fenêtre de zoom s'ouvre par-dessus ; ce bouton la rouvre. */
+function ZoomLanding({ evaluationOnly, onOpen }: { evaluationOnly: boolean; onOpen: () => void }) {
+  return (
+    <div className="card text-center py-10 space-y-3">
+      <p className="text-sm text-slate-600">
+        {evaluationOnly
+          ? "Zoom sur un fournisseur : historique de ses évaluations par secteur et par année."
+          : 'Zoom sur un fournisseur : évaluations, dépense, chantiers, documents et indicateurs détaillés.'}
+      </p>
+      <button className="btn-primary" onClick={onOpen}>
+        🔍 Choisir un fournisseur
+      </button>
+    </div>
+  )
+}
 
-export default function EvaluationDashboard({ profile }: { profile: Profile }) {
+export default function EvaluationDashboard({ profile, section }: { profile: Profile; section: SectionKey }) {
   const [all, setAll] = useState<EvalRecord[] | null>(null)
   const [allFull, setAllFull] = useState<EvalRecord[] | null>(null)
   const [secteurStats, setSecteurStats] = useState<SecteurStat[]>([])
   const [blacklist, setBlacklist] = useState<BlacklistEntry[]>([])
   const [secteur, setSecteur] = useState<string>('GC')
   const [annee, setAnnee] = useState<number | null>(null)
-  const visibleTabs = VIEW_TABS.filter((t) => can(profile, t.permission))
-  const [view, setView] = useState<View>(visibleTabs[0]?.key ?? 'overview')
+  const visibleTabs = visibleSubs(profile, section)
+  const [view, setView] = useState<SousSectionView>(visibleTabs[0]?.view ?? 'overview')
   const [filters, setFilters] = useState<GlobalFilters | null>(null)
   const [zoomNom, setZoomNom] = useState<string | null>(null)
   // true seulement quand ouvert via le bouton dédié "Zoom fournisseur évaluation" — tout autre
@@ -385,9 +404,23 @@ export default function EvaluationDashboard({ profile }: { profile: Profile }) {
   // complet, voir handleZoom ci-dessous.
   const [zoomEvaluationOnly, setZoomEvaluationOnly] = useState(false)
 
+  // Un clic sur un nom de fournisseur ouvre le zoom complet seulement si le compte a le droit
+  // « Zoom fournisseur » ; sinon le zoom est limité à l'évaluation.
   function handleZoom(nom: string) {
-    setZoomEvaluationOnly(false)
+    setZoomEvaluationOnly(!can(profile, 'canViewZoomFournisseur'))
     setZoomNom(nom)
+  }
+
+  function selectView(v: SousSectionView) {
+    setView(v)
+    // Les sous-sections « Zoom fournisseur » ouvrent directement le sélecteur de fournisseur.
+    if (v === 'zoomEvaluation') {
+      setZoomEvaluationOnly(true)
+      setZoomNom('')
+    } else if (v === 'zoomFournisseur') {
+      setZoomEvaluationOnly(false)
+      setZoomNom('')
+    }
   }
 
   useEffect(() => {
@@ -412,33 +445,14 @@ export default function EvaluationDashboard({ profile }: { profile: Profile }) {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 space-y-6">
-      <div className="flex items-start justify-between gap-4 flex-wrap">
-        <div>
-          <h2 className="text-lg font-semibold">Dashboard évaluation fournisseurs</h2>
-          <p className="text-sm text-slate-500 mt-1 max-w-2xl">
-            Historique 2017-2025 consolidé (import statique). La richesse des données (CA, critères, nombre
-            d'évaluateurs) varie selon secteurs/années : « Non disponible » plutôt qu'une estimation.
-          </p>
-        </div>
-        <div className="flex gap-2 flex-wrap">
-          <button className="btn-primary whitespace-nowrap" onClick={() => handleZoom('')}>
-            🔍 Zoom fournisseur
-          </button>
-          <button
-            className="btn-secondary whitespace-nowrap"
-            onClick={() => {
-              setZoomEvaluationOnly(true)
-              setZoomNom('')
-            }}
-          >
-            🔍 Zoom fournisseur évaluation
-          </button>
-        </div>
+      <div>
+        <h2 className="text-lg font-semibold">{SECTION_INTRO[section].titre}</h2>
+        {SECTION_INTRO[section].texte && <p className="text-sm text-slate-500 mt-1 max-w-2xl">{SECTION_INTRO[section].texte}</p>}
       </div>
 
       <div className="border-b border-slate-200 flex gap-1 flex-wrap">
         {visibleTabs.map((t) => (
-          <button key={t.key} className={`tab-button ${view === t.key ? 'active' : ''}`} onClick={() => setView(t.key)}>
+          <button key={t.view} className={`tab-button ${view === t.view ? 'active' : ''}`} onClick={() => selectView(t.view)}>
             {t.label}
           </button>
         ))}
@@ -469,6 +483,12 @@ export default function EvaluationDashboard({ profile }: { profile: Profile }) {
       {view === 'depense' && <DepenseTab onZoom={handleZoom} />}
 
       {view === 'chantiers' && <ChantiersTab />}
+
+      {view === 'formulaire' && <FormulaireEvaluationTab />}
+
+      {view === 'zoomEvaluation' && <ZoomLanding evaluationOnly onOpen={() => { setZoomEvaluationOnly(true); setZoomNom('') }} />}
+
+      {view === 'zoomFournisseur' && <ZoomLanding evaluationOnly={false} onOpen={() => { setZoomEvaluationOnly(false); setZoomNom('') }} />}
 
       {view === 'consortium' && <ConsortiumTab />}
 

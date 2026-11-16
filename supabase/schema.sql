@@ -122,6 +122,10 @@ create table profiles (
   can_view_consortium boolean not null default false,
   can_view_blacklist boolean not null default false,
   can_view_formulaire boolean not null default false,
+  can_view_zoom_evaluation boolean not null default false,
+  can_view_chantiers boolean not null default false,
+  can_view_zoom_fournisseur boolean not null default false,
+  can_view_bfa boolean not null default false,
   can_view_seance_lancement boolean not null default false,
   can_view_fournisseurs boolean not null default false,
   created_at timestamptz not null default now()

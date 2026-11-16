@@ -4,17 +4,16 @@ import type { Dossier, Profile } from './types'
 import { isSupabaseConfigured } from './lib/supabase'
 import { getSession, onAuthStateChange, signOut } from './lib/auth'
 import { getMyProfile } from './data/db'
-import { can, canViewDashboard, isAdminProfile } from './data/permissions'
+import { canViewSection, isAdminProfile } from './data/permissions'
 import DossiersList from './components/DossiersList'
 import Workspace from './components/Workspace'
 import FournisseursAnnuaire from './components/FournisseursAnnuaire'
 import EvaluationDashboard from './components/EvaluationDashboard'
-import FormulaireEvaluationTab from './components/FormulaireEvaluationTab'
 import SuiviBfaTab from './components/SuiviBfaTab'
 import AdminUsersTab from './components/AdminUsersTab'
 import LoginScreen from './components/LoginScreen'
 
-type View = 'dossiers' | 'fournisseurs' | 'dashboard' | 'formulaire' | 'bfa' | 'admin'
+type View = 'dossiers' | 'fournisseurs' | 'evaluation' | 'depense' | 'bfa' | 'admin'
 
 // Fonctionnalités mises en pause indépendamment des droits par compte (voir historique de
 // l'app) — repasser à true pour les rendre à nouveau accessibles aux comptes qui y ont droit.
@@ -23,22 +22,21 @@ const FEATURE_FOURNISSEURS_ENABLED = false
 
 function visibleViews(profile: Profile): View[] {
   const views: View[] = []
-  if (canViewDashboard(profile)) views.push('dashboard')
-  if (can(profile, 'canViewFormulaire')) views.push('formulaire')
-  if (FEATURE_SEANCE_LANCEMENT_ENABLED && can(profile, 'canViewSeanceLancement')) views.push('dossiers')
-  if (FEATURE_FOURNISSEURS_ENABLED && can(profile, 'canViewFournisseurs')) views.push('fournisseurs')
-  // Suivi BFA : onglet vide, réservé aux administrateurs tant que son contenu et ses droits ne sont pas définis.
-  if (isAdminProfile(profile)) views.push('bfa')
+  if (canViewSection(profile, 'evaluation')) views.push('evaluation')
+  if (canViewSection(profile, 'depense')) views.push('depense')
+  if (canViewSection(profile, 'bfa')) views.push('bfa')
+  if (FEATURE_SEANCE_LANCEMENT_ENABLED && profile.canViewSeanceLancement) views.push('dossiers')
+  if (FEATURE_FOURNISSEURS_ENABLED && profile.canViewFournisseurs) views.push('fournisseurs')
   if (isAdminProfile(profile)) views.push('admin')
   return views
 }
 
 const VIEW_LABELS: Record<View, string> = {
-  dashboard: 'Dashboard évaluations',
-  formulaire: "Formulaire d'évaluation",
+  evaluation: 'Évaluation',
+  depense: 'Analyse Dépense',
+  bfa: 'Suivi BFA',
   dossiers: 'Séance de lancement achats',
   fournisseurs: 'Fournisseurs',
-  bfa: 'Suivi BFA',
   admin: 'Administration',
 }
 
@@ -89,6 +87,10 @@ export default function App() {
           canViewConsortium: false,
           canViewBlacklist: false,
           canViewFormulaire: false,
+          canViewZoomEvaluation: false,
+          canViewChantiers: false,
+          canViewZoomFournisseur: false,
+          canViewBfa: false,
           canViewSeanceLancement: false,
           canViewFournisseurs: false,
           createdAt: '',
@@ -115,7 +117,7 @@ export default function App() {
       <header className="bg-gradient-to-r from-brand-from to-brand-to text-white px-6 py-5">
         {/* Titre temporairement renommé (bascule prévue plus tard vers "SLA — Séance de lancement achats") */}
         <div className="flex items-start justify-between gap-4 flex-wrap">
-          <h1 className="text-2xl font-bold">Dashboard Évaluation Fournisseur</h1>
+          <h1 className="text-2xl font-bold">Dashboard Achats</h1>
           {session && (
             <div className="flex items-center gap-3 text-sm text-white/90">
               <span>{profile?.fullName || session.user.email}</span>
@@ -178,10 +180,8 @@ export default function App() {
         <Workspace dossierId={openDossierId} onBack={() => setOpenDossierId(null)} />
       ) : view === 'fournisseurs' ? (
         <FournisseursAnnuaire />
-      ) : view === 'dashboard' ? (
-        <EvaluationDashboard profile={profile} />
-      ) : view === 'formulaire' ? (
-        <FormulaireEvaluationTab />
+      ) : view === 'evaluation' || view === 'depense' ? (
+        <EvaluationDashboard key={view} profile={profile} section={view} />
       ) : view === 'bfa' ? (
         <SuiviBfaTab />
       ) : view === 'admin' ? (

@@ -557,6 +557,11 @@ interface ProfileRow {
   can_view_consortium: boolean
   can_view_blacklist: boolean
   can_view_formulaire: boolean
+  // Colonnes ajoutées par migration_permissions_sections.sql (absentes tant que ce script n'est pas lancé)
+  can_view_zoom_evaluation?: boolean | null
+  can_view_chantiers?: boolean | null
+  can_view_zoom_fournisseur?: boolean | null
+  can_view_bfa?: boolean | null
   can_view_seance_lancement: boolean
   can_view_fournisseurs: boolean
   created_at: string
@@ -575,6 +580,11 @@ function profileFromRow(row: ProfileRow): Profile {
     canViewConsortium: row.can_view_consortium,
     canViewBlacklist: row.can_view_blacklist,
     canViewFormulaire: row.can_view_formulaire,
+    // Repli tant que la migration n'est pas lancée : ces sous-sections héritent du droit de leur ancien onglet.
+    canViewZoomEvaluation: row.can_view_zoom_evaluation ?? row.can_view_overview,
+    canViewChantiers: row.can_view_chantiers ?? row.can_view_depense,
+    canViewZoomFournisseur: row.can_view_zoom_fournisseur ?? row.can_view_depense,
+    canViewBfa: row.can_view_bfa ?? false,
     canViewSeanceLancement: row.can_view_seance_lancement,
     canViewFournisseurs: row.can_view_fournisseurs,
     createdAt: row.created_at,
@@ -609,6 +619,10 @@ export async function updateProfilePermissions(id: string, patch: NewProfilePatc
   if (patch.canViewConsortium !== undefined) row.can_view_consortium = patch.canViewConsortium
   if (patch.canViewBlacklist !== undefined) row.can_view_blacklist = patch.canViewBlacklist
   if (patch.canViewFormulaire !== undefined) row.can_view_formulaire = patch.canViewFormulaire
+  if (patch.canViewZoomEvaluation !== undefined) row.can_view_zoom_evaluation = patch.canViewZoomEvaluation
+  if (patch.canViewChantiers !== undefined) row.can_view_chantiers = patch.canViewChantiers
+  if (patch.canViewZoomFournisseur !== undefined) row.can_view_zoom_fournisseur = patch.canViewZoomFournisseur
+  if (patch.canViewBfa !== undefined) row.can_view_bfa = patch.canViewBfa
   if (patch.canViewSeanceLancement !== undefined) row.can_view_seance_lancement = patch.canViewSeanceLancement
   if (patch.canViewFournisseurs !== undefined) row.can_view_fournisseurs = patch.canViewFournisseurs
   const { data, error } = await requireClient().from('profiles').update(row).eq('id', id).select().single()

@@ -1,22 +1,20 @@
-import { useState } from 'react'
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { PermissionKey, Profile } from '../types'
 import { listProfiles, updateProfilePermissions } from '../data/db'
 import { createUserAccount, deleteUserAccount, resetUserPassword } from '../lib/adminUsers'
-import { PERMISSIONS } from '../data/permissions'
+import { PERMISSIONS, SECTIONS } from '../data/permissions'
 
-function groupBy<T, K>(items: T[], key: (item: T) => K): Map<K, T[]> {
-  const map = new Map<K, T[]>()
-  for (const item of items) {
-    const k = key(item)
-    const list = map.get(k)
-    if (list) list.push(item)
-    else map.set(k, [item])
-  }
-  return map
+/** Case à cocher « tout / rien / partiel » pour une section entière. */
+function SectionCheckbox({ state, onChange }: { state: 'all' | 'some' | 'none'; onChange: (value: boolean) => void }) {
+  const ref = useRef<HTMLInputElement>(null)
+  useEffect(() => {
+    if (ref.current) ref.current.indeterminate = state === 'some'
+  }, [state])
+  return <input ref={ref} type="checkbox" checked={state === 'all'} onChange={(e) => onChange(e.target.checked)} />
 }
 
-const GROUPED_PERMISSIONS = groupBy(PERMISSIONS, (p) => p.groupe)
+const PAUSED = PERMISSIONS.filter((p) => p.section === 'pause')
+const ALL_KEYS = PERMISSIONS.map((p) => p.key)
 
 function PermissionCheckboxes({
   isAdmin,
@@ -25,28 +23,62 @@ function PermissionCheckboxes({
 }: {
   isAdmin: boolean
   permissions: Record<PermissionKey, boolean>
-  onChange: (key: PermissionKey, value: boolean) => void
+  /** Applique `value` à un ou plusieurs droits d'un coup (section entière, tout cocher…). */
+  onChange: (keys: PermissionKey[], value: boolean) => void
 }) {
   if (isAdmin) {
     return (
-      <p className="text-xs text-slate-400">Droit d'administrateur : tous les onglets sont visibles, pas besoin de les cocher un par un.</p>
+      <p className="text-xs text-slate-400">Droit d'administrateur : toutes les sections et sous-sections sont visibles, pas besoin de les cocher une par une.</p>
     )
   }
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      {Array.from(GROUPED_PERMISSIONS.entries()).map(([groupe, perms]) => (
-        <div key={groupe}>
-          <div className="text-xs uppercase text-slate-500 font-semibold mb-1.5">{groupe}</div>
-          <div className="space-y-1">
-            {perms.map((p) => (
-              <label key={p.key} className="flex items-center gap-2 text-sm">
-                <input type="checkbox" checked={permissions[p.key]} onChange={(e) => onChange(p.key, e.target.checked)} />
-                {p.label}
+    <div className="space-y-3">
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-xs uppercase text-slate-500 font-semibold">Accès</span>
+        <button type="button" className="btn-secondary text-xs py-0.5" onClick={() => onChange(ALL_KEYS, true)}>
+          Tout cocher
+        </button>
+        <button type="button" className="btn-secondary text-xs py-0.5" onClick={() => onChange(ALL_KEYS, false)}>
+          Tout décocher
+        </button>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {SECTIONS.map((sec) => {
+          const keys = sec.subs.map((sub) => sub.permission)
+          const nb = keys.filter((k) => permissions[k]).length
+          const state = nb === 0 ? 'none' : nb === keys.length ? 'all' : 'some'
+          return (
+            <div key={sec.key} className="border border-slate-200 rounded-lg p-3">
+              <label className="flex items-center gap-2 text-sm font-semibold mb-2">
+                <SectionCheckbox state={state} onChange={(v) => onChange(keys, v)} />
+                {sec.label}
+                <span className="text-[11px] font-normal text-slate-400">
+                  ({nb}/{keys.length})
+                </span>
               </label>
-            ))}
-          </div>
+              <div className="space-y-1 pl-6">
+                {sec.subs.map((sub) => (
+                  <label key={sub.permission} className="flex items-center gap-2 text-sm">
+                    <input type="checkbox" checked={permissions[sub.permission]} onChange={(e) => onChange([sub.permission], e.target.checked)} />
+                    {sub.label}
+                  </label>
+                ))}
+              </div>
+            </div>
+          )
+        })}
+      </div>
+      <details className="text-xs text-slate-500">
+        <summary className="cursor-pointer">Fonctionnalités actuellement en pause</summary>
+        <div className="space-y-1 mt-2 pl-2">
+          {PAUSED.map((p) => (
+            <label key={p.key} className="flex items-center gap-2 text-sm">
+              <input type="checkbox" checked={permissions[p.key]} onChange={(e) => onChange([p.key], e.target.checked)} />
+              {p.label}
+            </label>
+          ))}
         </div>
-      ))}
+      </details>
     </div>
   )
 }
@@ -156,7 +188,7 @@ function CreateUserForm({ onCreated }: { onCreated: () => void }) {
       <PermissionCheckboxes
         isAdmin={isAdmin}
         permissions={permissions}
-        onChange={(key, value) => setPermissions((p) => ({ ...p, [key]: value }))}
+        onChange={(keys, value) => setPermissions((p) => ({ ...p, ...Object.fromEntries(keys.map((k) => [k, value])) }))}
       />
 
       {error && <div className="text-sm text-red-600">{error}</div>}
@@ -190,7 +222,13 @@ function UserCard({
     setSaving(true)
     setError(null)
     try {
-      const updated = await updateProfilePermissions(profile.id, form)
+      // Seuls les champs modifiés sont envoyés (une colonne de droit absente de la base n'empêche pas
+      // d'enregistrer un autre changement ; voir supabase/migration_permissions_sections.sql).
+      const patch: Record<string, unknown> = {}
+      for (const k of ['fullName', 'isAdmin', ...ALL_KEYS] as (keyof Profile)[]) {
+        if (form[k] !== profile[k]) patch[k] = form[k]
+      }
+      const updated = await updateProfilePermissions(profile.id, patch)
       setForm(updated)
       onSaved(updated)
     } catch (e) {
@@ -251,7 +289,7 @@ function UserCard({
       <PermissionCheckboxes
         isAdmin={form.isAdmin}
         permissions={form}
-        onChange={(key, value) => setForm((f) => ({ ...f, [key]: value }))}
+        onChange={(keys, value) => setForm((f) => ({ ...f, ...Object.fromEntries(keys.map((k) => [k, value])) }))}
       />
 
       {resetPasswordValue && (
@@ -307,8 +345,8 @@ export default function AdminUsersTab() {
       <div>
         <h2 className="text-xl font-bold">Administration — comptes et accès</h2>
         <p className="text-sm text-slate-500 mt-1">
-          Crée les comptes directement ici (adresses @induni.ch uniquement) et coche les onglets que chaque personne
-          peut voir. Pas d'envoi d'e-mail automatique : le mot de passe temporaire s'affiche à l'écran, à toi de le
+          Crée les comptes directement ici (adresses @induni.ch uniquement) et règle ce que chaque personne peut voir :
+          section entière (case du titre) ou sous-section par sous-section. Pas d'envoi d'e-mail automatique : le mot de passe temporaire s'affiche à l'écran, à toi de le
           communiquer.
         </p>
       </div>

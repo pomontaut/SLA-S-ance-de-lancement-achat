@@ -29,6 +29,10 @@ const PERMISSION_FIELDS = [
   'canViewConsortium',
   'canViewBlacklist',
   'canViewFormulaire',
+  'canViewZoomEvaluation',
+  'canViewChantiers',
+  'canViewZoomFournisseur',
+  'canViewBfa',
   'canViewSeanceLancement',
   'canViewFournisseurs',
 ] as const

@@ -5,7 +5,7 @@ import collections, json, os
 HERE = os.path.dirname(__file__)
 ref = json.load(open(os.path.join(HERE, "chantiers_references.json")))["entites"]
 out = {c: {"numero": c, "nom": n, "entite": e} for e, ch in ref.items() for c, n in ch.items()}
-F = json.load(open(os.path.join(HERE, "..", "src", "data", "depensesFournisseurs.json")))
+F = json.load(open(os.path.join(HERE, "..", "public", "data", "depensesFournisseurs.json")))
 nom, ent = {}, collections.defaultdict(collections.Counter)
 for f in F:
     for d in f["documents"]:

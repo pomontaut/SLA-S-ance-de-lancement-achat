@@ -13,7 +13,8 @@ Propriétaire : Pierre-Olivier Montaut (français, direct). Réponses en frança
 - La dépense = **charges d'achat du plan comptable** (compte débit du journal COFI) : classes 3 et 4 hors 400 (salaires) ;
   **immobilisations 15x gardées, entité DEPOT** ; tout le reste retiré (créanciers 200, impôt à la source, AVS, prévoyance, transitoires, 52x internes, 6xx/7xx, escomptes).
 - Année de rattachement = année de la **Date COFI** (`anneeComptable`). 2026 = janv.–sept. (« partielle », `anneesPartielles`).
-- Les JSON `src/data/depensesFournisseurs.json` / `depensesGlobal.json` sont GÉNÉRÉS : ne pas les éditer à la main.
+- Les JSON `public/data/depensesFournisseurs.json` (47 Mo, **servi et chargé par fetch, JAMAIS importé dans le code** : l'embarquer fait dépasser la mémoire du build Railway) et `src/data/depensesGlobal.json` sont GÉNÉRÉS : ne pas les éditer à la main.
+- Le build Railway est `tsc -b && vite build` : ne pas réimporter de gros JSON (> quelques Mo) dans `src/`.
   Régénérer avec `script/appliquer_plan_comptable_depense.py` à partir des JSON d'origine (commit `7e8f070`) + journaux (voir README).
   Journaux fournis : compilé 2025, bruts INDUNI/CONSORTIUM 2023, 2024, 2026 (clé `--aff`).
 - Chantiers : nom + entité OFFICIELS dans `script/chantiers_references.json` (GC, BAT GE, BAT VD, BAT GE TRANSFO RENO, EG GE, EG VD, EG VS ; captures des dossiers virtuels).
@@ -27,12 +28,17 @@ Propriétaire : Pierre-Olivier Montaut (français, direct). Réponses en frança
 - PAS de menu « Chantier (liste) » (retiré à la demande du propriétaire) : champs N° chantier et Nom avec auto-complétion (datalist) sur tous les chantiers ; saisir un n° remplit le nom et inversement (entité aussi).
 - Après un enregistrement on garde entité, n° et nom du chantier (et évaluateur) ; bouton **Réinitialiser** = tout remettre à zéro.
 
-## Onglets
-- **Suivi BFA** : onglet vide (admin seulement) en attendant les instructions du propriétaire.
-- **Chantiers** (`ChantiersTab.tsx` + `DepenseCharts.tsx`, sous-onglet du Dashboard, droit `canViewDepense`) : filtres entité / chantier / année / fournisseur ;
+## Navigation et droits (titre « Dashboard Achats »)
+- Sections du haut (`SECTIONS` dans `src/data/permissions.ts`, une section est visible si au moins une sous-section l'est) :
+  **Évaluation** (Vue d'ensemble, Par secteur, Comparaison par secteur, Blacklist, Zoom fournisseur évaluation, Formulaire d'évaluation) ;
+  **Analyse Dépense** (Analyse de la dépense, Analyse chantier, Consortium, Zoom fournisseur) ; **Suivi BFA** (vide, en attendant les instructions) ; **Administration** (admin seulement).
+- Un droit par sous-section (`profiles.can_view_*`). Administration (`AdminUsersTab`) : case par section (tout/rien/partiel) + case par sous-section + « Tout cocher / décocher » ; fonctionnalités en pause dans un bloc replié.
+- Nouveaux droits (zoom évaluation, chantiers, zoom fournisseur, BFA) = colonnes ajoutées par `supabase/migration_permissions_sections.sql` (À LANCER à la main). Tant qu'elle n'est pas lancée : repli sur l'ancien droit (zoom évaluation ← vue d'ensemble ; chantier et zoom fournisseur ← analyse de la dépense ; BFA ← admin seulement). L'Edge Function `admin-users` (liste `PERMISSION_FIELDS`) est à redéployer pour que la création de compte prenne ces droits.
+- Un clic sur un nom de fournisseur ouvre le zoom complet seulement avec le droit « Zoom fournisseur », sinon le zoom évaluation.
+- **Analyse chantier** (`ChantiersTab.tsx` + `DepenseCharts.tsx`) : filtres entité / chantier / année / fournisseur ;
   sections : par mois et par année (+ ligne « % par mois » sur les ANNÉES PLEINES seulement, 2026 exclu), par fournisseur (année ou trimestre, avec % de l'année/du trimestre),
   Pareto, Top 20, typologie de fournisseurs (famille d'achat), par chantier (année en cours par défaut). Graphiques SVG ; **chaque tableau a un bouton « ⬇ Excel »** (`src/lib/exportExcel.ts`, lib `xlsx`, chargée à la demande).
-  Entités affichées via `entiteLabel` (DG = « Direction Générale », DEPOT = « Dépôt », AUTRES = « Autres ») dans l'onglet Chantiers et l'analyse de dépense.
+  Entités affichées via `entiteLabel` (DG = « Direction Générale », DEPOT = « Dépôt », AUTRES = « Autres »).
 
 ## Dashboard évaluation — Vue d'ensemble (`OverviewHeader.tsx`, maquette papier du propriétaire)
 - En-tête « Dashboard évaluation <année> » (titre centré) : 4 tuiles de même taille (fournisseurs évalués, nombre d'évaluations, moyenne globale, périmètre évalué en CHF) ; chacune avec « <année-1> : … » dessous ET l'évolution signée (+/−, vert/rouge) à côté du chiffre. Boutons de secteurs tous de même taille.

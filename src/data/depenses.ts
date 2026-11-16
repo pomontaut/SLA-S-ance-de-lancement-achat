@@ -199,10 +199,21 @@ let fournisseursPending: Promise<DepenseFournisseur[]> | null = null
 export function loadDepensesFournisseurs(): Promise<DepenseFournisseur[]> {
   if (fournisseursCache) return Promise.resolve(fournisseursCache)
   if (!fournisseursPending) {
-    fournisseursPending = import('./depensesFournisseurs.json').then((mod) => {
-      fournisseursCache = mod.default as unknown as DepenseFournisseur[]
-      return fournisseursCache
-    })
+    // Fichier volumineux (~47 Mo) : servi tel quel depuis public/data/ et chargé à la demande, pas
+    // embarqué dans le code compilé (le compiler dépassait la mémoire du build Railway).
+    fournisseursPending = fetch(`${import.meta.env.BASE_URL}data/depensesFournisseurs.json`)
+      .then((r) => {
+        if (!r.ok) throw new Error(`Chargement des dépenses impossible (HTTP ${r.status})`)
+        return r.json() as Promise<DepenseFournisseur[]>
+      })
+      .then((data) => {
+        fournisseursCache = data
+        return data
+      })
+      .catch((e) => {
+        fournisseursPending = null // permet de réessayer
+        throw e
+      })
   }
   return fournisseursPending
 }

@@ -26,6 +26,10 @@ export interface Profile {
   canViewConsortium: boolean
   canViewBlacklist: boolean
   canViewFormulaire: boolean
+  canViewZoomEvaluation: boolean
+  canViewChantiers: boolean
+  canViewZoomFournisseur: boolean
+  canViewBfa: boolean
   canViewSeanceLancement: boolean
   canViewFournisseurs: boolean
   createdAt: string
