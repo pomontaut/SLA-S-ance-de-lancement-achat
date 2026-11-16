@@ -257,8 +257,8 @@ export default function PaiementTab({ onZoom }: { onZoom?: (nom: string) => void
   function exporterAnnees() {
     exportXlsx(`paiement_par_annee_${dateFichier()}`, [{
       nom: 'Par année',
-      lignes: [[contexte], ['Année', "Date d'arrêt des paiements", 'Factures', 'Payées à temps', 'Payées en retard', 'Taux de paiement à l\'échéance %', 'Retard moyen (j)', 'DPO (j, TTC)', 'Délai interne moyen (j)', 'Escomptes obtenus CHF HT', 'Escomptes perdus CHF HT', 'Escomptes comptabilisés (compte 702) CHF'],
-        ...parAnnee.map((r) => [r.annee, arret[r.annee] ?? null, r.nb, r.nbATemps, r.nbRetard, r.taux != null ? Math.round(r.taux * 10) / 10 : null, r.retardMoyen != null ? Math.round(r.retardMoyen * 10) / 10 : null, r.dpo != null ? Math.round(r.dpo * 10) / 10 : null, r.interneMoyen != null ? Math.round(r.interneMoyen * 10) / 10 : null, Math.round(r.escOb), Math.round(r.escPerdu), r.comptabilise != null ? Math.round(Math.abs(r.comptabilise)) : null] as (string | number | null)[])],
+      lignes: [[contexte], ['Année', "Date d'arrêt des paiements", 'Factures', 'Payées à temps', 'Payées en retard', 'Taux de paiement à l\'échéance %', 'Retard moyen (j)', 'DPO (j, TTC)', 'Délai interne moyen (j)', 'Escomptes réalisés (estimation) CHF HT', 'Escomptes perdus (estimation) CHF HT', 'Escomptes possibles (estimation) CHF HT', 'Escomptes comptabilisés (compte 702) CHF'],
+        ...parAnnee.map((r) => [r.annee, arret[r.annee] ?? null, r.nb, r.nbATemps, r.nbRetard, r.taux != null ? Math.round(r.taux * 10) / 10 : null, r.retardMoyen != null ? Math.round(r.retardMoyen * 10) / 10 : null, r.dpo != null ? Math.round(r.dpo * 10) / 10 : null, r.interneMoyen != null ? Math.round(r.interneMoyen * 10) / 10 : null, Math.round(r.escOb), Math.round(r.escPerdu), Math.round(r.escOb + r.escPerdu), r.comptabilise != null ? Math.round(Math.abs(r.comptabilise)) : null] as (string | number | null)[])],
     }])
   }
   const exporterListe = (nom: string, l: typeof classement.mieux) =>
@@ -300,12 +300,12 @@ export default function PaiementTab({ onZoom }: { onZoom?: (nom: string) => void
         <Tuile label="Délai moyen de paiement (DPO, TTC)" valeur={!toutes && ligneAnnee?.dpo != null ? `${fmt1(ligneAnnee.dpo)} j` : '—'} sous={toutes ? 'voir le tableau par année' : '(dettes ÷ achats) × jours'} />
         <Tuile label="Délai de traitement interne (indicatif)" valeur={kpi.interneMoyen != null ? `${fmt1(kpi.interneMoyen)} j` : '—'} sous={kpi.interneMedian != null ? `médiane ${kpi.interneMedian} j · mise à disposition − date facture` : undefined} />
         <Tuile
-          label={escComptabilise != null ? 'Escomptes obtenus (comptabilisés, compte 702)' : 'Escomptes obtenus (estimation HT)'}
+          label={escComptabilise != null ? 'Escomptes réalisés (comptabilisés, compte 702)' : 'Escomptes réalisés (estimation HT)'}
           valeur={`${fmt(escComptabilise ?? kpi.escOb)} CHF`}
           ton="bon"
-          sous={escComptabilise != null ? `estimation d'après les conditions : ${fmt(kpi.escOb)} CHF` : "estimation : payé dans le délai d'escompte"}
+          sous={escComptabilise != null ? `réellement pris, selon la comptabilité — estimation d'après les conditions de paiement : ${fmt(kpi.escOb)} CHF` : "estimation : factures payées dans le délai d'escompte"}
         />
-        <Tuile label="Escomptes perdus (estimation HT)" valeur={`${fmt(kpi.escPerdu)} CHF`} ton="mauvais" sous="payé après le délai d'escompte ou pas encore payé" />
+        <Tuile label="Escomptes perdus (estimation HT)" valeur={`${fmt(kpi.escPerdu)} CHF`} ton="mauvais" sous={`non pris : payé après le délai d'escompte ou pas encore payé — possible au total : ${fmt(kpi.escOb + kpi.escPerdu)} CHF`} />
         <Tuile label="Montant échu non payé (HT)" valeur={`${fmt(totalEchu)} CHF`} ton="moyen" sous={`${fmt(balance.reduce((t, b) => t + b.nb, 0))} factures`} />
         <Tuile label="Factures analysées" valeur={fmt(kpi.nb)} sous={contexte} />
       </div>
@@ -320,8 +320,9 @@ export default function PaiementTab({ onZoom }: { onZoom?: (nom: string) => void
               <th className="py-1 px-2 text-right">Retard moyen</th>
               <th className="py-1 px-2 text-right">DPO (TTC)</th>
               <th className="py-1 px-2 text-right">Délai interne</th>
-              <th className="py-1 px-2 text-right">Escomptes obtenus</th>
-              <th className="py-1 px-2 text-right">Escomptes perdus</th>
+              <th className="py-1 px-2 text-right" title="Factures à condition d'escompte payées dans le délai : taux × montant HT">Escomptes réalisés</th>
+              <th className="py-1 px-2 text-right" title="Factures à condition d'escompte payées après le délai ou pas encore payées">Escomptes perdus</th>
+              <th className="py-1 px-2 text-right" title="Réalisés + perdus : tout ce que les conditions de paiement permettaient de prendre">Escomptes possibles</th>
             </tr>
           </thead>
           <tbody>
@@ -337,16 +338,24 @@ export default function PaiementTab({ onZoom }: { onZoom?: (nom: string) => void
                 <td className="py-1 px-2 text-right tabular-nums">{r.interneMoyen != null ? `${fmt1(r.interneMoyen)} j` : '—'}</td>
                 <td className="py-1 px-2 text-right tabular-nums text-green-700">{fmt(r.escOb)}</td>
                 <td className="py-1 px-2 text-right tabular-nums text-red-600">{fmt(r.escPerdu)}</td>
+                <td className="py-1 px-2 text-right tabular-nums text-slate-600">{fmt(r.escOb + r.escPerdu)}</td>
               </tr>
             ))}
           </tbody>
         </table>
-        {!entite && Object.keys(comptabilises).length > 0 && (
-          <p className="text-[11px] text-slate-400">
-            Escomptes réellement comptabilisés (compte 702, tous fournisseurs) : {annees.filter((a) => comptabilises[a] != null).map((a) => `${a} : ${fmt(Math.abs(comptabilises[a]))} CHF`).join(' · ')} — à comparer aux « obtenus »
-            calculés ci-dessus à partir des conditions de paiement.
+        <div className="text-[11px] text-slate-500 space-y-1">
+          <p>
+            <strong>Escomptes réalisés</strong> = factures à condition d'escompte (ex. « 30 JOURS 2 % ») payées dans le délai d'escompte : taux × montant HT.{' '}
+            <strong>Escomptes perdus</strong> = ce qu'on n'a pas pris : factures payées après ce délai ou pas encore payées. <strong>Escomptes possibles</strong> = réalisés + perdus.
+            Ces trois chiffres sont des <em>estimations</em> d'après les conditions de paiement enregistrées.
           </p>
-        )}
+          {!entite && Object.keys(comptabilises).length > 0 && (
+            <p>
+              Escomptes réellement comptabilisés (compte 702, tous fournisseurs) : {annees.filter((a) => comptabilises[a] != null).map((a) => `${a} : ${fmt(Math.abs(comptabilises[a]))} CHF`).join(' · ')}. Ils sont bien supérieurs aux
+              « réalisés » estimés : des escomptes sont probablement déduits même hors délai (ou sur des factures sans condition d'escompte enregistrée).
+            </p>
+          )}
+        </div>
       </Section>
 
       <Section
