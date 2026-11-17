@@ -633,5 +633,18 @@
     "nom": "ARMAX"
    }
   ]
+ },
+ {
+  "nom": "Groupe Polyfaçades",
+  "membres": [
+   {
+    "nfr": 574616,
+    "nom": "MFP PREFABRICATI"
+   },
+   {
+    "nfr": 141683,
+    "nom": "RENOBETON SA"
+   }
+  ]
  }
 ]
