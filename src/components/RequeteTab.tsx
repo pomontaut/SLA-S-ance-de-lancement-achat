@@ -43,6 +43,38 @@ function valeurDim(l: LigneSpend, d: Dim): string {
   }
 }
 
+interface Croise {
+  colList: string[]
+  rowList: [string, { cells: Map<string, number>; total: number; nbFactures: number; nfr: number | null }][]
+  parCol: Map<string, number>
+  total: number
+  nbFactures: number
+}
+
+/** Tableau croisé : lignes × colonnes (colDim vide = une seule colonne « Total »). */
+function croiser(lignes: LigneSpend[], rowDim: Dim, colDim: Dim | ''): Croise {
+  const cols = new Set<string>()
+  const rows = new Map<string, { cells: Map<string, number>; total: number; nbFactures: number; nfr: number | null }>()
+  const parCol = new Map<string, number>()
+  let total = 0
+  let nbFactures = 0
+  for (const l of lignes) {
+    const r = valeurDim(l, rowDim)
+    const c = colDim ? valeurDim(l, colDim) : 'Total'
+    cols.add(c)
+    let row = rows.get(r)
+    if (!row) rows.set(r, (row = { cells: new Map(), total: 0, nbFactures: 0, nfr: rowDim === 'fournisseur' ? l.nfr : null }))
+    row.cells.set(c, (row.cells.get(c) ?? 0) + l.montant)
+    row.total += l.montant
+    if (l.facture) { row.nbFactures++; nbFactures++ }
+    parCol.set(c, (parCol.get(c) ?? 0) + l.montant)
+    total += l.montant
+  }
+  const colList = [...cols].sort((a, b) => (colDim === 'annee' ? a.localeCompare(b) : (parCol.get(b) ?? 0) - (parCol.get(a) ?? 0)))
+  const rowList = [...rows.entries()].sort((a, b) => (rowDim === 'annee' ? a[0].localeCompare(b[0]) : b[1].total - a[1].total))
+  return { colList, rowList, parCol, total, nbFactures }
+}
+
 interface Option {
   value: string
   label: string
@@ -197,28 +229,19 @@ export default function RequeteTab({ onZoom }: { onZoom?: (nom: string) => void 
 
   const filtreActif = selFourn.length + selAnnees.length + selEntites.length + selFamilles.length + selChantiers.length > 0
 
-  const pivot = useMemo(() => {
-    const cols = new Set<string>()
-    const rows = new Map<string, { cells: Map<string, number>; total: number; nbFactures: number; nfr: number | null }>()
-    let total = 0
-    let nbFactures = 0
-    const parCol = new Map<string, number>()
-    for (const l of filtrees) {
-      const r = valeurDim(l, lignesDim)
-      const c = colsDim ? valeurDim(l, colsDim) : 'Total'
-      cols.add(c)
-      let row = rows.get(r)
-      if (!row) rows.set(r, (row = { cells: new Map(), total: 0, nbFactures: 0, nfr: lignesDim === 'fournisseur' ? l.nfr : null }))
-      row.cells.set(c, (row.cells.get(c) ?? 0) + l.montant)
-      row.total += l.montant
-      if (l.facture) { row.nbFactures++; nbFactures++ }
-      parCol.set(c, (parCol.get(c) ?? 0) + l.montant)
-      total += l.montant
-    }
-    const colList = [...cols].sort((a, b) => (colsDim === 'annee' ? a.localeCompare(b) : (parCol.get(b) ?? 0) - (parCol.get(a) ?? 0)))
-    const rowList = [...rows.entries()].sort((a, b) => (lignesDim === 'annee' ? a[0].localeCompare(b[0]) : b[1].total - a[1].total))
-    return { colList, rowList, parCol, total, nbFactures }
-  }, [filtrees, lignesDim, colsDim])
+  const pivot = useMemo(() => croiser(filtrees, lignesDim, colsDim), [filtrees, lignesDim, colsDim])
+
+  // Dès que 2 valeurs ou plus sont retenues sur un critère (ex. BAT GE + BAT VD), le détail par valeur est affiché
+  // automatiquement, année par année (sauf si ce critère est déjà celui des lignes du tableau principal).
+  const details = useMemo(() => {
+    const multi: { dim: Dim; n: number }[] = [
+      { dim: 'fournisseur', n: selFourn.length },
+      { dim: 'entite', n: selEntites.length },
+      { dim: 'famille', n: selFamilles.length },
+      { dim: 'chantier', n: selChantiers.length },
+    ]
+    return multi.filter((m) => m.n >= 2 && m.dim !== lignesDim).map((m) => ({ dim: m.dim, croise: croiser(filtrees, m.dim, 'annee') }))
+  }, [filtrees, selFourn, selEntites, selFamilles, selChantiers, lignesDim])
 
   const enteteCol = (c: string) => (colsDim === 'annee' && partielles.includes(c) ? `${c} (janv.–${MOIS_COURTS[periodeEgale ? moisMax : dernierMois(toutes, c)]})` : c)
 
@@ -254,9 +277,17 @@ export default function RequeteTab({ onZoom }: { onZoom?: (nom: string) => void 
     lignes.push(['TOTAL', ...pivot.colList.map((c) => Math.round((pivot.parCol.get(c) ?? 0) * 100) / 100), ...(colsDim ? [Math.round(pivot.total * 100) / 100] : []), pivot.nbFactures])
     const detail: (string | number | null)[][] = [['N° fournisseur', 'Fournisseur', 'Année', 'Mois', 'Entité', 'Famille', 'N° chantier', 'Chantier', 'Montant HT']]
     for (const l of filtrees) detail.push([l.nfr, l.nom, l.annee, l.mois + 1, l.entite ? entiteLabel(l.entite) : '', l.famille, l.chantier ?? '', l.chantierNom ?? '', Math.round(l.montant * 100) / 100])
+    const feuillesDetail = details.map((d) => {
+      const c = d.croise
+      const l: (string | number | null)[][] = [[DIMS.find((x) => x.key === d.dim)!.label, ...c.colList.map(enteteCol), 'Total', 'Nb factures']]
+      for (const [r, row] of c.rowList) l.push([r, ...c.colList.map((k) => Math.round((row.cells.get(k) ?? 0) * 100) / 100), Math.round(row.total * 100) / 100, row.nbFactures])
+      l.push(['TOTAL', ...c.colList.map((k) => Math.round((c.parCol.get(k) ?? 0) * 100) / 100), Math.round(c.total * 100) / 100, c.nbFactures])
+      return { nom: `Par ${DIMS.find((x) => x.key === d.dim)!.label}`, lignes: l }
+    })
     exportXlsx(`requete_depense_${dateFichier()}`, [
       { nom: 'Critères', lignes: criteres() },
       { nom: 'Résultat', lignes },
+      ...feuillesDetail,
       { nom: 'Détail', lignes: detail },
     ])
   }
@@ -355,6 +386,44 @@ export default function RequeteTab({ onZoom }: { onZoom?: (nom: string) => void 
             )}
           </div>
         )}
+        {details.map((d) => (
+          <div key={d.dim} className="border-t border-slate-200 pt-3">
+            <h4 className="text-sm font-semibold mb-2">
+              Détail par {DIMS.find((x) => x.key === d.dim)!.label.toLowerCase()} <span className="font-normal text-slate-400">· année par année</span>
+            </h4>
+            <div className="overflow-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-left text-xs uppercase text-slate-500 border-b border-slate-200">
+                    <th className="py-1.5 pr-3">{DIMS.find((x) => x.key === d.dim)!.label}</th>
+                    {d.croise.colList.map((c) => <th key={c} className="py-1.5 px-2 text-right whitespace-nowrap">{enteteCol(c)}</th>)}
+                    <th className="py-1.5 pl-2 text-right">Total</th>
+                    <th className="py-1.5 pl-3 text-right">Part</th>
+                    <th className="py-1.5 pl-3 text-right">Factures</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {d.croise.rowList.map(([r, row]) => (
+                    <tr key={r} className="border-b border-slate-100">
+                      <td className="py-1 pr-3">{r}</td>
+                      {d.croise.colList.map((c) => <td key={c} className="py-1 px-2 text-right tabular-nums">{row.cells.has(c) ? fmt(row.cells.get(c)!) : '–'}</td>)}
+                      <td className="py-1 pl-2 text-right tabular-nums font-medium">{fmt(row.total)}</td>
+                      <td className="py-1 pl-3 text-right tabular-nums text-slate-500">{d.croise.total ? `${((row.total / d.croise.total) * 100).toLocaleString('fr-CH', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} %` : '—'}</td>
+                      <td className="py-1 pl-3 text-right tabular-nums text-slate-500">{fmt(row.nbFactures)}</td>
+                    </tr>
+                  ))}
+                  <tr className="font-semibold border-t-2 border-slate-300">
+                    <td className="py-1.5 pr-3">Total</td>
+                    {d.croise.colList.map((c) => <td key={c} className="py-1.5 px-2 text-right tabular-nums">{fmt(d.croise.parCol.get(c) ?? 0)}</td>)}
+                    <td className="py-1.5 pl-2 text-right tabular-nums">{fmt(d.croise.total)}</td>
+                    <td className="py-1.5 pl-3 text-right tabular-nums">100 %</td>
+                    <td className="py-1.5 pl-3 text-right tabular-nums">{fmt(d.croise.nbFactures)}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ))}
         <p className="text-[11px] text-slate-400">
           Montants HT, notes de crédit déduites, année = année comptable (Date COFI). Fournisseurs à plusieurs numéros fusionnés (HGC, SINEF, Romande Energie) ; les autres homonymes (ex. plusieurs agences Getaz) ont un n° chacun : sélectionnez-les tous (« Tout ajouter »).
         </p>
