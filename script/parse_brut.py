@@ -8,7 +8,7 @@ def parse(path,aff):
         if i<5: continue
         r=list(r)+[None]*(15-len(r)); g=str(r[12] or '')
         if r[0] is None and isinstance(r[1],int) and (g=='Facture' or g.startswith('Note de cr')):
-            cur=dict(docno=r[1],nfr=r[2],nom=r[3],dateDoc=iso(r[5]),genre=g,montantDoc=r[14],aff=aff,gb=r[11],pos=[],tva=0.0,pay=None,payG=None,details=None,dispo=None,cofi=None,visa=None)
+            cur=dict(docno=r[1],nfr=r[2],nom=r[3],dateDoc=iso(r[5]),genre=g,montantDoc=r[14],devise=r[13] or 'CHF',aff=aff,gb=r[11],pos=[],tva=0.0,pay=None,payG=None,details=None,dispo=None,cofi=None,visa=None)
             docs.append(cur); nxt=True; continue
         if cur is None: continue
         if nxt:
