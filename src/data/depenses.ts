@@ -250,12 +250,21 @@ export interface GroupeDetail {
   /** Montant total du groupe pour chacune des années passées à `findGroupeDetails` (jusqu'à 3,
    * la plus récente en premier) — sert au graphique d'évolution sur 3 ans. */
   montantParAnnee: { annee: string; montant: number }[]
+  /** Années affichées (les 4 plus récentes de TOUTE la base, la plus récente en premier) — identiques
+   * quel que soit le fournisseur zoomé, pour que le groupe se lise partout de la même façon. */
+  annees: string[]
+  /** Libellé de la période comparée quand l'année la plus récente est partielle (ex. « janv.–sept. »), sinon null. */
+  periodeComparee: string | null
+  /** Évolution du groupe, dernière année vs année précédente UNIQUEMENT (à période égale si partielle). */
+  evolutionGroupePct: number | null
   entites: {
     nfr: number
     nom: string
     montantTotal: number
     montantAnneePrecedente: number
-    /** % d'évolution entre les deux années, null si l'année précédente est à 0 ou absente. */
+    /** Montant de l'entité pour chacune des `annees`. */
+    parAnnee: Record<string, number>
+    /** % d'évolution dernière année vs année précédente (à période égale si partielle), null si pas de base. */
     evolutionPct: number | null
     note?: string
   }[]
@@ -280,33 +289,78 @@ function evolutionPct(latest: number, prev: number): number | null {
   return Math.round(((latest - prev) / Math.abs(prev)) * 1000) / 10
 }
 
+const MOIS_ABR = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.']
+
+function moisDoc(d: DepenseDocument): number {
+  const iso = d.dateCofi ?? d.dateDoc
+  return iso && iso.length >= 7 ? Number(iso.slice(5, 7)) - 1 : 11
+}
+
+/** Les `count` années comptables les plus récentes de TOUTE la base dépense (la plus récente en premier). */
+export function anneesRecentesGlobal(all: DepenseFournisseur[] | null, count = 4): string[] {
+  if (!all) return []
+  const set = new Set<string>()
+  for (const f of all) for (const a of Object.keys(f.parAnnee)) if (/^\d{4}$/.test(a)) set.add(a)
+  return Array.from(set).sort((a, b) => b.localeCompare(a)).slice(0, count)
+}
+
+const dernierMoisCache = new WeakMap<DepenseFournisseur[], Map<string, number>>()
+/** Dernier mois (0-11) comptabilisé pour l'année `a` dans toute la base : borne de la comparaison à période égale. */
+function dernierMoisGlobal(all: DepenseFournisseur[], a: string): number {
+  let cache = dernierMoisCache.get(all)
+  if (!cache) dernierMoisCache.set(all, (cache = new Map()))
+  if (cache.has(a)) return cache.get(a)!
+  let m = -1
+  for (const f of all) for (const d of f.documents) if (anneeComptable(d) === a) m = Math.max(m, moisDoc(d))
+  cache.set(a, m < 0 ? 11 : m)
+  return cache.get(a)!
+}
+
+function montantPeriode(f: DepenseFournisseur | undefined, a: string, moisMax: number): number {
+  if (!f) return 0
+  let t = 0
+  for (const d of f.documents) if (anneeComptable(d) === a && moisDoc(d) <= moisMax) t += d.montant ?? 0
+  return t
+}
+
 function buildGroupeDetail(groupe: GroupeFournisseur, allFournisseurs: DepenseFournisseur[], annees: string[]): GroupeDetail {
   const [annee = null, anneePrecedente = null] = annees
+  const par = (nfr: number) => allFournisseurs.find((af) => af.nfr === nfr)
+  // Comparaison dernière année / année précédente : à période égale quand la dernière année est partielle.
+  const moisMax = annee ? dernierMoisGlobal(allFournisseurs, annee) : 11
+  const partielle = annee != null && moisMax < 11
+  const periodeComparee = partielle ? `janv.–${MOIS_ABR[moisMax]}` : null
   const entites = groupe.membres
     .map((m) => {
-      const f = allFournisseurs.find((af) => af.nfr === m.nfr)
-      const montantTotal = annee ? f?.parAnnee[annee]?.montantTotal ?? 0 : 0
-      const montantAnneePrecedente = anneePrecedente ? f?.parAnnee[anneePrecedente]?.montantTotal ?? 0 : 0
-      return {
-        nfr: m.nfr,
-        nom: f?.nom ?? m.nom,
-        montantTotal,
-        montantAnneePrecedente,
-        evolutionPct: evolutionPct(montantTotal, montantAnneePrecedente),
-        note: m.note,
-      }
+      const f = par(m.nfr)
+      const parAnnee: Record<string, number> = {}
+      for (const a of annees) parAnnee[a] = Math.round((f?.parAnnee[a]?.montantTotal ?? 0) * 100) / 100
+      const montantTotal = annee ? parAnnee[annee] ?? 0 : 0
+      const montantAnneePrecedente = anneePrecedente ? parAnnee[anneePrecedente] ?? 0 : 0
+      const evol =
+        annee && anneePrecedente
+          ? partielle
+            ? evolutionPct(montantPeriode(f, annee, moisMax), montantPeriode(f, anneePrecedente, moisMax))
+            : evolutionPct(montantTotal, montantAnneePrecedente)
+          : null
+      return { nfr: m.nfr, nom: f?.nom ?? m.nom, montantTotal, montantAnneePrecedente, parAnnee, evolutionPct: evol, note: m.note }
     })
     .sort((a, b) => b.montantTotal - a.montantTotal)
   const montantTotal = Math.round(entites.reduce((sum, e) => sum + e.montantTotal, 0) * 100) / 100
   const montantTotalPrecedent = Math.round(entites.reduce((sum, e) => sum + e.montantAnneePrecedente, 0) * 100) / 100
   const montantParAnnee = annees.map((a) => ({
     annee: a,
-    montant:
-      Math.round(
-        groupe.membres.reduce((sum, m) => sum + (allFournisseurs.find((af) => af.nfr === m.nfr)?.parAnnee[a]?.montantTotal ?? 0), 0) *
-          100,
-      ) / 100,
+    montant: Math.round(entites.reduce((sum, e) => sum + (e.parAnnee[a] ?? 0), 0) * 100) / 100,
   }))
+  let evolutionGroupePct: number | null = null
+  if (annee && anneePrecedente) {
+    evolutionGroupePct = partielle
+      ? evolutionPct(
+          groupe.membres.reduce((t, m) => t + montantPeriode(par(m.nfr), annee, moisMax), 0),
+          groupe.membres.reduce((t, m) => t + montantPeriode(par(m.nfr), anneePrecedente, moisMax), 0),
+        )
+      : evolutionPct(montantTotal, montantTotalPrecedent)
+  }
   return {
     nom: groupe.nom,
     parent: groupe.parent,
@@ -315,6 +369,9 @@ function buildGroupeDetail(groupe: GroupeFournisseur, allFournisseurs: DepenseFo
     montantTotal,
     montantTotalPrecedent,
     montantParAnnee,
+    annees,
+    periodeComparee,
+    evolutionGroupePct,
     entites,
   }
 }

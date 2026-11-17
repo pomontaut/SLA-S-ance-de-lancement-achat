@@ -7,6 +7,7 @@ import BarChart from './BarChart'
 import type { DepenseFournisseur, GroupeFournisseur, LiensDirigeantsEntry } from '../data/depenses'
 import {
   anneesRecentesDepense,
+  anneesRecentesGlobal,
   findDepenseFournisseur,
   findGroupeDetails,
   findLiensDirigeants,
@@ -227,9 +228,9 @@ export default function SupplierZoom({
   const groupeDetails = useMemo(
     () =>
       depenseFournisseur && groupes && depenseFournisseurs
-        ? findGroupeDetails(groupes, depenseFournisseurs, depenseFournisseur.nfr, anneesDepense)
+        ? findGroupeDetails(groupes, depenseFournisseurs, depenseFournisseur.nfr, anneesRecentesGlobal(depenseFournisseurs, 4))
         : [],
-    [depenseFournisseur, groupes, depenseFournisseurs, anneesDepense],
+    [depenseFournisseur, groupes, depenseFournisseurs],
   )
 
   const [liensDirigeants, setLiensDirigeants] = useState<LiensDirigeantsEntry[] | null>(null)

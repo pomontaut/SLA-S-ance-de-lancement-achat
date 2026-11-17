@@ -318,10 +318,18 @@ export default function SupplierFinances({
                   <thead>
                     <tr className="text-left text-indigo-500 border-b border-indigo-200">
                       <th className="py-1 pr-2">Entité</th>
-                      <th className="py-1 pr-2">Montant {groupeDetail.annee ?? ''}</th>
-                      <th className="py-1 pr-2">Montant {groupeDetail.anneePrecedente ?? ''}</th>
-                      <th className="py-1 pr-2">Évolution</th>
-                      <th className="py-1">% du groupe</th>
+                      {[...groupeDetail.annees].reverse().map((a) => (
+                        <th key={a} className="py-1 pr-2 text-right">
+                          {a}
+                        </th>
+                      ))}
+                      <th className="py-1 pr-2">
+                        Évolution {groupeDetail.annee}/{groupeDetail.anneePrecedente}
+                        {groupeDetail.periodeComparee && (
+                          <span className="font-normal text-indigo-400"> ({groupeDetail.periodeComparee}, période égale)</span>
+                        )}
+                      </th>
+                      <th className="py-1">% du groupe {groupeDetail.annee}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -335,8 +343,11 @@ export default function SupplierFinances({
                           {e.nfr === fournisseur.nfr && <span className="text-indigo-400 font-normal"> (ce fournisseur)</span>}
                           {e.note && <span className="text-indigo-400 font-normal italic"> — {e.note}</span>}
                         </td>
-                        <td className="py-1 pr-2">{formatCurrency(e.montantTotal)}</td>
-                        <td className="py-1 pr-2 text-indigo-400">{formatCurrency(e.montantAnneePrecedente)}</td>
+                        {[...groupeDetail.annees].reverse().map((a) => (
+                          <td key={a} className={`py-1 pr-2 text-right ${a === groupeDetail.annee ? '' : 'text-indigo-400'}`}>
+                            {formatCurrency(e.parAnnee[a] ?? 0)}
+                          </td>
+                        ))}
                         <td className="py-1 pr-2">
                           <EvolutionBadge pctValue={e.evolutionPct} />
                         </td>
@@ -350,11 +361,11 @@ export default function SupplierFinances({
               {groupeDetail.montantParAnnee.length > 1 && (
                 <div className="mt-3">
                   <h6 className="text-[10px] uppercase text-indigo-400 mb-1">
-                    Évolution du groupe sur {groupeDetail.montantParAnnee.length} ans
+                    Évolution du groupe sur {groupeDetail.montantParAnnee.length} ans (comparaison {groupeDetail.annee}/{groupeDetail.anneePrecedente} seulement)
                   </h6>
                   <div className="space-y-1.5">
                     {[...groupeDetail.montantParAnnee].reverse().map((p, i, arr) => {
-                      const prev = i > 0 ? arr[i - 1].montant : null
+                      const derniere = i === arr.length - 1
                       const maxMontant = Math.max(...arr.map((x) => x.montant), 1)
                       return (
                         <div key={p.annee} className="flex items-center gap-2 text-xs">
@@ -367,7 +378,7 @@ export default function SupplierFinances({
                           </div>
                           <span className="w-24 shrink-0 text-right font-medium text-indigo-900">{formatCurrency(p.montant)}</span>
                           <span className="w-20 shrink-0">
-                            {prev != null ? <EvolutionBadge pctValue={evolutionPct(p.montant, prev)} /> : <span className="text-slate-300">—</span>}
+                            {derniere ? <EvolutionBadge pctValue={groupeDetail.evolutionGroupePct} /> : <span className="text-slate-300">—</span>}
                           </span>
                         </div>
                       )
