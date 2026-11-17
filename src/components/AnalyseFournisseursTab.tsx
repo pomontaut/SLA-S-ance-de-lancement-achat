@@ -11,7 +11,6 @@ import { useFiltresSpend } from './FiltresSpend'
 import Top50Fournisseurs from './Top50Fournisseurs'
 import ActiviteFournisseurs from './ActiviteFournisseurs'
 import RenouvellementPanel from './RenouvellementPanel'
-import DepenseSousContrat from './DepenseSousContrat'
 import { contratDe, sousContrat } from '../data/sousContrat'
 
 // Analyse fournisseurs : qui sont nos fournisseurs, combien, et que se passe-t-il (nouveaux, sortis du panel, hausses,
@@ -213,8 +212,6 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
       <ActiviteFournisseurs onZoom={onZoom} />
 
       <RenouvellementPanel />
-
-      <DepenseSousContrat onZoom={onZoom} />
 
       <Top50Fournisseurs onZoom={onZoom} />
 

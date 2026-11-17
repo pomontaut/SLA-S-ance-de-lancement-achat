@@ -564,6 +564,7 @@ interface ProfileRow {
   can_view_analyse_fournisseurs?: boolean | null
   can_view_paiement?: boolean | null
   can_view_requete?: boolean | null
+  can_view_contrats?: boolean | null
   can_view_zoom_fournisseur?: boolean | null
   can_view_bfa?: boolean | null
   can_view_seance_lancement: boolean
@@ -591,6 +592,7 @@ function profileFromRow(row: ProfileRow): Profile {
     canViewAnalyseFournisseurs: row.can_view_analyse_fournisseurs ?? row.can_view_depense,
     canViewPaiement: row.can_view_paiement ?? row.can_view_depense,
     canViewRequete: row.can_view_requete ?? row.can_view_analyse_fournisseurs ?? row.can_view_depense,
+    canViewContrats: row.can_view_contrats ?? row.can_view_analyse_fournisseurs ?? row.can_view_depense,
     canViewZoomFournisseur: row.can_view_zoom_fournisseur ?? row.can_view_depense,
     canViewBfa: row.can_view_bfa ?? false,
     canViewSeanceLancement: row.can_view_seance_lancement,
@@ -633,6 +635,7 @@ export async function updateProfilePermissions(id: string, patch: NewProfilePatc
   if (patch.canViewAnalyseFournisseurs !== undefined) row.can_view_analyse_fournisseurs = patch.canViewAnalyseFournisseurs
   if (patch.canViewPaiement !== undefined) row.can_view_paiement = patch.canViewPaiement
   if (patch.canViewRequete !== undefined) row.can_view_requete = patch.canViewRequete
+  if (patch.canViewContrats !== undefined) row.can_view_contrats = patch.canViewContrats
   if (patch.canViewZoomFournisseur !== undefined) row.can_view_zoom_fournisseur = patch.canViewZoomFournisseur
   if (patch.canViewBfa !== undefined) row.can_view_bfa = patch.canViewBfa
   if (patch.canViewSeanceLancement !== undefined) row.can_view_seance_lancement = patch.canViewSeanceLancement

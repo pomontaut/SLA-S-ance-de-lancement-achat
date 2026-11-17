@@ -35,6 +35,7 @@ const PERMISSION_FIELDS = [
   'canViewAnalyseFournisseurs',
   'canViewPaiement',
   'canViewRequete',
+  'canViewContrats',
   'canViewZoomFournisseur',
   'canViewBfa',
   'canViewSeanceLancement',

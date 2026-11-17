@@ -32,6 +32,7 @@ import PaiementTab from './PaiementTab'
 import SyntheseTab from './SyntheseTab'
 import AnalyseFournisseursTab from './AnalyseFournisseursTab'
 import RequeteTab from './RequeteTab'
+import ContratsTab from './ContratsTab'
 import { BarreFiltresSpend, FiltresSpendProvider } from './FiltresSpend'
 import FormulaireEvaluationTab from './FormulaireEvaluationTab'
 
@@ -447,7 +448,7 @@ export default function EvaluationDashboard({ profile, section }: { profile: Pro
   )
 }
 
-const VUES_AVEC_PERIMETRE: SousSectionView[] = ['synthese', 'depense', 'analyseFournisseurs', 'chantiers', 'paiement']
+const VUES_AVEC_PERIMETRE: SousSectionView[] = ['synthese', 'depense', 'analyseFournisseurs', 'contrats', 'chantiers', 'paiement']
 
 function EvaluationDashboardInner({ profile, section }: { profile: Profile; section: SectionKey }) {
   const [all, setAll] = useState<EvalRecord[] | null>(null)
@@ -561,13 +562,15 @@ function EvaluationDashboardInner({ profile, section }: { profile: Profile; sect
 
       {view === 'depense' && <DepenseTab onZoom={handleZoom} />}
 
-      {view === 'synthese' && <SyntheseTab onZoom={handleZoom} />}
+      {view === 'synthese' && <SyntheseTab onZoom={handleZoom} onOuvrirContrats={can(profile, 'canViewContrats') ? () => selectView('contrats') : undefined} />}
 
       {view === 'analyseFournisseurs' && <AnalyseFournisseursTab onZoom={handleZoom} />}
 
       {view === 'chantiers' && <ChantiersTab />}
 
       {view === 'paiement' && <PaiementTab onZoom={handleZoom} />}
+
+      {view === 'contrats' && <ContratsTab onZoom={handleZoom} />}
 
       {view === 'requete' && <RequeteTab onZoom={handleZoom} />}
 

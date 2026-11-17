@@ -42,7 +42,6 @@ export default function DepenseSousContrat({ onZoom }: { onZoom?: (nom: string) 
 
   const nouveauxAn = comparer ? CONTRATS.filter((c) => c.depuis === Number(an)) : []
   const nbContrats = CONTRATS.filter((c) => !comparer || !c.depuis || Number(an) >= c.depuis).length
-  const nbContratsPrev = CONTRATS.filter((c) => !c.depuis || Number(P.an1) >= c.depuis).length
   const ecart = (a: number, b: number) => {
     const v = variation(a, b)
     return v == null ? null : `${v > 0 ? '+' : ''}${v.toLocaleString('fr-CH', { maximumFractionDigits: 1 })} %`
@@ -75,7 +74,7 @@ export default function DepenseSousContrat({ onZoom }: { onZoom?: (nom: string) 
   return (
     <div className="card">
       <div className="flex items-center justify-between gap-2 flex-wrap mb-1">
-        <h3 className="font-semibold">Dépense sous contrat — {libPeriode}</h3>
+        <h3 className="font-semibold">Détail par contrat — {libPeriode}</h3>
         <button className="px-2 py-0.5 rounded-full text-xs font-medium border border-emerald-300 text-emerald-700 bg-emerald-50 hover:bg-emerald-100" onClick={exporter}>
           ⬇ Excel
         </button>
@@ -85,12 +84,6 @@ export default function DepenseSousContrat({ onZoom }: { onZoom?: (nom: string) 
         {nouveauxAn.length > 0 ? ` Nouveaux contrats ${an} : ${nouveauxAn.map((c) => c.contrat).join(', ')}.` : ''}
         {comparer ? ` Comparé à ${libPrev} (période égale).` : ''}
       </p>
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
-        {tuile('Dépense sous contrat', fmt(r.cCur), comparer ? `${libPrev} : ${fmt(r.cPrev)} · à périmètre constant : ${ecart(r.cCur, r.cPrevConstant) ?? '—'}` : null, comparer ? ecart(r.cCur, r.cPrev) : null)}
-        {tuile('Part de la dépense totale', r.totCur ? pc((r.cCur / r.totCur) * 100) : '—', comparer ? `${libPrev} : ${r.totPrev ? pc((r.cPrev / r.totPrev) * 100) : '—'}` : null)}
-        {tuile('Contrats actifs', `${r.actifs} / ${nbContrats}`, comparer ? `${libPrev} : ${r.actifsPrev} / ${nbContratsPrev}` : null)}
-        {tuile('Factures sous contrat', fmt(r.facCur), comparer ? `${libPrev} : ${fmt(r.facPrev)}` : null, comparer ? ecart(r.facCur, r.facPrev) : null)}
-      </div>
       {nouveauxAn.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
           {tuile(`Assiette ajoutée par les nouveaux contrats ${an}`, fmt(r.nouvCur), `${nouveauxAn.length} contrats · ${r.totCur ? pc((r.nouvCur / r.totCur) * 100) : '—'} de la dépense totale · ${fmt(r.nouvFac)} factures`)}

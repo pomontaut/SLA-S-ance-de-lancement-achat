@@ -32,6 +32,7 @@ export interface Profile {
   canViewAnalyseFournisseurs: boolean
   canViewPaiement: boolean
   canViewRequete: boolean
+  canViewContrats: boolean
   canViewZoomFournisseur: boolean
   canViewBfa: boolean
   canViewSeanceLancement: boolean

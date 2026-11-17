@@ -94,6 +94,7 @@ export default function App() {
           canViewAnalyseFournisseurs: false,
           canViewPaiement: false,
           canViewRequete: false,
+          canViewContrats: false,
           canViewZoomFournisseur: false,
           canViewBfa: false,
           canViewSeanceLancement: false,
