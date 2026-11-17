@@ -612,5 +612,26 @@
     "note": "prise de participation"
    }
   ]
+ },
+ {
+  "nom": "Groupe Cheminal",
+  "membres": [
+   {
+    "nfr": 11177,
+    "nom": "Cheminal (armatures béton)"
+   },
+   {
+    "nfr": 11819,
+    "nom": "R TECHNOLOGIES"
+   },
+   {
+    "nfr": 10861,
+    "nom": "PREFA DU LEMAN S"
+   },
+   {
+    "nfr": 11163,
+    "nom": "ARMAX"
+   }
+  ]
  }
 ]
