@@ -243,8 +243,24 @@ export default function SupplierZoom({
   const results = useMemo(() => {
     const q = query.trim().toLowerCase()
     if (!q) return suppliers.slice(0, 30)
-    return suppliers.filter((s) => s.nom.toLowerCase().includes(q)).slice(0, 30)
-  }, [suppliers, query])
+    const found = suppliers.filter((s) => s.nom.toLowerCase().includes(q))
+    // Zoom complet : on cherche aussi dans la base dépense (fournisseurs sans évaluation) et dans
+    // les groupes (nom du groupe → tous ses membres), sinon Swisscom, Larag, Emil Frey… restent introuvables.
+    if (!evaluationOnly) {
+      const deja = new Set(found.map((s) => s.nom.toLowerCase()))
+      const ajout = (nom: string) => {
+        if (deja.has(nom.toLowerCase())) return
+        deja.add(nom.toLowerCase())
+        found.push({ nom, secteurs: [], dernierNote: null, dernierAnnee: null, nbEvaluations: 0 })
+      }
+      for (const g of groupes ?? []) {
+        const hit = g.nom.toLowerCase().includes(q) || (g.parent ?? '').toLowerCase().includes(q)
+        if (hit || g.membres.some((m) => m.nom.toLowerCase().includes(q))) g.membres.forEach((m) => ajout(m.nom))
+      }
+      for (const f of depenseFournisseurs ?? []) if (f.nom.toLowerCase().includes(q)) ajout(f.nom)
+    }
+    return found.slice(0, 30)
+  }, [suppliers, query, evaluationOnly, groupes, depenseFournisseurs])
 
   const history = useMemo(() => (selected ? supplierHistory(all, selected) : []), [all, selected])
 
