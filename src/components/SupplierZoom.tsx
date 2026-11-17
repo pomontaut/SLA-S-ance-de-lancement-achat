@@ -15,6 +15,8 @@ import {
   loadLiensDirigeants,
 } from '../data/depenses'
 import SupplierFinances from './SupplierFinances'
+import { loadFournisseurs } from '../data/fournisseurs'
+import type { Fournisseur } from '../data/fournisseurs'
 
 function toggle<T>(list: T[], value: T): T[] {
   return list.includes(value) ? list.filter((v) => v !== value) : [...list, value]
@@ -240,6 +242,13 @@ export default function SupplierZoom({
     [depenseFournisseur, liensDirigeants],
   )
 
+  // Annuaire complet des fournisseurs (Analyse Dépense > Zoom fournisseur : toute la base, pas seulement les évalués).
+  const [annuaire, setAnnuaire] = useState<Fournisseur[] | null>(null)
+  useEffect(() => {
+    if (evaluationOnly) return
+    loadFournisseurs().then(setAnnuaire)
+  }, [evaluationOnly])
+
   const results = useMemo(() => {
     const q = query.trim().toLowerCase()
     if (!q) return suppliers.slice(0, 30)
@@ -258,9 +267,12 @@ export default function SupplierZoom({
         if (hit || g.membres.some((m) => m.nom.toLowerCase().includes(q))) g.membres.forEach((m) => ajout(m.nom))
       }
       for (const f of depenseFournisseurs ?? []) if (f.nom.toLowerCase().includes(q)) ajout(f.nom)
+      const sans = (t: string) => t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+      const qs = sans(q)
+      for (const f of annuaire ?? []) if (sans(f.nom).includes(qs)) ajout(f.nom)
     }
     return found.slice(0, 30)
-  }, [suppliers, query, evaluationOnly, groupes, depenseFournisseurs])
+  }, [suppliers, query, evaluationOnly, groupes, depenseFournisseurs, annuaire])
 
   const history = useMemo(() => (selected ? supplierHistory(all, selected) : []), [all, selected])
 
