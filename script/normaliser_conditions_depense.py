@@ -11,7 +11,7 @@ import depense_import as I
 FOURN = os.path.join(HERE, "..", "public", "data", "depensesFournisseurs.json")
 
 
-COMPTANT = re.compile(r"^(Frist:\s*)?0 T, 0 T 0%, 0 T 0%, 0 T 0%$")  # libellé ABACUS « 0 jour » = paiement au comptant
+COMPTANT = re.compile(r"^((Frist:\s*)?0 T, 0 T 0%, 0 T 0%, 0 T 0%|0 jours)$", re.I)  # libellé ABACUS « 0 jour » = paiement au comptant
 
 
 def propre(c):
