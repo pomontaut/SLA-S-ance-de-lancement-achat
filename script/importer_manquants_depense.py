@@ -46,10 +46,13 @@ def main(argv):
     F = json.load(open(AP.FOURN))
     G = json.load(open(os.path.join(AP.ROOT, "depensesGlobal.json")))
     deja = {(d["aff"], d["docno"]) for f in F for d in f["documents"]}
+    faux = set(json.load(open(os.path.join(HERE, "consortium_divisions_exclues.json")))["divisions"])  # faux consortiums
     avant = {a: v["montantTotal"] for a, v in G["parAnnee"].items()}
     nouveaux, classes = [], {}
     for d in docs:
         if (d["aff"], d["docno"]) in deja:
+            continue
+        if d["aff"] == "CONSORTIUM" and str(d.get("gb")) in faux:
             continue
         cl = AP.classer([p["debit"] for p in d["pos"]])
         if not cl:
