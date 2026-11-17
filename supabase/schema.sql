@@ -127,6 +127,7 @@ create table profiles (
   can_view_synthese boolean not null default false,
   can_view_analyse_fournisseurs boolean not null default false,
   can_view_paiement boolean not null default false,
+  can_view_requete boolean not null default false,
   can_view_zoom_fournisseur boolean not null default false,
   can_view_bfa boolean not null default false,
   can_view_seance_lancement boolean not null default false,

@@ -31,6 +31,7 @@ import ChantiersTab from './ChantiersTab'
 import PaiementTab from './PaiementTab'
 import SyntheseTab from './SyntheseTab'
 import AnalyseFournisseursTab from './AnalyseFournisseursTab'
+import RequeteTab from './RequeteTab'
 import { BarreFiltresSpend, FiltresSpendProvider } from './FiltresSpend'
 import FormulaireEvaluationTab from './FormulaireEvaluationTab'
 
@@ -567,6 +568,8 @@ function EvaluationDashboardInner({ profile, section }: { profile: Profile; sect
       {view === 'chantiers' && <ChantiersTab />}
 
       {view === 'paiement' && <PaiementTab onZoom={handleZoom} />}
+
+      {view === 'requete' && <RequeteTab onZoom={handleZoom} />}
 
       {view === 'formulaire' && <FormulaireEvaluationTab />}
 

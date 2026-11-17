@@ -93,6 +93,7 @@ export default function App() {
           canViewSynthese: false,
           canViewAnalyseFournisseurs: false,
           canViewPaiement: false,
+          canViewRequete: false,
           canViewZoomFournisseur: false,
           canViewBfa: false,
           canViewSeanceLancement: false,
