@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import SupplierFormulaireEvaluations from './SupplierFormulaireEvaluations'
 import type { EvalRecord } from '../data/evaluationsHistorique'
 import { canonicalizeCriteres, listSuppliers, supplierHistory } from '../data/evaluationsHistorique'
+import type { SupplierSummary } from '../data/evaluationsHistorique'
 import { secteurColor, noteColor } from '../data/palette'
 import BarChart from './BarChart'
 import type { DepenseFournisseur, GroupeFournisseur, LiensDirigeantsEntry } from '../data/depenses'
@@ -16,6 +17,12 @@ import {
   loadLiensDirigeants,
 } from '../data/depenses'
 import SupplierFinances from './SupplierFinances'
+
+/** Ligne de résultat : `label` = nom complet de l'annuaire quand le nom de la base dépense est tronqué. */
+type ResultItem = SupplierSummary & { label?: string }
+
+/** Nom normalisé (sans accents, casse ni ponctuation) pour comparer les orthographes d'un même fournisseur. */
+const cleNom = (t: string) => t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, ' ').trim()
 import { loadFournisseurs } from '../data/fournisseurs'
 import type { Fournisseur } from '../data/fournisseurs'
 
@@ -211,10 +218,40 @@ export default function SupplierZoom({
     if (evaluationOnly) return
     loadDepensesFournisseurs().then(setDepenseFournisseurs)
   }, [evaluationOnly])
-  const depenseFournisseur = useMemo(
-    () => (selected && depenseFournisseurs ? findDepenseFournisseur(depenseFournisseurs, selected) : null),
-    [selected, depenseFournisseurs],
-  )
+  // Annuaire complet des fournisseurs (Analyse Dépense > Zoom fournisseur : toute la base, pas seulement les évalués).
+  const [annuaire, setAnnuaire] = useState<Fournisseur[] | null>(null)
+  useEffect(() => {
+    if (evaluationOnly) return
+    loadFournisseurs().then(setAnnuaire)
+  }, [evaluationOnly])
+
+  const depParNfr = useMemo(() => new Map((depenseFournisseurs ?? []).map((f) => [f.nfr, f])), [depenseFournisseurs])
+  const annParId = useMemo(() => {
+    const m = new Map<number, Fournisseur>()
+    for (const f of annuaire ?? []) if (f.id != null && !m.has(f.id)) m.set(f.id, f)
+    return m
+  }, [annuaire])
+  const annParCle = useMemo(() => {
+    const m = new Map<string, number[]>()
+    for (const f of annuaire ?? []) if (f.id != null) m.set(cleNom(f.nom), [...(m.get(cleNom(f.nom)) ?? []), f.id])
+    return m
+  }, [annuaire])
+  /** N° fournisseur d'un nom (évaluation, base dépense tronquée ou annuaire) : nom complet de l'annuaire d'abord
+   * (« LEVA CORBIERES SA » = « Leva Corbières SA » = n° 442818), sinon rapprochement par préfixe de la base dépense. */
+  const resolveNfr = (nom: string): number | null => {
+    const ids = annParCle.get(cleNom(nom))
+    const avecDepense = ids?.find((i) => depParNfr.has(i))
+    if (avecDepense != null) return avecDepense
+    const f = depenseFournisseurs ? findDepenseFournisseur(depenseFournisseurs, nom) : null
+    return f?.nfr ?? ids?.[0] ?? null
+  }
+
+  const depenseFournisseur = useMemo(() => {
+    if (!selected || !depenseFournisseurs) return null
+    const nfr = resolveNfr(selected)
+    return (nfr != null ? depParNfr.get(nfr) : null) ?? findDepenseFournisseur(depenseFournisseurs, selected)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected, depenseFournisseurs, depParNfr, annParCle])
 
   // 3 dernières années de dépense disponibles pour ce fournisseur, dynamique (pas d'année
   // calendaire figée) — même principe que notesRecentes pour les évaluations.
@@ -243,37 +280,40 @@ export default function SupplierZoom({
     [depenseFournisseur, liensDirigeants],
   )
 
-  // Annuaire complet des fournisseurs (Analyse Dépense > Zoom fournisseur : toute la base, pas seulement les évalués).
-  const [annuaire, setAnnuaire] = useState<Fournisseur[] | null>(null)
-  useEffect(() => {
-    if (evaluationOnly) return
-    loadFournisseurs().then(setAnnuaire)
-  }, [evaluationOnly])
-
-  const results = useMemo(() => {
+  const results = useMemo<ResultItem[]>(() => {
     const q = query.trim().toLowerCase()
     if (!q) return suppliers.slice(0, 30)
-    const found = suppliers.filter((s) => s.nom.toLowerCase().includes(q))
-    // Zoom complet : on cherche aussi dans la base dépense (fournisseurs sans évaluation) et dans
-    // les groupes (nom du groupe → tous ses membres), sinon Swisscom, Larag, Emil Frey… restent introuvables.
-    if (!evaluationOnly) {
-      const deja = new Set(found.map((s) => s.nom.toLowerCase()))
-      const ajout = (nom: string) => {
-        if (deja.has(nom.toLowerCase())) return
-        deja.add(nom.toLowerCase())
-        found.push({ nom, secteurs: [], dernierNote: null, dernierAnnee: null, nbEvaluations: 0 })
-      }
-      for (const g of groupes ?? []) {
-        const hit = g.nom.toLowerCase().includes(q) || (g.parent ?? '').toLowerCase().includes(q)
-        if (hit || g.membres.some((m) => m.nom.toLowerCase().includes(q))) g.membres.forEach((m) => ajout(m.nom))
-      }
-      for (const f of depenseFournisseurs ?? []) if (f.nom.toLowerCase().includes(q)) ajout(f.nom)
-      const sans = (t: string) => t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
-      const qs = sans(q)
-      for (const f of annuaire ?? []) if (sans(f.nom).includes(qs)) ajout(f.nom)
+    const sans = (t: string) => t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+    const qs = sans(q)
+    const found: ResultItem[] = suppliers.filter((s) => sans(s.nom).includes(qs))
+    if (evaluationOnly) return found.slice(0, 30)
+    // Zoom complet : toute la base (évalués + dépense + annuaire + groupes), UNE ligne par fournisseur.
+    // Un même fournisseur existe sous plusieurs orthographes (« LEVA CORBIERES SA » évaluation, « LEVA CORBIERES S 1 »
+    // dépense, « Leva Corbières SA » annuaire) : on les regroupe par n° fournisseur, sinon par nom normalisé.
+    const cle = cleNom
+    const nfrs = new Set<number>()
+    const noms = new Set<string>()
+    for (const s of found) {
+      noms.add(cle(s.nom))
+      const n = resolveNfr(s.nom)
+      if (n != null) nfrs.add(n)
     }
+    const ajout = (nom: string, nfr: number | null, label?: string) => {
+      const k = cle(nom)
+      if ((nfr != null && nfrs.has(nfr)) || noms.has(k)) return
+      if (nfr != null) nfrs.add(nfr)
+      noms.add(k)
+      found.push({ nom, label: label && label !== nom ? label : undefined, secteurs: [], dernierNote: null, dernierAnnee: null, nbEvaluations: 0 })
+    }
+    for (const g of groupes ?? []) {
+      const hit = sans(g.nom).includes(qs) || sans(g.parent ?? '').includes(qs) || g.membres.some((m) => sans(m.nom).includes(qs))
+      if (hit) for (const m of g.membres) ajout(depParNfr.get(m.nfr)?.nom ?? m.nom, m.nfr, annParId.get(m.nfr)?.nom)
+    }
+    for (const f of depenseFournisseurs ?? []) if (sans(f.nom).includes(qs)) ajout(f.nom, f.nfr, annParId.get(f.nfr)?.nom)
+    for (const f of annuaire ?? []) if (sans(f.nom).includes(qs)) ajout(f.nom, f.id)
     return found.slice(0, 30)
-  }, [suppliers, query, evaluationOnly, groupes, depenseFournisseurs, annuaire])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [suppliers, query, evaluationOnly, groupes, depenseFournisseurs, annuaire, depParNfr, annParId, annParCle])
 
   const history = useMemo(() => (selected ? supplierHistory(all, selected) : []), [all, selected])
 
@@ -436,7 +476,7 @@ export default function SupplierZoom({
                   onClick={() => setSelected(s.nom)}
                 >
                   <div>
-                    <div className="font-medium text-sm">{s.nom}</div>
+                    <div className="font-medium text-sm">{s.label ?? s.nom}</div>
                     <div className="text-xs text-slate-500">
                       {s.secteurs.map((sec) => (
                         <span
