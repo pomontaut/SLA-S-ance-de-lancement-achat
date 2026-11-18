@@ -190,7 +190,15 @@ Deno.serve(async (req) => {
       user_metadata: { must_change_password: true },
     })
     if (error) return jsonResponse({ error: error.message }, 400)
-    return jsonResponse({ ok: true, password: newPassword })
+    // « Renvoyer le lien » : nouveau mot de passe temporaire + e-mail d'accès (lien de l'app).
+    let emailSent = false
+    if (payload.sendEmail) {
+      const { data: target } = await admin.auth.admin.getUserById(userId)
+      const email = target?.user?.email ?? ''
+      const fullName = String(target?.user?.user_metadata?.full_name ?? email)
+      if (email) emailSent = await sendCredentialsEmail(email, fullName, newPassword, req.headers.get('origin') ?? '')
+    }
+    return jsonResponse({ ok: true, password: newPassword, emailSent })
   }
 
   if (action === 'delete') {

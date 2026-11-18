@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { PermissionKey, Profile } from '../types'
 import { listProfiles, updateProfilePermissions } from '../data/db'
-import { createUserAccount, deleteUserAccount, resetUserPassword } from '../lib/adminUsers'
+import { createUserAccount, deleteUserAccount, resendUserInvite, resetUserPassword } from '../lib/adminUsers'
 import { PERMISSIONS, SECTIONS } from '../data/permissions'
 
 /** Case à cocher « tout / rien / partiel » pour une section entière. */
@@ -225,6 +225,7 @@ function UserCard({
   const [error, setError] = useState<string | null>(null)
   const [resetPasswordValue, setResetPasswordValue] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
+  const [inviteInfo, setInviteInfo] = useState<string | null>(null)
   const dirty = JSON.stringify(form) !== JSON.stringify(profile)
 
   async function handleSave() {
@@ -253,6 +254,26 @@ function UserCard({
     try {
       const newPassword = await resetUserPassword(profile.id)
       setResetPasswordValue(newPassword)
+    } catch (e) {
+      setError((e as Error).message)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  async function handleResendInvite() {
+    if (!confirm(`Renvoyer le lien d'accès à ${form.email} ? Un nouveau mot de passe temporaire sera généré (l'ancien ne fonctionnera plus).`)) return
+    setBusy(true)
+    setError(null)
+    setInviteInfo(null)
+    try {
+      const { password, emailSent } = await resendUserInvite(profile.id)
+      setResetPasswordValue(password)
+      setInviteInfo(
+        emailSent
+          ? `E-mail envoyé à ${form.email} (lien + mot de passe temporaire).`
+          : "L'e-mail n'a pas pu être envoyé : communique le lien de l'app et ce mot de passe à la personne.",
+      )
     } catch (e) {
       setError((e as Error).message)
     } finally {
@@ -310,6 +331,7 @@ function UserCard({
         </div>
       )}
 
+      {inviteInfo && <div className="text-sm text-slate-700">{inviteInfo}</div>}
       {error && <div className="text-sm text-red-600">{error}</div>}
 
       <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-200">
@@ -323,6 +345,9 @@ function UserCard({
         )}
         <button className="btn-secondary" disabled={busy} onClick={handleResetPassword}>
           Réinitialiser le mot de passe
+        </button>
+        <button className="btn-secondary" disabled={busy} onClick={handleResendInvite}>
+          Renvoyer le lien
         </button>
         <button className="btn-danger" disabled={busy} onClick={handleDelete}>
           Supprimer le compte
