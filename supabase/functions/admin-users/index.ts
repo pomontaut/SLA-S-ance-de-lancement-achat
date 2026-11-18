@@ -64,10 +64,19 @@ function escapeHtml(s: string): string {
 
 /** Envoie au nouvel utilisateur le lien de l'app + son mot de passe temporaire (Resend).
  * Secrets : RESEND_API_KEY, MAIL_FROM (ex. « Induni Achats <achats@induni.ch> »), APP_URL. */
-async function sendCredentialsEmail(to: string, fullName: string, tempPassword: string): Promise<boolean> {
+async function sendCredentialsEmail(
+  to: string,
+  fullName: string,
+  tempPassword: string,
+  fallbackUrl = '',
+): Promise<boolean> {
   const apiKey = Deno.env.get('RESEND_API_KEY')
   const from = Deno.env.get('MAIL_FROM')
-  const appUrl = Deno.env.get('APP_URL') ?? ''
+  // APP_URL peut être saisi sans « https:// » (lien alors cassé) ou absent : on le normalise
+  // et, à défaut, on reprend l'adresse de l'app depuis laquelle l'admin a créé le compte.
+  let appUrl = (Deno.env.get('APP_URL') ?? '').trim() || fallbackUrl.trim()
+  if (appUrl && !/^https?:\/\//i.test(appUrl)) appUrl = `https://${appUrl}`
+  appUrl = appUrl.replace(/\/+$/, '')
   if (!apiKey || !from) return false
 
   const html = `
@@ -75,7 +84,7 @@ async function sendCredentialsEmail(to: string, fullName: string, tempPassword: 
     <p>Un compte a été créé pour vous.</p>
     <p><strong>Adresse :</strong> ${escapeHtml(to)}<br>
        <strong>Mot de passe temporaire :</strong> ${escapeHtml(tempPassword)}</p>
-    ${appUrl ? `<p><a href="${appUrl}">Cliquez ici pour vous connecter</a></p>` : ''}
+    ${appUrl ? `<p><a href="${escapeHtml(appUrl)}">Cliquez ici pour vous connecter</a><br>${escapeHtml(appUrl)}</p>` : ''}
     <p>À votre première connexion, il vous sera demandé de choisir votre propre mot de passe.</p>`
 
   try {
@@ -168,7 +177,7 @@ Deno.serve(async (req) => {
     }
 
     // Envoi automatique des accès ; un échec d'envoi ne bloque pas la création.
-    const emailSent = await sendCredentialsEmail(email, fullName, password)
+    const emailSent = await sendCredentialsEmail(email, fullName, password, req.headers.get('origin') ?? '')
     return jsonResponse({ ok: true, userId: created.user.id, emailSent })
   }
 
