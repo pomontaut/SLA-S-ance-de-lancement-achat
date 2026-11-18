@@ -43,8 +43,18 @@ export async function signUp(email: string, password: string, fullName: string):
 
 /** Remplace le mot de passe temporaire et lève l'obligation de le changer (`must_change_password`). */
 export async function setOwnPassword(password: string): Promise<void> {
-  const { error } = await requireClient().auth.updateUser({ password, data: { must_change_password: false } })
-  if (error) throw error
+  const client = requireClient()
+  const { error } = await client.auth.updateUser({ password, data: { must_change_password: false } })
+  if (error) {
+    // « Auth session missing » : la session n'est plus valide côté serveur (mot de passe temporaire
+    // régénéré par un administrateur, session expirée…).
+    if (/session/i.test(error.message)) {
+      throw new Error(
+        'Votre session a expiré. Reconnectez-vous avec le DERNIER mot de passe temporaire reçu par e-mail (chaque « Renvoyer le lien » en génère un nouveau), puis choisissez votre mot de passe.',
+      )
+    }
+    throw error
+  }
 }
 
 export async function signOut(): Promise<void> {

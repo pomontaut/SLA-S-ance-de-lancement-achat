@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
-import { setOwnPassword } from '../lib/auth'
+import { setOwnPassword, signOut } from '../lib/auth'
 
 /** Écran imposé à la première connexion (compte créé par un administrateur avec mot de passe
  * temporaire : `user_metadata.must_change_password`). */
@@ -35,6 +35,11 @@ export default function ChangePasswordScreen({ email, onDone }: { email: string;
           Première connexion de {email} : remplacez le mot de passe temporaire reçu par e-mail par le vôtre.
         </p>
         {error && <div className="text-sm text-red-600 mb-3">{error}</div>}
+        {error?.includes('session a expiré') && (
+          <button type="button" className="btn-secondary w-full justify-center mb-3" onClick={() => signOut()}>
+            Retour à la connexion
+          </button>
+        )}
         <form onSubmit={handleSubmit} className="space-y-3">
           <div>
             <label className="label">Nouveau mot de passe</label>
