@@ -51,15 +51,18 @@ interface Croise {
   nbFactures: number
 }
 
-/** Tableau croisé : lignes × colonnes (colDim vide = une seule colonne « Total »). */
-function croiser(lignes: LigneSpend[], rowDim: Dim, colDim: Dim | ''): Croise {
+const SEP = '\u0001' // sépare les deux critères d'une ligne combinée (ex. fournisseur + entité)
+
+/** Tableau croisé : lignes × colonnes (colDim vide = une seule colonne « Total »).
+ * rowDim2 (facultatif) = 2e critère combiné au 1er dans les lignes (une ligne par couple). */
+function croiser(lignes: LigneSpend[], rowDim: Dim, colDim: Dim | '', rowDim2: Dim | '' = ''): Croise {
   const cols = new Set<string>()
   const rows = new Map<string, { cells: Map<string, number>; total: number; nbFactures: number; nfr: number | null }>()
   const parCol = new Map<string, number>()
   let total = 0
   let nbFactures = 0
   for (const l of lignes) {
-    const r = valeurDim(l, rowDim)
+    const r = rowDim2 ? `${valeurDim(l, rowDim)}${SEP}${valeurDim(l, rowDim2)}` : valeurDim(l, rowDim)
     const c = colDim ? valeurDim(l, colDim) : 'Total'
     cols.add(c)
     let row = rows.get(r)
@@ -71,7 +74,16 @@ function croiser(lignes: LigneSpend[], rowDim: Dim, colDim: Dim | ''): Croise {
     total += l.montant
   }
   const colList = [...cols].sort((a, b) => (colDim === 'annee' ? a.localeCompare(b) : (parCol.get(b) ?? 0) - (parCol.get(a) ?? 0)))
-  const rowList = [...rows.entries()].sort((a, b) => (rowDim === 'annee' ? a[0].localeCompare(b[0]) : b[1].total - a[1].total))
+  const parPremier = new Map<string, number>()
+  if (rowDim2) for (const [k, v] of rows) { const p1 = k.split(SEP)[0]; parPremier.set(p1, (parPremier.get(p1) ?? 0) + v.total) }
+  const rowList = [...rows.entries()].sort((a, b) => {
+    if (rowDim2) {
+      const [a1] = a[0].split(SEP), [b1] = b[0].split(SEP)
+      if (a1 !== b1) return rowDim === 'annee' ? a1.localeCompare(b1) : (parPremier.get(b1) ?? 0) - (parPremier.get(a1) ?? 0)
+      return b[1].total - a[1].total
+    }
+    return rowDim === 'annee' ? a[0].localeCompare(b[0]) : b[1].total - a[1].total
+  })
   return { colList, rowList, parCol, total, nbFactures }
 }
 
@@ -167,6 +179,7 @@ export default function RequeteTab({ onZoom }: { onZoom?: (nom: string) => void 
   const [selFamilles, setSelFamilles] = useState<string[]>([])
   const [selChantiers, setSelChantiers] = useState<string[]>([])
   const [lignesDim, setLignesDim] = useState<Dim>('fournisseur')
+  const [lignesDim2, setLignesDim2] = useState<Dim | ''>('') // 2e critère combiné dans les lignes (facultatif)
   const [colsDim, setColsDim] = useState<Dim | ''>('annee')
   const [periodeEgale, setPeriodeEgale] = useState(false)
   const [nbAffiche, setNbAffiche] = useState(200)
@@ -229,7 +242,7 @@ export default function RequeteTab({ onZoom }: { onZoom?: (nom: string) => void 
 
   const filtreActif = selFourn.length + selAnnees.length + selEntites.length + selFamilles.length + selChantiers.length > 0
 
-  const pivot = useMemo(() => croiser(filtrees, lignesDim, colsDim), [filtrees, lignesDim, colsDim])
+  const pivot = useMemo(() => croiser(filtrees, lignesDim, colsDim, lignesDim2), [filtrees, lignesDim, colsDim, lignesDim2])
 
   // Dès que 2 valeurs ou plus sont retenues sur un critère (ex. BAT GE + BAT VD), le détail par valeur est affiché
   // automatiquement, année par année (sauf si ce critère est déjà celui des lignes du tableau principal).
@@ -240,8 +253,8 @@ export default function RequeteTab({ onZoom }: { onZoom?: (nom: string) => void 
       { dim: 'famille', n: selFamilles.length },
       { dim: 'chantier', n: selChantiers.length },
     ]
-    return multi.filter((m) => m.n >= 2 && m.dim !== lignesDim).map((m) => ({ dim: m.dim, croise: croiser(filtrees, m.dim, 'annee') }))
-  }, [filtrees, selFourn, selEntites, selFamilles, selChantiers, lignesDim])
+    return multi.filter((m) => m.n >= 2 && m.dim !== lignesDim && m.dim !== lignesDim2).map((m) => ({ dim: m.dim, croise: croiser(filtrees, m.dim, 'annee') }))
+  }, [filtrees, selFourn, selEntites, selFamilles, selChantiers, lignesDim, lignesDim2])
 
   const enteteCol = (c: string) => (colsDim === 'annee' && partielles.includes(c) ? `${c} (janv.–${MOIS_COURTS[periodeEgale ? moisMax : dernierMois(toutes, c)]})` : c)
 
@@ -269,12 +282,13 @@ export default function RequeteTab({ onZoom }: { onZoom?: (nom: string) => void 
   }
 
   function exporter() {
-    const entete = [DIMS.find((d) => d.key === lignesDim)!.label, ...pivot.colList.map(enteteCol), ...(colsDim ? ['Total'] : []), 'Nb factures']
+    const libDim = (d: Dim) => DIMS.find((x) => x.key === d)!.label
+    const entete = [libDim(lignesDim), ...(lignesDim2 ? [libDim(lignesDim2)] : []), ...pivot.colList.map(enteteCol), ...(colsDim ? ['Total'] : []), 'Nb factures']
     const lignes: (string | number | null)[][] = [entete]
     for (const [r, row] of pivot.rowList) {
-      lignes.push([r, ...pivot.colList.map((c) => Math.round((row.cells.get(c) ?? 0) * 100) / 100), ...(colsDim ? [Math.round(row.total * 100) / 100] : []), row.nbFactures])
+      lignes.push([...r.split(SEP), ...pivot.colList.map((c) => Math.round((row.cells.get(c) ?? 0) * 100) / 100), ...(colsDim ? [Math.round(row.total * 100) / 100] : []), row.nbFactures])
     }
-    lignes.push(['TOTAL', ...pivot.colList.map((c) => Math.round((pivot.parCol.get(c) ?? 0) * 100) / 100), ...(colsDim ? [Math.round(pivot.total * 100) / 100] : []), pivot.nbFactures])
+    lignes.push(['TOTAL', ...(lignesDim2 ? [''] : []), ...pivot.colList.map((c) => Math.round((pivot.parCol.get(c) ?? 0) * 100) / 100), ...(colsDim ? [Math.round(pivot.total * 100) / 100] : []), pivot.nbFactures])
     const detail: (string | number | null)[][] = [['N° fournisseur', 'Fournisseur', 'Année', 'Mois', 'Entité', 'Famille', 'N° chantier', 'Chantier', 'Montant HT']]
     for (const l of filtrees) detail.push([l.nfr, l.nom, l.annee, l.mois + 1, l.entite ? entiteLabel(l.entite) : '', l.famille, l.chantier ?? '', l.chantierNom ?? '', Math.round(l.montant * 100) / 100])
     const feuillesDetail = details.map((d) => {
@@ -324,15 +338,22 @@ export default function RequeteTab({ onZoom }: { onZoom?: (nom: string) => void 
         <div className="flex flex-wrap items-center gap-4 text-sm">
           <label className="flex items-center gap-2">
             <span className="text-xs uppercase text-slate-500">Lignes</span>
-            <select className="input !w-40 !py-1" value={lignesDim} onChange={(e) => setLignesDim(e.target.value as Dim)}>
+            <select className="input !w-40 !py-1" value={lignesDim} onChange={(e) => { const v = e.target.value as Dim; setLignesDim(v); if (v === lignesDim2) setLignesDim2(''); if (v === colsDim) setColsDim('') }}>
               {DIMS.map((d) => <option key={d.key} value={d.key}>{d.label}</option>)}
+            </select>
+          </label>
+          <label className="flex items-center gap-2">
+            <span className="text-xs uppercase text-slate-500">puis</span>
+            <select className="input !w-40 !py-1" value={lignesDim2} onChange={(e) => { const v = e.target.value as Dim | ''; setLignesDim2(v); if (v && v === colsDim) setColsDim('') }}>
+              <option value="">— (1 critère)</option>
+              {DIMS.filter((d) => d.key !== lignesDim).map((d) => <option key={d.key} value={d.key}>{d.label}</option>)}
             </select>
           </label>
           <label className="flex items-center gap-2">
             <span className="text-xs uppercase text-slate-500">Colonnes</span>
             <select className="input !w-40 !py-1" value={colsDim} onChange={(e) => setColsDim(e.target.value as Dim | '')}>
               <option value="">Total seul</option>
-              {DIMS.filter((d) => d.key !== lignesDim).map((d) => <option key={d.key} value={d.key}>{d.label}</option>)}
+              {DIMS.filter((d) => d.key !== lignesDim && d.key !== lignesDim2).map((d) => <option key={d.key} value={d.key}>{d.label}</option>)}
             </select>
           </label>
           <div className="ml-auto flex items-center gap-4">
@@ -353,6 +374,7 @@ export default function RequeteTab({ onZoom }: { onZoom?: (nom: string) => void 
               <thead className="sticky top-0 bg-white">
                 <tr className="text-left text-xs uppercase text-slate-500 border-b border-slate-200">
                   <th className="py-1.5 pr-3">{DIMS.find((d) => d.key === lignesDim)!.label}</th>
+                  {lignesDim2 && <th className="py-1.5 pr-3">{DIMS.find((d) => d.key === lignesDim2)!.label}</th>}
                   {pivot.colList.map((c) => <th key={c} className="py-1.5 px-2 text-right whitespace-nowrap">{enteteCol(c)}</th>)}
                   {colsDim && nbCols > 0 && <th className="py-1.5 pl-2 text-right">Total</th>}
                   <th className="py-1.5 pl-3 text-right">Factures</th>
@@ -363,9 +385,10 @@ export default function RequeteTab({ onZoom }: { onZoom?: (nom: string) => void 
                   <tr key={r} className="border-b border-slate-100">
                     <td className="py-1 pr-3">
                       {onZoom && lignesDim === 'fournisseur' ? (
-                        <button className="text-indigo-700 hover:underline text-left" onClick={() => onZoom(r)}>{r}</button>
-                      ) : r}
+                        <button className="text-indigo-700 hover:underline text-left" onClick={() => onZoom(r.split(SEP)[0])}>{r.split(SEP)[0]}</button>
+                      ) : r.split(SEP)[0]}
                     </td>
+                    {lignesDim2 && <td className="py-1 pr-3">{r.split(SEP)[1]}</td>}
                     {pivot.colList.map((c) => <td key={c} className="py-1 px-2 text-right tabular-nums">{row.cells.has(c) ? fmt(row.cells.get(c)!) : '–'}</td>)}
                     {colsDim && <td className="py-1 pl-2 text-right tabular-nums font-medium">{fmt(row.total)}</td>}
                     <td className="py-1 pl-3 text-right tabular-nums text-slate-500">{fmt(row.nbFactures)}</td>
@@ -373,6 +396,7 @@ export default function RequeteTab({ onZoom }: { onZoom?: (nom: string) => void 
                 ))}
                 <tr className="font-semibold border-t-2 border-slate-300">
                   <td className="py-1.5 pr-3">Total</td>
+                  {lignesDim2 && <td />}
                   {pivot.colList.map((c) => <td key={c} className="py-1.5 px-2 text-right tabular-nums">{fmt(pivot.parCol.get(c) ?? 0)}</td>)}
                   {colsDim && <td className="py-1.5 pl-2 text-right tabular-nums">{fmt(pivot.total)}</td>}
                   <td className="py-1.5 pl-3 text-right tabular-nums">{fmt(pivot.nbFactures)}</td>
