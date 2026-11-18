@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
-import { setOwnPassword, signOut } from '../lib/auth'
+import { SessionManquanteError, setOwnPassword, signOut } from '../lib/auth'
 
 /** Écran imposé à la première connexion (compte créé par un administrateur avec mot de passe
  * temporaire : `user_metadata.must_change_password`). */
 export default function ChangePasswordScreen({ email, onDone }: { email: string; onDone: () => void }) {
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
+  const [needTemp, setNeedTemp] = useState(false)
+  const [temp, setTemp] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -18,9 +20,10 @@ export default function ChangePasswordScreen({ email, onDone }: { email: string;
     if (/^Induni-/.test(password)) return setError('Choisissez un mot de passe différent du mot de passe temporaire.')
     setLoading(true)
     try {
-      await setOwnPassword(password)
+      await setOwnPassword(password, needTemp && temp ? { email, tempPassword: temp } : undefined)
       onDone()
     } catch (err) {
+      if (err instanceof SessionManquanteError) setNeedTemp(true)
       setError((err as Error).message)
     } finally {
       setLoading(false)
@@ -35,11 +38,6 @@ export default function ChangePasswordScreen({ email, onDone }: { email: string;
           Première connexion de {email} : remplacez le mot de passe temporaire reçu par e-mail par le vôtre.
         </p>
         {error && <div className="text-sm text-red-600 mb-3">{error}</div>}
-        {error?.includes('session a expiré') && (
-          <button type="button" className="btn-secondary w-full justify-center mb-3" onClick={() => signOut()}>
-            Retour à la connexion
-          </button>
-        )}
         <form onSubmit={handleSubmit} className="space-y-3">
           <div>
             <label className="label">Nouveau mot de passe</label>
@@ -49,6 +47,12 @@ export default function ChangePasswordScreen({ email, onDone }: { email: string;
             <label className="label">Confirmer le mot de passe</label>
             <input className="input" type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} minLength={8} required />
           </div>
+          {needTemp && (
+            <div>
+              <label className="label">Mot de passe temporaire reçu par e-mail</label>
+              <input className="input" type="text" value={temp} onChange={(e) => setTemp(e.target.value)} autoComplete="off" required />
+            </div>
+          )}
           <button className="btn-primary w-full justify-center" type="submit" disabled={loading}>
             {loading ? 'Veuillez patienter…' : 'Enregistrer et continuer'}
           </button>

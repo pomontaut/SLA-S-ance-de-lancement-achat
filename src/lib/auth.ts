@@ -41,20 +41,22 @@ export async function signUp(email: string, password: string, fullName: string):
   if (error) throw error
 }
 
-/** Remplace le mot de passe temporaire et lève l'obligation de le changer (`must_change_password`). */
-export async function setOwnPassword(password: string): Promise<void> {
+/** Remplace le mot de passe temporaire et lève l'obligation de le changer (`must_change_password`).
+ * Si la session du navigateur a disparu (« Auth session missing »), et que l'utilisateur fournit son mot de
+ * passe temporaire, on se reconnecte à la volée puis on réessaie : plus besoin de repasser par l'écran de connexion. */
+export class SessionManquanteError extends Error {}
+
+export async function setOwnPassword(password: string, relogin?: { email: string; tempPassword: string }): Promise<void> {
   const client = requireClient()
-  const { error } = await client.auth.updateUser({ password, data: { must_change_password: false } })
-  if (error) {
-    // « Auth session missing » : la session n'est plus valide côté serveur (mot de passe temporaire
-    // régénéré par un administrateur, session expirée…).
-    if (/session/i.test(error.message)) {
-      throw new Error(
-        'Votre session a expiré. Reconnectez-vous avec le DERNIER mot de passe temporaire reçu par e-mail (chaque « Renvoyer le lien » en génère un nouveau), puis choisissez votre mot de passe.',
-      )
-    }
-    throw error
+  const update = () => client.auth.updateUser({ password, data: { must_change_password: false } })
+  let { error } = await update()
+  if (error && /session/i.test(error.message)) {
+    if (!relogin) throw new SessionManquanteError('Votre session a expiré : saisissez le mot de passe temporaire reçu par e-mail ci-dessous pour continuer.')
+    const { error: signInError } = await client.auth.signInWithPassword({ email: relogin.email.trim(), password: relogin.tempPassword })
+    if (signInError) throw new SessionManquanteError(`Mot de passe temporaire refusé (${signInError.message}). Utilisez le DERNIER mot de passe reçu par e-mail.`)
+    ;({ error } = await update())
   }
+  if (error) throw error
 }
 
 export async function signOut(): Promise<void> {
