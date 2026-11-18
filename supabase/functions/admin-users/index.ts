@@ -62,14 +62,15 @@ function escapeHtml(s: string): string {
   return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!))
 }
 
-/** Envoie au nouvel utilisateur le lien de l'app + son mot de passe temporaire (Resend).
+/** Retourne null si l'e-mail est parti, sinon la raison de l'échec (affichée à l'administrateur).
+ * Envoie au nouvel utilisateur le lien de l'app + son mot de passe temporaire (Resend).
  * Secrets : RESEND_API_KEY, MAIL_FROM (ex. « Induni Achats <achats@induni.ch> »), APP_URL. */
 async function sendCredentialsEmail(
   to: string,
   fullName: string,
   tempPassword: string,
   fallbackUrl = '',
-): Promise<boolean> {
+): Promise<string | null> {
   const apiKey = Deno.env.get('RESEND_API_KEY')
   const from = Deno.env.get('MAIL_FROM')
   // APP_URL peut être saisi sans « https:// » (lien alors cassé) ou absent : on le normalise
@@ -77,7 +78,8 @@ async function sendCredentialsEmail(
   let appUrl = (Deno.env.get('APP_URL') ?? '').trim() || fallbackUrl.trim()
   if (appUrl && !/^https?:\/\//i.test(appUrl)) appUrl = `https://${appUrl}`
   appUrl = appUrl.replace(/\/+$/, '')
-  if (!apiKey || !from) return false
+  if (!apiKey) return "secret RESEND_API_KEY absent dans Supabase (Edge Functions > Secrets)"
+  if (!from) return "secret MAIL_FROM absent dans Supabase (Edge Functions > Secrets)"
 
   const html = `
     <p>Bonjour ${escapeHtml(fullName)},</p>
@@ -93,9 +95,11 @@ async function sendCredentialsEmail(
       headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ from, to: [to], subject: 'Votre accès — Induni', html }),
     })
-    return res.ok
-  } catch {
-    return false
+    if (res.ok) return null
+    const detail = (await res.text().catch(() => '')).slice(0, 300)
+    return `Resend a refusé l'envoi (HTTP ${res.status}) : ${detail}`
+  } catch (e) {
+    return `Resend injoignable : ${(e as Error).message}`
   }
 }
 
@@ -177,8 +181,8 @@ Deno.serve(async (req) => {
     }
 
     // Envoi automatique des accès ; un échec d'envoi ne bloque pas la création.
-    const emailSent = await sendCredentialsEmail(email, fullName, password, req.headers.get('origin') ?? '')
-    return jsonResponse({ ok: true, userId: created.user.id, emailSent })
+    const emailError = await sendCredentialsEmail(email, fullName, password, req.headers.get('origin') ?? '')
+    return jsonResponse({ ok: true, userId: created.user.id, emailSent: emailError === null, emailError })
   }
 
   if (action === 'reset_password') {
@@ -191,14 +195,16 @@ Deno.serve(async (req) => {
     })
     if (error) return jsonResponse({ error: error.message }, 400)
     // « Renvoyer le lien » : nouveau mot de passe temporaire + e-mail d'accès (lien de l'app).
-    let emailSent = false
+    let emailError: string | null = null
     if (payload.sendEmail) {
       const { data: target } = await admin.auth.admin.getUserById(userId)
       const email = target?.user?.email ?? ''
       const fullName = String(target?.user?.user_metadata?.full_name ?? email)
-      if (email) emailSent = await sendCredentialsEmail(email, fullName, newPassword, req.headers.get('origin') ?? '')
+      emailError = email
+        ? await sendCredentialsEmail(email, fullName, newPassword, req.headers.get('origin') ?? '')
+        : "adresse e-mail introuvable pour ce compte"
     }
-    return jsonResponse({ ok: true, password: newPassword, emailSent })
+    return jsonResponse({ ok: true, password: newPassword, emailSent: emailError === null, emailError })
   }
 
   if (action === 'delete') {

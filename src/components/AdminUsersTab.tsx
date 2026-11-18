@@ -267,12 +267,12 @@ function UserCard({
     setError(null)
     setInviteInfo(null)
     try {
-      const { password, emailSent } = await resendUserInvite(profile.id)
+      const { password, emailSent, emailError } = await resendUserInvite(profile.id)
       setResetPasswordValue(password)
       setInviteInfo(
         emailSent
           ? `E-mail envoyé à ${form.email} (lien + mot de passe temporaire).`
-          : "L'e-mail n'a pas pu être envoyé : communique le lien de l'app et ce mot de passe à la personne.",
+          : `L'e-mail n'a PAS été envoyé${emailError ? ` — ${emailError}` : ''}. Communique le lien de l'app et ce mot de passe à la personne.`,
       )
     } catch (e) {
       setError((e as Error).message)

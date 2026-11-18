@@ -48,13 +48,13 @@ export async function resetUserPassword(userId: string): Promise<string> {
 /** « Renvoyer le lien » : génère un nouveau mot de passe temporaire et renvoie l'e-mail d'accès
  * (lien de l'app + mot de passe). Le mot de passe est aussi retourné pour être communiqué à la main
  * si l'envoi échoue. */
-export async function resendUserInvite(userId: string): Promise<{ password: string; emailSent: boolean }> {
-  const result = await invoke<{ password: string; emailSent?: boolean }>({
+export async function resendUserInvite(userId: string): Promise<{ password: string; emailSent: boolean; emailError: string | null }> {
+  const result = await invoke<{ password: string; emailSent?: boolean; emailError?: string | null }>({
     action: 'reset_password',
     userId,
     sendEmail: true,
   })
-  return { password: result.password, emailSent: Boolean(result.emailSent) }
+  return { password: result.password, emailSent: Boolean(result.emailSent), emailError: result.emailError ?? null }
 }
 
 export async function deleteUserAccount(userId: string): Promise<void> {
