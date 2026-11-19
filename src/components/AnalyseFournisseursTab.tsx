@@ -10,7 +10,6 @@ import DetailChantierEntite, { MatriceEntiteAnnee } from './DetailChantierEntite
 import { useFiltresSpend } from './FiltresSpend'
 import Top50Fournisseurs from './Top50Fournisseurs'
 import ActiviteFournisseurs from './ActiviteFournisseurs'
-import RenouvellementPanel from './RenouvellementPanel'
 import HaussesBaisses from './HaussesBaisses'
 import ConcentrationFournisseurs, { RappelDepense } from './ConcentrationFournisseurs'
 import { contratDe, sousContrat } from '../data/sousContrat'
@@ -216,8 +215,6 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
       <ActiviteFournisseurs onZoom={onZoom} />
 
       <ConcentrationFournisseurs />
-
-      <RenouvellementPanel />
 
       <HaussesBaisses onZoom={onZoom} />
 
