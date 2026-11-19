@@ -167,8 +167,6 @@ export default function SyntheseTab({ onZoom, onOuvrirContrats }: { onZoom?: (no
   const top20 = useMemo(() => [...fourn].sort((x, y) => y.cur - x.cur).slice(0, 20), [fourn])
   const nouveaux = useMemo(() => fourn.filter((x) => x.nouveau), [fourn])
   const perdus = useMemo(() => fourn.filter((x) => x.prev > 0 && x.cur <= 0), [fourn])
-  const hausses = useMemo(() => fourn.filter((x) => x.cur > 0 && x.prev > 0).map((x) => ({ ...x, ecart: x.cur - x.prev })).sort((x, y) => y.ecart - x.ecart).slice(0, 8), [fourn])
-  const baisses = useMemo(() => fourn.filter((x) => x.cur > 0 && x.prev > 0).map((x) => ({ ...x, ecart: x.cur - x.prev })).sort((x, y) => x.ecart - y.ecart).slice(0, 8), [fourn])
 
   // Top 5 par groupe d'achat (fournitures / sous-traitance et lots EG), avec N-1 à période égale.
   const top5 = useMemo(() => {
@@ -368,15 +366,6 @@ export default function SyntheseTab({ onZoom, onOuvrirContrats }: { onZoom?: (no
           </tbody>
         </table>
       </Section>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Section titre="Plus fortes hausses vs même période" aide="Fournisseurs actifs sur les deux périodes, classés par écart en CHF HT.">
-          <BarresH lignes={hausses.map((r) => ({ label: r.nom, valeur: r.ecart }))} couleur="#ea580c" />
-        </Section>
-        <Section titre="Plus fortes baisses vs même période">
-          <BarresH lignes={baisses.map((r) => ({ label: r.nom, valeur: Math.abs(r.ecart) }))} couleur="#0d9488" />
-        </Section>
-      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
         <Tuile label="Nouveaux fournisseurs" valeur={fmt(nouveaux.length)} sous={`${fmt(nouveaux.reduce((t, x) => t + x.cur, 0))} CHF HT — jamais utilisés avant ${an}`} />
