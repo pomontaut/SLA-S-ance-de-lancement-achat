@@ -12,6 +12,7 @@ import Top50Fournisseurs from './Top50Fournisseurs'
 import ActiviteFournisseurs from './ActiviteFournisseurs'
 import RenouvellementPanel from './RenouvellementPanel'
 import HaussesBaisses from './HaussesBaisses'
+import ConcentrationFournisseurs, { RappelDepense } from './ConcentrationFournisseurs'
 import { contratDe, sousContrat } from '../data/sousContrat'
 
 // Analyse fournisseurs : qui sont nos fournisseurs, combien, et que se passe-t-il (nouveaux, sortis du panel, hausses,
@@ -210,7 +211,11 @@ export default function AnalyseFournisseursTab({ onZoom }: { onZoom?: (nom: stri
         {comparer ? ` comparé à ${libPrev} (même période)` : ''} — {entite ? entiteLabel(entite) : 'toutes entités'} — montants HT — {fmt(lignes.length)} fournisseurs.
       </p>
 
+      <RappelDepense />
+
       <ActiviteFournisseurs onZoom={onZoom} />
+
+      <ConcentrationFournisseurs />
 
       <RenouvellementPanel />
 
