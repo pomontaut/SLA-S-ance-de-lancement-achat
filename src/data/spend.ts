@@ -42,6 +42,16 @@ export function lignesSpend(fournisseurs: DepenseFournisseur[]): LigneSpend[] {
   return out
 }
 
+/** Groupe d'achat d'une famille pour le bandeau de la Synthèse : fournitures (matériaux, marchands) ou sous-traitance
+ * (sous-traitants + lots CFC des entreprises générales). Intérimaires, location, transporteurs, services, déchets
+ * et « Non classé » restent hors de ces deux classements. */
+export type GroupeAchat = 'fournitures' | 'soustraitance'
+export function groupeAchat(famille: string): GroupeAchat | null {
+  if (/^fournisseur de mat[ée]riaux$/i.test(famille) || /^marchands$/i.test(famille)) return 'fournitures'
+  if (/^sous-traitants$/i.test(famille) || /^CFC\b/i.test(famille)) return 'soustraitance'
+  return null
+}
+
 /** Dernier mois (0-11) avec de la dépense pour l'année `a` : borne du cumul comparable quand l'année est partielle. */
 export function dernierMois(lignes: LigneSpend[], a: string): number {
   let m = -1

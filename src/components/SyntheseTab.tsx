@@ -2,11 +2,12 @@ import { useEffect, useMemo, useState } from 'react'
 import type { DepenseFournisseur } from '../data/depenses'
 import { loadDepensesFournisseurs, loadDepensesGlobal } from '../data/depenses'
 import type { LigneSpend } from '../data/spend'
-import { MOIS_COURTS, SEUIL_QUEUE_CHF, dernierMois, lignesSpend, sommeParCle, totaux, variation } from '../data/spend'
+import { MOIS_COURTS, SEUIL_QUEUE_CHF, dernierMois, groupeAchat, lignesSpend, sommeParCle, totaux, variation } from '../data/spend'
+import type { GroupeAchat } from '../data/spend'
+import { calculContrats } from '../data/analyseContrat'
 import { entiteLabel } from '../data/palette'
 import { dateFichier, exportXlsx } from '../lib/exportExcel'
 import { BarresH, Camembert, CumulChart } from './DepenseCharts'
-import ContratsResume from './ContratsResume'
 import { useFiltresSpend } from './FiltresSpend'
 
 // Synthèse : « où en est-on ? » — la dépense de l'année choisie comparée à la même période de l'année précédente
@@ -36,6 +37,38 @@ function Tuile({ label, valeur, prec, delta, sous }: { label: string; valeur: st
       <div className="text-xs text-slate-500 mt-1">{label}</div>
       {prec && <div className="text-[11px] text-slate-400 mt-0.5">{prec}</div>}
       {sous && <div className="text-[11px] text-slate-400">{sous}</div>}
+    </div>
+  )
+}
+
+function Top5({ titre, aide, data, libPrev, onZoom }: { titre: string; aide: string; data: { total: number; top: { nom: string; cur: number; prev: number }[] }; libPrev: string; onZoom?: (nom: string) => void }) {
+  return (
+    <div className="card py-3">
+      <div className="flex items-baseline justify-between gap-2">
+        <h4 className="font-semibold text-sm">{titre}</h4>
+        <span className="text-[11px] text-slate-400">{libPrev} entre parenthèses</span>
+      </div>
+      <p className="text-[11px] text-slate-400 mb-1">{aide}</p>
+      {data.top.length === 0 ? (
+        <p className="text-xs text-slate-500">Aucune dépense.</p>
+      ) : (
+        <table className="w-full text-xs">
+          <tbody>
+            {data.top.map((x, i) => (
+              <tr key={x.nom} className="border-b border-slate-100">
+                <td className="py-1 pr-1 text-slate-400 w-4">{i + 1}</td>
+                <td className="py-1 pr-2">
+                  {onZoom ? <button className="hover:underline text-left" onClick={() => onZoom(x.nom)}>{x.nom}</button> : x.nom}
+                </td>
+                <td className="py-1 text-right tabular-nums font-medium">{fmt(x.cur)}</td>
+                <td className="py-1 pl-1 text-right tabular-nums text-slate-400">({x.prev ? fmt(x.prev) : '—'})</td>
+                <td className="py-1 pl-2 text-right w-16"><Delta cur={x.cur} prev={x.prev} /></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+      <p className="text-[11px] text-slate-400 mt-1">Les 5 = {data.total ? fmt1((data.top.reduce((a, x) => a + x.cur, 0) / data.total) * 100) : '—'} % de ce groupe ({fmt(data.total)} CHF)</p>
     </div>
   )
 }
@@ -137,6 +170,29 @@ export default function SyntheseTab({ onZoom, onOuvrirContrats }: { onZoom?: (no
   const hausses = useMemo(() => fourn.filter((x) => x.cur > 0 && x.prev > 0).map((x) => ({ ...x, ecart: x.cur - x.prev })).sort((x, y) => y.ecart - x.ecart).slice(0, 8), [fourn])
   const baisses = useMemo(() => fourn.filter((x) => x.cur > 0 && x.prev > 0).map((x) => ({ ...x, ecart: x.cur - x.prev })).sort((x, y) => x.ecart - y.ecart).slice(0, 8), [fourn])
 
+  // Top 5 par groupe d'achat (fournitures / sous-traitance et lots EG), avec N-1 à période égale.
+  const top5 = useMemo(() => {
+    const parGroupe = (g: GroupeAchat) => {
+      const m = new Map<number, { nom: string; cur: number; prev: number }>()
+      const ajoute = (l: LigneSpend, cle: 'cur' | 'prev') => {
+        const e = m.get(l.nfr) ?? { nom: l.nom, cur: 0, prev: 0 }
+        e[cle] += l.montant
+        m.set(l.nfr, e)
+      }
+      for (const l of cur) if (groupeAchat(l.famille) === g) ajoute(l, 'cur')
+      for (const l of prev) if (groupeAchat(l.famille) === g) ajoute(l, 'prev')
+      const liste = [...m.values()]
+      return { total: liste.reduce((a, x) => a + x.cur, 0), top: liste.sort((x, y) => y.cur - x.cur).slice(0, 5) }
+    }
+    return { fournitures: parGroupe('fournitures'), soustraitance: parGroupe('soustraitance') }
+  }, [cur, prev])
+
+  // Contrats (BFA) : dépense, nombre de fournisseurs sous contrat, N-1 à période égale et à périmètre constant.
+  const contrats = useMemo(
+    () => (toutesAnnees ? null : calculContrats({ base, comparer: true, an, dansCur: (l) => l.annee === an && l.mois <= moisMax, dansPrev: (l) => l.annee === an1 && l.mois <= moisMax })),
+    [base, an, an1, moisMax, toutesAnnees],
+  )
+
   // Qualité des données à traiter
   const qualite = useMemo(() => {
     const t = tCur.total || 1
@@ -181,14 +237,41 @@ export default function SyntheseTab({ onZoom, onOuvrirContrats }: { onZoom?: (no
         </button>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <Tuile label="Dépense HT" valeur={`${fmt(tCur.total)}`} delta={<Delta cur={tCur.total} prev={tPrev.total} />} prec={`${libPrev} : ${fmt(tPrev.total)} CHF`} />
-        <Tuile label="Fournisseurs actifs" valeur={fmt(tCur.nbFournisseurs)} delta={<Delta cur={tCur.nbFournisseurs} prev={tPrev.nbFournisseurs} />} prec={`${libPrev} : ${fmt(tPrev.nbFournisseurs)}`} />
-        <Tuile label="Factures" valeur={fmt(tCur.nbFactures)} delta={<Delta cur={tCur.nbFactures} prev={tPrev.nbFactures} />} prec={`facture moyenne ${fmt(tCur.factureMoyenne ?? 0)} CHF (${libPrev} : ${fmt(tPrev.factureMoyenne ?? 0)})`} />
-        <Tuile label="Part des 20 plus gros fournisseurs" valeur={tCur.top20Pct != null ? `${fmt1(tCur.top20Pct)} %` : '—'} prec={tPrev.top20Pct != null ? `${libPrev} : ${fmt1(tPrev.top20Pct)} %` : undefined} sous={`${tCur.n80} fournisseurs font 80 % de la dépense`} />
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <Tuile label="Dépense totale HT" valeur={fmt(tCur.total)} delta={<Delta cur={tCur.total} prev={tPrev.total} />} prec={`${libPrev} : ${fmt(tPrev.total)} CHF`} />
+        <Tuile label="Panier moyen" valeur={tCur.factureMoyenne != null ? fmt(tCur.factureMoyenne) : '—'} delta={<Delta cur={tCur.factureMoyenne ?? 0} prev={tPrev.factureMoyenne ?? 0} />} prec={`${libPrev} : ${fmt(tPrev.factureMoyenne ?? 0)} CHF par facture`} />
+        <Tuile label="Nombre de factures" valeur={fmt(tCur.nbFactures)} delta={<Delta cur={tCur.nbFactures} prev={tPrev.nbFactures} />} prec={`${libPrev} : ${fmt(tPrev.nbFactures)}`} />
       </div>
 
-      <ContratsResume onOuvrir={onOuvrirContrats} />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+        <Tuile label="Fournisseurs actifs" valeur={fmt(tCur.nbFournisseurs)} delta={<Delta cur={tCur.nbFournisseurs} prev={tPrev.nbFournisseurs} />} prec={`${libPrev} : ${fmt(tPrev.nbFournisseurs)}`} sous={`${tCur.n80} fournisseurs font 80 % de la dépense`} />
+        <Top5 titre="Top 5 fournitures" aide="Fournisseurs de matériaux et marchands" data={top5.fournitures} libPrev={libPrev} onZoom={onZoom} />
+        <Top5 titre="Top 5 sous-traitance et EG" aide="Sous-traitants et lots CFC des entreprises générales" data={top5.soustraitance} libPrev={libPrev} onZoom={onZoom} />
+      </div>
+
+      {contrats && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <Tuile
+            label="Dépense sous contrat BFA"
+            valeur={fmt(contrats.cCur)}
+            delta={<Delta cur={contrats.cCur} prev={contrats.cPrev} />}
+            prec={`${libPrev} : ${fmt(contrats.cPrev)} CHF`}
+            sous={`${contrats.totCur ? fmt1((contrats.cCur / contrats.totCur) * 100) : '—'} % de la dépense · à périmètre constant (contrats déjà en vigueur) : ${variation(contrats.cCur, contrats.cPrevConstant) != null ? `${variation(contrats.cCur, contrats.cPrevConstant)! > 0 ? '+' : ''}${fmt1(variation(contrats.cCur, contrats.cPrevConstant)!)} %` : '—'}`}
+          />
+          <Tuile
+            label="Fournisseurs sous contrat BFA"
+            valeur={`${contrats.nbActifs}`}
+            delta={<Delta cur={contrats.nbActifs} prev={contrats.nbActifsPrev} />}
+            prec={`${libPrev} : ${contrats.nbActifsPrev}`}
+            sous={`sur ${contrats.nbContrats} contrats en vigueur`}
+          />
+        </div>
+      )}
+      {contrats && onOuvrirContrats && (
+        <div className="-mt-2 text-right">
+          <button className="text-xs text-indigo-600 hover:underline" onClick={onOuvrirContrats}>Analyse contrat →</button>
+        </div>
+      )}
 
       <Section titre="Dépense cumulée mois par mois" aide="Cumul de la dépense HT depuis janvier. L'année en cours (trait plein) est comparée aux années précédentes au même mois.">
         {cumul.length ? <CumulChart mois={MOIS_COURTS} series={cumul} /> : <p className="text-sm text-slate-500">Aucune donnée.</p>}

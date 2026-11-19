@@ -60,7 +60,7 @@ export interface PointAnnee {
 
 export function calculContrats(c: CtxContrat) {
   const { base, comparer, an, dansCur, dansPrev } = c
-  let totCur = 0, totPrev = 0, cCur = 0, cPrev = 0, facCur = 0
+  let totCur = 0, totPrev = 0, cCur = 0, cPrev = 0, facCur = 0, cPrevConstant = 0
   const contrats = new Map<string, { nfr: Set<number>; nom: string; cur: number; prev: number; fac: number }>()
   const hors = new Map<number, { nom: string; famille: string; cur: number; prev: number; ent: Set<string>; chant: Set<string> }>()
   const fam = new Map<string, { total: number; contrat: number }>()
@@ -84,6 +84,8 @@ export function calculContrats(c: CtxContrat) {
       fam.set(l.famille, f)
     }
     if (prev) totPrev += l.montant
+    // Périmètre constant : N-1 limité aux contrats en vigueur l'année étudiée (exclut l'effet des nouveaux contrats).
+    if (prev && comparer && sousContrat(l.nfr, an)) cPrevConstant += l.montant
     if (sous) {
       const k = contratDe(l.nfr)!
       const e = contrats.get(k) ?? { nfr: new Set<number>(), nom: l.nom, cur: 0, prev: 0, fac: 0 }
@@ -132,12 +134,13 @@ export function calculContrats(c: CtxContrat) {
   const parAnnee: PointAnnee[] = [...annees.entries()].map(([annee, v]) => ({ annee, ...v })).sort((a, b) => a.annee.localeCompare(b.annee))
   const horsTotal = totCur - cCur
   return {
-    totCur, totPrev, cCur, cPrev, facCur,
+    totCur, totPrev, cCur, cPrev, cPrevConstant, facCur,
     taux: totCur > 0 ? (cCur / totCur) * 100 : null,
     tauxPrev: totPrev > 0 ? (cPrev / totPrev) * 100 : null,
     lignesContrat,
     nbContrats: lignesContrat.length,
     nbActifs: lignesContrat.filter((x) => x.cur > 0).length,
+    nbActifsPrev: lignesContrat.filter((x) => x.prev > 0).length,
     candidats,
     candidatsMontant: candidats.reduce((s, x) => s + x.cur, 0),
     horsTotal,
