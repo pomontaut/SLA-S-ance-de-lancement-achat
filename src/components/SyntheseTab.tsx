@@ -165,8 +165,6 @@ export default function SyntheseTab({ onZoom, onOuvrirContrats }: { onZoom?: (no
     return lignes
   }, [cur, prev, base, an])
   const top20 = useMemo(() => [...fourn].sort((x, y) => y.cur - x.cur).slice(0, 20), [fourn])
-  const nouveaux = useMemo(() => fourn.filter((x) => x.nouveau), [fourn])
-  const perdus = useMemo(() => fourn.filter((x) => x.prev > 0 && x.cur <= 0), [fourn])
 
   // Top 5 par groupe d'achat (fournitures / sous-traitance et lots EG), avec N-1 à période égale.
   const top5 = useMemo(() => {
@@ -190,19 +188,6 @@ export default function SyntheseTab({ onZoom, onOuvrirContrats }: { onZoom?: (no
     () => (toutesAnnees ? null : calculContrats({ base, comparer: true, an, dansCur: (l) => l.annee === an && l.mois <= moisMax, dansPrev: (l) => l.annee === an1 && l.mois <= moisMax })),
     [base, an, an1, moisMax, toutesAnnees],
   )
-
-  // Qualité des données à traiter
-  const qualite = useMemo(() => {
-    const t = tCur.total || 1
-    const nonClasse = cur.filter((l) => l.famille === 'Non classé').reduce((s, l) => s + l.montant, 0)
-    const sansChantier = cur.filter((l) => !l.chantier).reduce((s, l) => s + l.montant, 0)
-    const entiteAutre = cur.filter((l) => !l.entite || l.entite === 'AUTRES').reduce((s, l) => s + l.montant, 0)
-    return [
-      { label: 'Dépense « Non classé » (famille d\'achat inconnue)', v: nonClasse, pct: (nonClasse / t) * 100 },
-      { label: 'Dépense sans chantier', v: sansChantier, pct: (sansChantier / t) * 100 },
-      { label: 'Dépense sans entité identifiée (Autres)', v: entiteAutre, pct: (entiteAutre / t) * 100 },
-    ]
-  }, [cur, tCur])
 
   if (!fournisseurs || !f) return <p className="text-sm text-slate-500">Chargement de la synthèse…</p>
   if (toutesAnnees) {
@@ -365,16 +350,6 @@ export default function SyntheseTab({ onZoom, onOuvrirContrats }: { onZoom?: (no
             ))}
           </tbody>
         </table>
-      </Section>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-        <Tuile label="Nouveaux fournisseurs" valeur={fmt(nouveaux.length)} sous={`${fmt(nouveaux.reduce((t, x) => t + x.cur, 0))} CHF HT — jamais utilisés avant ${an}`} />
-        <Tuile label={`Fournisseurs sortis du panel (dépense en ${libPrev}, aucune en ${libPeriode})`} valeur={fmt(perdus.length)} sous={`${fmt(perdus.reduce((t, x) => t + x.prev, 0))} CHF HT l'an dernier`} />
-        <Tuile label={`Fournisseurs de « queue » (moins de ${fmt(SEUIL_QUEUE_CHF)} CHF)`} valeur={fmt(tCur.queueNb)} sous={tCur.queuePct != null ? `${fmt1(tCur.queuePct)} % de la dépense` : undefined} />
-      </div>
-
-      <Section titre="Données à fiabiliser" aide="Part de la dépense de la période qui n'est pas pleinement qualifiée : plus ces lignes sont basses, plus les analyses sont fiables.">
-        <BarresH lignes={qualite.map((q) => ({ label: q.label, valeur: q.v, pct: q.pct }))} couleur="#94a3b8" />
       </Section>
     </div>
   )
